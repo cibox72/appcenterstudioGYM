@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Appuntamenti - AppCenterStudioGYM</title>
+    <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #25D366;
+            --verde-scuro: #128C7E;
+            --rosso: #E74C3C;
+            --blu: #3498DB;
+            --giallo: #F39C12;
+            --viola: #9B59B6;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* HEADER UNIVERSALE */
+        .main-header {
+            max-width: 1600px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        .sync-status { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid; }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
+        .sync-online { background: #D5F5E3; color: #1E8449; border-color: #27AE60; }
+        .sync-online .sync-dot { background: #27AE60; animation: pulse-verde 2s infinite; }
+        .sync-warning { background: #FDEBD0; color: #9C640C; border-color: #F39C12; }
+        .sync-warning .sync-dot { background: #F39C12; animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: #FADBD8; color: #922B21; border-color: #E74C3C; }
+        .sync-offline .sync-dot { background: #E74C3C; animation: pulse-rosso 1s infinite; }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
+        /* LAYOUT AGENDA A 3 COLONNE */
+        .agenda-layout {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 20px;
+        }
+        
+        /* COLONNA SINISTRA - WHATSAPP */
+        .colonna-sx {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--ombra);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .colonna-sx h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .colonna-sx .subtitle {
+            font-size: 11px;
+            color: var(--tortora);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .whatsapp-item {
+            background: var(--tortora-chiarissimo);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+        .whatsapp-item:hover { border-color: var(--verde); transform: translateX(3px); }
+        .whatsapp-item .icon { font-size: 24px; flex-shrink: 0; }
+        .whatsapp-item .info { flex: 1; min-width: 0; }
+        .whatsapp-item .nome { font-size: 13px; font-weight: 700; color: var(--nero); margin-bottom: 2px; }
+        .whatsapp-item .numero { font-size: 12px; color: var(--tortora-scuro); font-family: 'Courier New', monospace; }
+        .whatsapp-item .btn-invia {
+            padding: 6px 10px;
+            background: var(--verde);
+            color: var(--bianco);
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .whatsapp-item .btn-invia:hover { background: var(--verde-scuro); }
+        
+        .rinvio-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            border: 1.5px dashed var(--tortora);
+        }
+        .rinvio-box .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .rinvio-box input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-family: inherit;
+        }
+        .rinvio-box input:focus { outline: none; border-color: var(--tortora); }
+        .btn-add-numero {
+            width: 100%;
+            padding: 8px;
+            background: var(--bianco);
+            color: var(--tortora-scuro);
+            border: 1px solid var(--tortora);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-add-numero:hover { background: var(--tortora); color: var(--bianco); }
+        
+        .btn-invia-tutti {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            background: var(--verde);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-invia-tutti:hover { background: var(--verde-scuro); transform: translateY(-2px); }
+        
+        /* COLONNA CENTRALE - AGENDA */
+        .colonna-centro {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            box-shadow: var(--ombra);
+            overflow: hidden;
+        }
+        .agenda-header {
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .agenda-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .agenda-header .data-corrente {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .agenda-header .giorno-settimana {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* OROLOGIO DIGITALE */
+        .orologio-digitale {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 10px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 140px;
+            backdrop-filter: blur(10px);
+        }
+        .orologio-digitale .ora {
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--bianco);
+            line-height: 1;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .orologio-digitale .secondi {
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+        .orologio-digitale .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+        .orologio-digitale .punti-lampeggianti {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .agenda-nav {
+            display: flex;
+            gap: 8px;
+        }
+        .agenda-nav button {
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.2);
+            color: var(--bianco);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .agenda-nav button:hover { background: rgba(255,255,255,0.3); }
+        .btn-oggi {
+            padding: 8px 14px;
+            background: var(--bianco);
+            color: var(--tortora-scuro);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-oggi:hover { background: var(--tortora-chiarissimo); }
+        
+        .agenda-body {
+            max-height: calc(100vh - 220px);
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+        .agenda-body::-webkit-scrollbar { width: 8px; }
+        .agenda-body::-webkit-scrollbar-track { background: var(--tortora-chiarissimo); }
+        .agenda-body::-webkit-scrollbar-thumb { background: var(--tortora); border-radius: 4px; }
+        
+        .riga-oraria {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            border-bottom: 1px solid var(--tortora-chiaro);
+            min-height: 52px;
+            transition: background 0.15s;
+        }
+        .riga-oraria:hover { background: var(--tortora-chiarissimo); }
+        .riga-oraria.ora-corrente { background: #FFF9E6; border-left: 4px solid var(--giallo); }
+        .riga-oraria.has-appuntamento { background: #F0F8FF; }
+        
+        .orario {
+            padding: 12px 15px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            border-right: 1px solid var(--tortora-chiaro);
+            display: flex;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+        }
+        .contenuto-orario {
+            padding: 8px 12px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .contenuto-orario:hover { background: rgba(156, 146, 138, 0.05); }
+        .appuntamento {
+            background: var(--blu);
+            color: var(--bianco);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .appuntamento .testo { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .appuntamento .btn-elimina {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: var(--bianco);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .appuntamento .btn-elimina:hover { background: var(--rosso); }
+        .appuntamento.tipo-allenamento { background: var(--verde); }
+        .appuntamento.tipo-riunione { background: var(--viola); }
+        .appuntamento.tipo-appuntamento { background: var(--blu); }
+        .appuntamento.tipo-pausa { background: var(--giallo); color: var(--nero); }
+        
+        .placeholder-aggiungi {
+            color: var(--tortora-chiaro);
+            font-size: 11px;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .contenuto-orario:hover .placeholder-aggiungi { opacity: 1; }
+        
+        /* COLONNA DESTRA - CALENDARIO */
+        .colonna-dx {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .calendario-box {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--ombra);
+        }
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .calendario-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--nero);
+        }
+        .calendario-nav {
+            display: flex;
+            gap: 6px;
+        }
+        .calendario-nav button {
+            width: 28px;
+            height: 28px;
+            background: var(--tortora-chiarissimo);
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            transition: all 0.2s;
+        }
+        .calendario-nav button:hover { background: var(--tortora); color: var(--bianco); }
+        
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+        }
+        .calendario-grid .giorno-nome {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--tortora);
+            text-transform: uppercase;
+            padding: 5px 0;
+            letter-spacing: 0.5px;
+        }
+        .calendario-grid .giorno {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--nero);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .calendario-grid .giorno:hover { background: var(--tortora-chiarissimo); }
+        .calendario-grid .giorno.altro-mese { color: var(--tortora-chiaro); }
+        .calendario-grid .giorno.oggi { background: var(--tortora); color: var(--bianco); font-weight: 700; }
+        .calendario-grid .giorno.selezionato { background: var(--blu); color: var(--bianco); font-weight: 700; }
+        .calendario-grid .giorno.has-appuntamenti::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--verde);
+            border-radius: 50%;
+        }
+        .calendario-grid .giorno.oggi.has-appuntamenti::after,
+        .calendario-grid .giorno.selezionato.has-appuntamenti::after { background: var(--bianco); }
+        
+        /* FORM AGGIUNGI APPUNTAMENTO */
+        .form-appuntamento {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--ombra);
+        }
+        .form-appuntamento h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        
+        .btn-salva {
+            width: 100%;
+            padding: 12px;
+            background: var(--tortora);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 5px;
+        }
+        .btn-salva:hover { background: var(--nero); }
+        
+        .statistiche-giorno {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--ombra);
+        }
+        .statistiche-giorno h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid var(--tortora-chiarissimo);
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-row .label { color: var(--tortora-scuro); }
+        .stat-row .value { font-weight: 700; color: var(--nero); }
+        
+        /* TOAST */
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        @media (max-width: 1200px) {
+            .agenda-layout { grid-template-columns: 1fr; }
+            .colonna-sx, .colonna-dx { position: static; }
+            .agenda-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER UNIVERSALE -->
+    <div class="main-header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Agenda Appuntamenti</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn nav-btn-home"> Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
+                <span class="sync-dot"></span>
+                <span id="syncLabel">Sync OK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYOUT AGENDA -->
+    <div class="agenda-layout">
+        
+        <!-- COLONNA SINISTRA: WHATSAPP -->
+        <div class="colonna-sx">
+            <h3>📱 Invio WhatsApp</h3>
+            <div class="subtitle">Invia il riepilogo del giorno ai numeri salvati</div>
+            
+            <div id="whatsappList"></div>
+            
+            <div class="rinvio-box">
+                <div class="label">➕ Aggiungi nuovo numero</div>
+                <input type="text" id="nuovoNome" placeholder="Nome (es. Segreteria)">
+                <input type="tel" id="nuovoNumero" placeholder="Numero (es. 393331234567)">
+                <button class="btn-add-numero" onclick="aggiungiNumero()">💾 Salva numero</button>
+            </div>
+            
+            <button class="btn-invia-tutti" onclick="inviaATutti()">
+                💬 Invia riepilogo a tutti
+            </button>
+        </div>
+        
+        <!-- COLONNA CENTRALE: AGENDA -->
+        <div class="colonna-centro">
+            <div class="agenda-header">
+                <div class="agenda-header-left">
+                    <div>
+                        <div class="data-corrente" id="dataCorrente">--</div>
+                        <div class="giorno-settimana" id="giornoSettimana">--</div>
+                    </div>
+                    
+                    <!-- OROLOGIO DIGITALE -->
+                    <div class="orologio-digitale">
+                        <div class="ora" id="orologioOra">--:--</div>
+                        <div class="secondi" id="orologioSecondi">:--</div>
+                        <div class="label">Ora locale</div>
+                    </div>
+                </div>
+                <div class="agenda-nav">
+                    <button onclick="cambiaGiorno(-1)">◀ Precedente</button>
+                    <button class="btn-oggi" onclick="vaiAOggi()">📍 Oggi</button>
+                    <button onclick="cambiaGiorno(1)">Successivo ▶</button>
+                </div>
+            </div>
+            <div class="agenda-body" id="agendaBody"></div>
+        </div>
+        
+        <!-- COLONNA DESTRA: CALENDARIO + FORM -->
+        <div class="colonna-dx">
+            <div class="calendario-box">
+                <div class="calendario-header">
+                    <h3 id="meseAnno">--</h3>
+                    <div class="calendario-nav">
+                        <button onclick="cambiaMese(-1)"></button>
+                        <button onclick="cambiaMese(1)">▶</button>
+                    </div>
+                </div>
+                <div class="calendario-grid" id="calendarioGrid"></div>
+            </div>
+            
+            <div class="form-appuntamento">
+                <h3>✏️ Nuovo Appuntamento</h3>
+                <div class="form-group">
+                    <label>Ora</label>
+                    <input type="time" id="appOra" step="1800">
+                </div>
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select id="appTipo">
+                        <option value="appuntamento">📅 Appuntamento</option>
+                        <option value="allenamento">🏋️ Allenamento</option>
+                        <option value="riunione">🤝 Riunione</option>
+                        <option value="pausa">☕ Pausa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Titolo *</label>
+                    <input type="text" id="appTitolo" placeholder="Es. Visita cliente">
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="appNote" placeholder="Dettagli aggiuntivi..."></textarea>
+                </div>
+                <button class="btn-salva" onclick="salvaAppuntamento()">💾 Salva Appuntamento</button>
+            </div>
+            
+            <div class="statistiche-giorno">
+                <h4>📊 Riepilogo Giorno</h4>
+                <div class="stat-row">
+                    <span class="label">Appuntamenti</span>
+                    <span class="value" id="statAppuntamenti">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Allenamenti</span>
+                    <span class="value" id="statAllenamenti">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Riunioni</span>
+                    <span class="value" id="statRiunioni">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="label">Totale ore occupate</span>
+                    <span class="value" id="statOre">0h</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ============================================================
+    // CONFIGURAZIONE
+    // ============================================================
+    const syncState = { stato: 'online' };
+    let hasUnsavedChanges = false;
+    
+    let dataCorrente = new Date();
+    dataCorrente.setHours(0, 0, 0, 0);
+    
+    let meseCorrente = new Date();
+    let oraSelezionata = '09:00';
+    
+    // ============================================================
+    // DATI
+    // ============================================================
+    let appuntamenti = JSON.parse(localStorage.getItem('agenda_appuntamenti') || '{}');
+    let numeriWhatsApp = JSON.parse(localStorage.getItem('agenda_whatsapp') || 'null');
+    
+    if (!numeriWhatsApp) {
+        numeriWhatsApp = [
+            { id: 1, nome: 'Assistenza (Luigi)', numero: '393447507656' },
+            { id: 2, nome: 'Segreteria Palestra', numero: '390000000000' },
+            { id: 3, nome: 'Personale', numero: '390000000000' }
+        ];
+        saveNumeri();
+    }
+    
+    const GIORNI_SETTIMANA = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+    const GIORNI_CORTI = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+    const MESI = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+    
+    // ============================================================
+    // OROLOGIO DIGITALE
+    // ============================================================
+    function aggiornaOrologio() {
+        const ora = new Date();
+        const ore = ora.getHours().toString().padStart(2, '0');
+        const minuti = ora.getMinutes().toString().padStart(2, '0');
+        const secondi = ora.getSeconds().toString().padStart(2, '0');
+        
+        document.getElementById('orologioOra').innerHTML = `${ore}<span class="punti-lampeggianti">:</span>${minuti}`;
+        document.getElementById('orologioSecondi').textContent = `:${secondi}`;
+    }
+    
+    // Avvia l'orologio e aggiorna ogni secondo
+    aggiornaOrologio();
+    setInterval(aggiornaOrologio, 1000);
+    
+    // ============================================================
+    // NAVIGAZIONE
+    // ============================================================
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+    }
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = 'index.html';
+    }
+    
+    // ============================================================
+    // SINCRONIZZAZIONE
+    // ============================================================
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+        syncState.stato = stato;
+    }
+    function forzaSync() {
+        if (syncState.stato === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            saveAppuntamenti();
+            saveNumeri();
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast('❌ Errore durante la sincronizzazione');
+        }
+    }
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    // ============================================================
+    // UTILITÀ DATE
+    // ============================================================
+    function dataKey(data) { return data.toISOString().split('T')[0]; }
+    function formattaData(data) { return `${data.getDate().toString().padStart(2, '0')} ${MESI[data.getMonth()]} ${data.getFullYear()}`; }
+    function aggiungiGiorni(data, giorni) { const nuova = new Date(data); nuova.setDate(nuova.getDate() + giorni); return nuova; }
+    
+    // ============================================================
+    // RENDER AGENDA
+    // ============================================================
+    function renderAgenda() {
+        const key = dataKey(dataCorrente);
+        const apps = appuntamenti[key] || [];
+        
+        document.getElementById('dataCorrente').textContent = formattaData(dataCorrente);
+        document.getElementById('giornoSettimana').textContent = GIORNI_SETTIMANA[dataCorrente.getDay()];
+        
+        const body = document.getElementById('agendaBody');
+        body.innerHTML = '';
+        
+        const oraCorrente = new Date();
+        const oggi = dataKey(new Date()) === key;
+        
+        for (let h = 7; h <= 23; h++) {
+            for (let m = 0; m < 60; m += 30) {
+                if (h === 23 && m === 30) break;
+                
+                const oraStr = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+                const riga = document.createElement('div');
+                riga.className = 'riga-oraria';
+                
+                if (oggi && oraCorrente.getHours() === h && Math.floor(oraCorrente.getMinutes() / 30) * 30 === m) {
+                    riga.classList.add('ora-corrente');
+                }
+                
+                const app = apps.find(a => a.ora === oraStr);
+                if (app) riga.classList.add('has-appuntamento');
+                
+                riga.innerHTML = `
+                    <div class="orario">${oraStr}</div>
+                    <div class="contenuto-orario" onclick="selezionaOra('${oraStr}')">
+                        ${app ? renderAppuntamento(app) : '<span class="placeholder-aggiungi">+ Clicca per aggiungere</span>'}
+                    </div>
+                `;
+                body.appendChild(riga);
+            }
+        }
+        
+        renderStatistiche();
+    }
+    
+    function renderAppuntamento(app) {
+        const tipoClass = `tipo-${app.tipo || 'appuntamento'}`;
+        const icone = { appuntamento: '📅', allenamento: '🏋️', riunione: '', pausa: '☕' };
+        return `
+            <div class="appuntamento ${tipoClass}">
+                <span class="testo">${icone[app.tipo] || '📅'} ${app.titolo}</span>
+                <button class="btn-elimina" onclick="eliminaAppuntamento('${app.ora}', event)" title="Elimina">×</button>
+            </div>
+        `;
+    }
+    
+    function selezionaOra(ora) {
+        oraSelezionata = ora;
+        document.getElementById('appOra').value = ora;
+        document.getElementById('appTitolo').focus();
+        showToast(`⏰ Ora selezionata: ${ora}`);
+    }
+    
+    // ============================================================
+    // APPUNTAMENTI
+    // ============================================================
+    function salvaAppuntamento() {
+        const ora = document.getElementById('appOra').value;
+        const tipo = document.getElementById('appTipo').value;
+        const titolo = document.getElementById('appTitolo').value.trim();
+        const note = document.getElementById('appNote').value.trim();
+        
+        if (!ora) { showToast('️ Seleziona un orario'); return; }
+        if (!titolo) { showToast('️ Inserisci un titolo'); return; }
+        
+        const key = dataKey(dataCorrente);
+        if (!appuntamenti[key]) appuntamenti[key] = [];
+        
+        appuntamenti[key] = appuntamenti[key].filter(a => a.ora !== ora);
+        appuntamenti[key].push({ ora, tipo, titolo, note, id: Date.now() });
+        appuntamenti[key].sort((a, b) => a.ora.localeCompare(b.ora));
+        
+        saveAppuntamenti();
+        hasUnsavedChanges = true;
+        aggiornaSyncStatus('warning', 'Modifiche non salvate');
+        
+        document.getElementById('appTitolo').value = '';
+        document.getElementById('appNote').value = '';
+        
+        renderAgenda();
+        renderCalendario();
+        showToast(`✅ Appuntamento salvato alle ${ora}`);
+        
+        setTimeout(() => {
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+        }, 2000);
+    }
+    
+    function eliminaAppuntamento(ora, event) {
+        event.stopPropagation();
+        if (!confirm('Eliminare questo appuntamento?')) return;
+        const key = dataKey(dataCorrente);
+        if (appuntamenti[key]) {
+            appuntamenti[key] = appuntamenti[key].filter(a => a.ora !== ora);
+            saveAppuntamenti();
+            renderAgenda();
+            renderCalendario();
+            showToast('️ Appuntamento eliminato');
+        }
+    }
+    
+    // ============================================================
+    // NAVIGAZIONE GIORNI
+    // ============================================================
+    function cambiaGiorno(direzione) {
+        dataCorrente = aggiungiGiorni(dataCorrente, direzione);
+        renderAgenda();
+        renderCalendario();
+    }
+    function vaiAOggi() {
+        dataCorrente = new Date();
+        dataCorrente.setHours(0, 0, 0, 0);
+        meseCorrente = new Date();
+        renderAgenda();
+        renderCalendario();
+        showToast('📍 Tornato a oggi');
+    }
+    
+    // ============================================================
+    // CALENDARIO
+    // ============================================================
+    function renderCalendario() {
+        const anno = meseCorrente.getFullYear();
+        const mese = meseCorrente.getMonth();
+        
+        document.getElementById('meseAnno').textContent = `${MESI[mese]} ${anno}`;
+        
+        const grid = document.getElementById('calendarioGrid');
+        grid.innerHTML = '';
+        
+        GIORNI_CORTI.forEach(g => {
+            const el = document.createElement('div');
+            el.className = 'giorno-nome';
+            el.textContent = g;
+            grid.appendChild(el);
+        });
+        
+        const primoGiorno = new Date(anno, mese, 1);
+        const ultimoGiorno = new Date(anno, mese + 1, 0);
+        const giornoInizio = primoGiorno.getDay();
+        const giorniNelMese = ultimoGiorno.getDate();
+        
+        const giorniPrec = new Date(anno, mese, 0).getDate();
+        for (let i = giornoInizio - 1; i >= 0; i--) {
+            const el = document.createElement('div');
+            el.className = 'giorno altro-mese';
+            el.textContent = giorniPrec - i;
+            grid.appendChild(el);
+        }
+        
+        const oggi = new Date();
+        oggi.setHours(0, 0, 0, 0);
+        
+        for (let i = 1; i <= giorniNelMese; i++) {
+            const data = new Date(anno, mese, i);
+            const el = document.createElement('div');
+            el.className = 'giorno';
+            el.textContent = i;
+            
+            if (data.getTime() === oggi.getTime()) el.classList.add('oggi');
+            if (data.getTime() === dataCorrente.getTime()) el.classList.add('selezionato');
+            
+            const key = dataKey(data);
+            if (appuntamenti[key] && appuntamenti[key].length > 0) el.classList.add('has-appuntamenti');
+            
+            el.onclick = () => {
+                dataCorrente = new Date(data);
+                renderAgenda();
+                renderCalendario();
+            };
+            
+            grid.appendChild(el);
+        }
+        
+        const totaleCelle = giornoInizio + giorniNelMese;
+        const celleRestanti = (7 - (totaleCelle % 7)) % 7;
+        for (let i = 1; i <= celleRestanti; i++) {
+            const el = document.createElement('div');
+            el.className = 'giorno altro-mese';
+            el.textContent = i;
+            grid.appendChild(el);
+        }
+    }
+    
+    function cambiaMese(direzione) {
+        meseCorrente.setMonth(meseCorrente.getMonth() + direzione);
+        renderCalendario();
+    }
+    
+    // ============================================================
+    // STATISTICHE
+    // ============================================================
+    function renderStatistiche() {
+        const key = dataKey(dataCorrente);
+        const apps = appuntamenti[key] || [];
+        
+        const allenamenti = apps.filter(a => a.tipo === 'allenamento').length;
+        const riunioni = apps.filter(a => a.tipo === 'riunione').length;
+        
+        document.getElementById('statAppuntamenti').textContent = apps.length;
+        document.getElementById('statAllenamenti').textContent = allenamenti;
+        document.getElementById('statRiunioni').textContent = riunioni;
+        document.getElementById('statOre').textContent = `${apps.length}h`;
+    }
+    
+    // ============================================================
+    // WHATSAPP
+    // ============================================================
+    function renderWhatsApp() {
+        const container = document.getElementById('whatsappList');
+        container.innerHTML = '';
+        
+        numeriWhatsApp.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'whatsapp-item';
+            el.innerHTML = `
+                <div class="icon">💬</div>
+                <div class="info">
+                    <div class="nome">${n.nome}</div>
+                    <div class="numero">+${n.numero}</div>
+                </div>
+                <button class="btn-invia" onclick="inviaWhatsApp(${n.id})">Invia</button>
+            `;
+            container.appendChild(el);
+        });
+    }
+    
+    function aggiungiNumero() {
+        const nome = document.getElementById('nuovoNome').value.trim();
+        const numero = document.getElementById('nuovoNumero').value.trim().replace(/\D/g, '');
+        
+        if (!nome || !numero) { showToast('️ Compila nome e numero'); return; }
+        if (numero.length < 10) { showToast('⚠️ Numero non valido'); return; }
+        
+        numeriWhatsApp.push({ id: Date.now(), nome, numero });
+        saveNumeri();
+        renderWhatsApp();
+        
+        document.getElementById('nuovoNome').value = '';
+        document.getElementById('nuovoNumero').value = '';
+        showToast('✅ Numero aggiunto');
+    }
+    
+    function generaMessaggioRiepilogo() {
+        const key = dataKey(dataCorrente);
+        const apps = appuntamenti[key] || [];
+        
+        if (apps.length === 0) {
+            return `📅 *Riepilogo ${formattaData(dataCorrente)}*\n\nNessun appuntamento programmato per oggi. ✅`;
+        }
+        
+        let msg = ` *RIEPILOGO APPUNTAMENTI*\n`;
+        msg += `🗓️ ${formattaData(dataCorrente)}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━\n\n`;
+        
+        apps.forEach(a => {
+            const icone = { appuntamento: '', allenamento: '🏋️', riunione: '🤝', pausa: '☕' };
+            msg += `⏰ *${a.ora}* ${icone[a.tipo] || '📅'} ${a.titolo}\n`;
+            if (a.note) msg += `   📝 ${a.note}\n`;
+            msg += `\n`;
+        });
+        
+        msg += `━━━━━━━━━━━━━━━━━━\n`;
+        msg += `Totale: ${apps.length} appuntamenti\n\n`;
+        msg += `— AppCenterStudioGYM `;
+        
+        return msg;
+    }
+    
+    function inviaWhatsApp(id) {
+        const numero = numeriWhatsApp.find(n => n.id === id);
+        if (!numero) return;
+        
+        const messaggio = generaMessaggioRiepilogo();
+        const url = `https://wa.me/${numero.numero}?text=${encodeURIComponent(messaggio)}`;
+        window.open(url, '_blank');
+        showToast(`💬 WhatsApp aperto per ${numero.nome}`);
+    }
+    
+    function inviaATutti() {
+        const key = dataKey(dataCorrente);
+        const apps = appuntamenti[key] || [];
+        
+        if (apps.length === 0) {
+            if (!confirm('Non ci sono appuntamenti oggi. Inviare comunque il riepilogo?')) return;
+        }
+        
+        const messaggio = generaMessaggioRiepilogo();
+        
+        if (numeriWhatsApp.length > 0) {
+            const primo = numeriWhatsApp[0];
+            const url = `https://wa.me/${primo.numero}?text=${encodeURIComponent(messaggio)}`;
+            window.open(url, '_blank');
+            showToast(`💬 Riepilogo pronto per ${numeriWhatsApp.length} numeri`);
+        } else {
+            showToast('⚠️ Nessun numero salvato');
+        }
+    }
+    
+    // ============================================================
+    // STORAGE
+    // ============================================================
+    function saveAppuntamenti() { localStorage.setItem('agenda_appuntamenti', JSON.stringify(appuntamenti)); }
+    function saveNumeri() { localStorage.setItem('agenda_whatsapp', JSON.stringify(numeriWhatsApp)); }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    // ============================================================
+    // INIT
+    // ============================================================
+    function init() {
+        renderAgenda();
+        renderCalendario();
+        renderWhatsApp();
+        aggiornaSyncStatus('online', 'Sync OK');
+        
+        const ora = new Date();
+        const oraStr = `${ora.getHours().toString().padStart(2, '0')}:${ora.getMinutes().toString().padStart(2, '0')}`;
+        document.getElementById('appOra').value = oraStr;
+        oraSelezionata = oraStr;
+    }
+    
+    init();
+    </script>
+</body>
+</html>

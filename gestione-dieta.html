@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dieta Settimanale - AppCenterStudioGYM</title>
+    <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        /* HEADER PRINCIPALE */
+        .main-header {
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: 12px;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+        }
+        .logo-section h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--nero);
+        }
+        .logo-section p {
+            font-size: 13px;
+            color: var(--tortora);
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+        .atleta-badge {
+            text-align: right;
+        }
+        .atleta-badge .nome {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--nero);
+        }
+        .atleta-badge .dettagli {
+            font-size: 12px;
+            color: var(--tortora);
+            margin-top: 4px;
+        }
+        .atleta-badge .settimana {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: var(--tortora-chiarissimo);
+            border: 1px solid var(--tortora);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--tortora);
+        }
+        
+        /* GRIGLIA GIORNI */
+        .days-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        /* CARD GIORNO */
+        .day-card {
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--ombra);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .day-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--ombra-forte);
+        }
+        .day-header {
+            background: linear-gradient(135deg, var(--tortora) 0%, #7A716A 100%);
+            color: var(--bianco);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .day-header .giorno {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .day-header .data {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        /* PASTI */
+        .meals-container {
+            padding: 16px;
+        }
+        .meal-block {
+            background: var(--tortora-chiarissimo);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--tortora);
+        }
+        .meal-block:last-child { margin-bottom: 0; }
+        .meal-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+        .meal-label .icon { font-size: 14px; }
+        .meal-inputs {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .meal-text {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+            resize: none;
+            min-height: 36px;
+        }
+        .meal-text:focus {
+            outline: none;
+            border-color: var(--tortora);
+        }
+        .meal-text::placeholder { color: #B8B0A8; }
+        .kcal-field {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bianco);
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 6px;
+            padding: 6px 8px;
+            min-width: 90px;
+        }
+        .kcal-field input {
+            width: 60px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--nero);
+            text-align: right;
+            font-family: inherit;
+            background: transparent;
+        }
+        .kcal-field input:focus { outline: none; }
+        .kcal-field .unit {
+            font-size: 10px;
+            color: var(--tortora);
+            font-weight: 600;
+        }
+        
+        /* TOTALE GIORNALIERO */
+        .day-total {
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .day-total .total-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        /* RIEPILOGO SETTIMANALE */
+        .weekly-summary {
+            max-width: 1400px;
+            margin: 30px auto 0;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: var(--ombra);
+        }
+        .summary-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--tortora-chiaro);
+            letter-spacing: 0.5px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .summary-day {
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--tortora-chiarissimo);
+            border-radius: 8px;
+            border: 1px solid var(--tortora-chiaro);
+        }
+        .summary-day .day-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .summary-day .day-kcal {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--nero);
+        }
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--tortora);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .summary-total .label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--nero);
+        }
+        .summary-total .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--tortora);
+        }
+        
+        /* PULSANTI AZIONE */
+        .action-bar {
+            max-width: 1400px;
+            margin: 25px auto 0;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-print {
+            background: var(--bianco);
+            color: var(--nero);
+            border: 2px solid var(--nero);
+        }
+        .btn-print:hover { background: var(--tortora-chiarissimo); }
+        .btn-whatsapp {
+            background: #25D366;
+            color: var(--bianco);
+        }
+        .btn-whatsapp:hover { background: #128C7E; }
+        .btn-save {
+            background: var(--tortora);
+            color: var(--bianco);
+        }
+        .btn-save:hover { background: var(--nero); }
+        
+        /* STAMPA PROFESSIONALE */
+        @media print {
+            @page { size: A4; margin: 15mm; }
+            body { background: var(--bianco); padding: 0; }
+            .action-bar, .btn { display: none !important; }
+            .main-header { box-shadow: none; border: 2px solid var(--tortora); }
+            .day-card { 
+                box-shadow: none; 
+                border: 1.5px solid var(--tortora-chiaro);
+                break-inside: avoid;
+            }
+            .day-card:hover { transform: none; }
+            .meal-block { 
+                background: var(--tortora-chiarissimo) !important; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .day-header { 
+                background: var(--tortora) !important; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .day-total { 
+                background: var(--nero) !important; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .meal-text { border: none; background: transparent; resize: none; }
+            .kcal-field { border: none; background: transparent; }
+            .weekly-summary { box-shadow: none; }
+            .days-grid { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="main-header">
+        <div class="logo-section">
+            <h1>AppCenterStudioGYM</h1>
+            <p>PIANO NUTRIZIONALE SETTIMANALE</p>
+        </div>
+        <div class="atleta-badge">
+            <div class="nome">Marco Rossi</div>
+            <div class="dettagli">Obiettivo: Definizione • 75 kg</div>
+            <div class="settimana">📅 Settimana 20-26 Ottobre 2026</div>
+        </div>
+    </div>
+
+    <!-- GRIGLIA GIORNI -->
+    <div class="days-grid">
+        
+        <!-- LUNEDÌ -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Lunedì</span>
+                <span class="data">20/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Yogurt greco, frutta fresca..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Frutta secca, barretta..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Riso, pollo, verdure..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon"></span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Pesce, insalata..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- MARTEDÌ -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Martedì</span>
+                <span class="data">21/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- MERCOLEDÌ -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Mercoledì</span>
+                <span class="data">22/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- GIOVEDÌ -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Giovedì</span>
+                <span class="data">23/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- VENERDÌ -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Venerdì</span>
+                <span class="data">24/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- SABATO -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Sabato</span>
+                <span class="data">25/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+        <!-- DOMENICA -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="giorno">Domenica</span>
+                <span class="data">26/10</span>
+            </div>
+            <div class="meals-container">
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+                <div class="meal-block">
+                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
+                    <div class="meal-inputs">
+                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
+                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="day-total">
+                <span>TOTALE GIORNALIERO</span>
+                <span class="total-value">0 kcal</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIEPILOGO SETTIMANALE -->
+    <div class="weekly-summary">
+        <div class="summary-title">📊 RIEPILOGO SETTIMANALE</div>
+        <div class="summary-grid">
+            <div class="summary-day"><div class="day-name">Lun</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Mar</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Mer</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Gio</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Ven</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Sab</div><div class="day-kcal">0</div></div>
+            <div class="summary-day"><div class="day-name">Dom</div><div class="day-kcal">0</div></div>
+        </div>
+        <div class="summary-total">
+            <span class="label">TOTALE SETTIMANALE</span>
+            <span class="value">0 kcal</span>
+        </div>
+    </div>
+
+    <!-- PULSANTI -->
+    <div class="action-bar">
+        <button class="btn btn-print" onclick="window.print()">️ Stampa / Salva PDF</button>
+        <button class="btn btn-whatsapp" onclick="inviaWhatsApp()">💬 Invia su WhatsApp</button>
+        <button class="btn btn-save">💾 Salva Modifiche</button>
+    </div>
+
+    <script>
+        function inviaWhatsApp() {
+            const telefono = "393331234567";
+            const messaggio = encodeURIComponent("Ciao Marco! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n🎯 Obiettivo: Definizione\n\nPuoi visualizzarla e stamparla direttamente da qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM");
+            window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
+        }
+    </script>
+
+</body>
+</html>

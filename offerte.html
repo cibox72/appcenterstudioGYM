@@ -128,12 +128,16 @@
         .empty-state .text { font-size: 15px; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        .loading-overlay.hidden { display: none; }
         
         @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .form-grid { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; } }
     </style>
 </head>
 <body>
+
+    <div class="loading-overlay" id="loadingOverlay">Caricamento dati dal cloud...</div>
 
     <!-- HEADER UNIVERSALE -->
     <div class="main-header">
@@ -144,9 +148,9 @@
             </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
-            <a href="dashboard-fornitore.html" class="nav-btn nav-btn-back">← Dashboard</a>
-            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <a href="index.html" class="nav-btn nav-btn-home">Home</a>
+            <a href="dashboard-fornitore.html" class="nav-btn nav-btn-back">Indietro</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
                 <span class="sync-dot"></span>
                 <span id="syncLabel">Sync OK</span>
@@ -159,23 +163,23 @@
         <div class="stat-card"><div class="label">Palestre Totali</div><div class="value" id="statTotali">0</div><div class="sub">registrate</div></div>
         <div class="stat-card"><div class="label">In Prova</div><div class="value" id="statProva">0</div><div class="sub">30 giorni gratuiti</div></div>
         <div class="stat-card"><div class="label">Attive</div><div class="value" id="statAttive">0</div><div class="sub">pagamento ricevuto</div></div>
-        <div class="stat-card"><div class="label">Offerte Inviate</div><div class="value" id="statOfferte">0</div><div class="sub">totali inviate</div></div>
+        <div class="stat-card"><div class="label">Offerte Create</div><div class="value" id="statOfferte">0</div><div class="sub">disponibili</div></div>
     </div>
 
     <!-- TABS -->
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="showTab('palestre')">🏋️ Palestre</button>
-        <button class="tab-btn" onclick="showTab('nuova-palestra')">➕ Nuova Palestra</button>
-        <button class="tab-btn" onclick="showTab('offerte')">📋 Archivio Offerte</button>
-        <button class="tab-btn" onclick="showTab('nuova-offerta')">✨ Crea Offerta</button>
+        <button class="tab-btn active" onclick="showTab('palestre')">Palestre</button>
+        <button class="tab-btn" onclick="showTab('nuova-palestra')">Nuova Palestra</button>
+        <button class="tab-btn" onclick="showTab('offerte')">Archivio Offerte</button>
+        <button class="tab-btn" onclick="showTab('nuova-offerta')">Crea Offerta</button>
     </div>
 
     <!-- TAB: LISTA PALESTRE -->
     <div class="tab-content active" id="tab-palestre">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">️ Palestre Registrate</div>
-                <button class="btn btn-primary btn-sm" onclick="showTab('nuova-palestra')">➕ Aggiungi</button>
+                <div class="section-title">Palestre Registrate</div>
+                <button class="btn btn-primary btn-sm" onclick="showTab('nuova-palestra')">Aggiungi</button>
             </div>
             <div id="palestreList"></div>
         </div>
@@ -184,7 +188,7 @@
     <!-- TAB: NUOVA PALESTRA -->
     <div class="tab-content" id="tab-nuova-palestra">
         <div class="section-container">
-            <div class="section-header"><div class="section-title">➕ Registra Nuova Palestra</div></div>
+            <div class="section-header"><div class="section-title">Registra Nuova Palestra</div></div>
             <form id="formPalestra" onsubmit="registraPalestra(event)">
                 <div class="form-grid">
                     <div class="form-group"><label>Nome Palestra *</label><input type="text" id="pNome" required placeholder="Es. Fitness Center Roma"></div>
@@ -196,16 +200,16 @@
                     <div class="form-group full"><label>Offerta da Inviare</label><select id="pOfferta" required><option value="">-- Seleziona un'offerta --</option></select></div>
                 </div>
                 <div class="credentials-box">
-                    <div class="title">🔐 Credenziali Generate Automaticamente</div>
+                    <div class="title">Credenziali Generate Automaticamente</div>
                     <div class="cred-row"><span class="cred-label">Username</span><span class="cred-value" id="genUsername">-</span></div>
                     <div class="cred-row"><span class="cred-label">Password</span><span class="cred-value" id="genPassword">-</span></div>
                     <div class="cred-row"><span class="cred-label">Link di Accesso</span><span class="cred-value" style="font-size:12px;">appcenterstudiogym.pages.dev</span></div>
                     <div class="cred-row"><span class="cred-label">Periodo di Prova</span><span class="cred-value">30 giorni gratuiti</span></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
-                    <button type="submit" class="btn btn-primary"> Salva Palestra</button>
-                    <button type="button" class="btn btn-success" onclick="salvaEInvia()">💬 Salva e Invia Credenziali</button>
-                    <button type="button" class="btn btn-secondary" onclick="generaCredenziali()">🔄 Rigenera Credenziali</button>
+                    <button type="submit" class="btn btn-primary">Salva Palestra</button>
+                    <button type="button" class="btn btn-success" onclick="salvaEInvia()">Salva e Invia Credenziali</button>
+                    <button type="button" class="btn btn-secondary" onclick="generaCredenziali()">Rigenera Credenziali</button>
                 </div>
             </form>
         </div>
@@ -215,8 +219,8 @@
     <div class="tab-content" id="tab-offerte">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">📋 Archivio Offerte</div>
-                <button class="btn btn-primary btn-sm" onclick="showTab('nuova-offerta')">✨ Crea Nuova</button>
+                <div class="section-title">Archivio Offerte</div>
+                <button class="btn btn-primary btn-sm" onclick="showTab('nuova-offerta')">Crea Nuova</button>
             </div>
             <div id="offerteList" class="offerte-grid"></div>
         </div>
@@ -225,7 +229,7 @@
     <!-- TAB: NUOVA OFFERTA -->
     <div class="tab-content" id="tab-nuova-offerta">
         <div class="section-container">
-            <div class="section-header"><div class="section-title">✨ Crea Nuova Offerta</div></div>
+            <div class="section-header"><div class="section-title">Crea Nuova Offerta</div></div>
             <form id="formOfferta" onsubmit="salvaOfferta(event)">
                 <input type="hidden" id="oId">
                 <div class="form-grid">
@@ -237,8 +241,8 @@
                     <div class="form-group full"><label>Descrizione Breve</label><input type="text" id="oDescrizione" placeholder="Es. Ideale per palestre piccole e medie"></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px;">
-                    <button type="submit" class="btn btn-primary">💾 Salva Offerta</button>
-                    <button type="button" class="btn btn-secondary" onclick="resetFormOfferta()">🗑️ Reset</button>
+                    <button type="submit" class="btn btn-primary">Salva Offerta</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetFormOfferta()">Reset</button>
                 </div>
             </form>
         </div>
@@ -259,30 +263,22 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    const APP_URL = 'https://appcenterstudiogym.pages.dev';
+    // ============================================================
+    // CONFIGURAZIONE CLOUD
+    // ============================================================
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
     const YOUR_PHONE = '3447507656';
-    const PAYPAL_LINK = 'https://www.paypal.biz/volleymanagerpro';
     const TRIAL_DAYS = 30;
-    let palestre = JSON.parse(localStorage.getItem('palestre') || '[]');
-    let offerte = JSON.parse(localStorage.getItem('offerte') || '[]');
+    
+    let palestre = [];
+    let offerte = [];
     let tempCredenziali = { username: '', password: '' };
     let syncState = 'online';
     let hasUnsavedChanges = false;
     
-    function init() {
-        if (offerte.length === 0) {
-            offerte = [
-                { id: Date.now(), nome: 'Piano Base', prezzo: 29.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Gestione fino a 50 atleti', 'Creazione schede allenamento', 'Piani nutrizionali base', 'Supporto email'], descrizione: 'Ideale per palestre piccole' },
-                { id: Date.now() + 1, nome: 'Piano Professional', prezzo: 59.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Atleti illimitati', 'Schede allenamento avanzate', 'Piani nutrizionali completi', 'Reportistica mensile', 'Supporto WhatsApp prioritario', 'Backup automatico'], descrizione: 'Per palestre in crescita' },
-                { id: Date.now() + 2, nome: 'Piano Enterprise', prezzo: 99.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Tutto del Piano Professional', 'Multi-sede', 'API personalizzate', 'Manager dedicato', 'Formazione staff', 'SLA garantito'], descrizione: 'Per catene e grandi strutture' }
-            ];
-            saveOfferte();
-        }
-        generaCredenziali();
-        renderAll();
-        aggiornaSyncStatus('online', 'Sync OK');
-    }
-    
+    // ============================================================
+    // NAVIGAZIONE E SYNC
+    // ============================================================
     function esci() {
         if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
         if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
@@ -299,19 +295,67 @@
     }
     
     function forzaSync() {
-        if (syncState === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        if (syncState === 'online') { showToast('Dati già sincronizzati'); return; }
+        loadData();
+    }
+    
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    // ============================================================
+    // CARICAMENTO DATI DAL CLOUD
+    // ============================================================
+    async function loadData() {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        aggiornaSyncStatus('warning', 'Caricamento...');
+        
         try {
-            localStorage.setItem('palestre', JSON.stringify(palestre));
-            localStorage.setItem('offerte', JSON.stringify(offerte));
+            const [offerteRes, palestreRes] = await Promise.all([
+                fetch(`${API_URL}/api/offerte`),
+                fetch(`${API_URL}/api/palestre`)
+            ]);
+            
+            offerte = await offerteRes.json();
+            palestre = await palestreRes.json();
+            
+            // Se non ci sono offerte, crea quelle di default
+            if (offerte.length === 0) {
+                await seedDefaultOffers();
+            }
+            
+            renderAll();
             aggiornaSyncStatus('online', 'Sync OK');
-            hasUnsavedChanges = false;
-            showToast('✅ Sincronizzazione completata!');
-        } catch (e) {
-            aggiornaSyncStatus('offline', 'Errore sync');
-            showToast('❌ Errore durante la sincronizzazione');
+        } catch (error) {
+            console.error('Errore caricamento:', error);
+            showToast('Errore di connessione al cloud');
+            aggiornaSyncStatus('offline', 'Errore');
+        } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
         }
     }
     
+    async function seedDefaultOffers() {
+        const defaultOfferte = [
+            { fornitore_id: 1, nome: 'Piano Base', prezzo: 29.99, durata: 'Mensile', paypal_link: 'https://www.paypal.biz/volleymanagerpro', descrizione: 'Ideale per palestre piccole', servizi: ['Gestione fino a 50 atleti', 'Creazione schede allenamento', 'Piani nutrizionali base', 'Supporto email'] },
+            { fornitore_id: 1, nome: 'Piano Professional', prezzo: 59.99, durata: 'Mensile', paypal_link: 'https://www.paypal.biz/volleymanagerpro', descrizione: 'Per palestre in crescita', servizi: ['Atleti illimitati', 'Schede allenamento avanzate', 'Piani nutrizionali completi', 'Reportistica mensile', 'Supporto WhatsApp prioritario', 'Backup automatico'] },
+            { fornitore_id: 1, nome: 'Piano Enterprise', prezzo: 99.99, durata: 'Mensile', paypal_link: 'https://www.paypal.biz/volleymanagerpro', descrizione: 'Per catene e grandi strutture', servizi: ['Tutto del Piano Professional', 'Multi-sede', 'API personalizzate', 'Manager dedicato', 'Formazione staff', 'SLA garantito'] }
+        ];
+        
+        for (const off of defaultOfferte) {
+            await fetch(`${API_URL}/api/offerte`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(off)
+            });
+        }
+        // Ricarica
+        const res = await fetch(`${API_URL}/api/offerte`);
+        offerte = await res.json();
+    }
+    
+    // ============================================================
+    // TABS
+    // ============================================================
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -322,6 +366,9 @@
         if (tabName === 'nuova-palestra') aggiornaSelectOfferte();
     }
     
+    // ============================================================
+    // CREDENZIALI
+    // ============================================================
     function generaCredenziali() {
         const nome = document.getElementById('pNome').value || 'palestra';
         const username = nome.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') + '_' + Math.floor(Math.random() * 1000);
@@ -340,10 +387,13 @@
     
     document.getElementById('pNome').addEventListener('input', generaCredenziali);
     
+    // ============================================================
+    // REGISTRA PALESTRA
+    // ============================================================
     function registraPalestra(e) { e.preventDefault(); salvaPalestra(false); }
     function salvaEInvia() { const form = document.getElementById('formPalestra'); if (!form.checkValidity()) { form.reportValidity(); return; } salvaPalestra(true); }
     
-    function salvaPalestra(inviaWhatsApp) {
+    async function salvaPalestra(inviaWhatsApp) {
         const nome = document.getElementById('pNome').value.trim();
         const telefono = document.getElementById('pTelefono').value.trim();
         const email = document.getElementById('pEmail').value.trim();
@@ -351,98 +401,156 @@
         const piva = document.getElementById('pPiva').value.trim();
         const referente = document.getElementById('pReferente').value.trim();
         const offertaId = parseInt(document.getElementById('pOfferta').value);
+        
         const offerta = offerte.find(o => o.id === offertaId);
-        if (!offerta) { showToast('⚠️ Seleziona un\'offerta valida'); return; }
+        if (!offerta) { showToast('Seleziona un\'offerta valida'); return; }
+        
         const oggi = new Date();
         const scadenza = new Date(oggi);
         scadenza.setDate(scadenza.getDate() + TRIAL_DAYS);
-        const palestra = { id: Date.now(), nome, telefono, email, citta, piva, referente, offertaId, username: tempCredenziali.username, password: tempCredenziali.password, dataAttivazione: oggi.toISOString(), dataScadenza: scadenza.toISOString(), stato: 'prova', offerteInviati: [], dataRegistrazione: oggi.toISOString() };
-        palestre.push(palestra);
-        savePalestre();
-        palestra.offerteInviati.push({ offertaId: offerta.id, dataInvio: oggi.toISOString(), stato: 'inviata' });
-        savePalestre();
-        showToast('✅ Palestra registrata con successo!');
-        document.getElementById('formPalestra').reset();
-        generaCredenziali();
-        if (inviaWhatsApp) inviaCredenzialiWhatsApp(palestra);
-        setTimeout(() => { showTab('palestre'); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-btn')[0].classList.add('active'); }, 500);
-        aggiornaSyncStatus('online', 'Sync OK');
-        hasUnsavedChanges = false;
+        
+        const palestraData = {
+            nome, telefono, email, citta, piva, referente,
+            offerta_id: offertaId,
+            username: tempCredenziali.username,
+            password: tempCredenziali.password,
+            stato: 'prova',
+            data_attivazione: oggi.toISOString(),
+            data_scadenza: scadenza.toISOString()
+        };
+        
+        aggiornaSyncStatus('warning', 'Salvataggio...');
+        try {
+            const res = await fetch(`${API_URL}/api/palestre`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(palestraData)
+            });
+            const result = await res.json();
+            
+            if (result.success) {
+                palestraData.id = result.id;
+                palestre.push(palestraData);
+                showToast('Palestra registrata con successo!');
+                document.getElementById('formPalestra').reset();
+                generaCredenziali();
+                if (inviaWhatsApp) inviaCredenzialiWhatsApp(palestraData);
+                renderAll();
+                aggiornaSyncStatus('online', 'Sync OK');
+                setTimeout(() => showTab('palestre'), 500);
+            } else {
+                showToast('Errore nel salvataggio');
+            }
+        } catch (e) {
+            showToast('Errore di connessione');
+            aggiornaSyncStatus('offline', 'Errore');
+        }
     }
     
-    function inviaOffertaWhatsApp(palestraId) {
-        const palestra = palestre.find(p => p.id === palestraId);
-        if (!palestra) return;
-        const offerta = offerte.find(o => o.id === palestra.offertaId);
-        if (!offerta) { showToast('⚠️ Nessuna offerta associata'); return; }
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nEcco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\n📋 *PIANO:* ${offerta.nome}\n💰 *IMPORTO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n🔗 *LINK PER ATTIVARE E PAGARE:* ${offerta.paypal}\n\nFammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\nA presto, 💪\n— AppCenterStudioGYM`;
+    // ============================================================
+    // FUNZIONI WHATSAPP
+    // ============================================================
+    function inviaOffertaWhatsApp(palestra) {
+        const offerta = offerte.find(o => o.id === palestra.offerta_id);
+        if (!offerta) { showToast('Nessuna offerta associata'); return; }
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nEcco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\nPIANO: ${offerta.nome}\nIMPORTO: EUR ${offerta.prezzo} / ${offerta.durata.toLowerCase()}\nLINK PER ATTIVARE E PAGARE: ${offerta.paypal_link}\n\nFammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\nA presto,\n- AppCenterStudioGYM`;
         window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
-        showToast('💬 WhatsApp offerta aperto!');
+        showToast('WhatsApp offerta aperto');
     }
 
-    function inviaRinnovoWhatsApp(palestraId) {
-        const palestra = palestre.find(p => p.id === palestraId);
-        if (!palestra) return;
-        const offerta = offerte.find(o => o.id === palestra.offertaId);
-        if (!offerta) { showToast('️ Nessuna offerta associata'); return; }
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nTi ricordo che il tuo abbonamento a *AppCenterStudioGYM* è in scadenza o già scaduto.\n\nPer rinnovare il servizio e continuare a gestire la tua palestra senza interruzioni:\n\n📋 *PIANO:* ${offerta.nome}\n💰 *IMPORTO RINNOVO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n🔗 *LINK SICURO PER IL PAGAMENTO:* ${offerta.paypal}\n\nAppena effettuato il pagamento, il tuo account verrà riattivato immediatamente.\n\nGrazie per la fiducia! 💪\n— AppCenterStudioGYM`;
+    function inviaRinnovoWhatsApp(palestra) {
+        const offerta = offerte.find(o => o.id === palestra.offerta_id);
+        if (!offerta) { showToast('Nessuna offerta associata'); return; }
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nTi ricordo che il tuo abbonamento a AppCenterStudioGYM e' in scadenza o gia' scaduto.\n\nPer rinnovare il servizio:\n\nPIANO: ${offerta.nome}\nIMPORTO RINNOVO: EUR ${offerta.prezzo} / ${offerta.durata.toLowerCase()}\nLINK SICURO PER IL PAGAMENTO: ${offerta.paypal_link}\n\nAppena effettuato il pagamento, il tuo account verrà riattivato immediatamente.\n\nGrazie per la fiducia!\n- AppCenterStudioGYM`;
         window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
-        showToast(' WhatsApp rinnovo aperto!');
+        showToast('WhatsApp rinnovo aperto');
     }
 
     function inviaCredenzialiWhatsApp(palestra) {
-        const offerta = offerte.find(o => o.id === palestra.offertaId);
-        const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nBenvenuto in AppCenterStudioGYM - il gestionale professionale per la tua palestra.\n\n🎁 Ti abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\n🔐 *LE TUE CREDENZIALI DI ACCESSO:*\n• Username: ${palestra.username}\n• Password: ${palestra.password}\n• Link: ${APP_URL}\n\n📋 *OFFERTA ATTIVA:* ${offerta.nome}\n💰 *Prezzo:* €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n⏰ *Scadenza prova:* ${scadenza}\n\n🚀 ACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\nDopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\nPer qualsiasi domanda sono a disposizione su WhatsApp.\n\nBuon lavoro! 💪\n\n— AppCenterStudioGYM\nIl gestionale che fa crescere la tua palestra`;
+        const offerta = offerte.find(o => o.id === palestra.offerta_id);
+        const scadenza = new Date(palestra.data_scadenza).toLocaleDateString('it-IT');
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nBenvenuto in AppCenterStudioGYM.\n\nTi abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\nLE TUE CREDENZIALI DI ACCESSO:\n- Username: ${palestra.username}\n- Password: ${palestra.password}\n- Link: https://appcenterstudiogym.pages.dev/dashboard-palestra.html\n\nOFFERTA ATTIVA: ${offerta ? offerta.nome : '-'}\nPrezzo: EUR ${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}\nScadenza prova: ${scadenza}\n\nACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\nDopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\nPer qualsiasi domanda sono a disposizione su WhatsApp.\n\nBuon lavoro!\n- AppCenterStudioGYM`;
         window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
-        showToast('💬 WhatsApp credenziali aperto!');
+        showToast('WhatsApp credenziali aperto');
     }
     
+    // ============================================================
+    // RENDER FUNCTIONS
+    // ============================================================
     function renderAll() { renderStats(); renderPalestre(); renderOfferte(); aggiornaSelectOfferte(); }
     
     function renderStats() {
         const oggi = new Date();
-        const inProva = palestre.filter(p => { const scadenza = new Date(p.dataScadenza); return p.stato === 'prova' && scadenza > oggi; }).length;
+        const inProva = palestre.filter(p => { const scadenza = new Date(p.data_scadenza); return p.stato === 'prova' && scadenza > oggi; }).length;
         const attive = palestre.filter(p => p.stato === 'attiva').length;
-        const offerteInviate = palestre.reduce((acc, p) => acc + p.offerteInviati.length, 0);
+        
         document.getElementById('statTotali').textContent = palestre.length;
         document.getElementById('statProva').textContent = inProva;
         document.getElementById('statAttive').textContent = attive;
-        document.getElementById('statOfferte').textContent = offerteInviate;
+        document.getElementById('statOfferte').textContent = offerte.length;
     }
     
     function renderPalestre() {
         const container = document.getElementById('palestreList');
         const oggi = new Date();
-        palestre.forEach(palestra => {
-            if (palestra.stato === 'prova') {
-                const scadenza = new Date(palestra.dataScadenza);
-                const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-                if (giorniRimanenti < 0) { palestra.stato = 'scaduta'; savePalestre(); }
-            }
-        });
-        if (palestre.length === 0) { container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="text">Nessuna palestra registrata. Clicca su "Nuova Palestra" per iniziare.</div></div>`; return; }
+        
+        if (palestre.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="text">Nessuna palestra registrata. Clicca su "Nuova Palestra" per iniziare.</div></div>`;
+            return;
+        }
+        
         let html = `<table class="palestre-table"><thead><tr><th>Nome</th><th>Referente</th><th>Telefono</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
+        
         palestre.forEach(palestra => {
-            const scadenza = new Date(palestra.dataScadenza);
+            const scadenza = new Date(palestra.data_scadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            const offerta = offerte.find(o => o.id === palestra.offertaId);
+            const offerta = offerte.find(o => o.id === palestra.offerta_id);
+            
             let badgeClass = 'badge-prova', badgeText = 'In Prova', countdownClass = 'countdown';
             if (palestra.stato === 'attiva') { badgeClass = 'badge-attiva'; badgeText = 'Attiva'; }
-            else if (palestra.stato === 'scaduta') { badgeClass = 'badge-scaduta'; badgeText = 'Scaduta'; countdownClass += ' expired'; }
+            else if (palestra.stato === 'scaduta' || giorniRimanenti < 0) { badgeClass = 'badge-scaduta'; badgeText = 'Scaduta'; countdownClass += ' expired'; }
             else if (giorniRimanenti <= 3) { countdownClass += ' urgent'; }
-            html += `<tr><td><strong>${palestra.nome}</strong><br><small style="color:var(--tortora)">${offerta ? offerta.nome : ''}</small></td><td>${palestra.referente || '-'}</td><td>${palestra.telefono}</td><td><span class="badge ${badgeClass}">${badgeText}</span></td><td><div class="${countdownClass}">${scadenza.toLocaleDateString('it-IT')}<br>${palestra.stato === 'prova' ? `(${giorniRimanenti} giorni)` : ''}</div></td><td style="display:flex; gap:6px; flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})" title="Dettagli">👁️</button><button class="btn btn-sm btn-info" onclick="inviaOffertaWhatsApp(${palestra.id})" title="Invia Offerta con Link Pagamento">📩 Offerta</button><button class="btn btn-sm btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id})" title="Invia Richiesta Rinnovo">🔄 Rinnovo</button><button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))" title="Invia Credenziali">🔑</button><button class="btn btn-sm ${palestra.stato === 'attiva' ? 'btn-secondary' : 'btn-primary'}" onclick="attivaPalestra(${palestra.id})" title="Attiva/Disattiva">${palestra.stato === 'attiva' ? '⏸️' : '✓'}</button></td></tr>`;
+            
+            html += `<tr>
+                <td><strong>${palestra.nome}</strong><br><small style="color:var(--tortora)">${offerta ? offerta.nome : ''}</small></td>
+                <td>${palestra.referente || '-'}</td>
+                <td>${palestra.telefono}</td>
+                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                <td><div class="${countdownClass}">${scadenza.toLocaleDateString('it-IT')}<br>${palestra.stato === 'prova' && giorniRimanenti >= 0 ? `(${giorniRimanenti} giorni)` : ''}</div></td>
+                <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})">Dettagli</button>
+                    <button class="btn btn-sm btn-info" onclick="inviaOffertaWhatsApp(palestre.find(p=>p.id===${palestra.id}))">Offerta</button>
+                    <button class="btn btn-sm btn-warning" onclick="inviaRinnovoWhatsApp(palestre.find(p=>p.id===${palestra.id}))">Rinnovo</button>
+                    <button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))">Credenziali</button>
+                    <button class="btn btn-sm ${palestra.stato === 'attiva' ? 'btn-secondary' : 'btn-primary'}" onclick="attivaPalestra(${palestra.id})">${palestra.stato === 'attiva' ? 'Disattiva' : 'Attiva'}</button>
+                </td>
+            </tr>`;
         });
+        
         html += '</tbody></table>';
         container.innerHTML = html;
     }
     
     function renderOfferte() {
         const container = document.getElementById('offerteList');
-        if (offerte.length === 0) { container.innerHTML = `<div class="empty-state"><div class="icon"></div><div class="text">Nessuna offerta creata. Clicca su "Crea Offerta" per iniziare.</div></div>`; return; }
+        if (offerte.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><div class="text">Nessuna offerta creata.</div></div>`;
+            return;
+        }
         let html = '';
         offerte.forEach(offerta => {
-            html += `<div class="offerta-card"><div class="nome">${offerta.nome}</div><div style="font-size:13px; color:var(--tortora)">${offerta.descrizione || ''}</div><div class="prezzo">€${offerta.prezzo} <span>/${offerta.durata.toLowerCase()}</span></div><ul class="servizi">${(offerta.servizi || []).map(s => `<li>${s}</li>`).join('')}</ul><div style="font-size:11px; color:var(--tortora); margin-bottom:10px;">PayPal: <a href="${offerta.paypal}" target="_blank" style="color:var(--blu)">Link Pagamento</a></div><div class="actions"><button class="btn btn-sm btn-secondary" onclick="modificaOfferta(${offerta.id})">✏️ Modifica</button><button class="btn btn-sm btn-danger" onclick="eliminaOfferta(${offerta.id})">🗑️</button></div></div>`;
+            const serviziList = (offerta.servizi || []).map(s => `<li>${s}</li>`).join('');
+            html += `<div class="offerta-card">
+                <div class="nome">${offerta.nome}</div>
+                <div style="font-size:13px; color:var(--tortora)">${offerta.descrizione || ''}</div>
+                <div class="prezzo">EUR ${offerta.prezzo} <span>/${offerta.durata.toLowerCase()}</span></div>
+                <ul class="servizi">${serviziList}</ul>
+                <div style="font-size:11px; color:var(--tortora); margin-bottom:10px;">PayPal: <a href="${offerta.paypal_link}" target="_blank" style="color:var(--blu)">Link Pagamento</a></div>
+                <div class="actions">
+                    <button class="btn btn-sm btn-secondary" onclick="modificaOfferta(${offerta.id})">Modifica</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaOfferta(${offerta.id})">Elimina</button>
+                </div>
+            </div>`;
         });
         container.innerHTML = html;
     }
@@ -450,23 +558,51 @@
     function aggiornaSelectOfferte() {
         const select = document.getElementById('pOfferta');
         select.innerHTML = '<option value="">-- Seleziona un\'offerta --</option>';
-        offerte.forEach(o => { select.innerHTML += `<option value="${o.id}">${o.nome} - €${o.prezzo}/${o.durata.toLowerCase()}</option>`; });
+        offerte.forEach(o => {
+            select.innerHTML += `<option value="${o.id}">${o.nome} - EUR ${o.prezzo}/${o.durata.toLowerCase()}</option>`;
+        });
     }
     
-    function salvaOfferta(e) {
+    // ============================================================
+    // GESTIONE OFFERTE
+    // ============================================================
+    async function salvaOfferta(e) {
         e.preventDefault();
         const id = document.getElementById('oId').value;
         const serviziText = document.getElementById('oServizi').value;
         const servizi = serviziText.split('\n').filter(s => s.trim());
-        const offerta = { id: id ? parseInt(id) : Date.now(), nome: document.getElementById('oNome').value.trim(), prezzo: parseFloat(document.getElementById('oPrezzo').value), durata: document.getElementById('oDurata').value, paypal: document.getElementById('oPaypal').value.trim() || PAYPAL_LINK, servizi: servizi, descrizione: document.getElementById('oDescrizione').value.trim() };
-        if (id) { const index = offerte.findIndex(o => o.id === parseInt(id)); if (index !== -1) offerte[index] = offerta; } else { offerte.push(offerta); }
-        saveOfferte();
-        showToast('✅ Offerta salvata con successo!');
-        resetFormOfferta();
-        renderOfferte();
-        aggiornaSelectOfferte();
-        aggiornaSyncStatus('online', 'Sync OK');
-        hasUnsavedChanges = false;
+        
+        const offertaData = {
+            fornitore_id: 1,
+            nome: document.getElementById('oNome').value.trim(),
+            prezzo: parseFloat(document.getElementById('oPrezzo').value),
+            durata: document.getElementById('oDurata').value,
+            paypal_link: document.getElementById('oPaypal').value.trim() || 'https://www.paypal.biz/volleymanagerpro',
+            descrizione: document.getElementById('oDescrizione').value.trim(),
+            servizi: servizi
+        };
+        
+        aggiornaSyncStatus('warning', 'Salvataggio...');
+        try {
+            const res = await fetch(`${API_URL}/api/offerte`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(offertaData)
+            });
+            const result = await res.json();
+            
+            if (result.success) {
+                offertaData.id = result.id;
+                offerte.push(offertaData);
+                showToast('Offerta salvata con successo!');
+                resetFormOfferta();
+                renderAll();
+                aggiornaSyncStatus('online', 'Sync OK');
+            }
+        } catch (err) {
+            showToast('Errore di connessione');
+            aggiornaSyncStatus('offline', 'Errore');
+        }
     }
     
     function modificaOfferta(id) {
@@ -476,7 +612,7 @@
         document.getElementById('oNome').value = offerta.nome;
         document.getElementById('oPrezzo').value = offerta.prezzo;
         document.getElementById('oDurata').value = offerta.durata;
-        document.getElementById('oPaypal').value = offerta.paypal;
+        document.getElementById('oPaypal').value = offerta.paypal_link;
         document.getElementById('oServizi').value = (offerta.servizi || []).join('\n');
         document.getElementById('oDescrizione').value = offerta.descrizione || '';
         showTab('nuova-offerta');
@@ -484,51 +620,81 @@
         document.querySelectorAll('.tab-btn')[3].classList.add('active');
     }
     
-    function eliminaOfferta(id) {
+    async function eliminaOfferta(id) {
         if (!confirm('Sei sicuro di voler eliminare questa offerta?')) return;
+        // Nota: l'API attuale non ha DELETE per offerte, quindi la rimuoviamo solo localmente per ora
         offerte = offerte.filter(o => o.id !== id);
-        saveOfferte();
         renderOfferte();
         aggiornaSelectOfferte();
-        showToast('️ Offerta eliminata');
-        aggiornaSyncStatus('online', 'Sync OK');
-        hasUnsavedChanges = false;
+        renderStats();
+        showToast('Offerta rimossa dalla vista');
     }
     
     function resetFormOfferta() { document.getElementById('formOfferta').reset(); document.getElementById('oId').value = ''; }
     
-    function attivaPalestra(id) {
+    // ============================================================
+    // GESTIONE PALESTRE
+    // ============================================================
+    async function attivaPalestra(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
-        if (palestra.stato === 'attiva') { palestra.stato = 'prova'; showToast('⏸️ Palestra impostata in prova'); }
-        else { palestra.stato = 'attiva'; showToast('✅ Palestra attivata!'); }
-        savePalestre();
-        renderPalestre();
-        renderStats();
-        aggiornaSyncStatus('online', 'Sync OK');
-        hasUnsavedChanges = false;
+        
+        const nuovoStato = palestra.stato === 'attiva' ? 'prova' : 'attiva';
+        const nuovaScadenza = nuovoStato === 'attiva' ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() : palestra.data_scadenza;
+        
+        aggiornaSyncStatus('warning', 'Aggiornamento...');
+        try {
+            await fetch(`${API_URL}/api/palestre/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...palestra, stato: nuovoStato, data_scadenza: nuovaScadenza })
+            });
+            
+            palestra.stato = nuovoStato;
+            palestra.data_scadenza = nuovaScadenza;
+            showToast(nuovoStato === 'attiva' ? 'Palestra attivata!' : 'Palestra impostata in prova');
+            renderPalestre();
+            renderStats();
+            aggiornaSyncStatus('online', 'Sync OK');
+        } catch (e) {
+            showToast('Errore di connessione');
+            aggiornaSyncStatus('offline', 'Errore');
+        }
     }
     
     function vediDettagli(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
-        const offerta = offerte.find(o => o.id === palestra.offertaId);
-        const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
-        const attivazione = new Date(palestra.dataAttivazione).toLocaleDateString('it-IT');
+        const offerta = offerte.find(o => o.id === palestra.offerta_id);
+        const scadenza = new Date(palestra.data_scadenza).toLocaleDateString('it-IT');
+        const attivazione = new Date(palestra.data_attivazione).toLocaleDateString('it-IT');
+        
         const content = document.getElementById('modalPalestraContent');
-        content.innerHTML = `<div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Nome Palestra</div><div style="font-size:18px; font-weight:700;">${palestra.nome}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Referente</div><div style="font-size:16px;">${palestra.referente || '-'}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div><div style="font-size:14px;">📞 ${palestra.telefono}</div><div style="font-size:14px;">📧 ${palestra.email || '-'}</div><div style="font-size:14px;">📍 ${palestra.citta || '-'}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div><div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;"><div>Username: <strong>${palestra.username}</strong></div><div>Password: <strong>${palestra.password}</strong></div><div style="margin-top:8px;">Link: <a href="${APP_URL}" target="_blank" style="color:var(--blu)">${APP_URL}</a></div></div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Offerta</div><div style="font-size:16px; font-weight:600;">${offerta ? offerta.nome : '-'}</div><div style="font-size:14px;">€${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Stato</div><div style="display:flex; gap:10px; align-items:center;"><span class="badge ${palestra.stato === 'attiva' ? 'badge-attiva' : palestra.stato === 'scaduta' ? 'badge-scaduta' : 'badge-prova'}">${palestra.stato === 'attiva' ? 'Attiva' : palestra.stato === 'scaduta' ? 'Scaduta' : 'In Prova'}</span><span style="font-size:13px; color:var(--tortora);">Attivata: ${attivazione}<br>Scadenza: ${scadenza}</span></div></div><div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;"><button class="btn btn-info" onclick="inviaOffertaWhatsApp(${palestra.id}); closeModal('modalPalestra')">📩 Invia Offerta</button><button class="btn btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id}); closeModal('modalPalestra')">🔄 Invia Rinnovo</button><button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">🔑 Invia Credenziali</button><button class="btn btn-secondary" onclick="closeModal('modalPalestra')">Chiudi</button></div>`;
+        content.innerHTML = `
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Nome Palestra</div><div style="font-size:18px; font-weight:700;">${palestra.nome}</div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Referente</div><div style="font-size:16px;">${palestra.referente || '-'}</div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div><div style="font-size:14px;">Tel: ${palestra.telefono}</div><div style="font-size:14px;">Email: ${palestra.email || '-'}</div><div style="font-size:14px;">Citta: ${palestra.citta || '-'}</div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div><div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;"><div>Username: <strong>${palestra.username}</strong></div><div>Password: <strong>${palestra.password}</strong></div><div style="margin-top:8px;">Link: <a href="https://appcenterstudiogym.pages.dev/dashboard-palestra.html" target="_blank" style="color:var(--blu)">Accedi alla Dashboard</a></div></div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Offerta</div><div style="font-size:16px; font-weight:600;">${offerta ? offerta.nome : '-'}</div><div style="font-size:14px;">EUR ${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}</div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Stato</div><div style="display:flex; gap:10px; align-items:center;"><span class="badge ${palestra.stato === 'attiva' ? 'badge-attiva' : palestra.stato === 'scaduta' ? 'badge-scaduta' : 'badge-prova'}">${palestra.stato === 'attiva' ? 'Attiva' : palestra.stato === 'scaduta' ? 'Scaduta' : 'In Prova'}</span><span style="font-size:13px; color:var(--tortora);">Attivata: ${attivazione}<br>Scadenza: ${scadenza}</span></div></div>
+            <div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;">
+                <button class="btn btn-info" onclick="inviaOffertaWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">Invia Offerta</button>
+                <button class="btn btn-warning" onclick="inviaRinnovoWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">Invia Rinnovo</button>
+                <button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">Invia Credenziali</button>
+                <button class="btn btn-secondary" onclick="closeModal('modalPalestra')">Chiudi</button>
+            </div>
+        `;
         openModal('modalPalestra');
     }
     
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
-    function savePalestre() { localStorage.setItem('palestre', JSON.stringify(palestre)); }
-    function saveOfferte() { localStorage.setItem('offerte', JSON.stringify(offerte)); }
     
     document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); }); });
     
-    init();
+    // AVVIO
+    loadData();
     </script>
 </body>
 </html>

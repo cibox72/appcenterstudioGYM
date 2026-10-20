@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dieta Settimanale - AppCenterStudioGYM</title>
+    <title>Piano Nutrizionale - AppCenterStudioGYM</title>
     <style>
         :root {
             --nero: #1A1A1A;
             --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
             --tortora-chiaro: #E8E3DE;
             --tortora-chiarissimo: #F5F2EF;
             --bianco: #FFFFFF;
-            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
-            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --verde: #25D366;
+            --verde-scuro: #128C7E;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.12);
+            --ombra-forte: 0 8px 30px rgba(156, 146, 138, 0.2);
+            --radius: 12px;
+            --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
             background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
             color: var(--nero);
             min-height: 100vh;
             padding: 30px 20px;
+            line-height: 1.5;
         }
         
-        /* HEADER PRINCIPALE */
+        /* HEADER */
         .main-header {
             max-width: 1400px;
             margin: 0 auto 30px;
             background: var(--bianco);
             border: 2px solid var(--tortora);
-            border-radius: 12px;
+            border-radius: var(--radius);
             padding: 30px 40px;
             display: flex;
             justify-content: space-between;
@@ -37,74 +43,119 @@
             box-shadow: var(--ombra);
         }
         .logo-section h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             letter-spacing: 1px;
             color: var(--nero);
         }
         .logo-section p {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--tortora);
             margin-top: 4px;
-            letter-spacing: 0.5px;
-        }
-        .atleta-badge {
-            text-align: right;
-        }
-        .atleta-badge .nome {
-            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             font-weight: 600;
+        }
+        .atleta-badge { text-align: right; }
+        .atleta-badge .nome {
+            font-size: 20px;
+            font-weight: 700;
             color: var(--nero);
         }
         .atleta-badge .dettagli {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--tortora);
             margin-top: 4px;
         }
         .atleta-badge .settimana {
             display: inline-block;
-            margin-top: 8px;
-            padding: 6px 14px;
+            margin-top: 10px;
+            padding: 8px 16px;
             background: var(--tortora-chiarissimo);
             border: 1px solid var(--tortora);
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            color: var(--tortora);
+            color: var(--tortora-scuro);
+            letter-spacing: 0.5px;
         }
+        
+        /* OBIETTIVO GIORNALIERO */
+        .daily-goal-bar {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            padding: 20px 30px;
+            box-shadow: var(--ombra);
+        }
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .goal-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .goal-values {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--nero);
+        }
+        .goal-values span { color: var(--tortora); }
+        .progress-track {
+            height: 10px;
+            background: var(--tortora-chiarissimo);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .progress-fill.over { background: linear-gradient(90deg, #E74C3C 0%, #C0392B 100%); }
         
         /* GRIGLIA GIORNI */
         .days-grid {
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 22px;
         }
         
         /* CARD GIORNO */
         .day-card {
             background: var(--bianco);
             border: 1.5px solid var(--tortora-chiaro);
-            border-radius: 12px;
+            border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--ombra);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.25s, box-shadow 0.25s;
         }
         .day-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--ombra-forte);
         }
         .day-header {
-            background: linear-gradient(135deg, var(--tortora) 0%, #7A716A 100%);
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
             color: var(--bianco);
-            padding: 16px 20px;
+            padding: 18px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .day-header .giorno {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -112,18 +163,18 @@
         .day-header .data {
             font-size: 12px;
             opacity: 0.9;
+            font-weight: 500;
         }
         
         /* PASTI */
-        .meals-container {
-            padding: 16px;
-        }
+        .meals-container { padding: 18px; }
         .meal-block {
             background: var(--tortora-chiarissimo);
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            border-left: 3px solid var(--tortora);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--tortora);
+            position: relative;
         }
         .meal-block:last-child { margin-bottom: 0; }
         .meal-label {
@@ -132,76 +183,164 @@
             gap: 8px;
             font-size: 11px;
             font-weight: 700;
-            color: var(--tortora);
+            color: var(--tortora-scuro);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
-        .meal-label .icon { font-size: 14px; }
-        .meal-inputs {
+        .meal-label .icon { font-size: 15px; }
+        
+        /* AUTOCOMPLETE */
+        .autocomplete-wrapper { position: relative; margin-bottom: 8px; }
+        .meal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+            transition: border-color 0.2s;
+        }
+        .meal-input:focus {
+            outline: none;
+            border-color: var(--tortora);
+            box-shadow: 0 0 0 3px rgba(156, 146, 138, 0.1);
+        }
+        .meal-input::placeholder { color: #B8B0A8; }
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bianco);
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 6px;
+            box-shadow: var(--ombra-forte);
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 100;
+            margin-top: 4px;
+            display: none;
+        }
+        .autocomplete-dropdown.active { display: block; }
+        .autocomplete-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--tortora-chiarissimo);
+            transition: background 0.15s;
+        }
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:hover, .autocomplete-item.selected {
+            background: var(--tortora-chiarissimo);
+        }
+        .autocomplete-item .food-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--nero);
+            margin-bottom: 3px;
+        }
+        .autocomplete-item .food-macros {
+            font-size: 11px;
+            color: var(--tortora);
+            display: flex;
+            gap: 10px;
+        }
+        .autocomplete-item .food-macros span { font-weight: 600; }
+        .autocomplete-item .food-category {
+            display: inline-block;
+            font-size: 9px;
+            padding: 2px 6px;
+            background: var(--tortora-chiarissimo);
+            color: var(--tortora-scuro);
+            border-radius: 10px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .no-results {
+            padding: 14px;
+            text-align: center;
+            color: var(--tortora);
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        /* PORZIONE */
+        .portion-row {
             display: flex;
             gap: 8px;
             align-items: center;
+            margin-bottom: 8px;
         }
-        .meal-text {
+        .portion-select {
             flex: 1;
-            padding: 8px 10px;
+            padding: 7px 10px;
             border: 1px solid var(--tortora-chiaro);
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             font-family: inherit;
             background: var(--bianco);
             color: var(--nero);
-            resize: none;
-            min-height: 36px;
+            cursor: pointer;
         }
-        .meal-text:focus {
-            outline: none;
-            border-color: var(--tortora);
-        }
-        .meal-text::placeholder { color: #B8B0A8; }
-        .kcal-field {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--bianco);
+        .portion-select:focus { outline: none; border-color: var(--tortora); }
+        .portion-custom {
+            width: 70px;
+            padding: 7px 10px;
             border: 1px solid var(--tortora-chiaro);
             border-radius: 6px;
-            padding: 6px 8px;
-            min-width: 90px;
-        }
-        .kcal-field input {
-            width: 60px;
-            border: none;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--nero);
-            text-align: right;
+            font-size: 12px;
             font-family: inherit;
-            background: transparent;
+            background: var(--bianco);
+            text-align: center;
         }
-        .kcal-field input:focus { outline: none; }
-        .kcal-field .unit {
-            font-size: 10px;
+        .portion-custom:focus { outline: none; border-color: var(--tortora); }
+        .portion-unit {
+            font-size: 11px;
             color: var(--tortora);
             font-weight: 600;
         }
+        
+        /* MACRO BADGE */
+        .macro-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .macro-badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            background: var(--bianco);
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 12px;
+            color: var(--tortora-scuro);
+            font-weight: 600;
+        }
+        .macro-badge.kcal { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         
         /* TOTALE GIORNALIERO */
         .day-total {
             background: var(--nero);
             color: var(--bianco);
-            padding: 12px 20px;
+            padding: 14px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
         .day-total .total-value {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
+        }
+        .day-total .macro-mini {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            opacity: 0.9;
         }
         
         /* RIEPILOGO SETTIMANALE */
@@ -210,61 +349,101 @@
             margin: 30px auto 0;
             background: var(--bianco);
             border: 2px solid var(--tortora);
-            border-radius: 12px;
-            padding: 25px 30px;
+            border-radius: var(--radius);
+            padding: 30px;
             box-shadow: var(--ombra);
         }
         .summary-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .summary-chart {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .chart-day {
+            text-align: center;
+            padding: 15px 8px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--tortora-chiaro);
+            position: relative;
+        }
+        .chart-day .day-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .chart-bar-container {
+            height: 60px;
+            background: var(--bianco);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            transition: height 0.4s ease;
+            border-radius: 4px 4px 0 0;
+        }
+        .chart-day .day-kcal {
             font-size: 16px;
             font-weight: 700;
             color: var(--nero);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--tortora-chiaro);
-            letter-spacing: 0.5px;
         }
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-        }
-        .summary-day {
-            text-align: center;
-            padding: 12px 8px;
-            background: var(--tortora-chiarissimo);
-            border-radius: 8px;
-            border: 1px solid var(--tortora-chiaro);
-        }
-        .summary-day .day-name {
-            font-size: 11px;
-            font-weight: 700;
+        .chart-day .day-macro {
+            font-size: 10px;
             color: var(--tortora);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-        .summary-day .day-kcal {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--nero);
+            margin-top: 3px;
         }
         .summary-total {
-            margin-top: 20px;
-            padding-top: 15px;
+            padding-top: 20px;
             border-top: 2px solid var(--tortora);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
-        .summary-total .label {
-            font-size: 14px;
-            font-weight: 600;
+        .total-block {
+            text-align: center;
+            padding: 15px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+        }
+        .total-block .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .total-block .value {
+            font-size: 26px;
+            font-weight: 700;
             color: var(--nero);
         }
-        .summary-total .value {
-            font-size: 24px;
-            font-weight: 700;
+        .total-block .unit {
+            font-size: 12px;
             color: var(--tortora);
+            font-weight: 500;
         }
         
         /* PULSANTI AZIONE */
@@ -274,11 +453,12 @@
             display: flex;
             gap: 15px;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
         .btn {
             padding: 14px 28px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -297,26 +477,50 @@
         }
         .btn-print:hover { background: var(--tortora-chiarissimo); }
         .btn-whatsapp {
-            background: #25D366;
+            background: var(--verde);
             color: var(--bianco);
         }
-        .btn-whatsapp:hover { background: #128C7E; }
+        .btn-whatsapp:hover { background: var(--verde-scuro); }
         .btn-save {
             background: var(--tortora);
             color: var(--bianco);
         }
         .btn-save:hover { background: var(--nero); }
         
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ombra-forte);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         /* STAMPA PROFESSIONALE */
         @media print {
-            @page { size: A4; margin: 15mm; }
+            @page { size: A4; margin: 12mm; }
             body { background: var(--bianco); padding: 0; }
-            .action-bar, .btn { display: none !important; }
-            .main-header { box-shadow: none; border: 2px solid var(--tortora); }
+            .action-bar, .btn, .toast, .daily-goal-bar { display: none !important; }
+            .main-header { box-shadow: none; border: 2px solid var(--tortora); page-break-inside: avoid; }
             .day-card { 
                 box-shadow: none; 
                 border: 1.5px solid var(--tortora-chiaro);
                 break-inside: avoid;
+                margin-bottom: 15px;
             }
             .day-card:hover { transform: none; }
             .meal-block { 
@@ -334,10 +538,30 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            .meal-text { border: none; background: transparent; resize: none; }
-            .kcal-field { border: none; background: transparent; }
-            .weekly-summary { box-shadow: none; }
+            .meal-input, .portion-select, .portion-custom { 
+                border: none; 
+                background: transparent;
+                padding: 0;
+            }
+            .autocomplete-dropdown { display: none !important; }
+            .weekly-summary { box-shadow: none; break-inside: avoid; }
             .days-grid { gap: 15px; }
+            .chart-bar {
+                background: var(--tortora) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-header { flex-direction: column; gap: 20px; text-align: center; padding: 25px; }
+            .atleta-badge { text-align: center; }
+            .days-grid { grid-template-columns: 1fr; }
+            .summary-chart { grid-template-columns: repeat(4, 1fr); }
+            .summary-total { grid-template-columns: repeat(2, 1fr); }
+            .action-bar { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -347,329 +571,54 @@
     <div class="main-header">
         <div class="logo-section">
             <h1>AppCenterStudioGYM</h1>
-            <p>PIANO NUTRIZIONALE SETTIMANALE</p>
+            <p>Piano Nutrizionale Settimanale</p>
         </div>
         <div class="atleta-badge">
             <div class="nome">Marco Rossi</div>
-            <div class="dettagli">Obiettivo: Definizione • 75 kg</div>
+            <div class="dettagli">Obiettivo: Definizione • 75 kg • 180 cm</div>
             <div class="settimana">📅 Settimana 20-26 Ottobre 2026</div>
         </div>
     </div>
 
-    <!-- GRIGLIA GIORNI -->
-    <div class="days-grid">
-        
-        <!-- LUNEDÌ -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Lunedì</span>
-                <span class="data">20/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Yogurt greco, frutta fresca..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Frutta secca, barretta..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Riso, pollo, verdure..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon"></span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Pesce, insalata..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
+    <!-- OBIETTIVO GIORNALIERO -->
+    <div class="daily-goal-bar">
+        <div class="goal-header">
+            <div class="goal-label">🎯 Obiettivo calorico giornaliero</div>
+            <div class="goal-values"><span id="currentKcal">0</span> / <span>2.200</span> kcal</div>
         </div>
-
-        <!-- MARTEDÌ -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Martedì</span>
-                <span class="data">21/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
-
-        <!-- MERCOLEDÌ -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Mercoledì</span>
-                <span class="data">22/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
-        </div>
-
-        <!-- GIOVEDÌ -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Giovedì</span>
-                <span class="data">23/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
-        </div>
-
-        <!-- VENERDÌ -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Venerdì</span>
-                <span class="data">24/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
-        </div>
-
-        <!-- SABATO -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Sabato</span>
-                <span class="data">25/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
-        </div>
-
-        <!-- DOMENICA -->
-        <div class="day-card">
-            <div class="day-header">
-                <span class="giorno">Domenica</span>
-                <span class="data">26/10</span>
-            </div>
-            <div class="meals-container">
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">☀️</span> MATTINA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌤️</span> MEZZOGIORNO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🍽️</span> PRANZO</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-                <div class="meal-block">
-                    <div class="meal-label"><span class="icon">🌙</span> SERA</div>
-                    <div class="meal-inputs">
-                        <textarea class="meal-text" placeholder="Descrizione pasto..."></textarea>
-                        <div class="kcal-field"><input type="number" placeholder="0"><span class="unit">kcal</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="day-total">
-                <span>TOTALE GIORNALIERO</span>
-                <span class="total-value">0 kcal</span>
-            </div>
-        </div>
-
     </div>
+
+    <!-- GRIGLIA GIORNI -->
+    <div class="days-grid" id="daysGrid"></div>
 
     <!-- RIEPILOGO SETTIMANALE -->
     <div class="weekly-summary">
-        <div class="summary-title">📊 RIEPILOGO SETTIMANALE</div>
-        <div class="summary-grid">
-            <div class="summary-day"><div class="day-name">Lun</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Mar</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Mer</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Gio</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Ven</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Sab</div><div class="day-kcal">0</div></div>
-            <div class="summary-day"><div class="day-name">Dom</div><div class="day-kcal">0</div></div>
-        </div>
+        <div class="summary-title">📊 Riepilogo Settimanale</div>
+        <div class="summary-chart" id="summaryChart"></div>
         <div class="summary-total">
-            <span class="label">TOTALE SETTIMANALE</span>
-            <span class="value">0 kcal</span>
+            <div class="total-block">
+                <div class="label">Calorie Totali</div>
+                <div class="value" id="weekKcal">0</div>
+                <div class="unit">kcal</div>
+            </div>
+            <div class="total-block">
+                <div class="label">Proteine</div>
+                <div class="value" id="weekProtein">0</div>
+                <div class="unit">g</div>
+            </div>
+            <div class="total-block">
+                <div class="label">Carboidrati</div>
+                <div class="value" id="weekCarbs">0</div>
+                <div class="unit">g</div>
+            </div>
+            <div class="total-block">
+                <div class="label">Grassi</div>
+                <div class="value" id="weekFat">0</div>
+                <div class="unit">g</div>
+            </div>
         </div>
     </div>
 
@@ -677,15 +626,711 @@
     <div class="action-bar">
         <button class="btn btn-print" onclick="window.print()">️ Stampa / Salva PDF</button>
         <button class="btn btn-whatsapp" onclick="inviaWhatsApp()">💬 Invia su WhatsApp</button>
-        <button class="btn btn-save">💾 Salva Modifiche</button>
+        <button class="btn btn-save" onclick="salvaPiano()">💾 Salva Piano</button>
     </div>
 
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
     <script>
-        function inviaWhatsApp() {
-            const telefono = "393331234567";
-            const messaggio = encodeURIComponent("Ciao Marco! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n🎯 Obiettivo: Definizione\n\nPuoi visualizzarla e stamparla direttamente da qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM");
-            window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
+    // ============================================================
+    // DATABASE NUTRIZIONALE - 200+ alimenti italiani (valori per 100g)
+    // Fonte: CREA (Consiglio per la Ricerca in Agricoltura) / USDA
+    // ============================================================
+    const FOOD_DATABASE = [
+        // COLAZIONE
+        { id: 1, name: "Yogurt greco 0% grassi", category: "colazione", kcal: 59, protein: 10.3, carbs: 3.6, fat: 0.4, fiber: 0, portion: 150, portionName: "1 vasetto" },
+        { id: 2, name: "Yogurt bianco intero", category: "colazione", kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, fiber: 0, portion: 125, portionName: "1 vasetto" },
+        { id: 3, name: "Fiocchi d'avena", category: "colazione", kcal: 379, protein: 13.5, carbs: 67.7, fat: 6.9, fiber: 10.1, portion: 40, portionName: "4 cucchiai" },
+        { id: 4, name: "Muesli con frutta secca", category: "colazione", kcal: 457, protein: 10.2, carbs: 66.2, fat: 16.8, fiber: 7.5, portion: 50, portionName: "porzione" },
+        { id: 5, name: "Cornflakes", category: "colazione", kcal: 378, protein: 7.5, carbs: 84.1, fat: 0.9, fiber: 2.7, portion: 30, portionName: "porzione" },
+        { id: 6, name: "Fette biscottate integrali", category: "colazione", kcal: 407, protein: 10.2, carbs: 73.5, fat: 7.8, fiber: 7.2, portion: 30, portionName: "2 fette" },
+        { id: 7, name: "Fette biscottate classiche", category: "colazione", kcal: 432, protein: 9.1, carbs: 78.3, fat: 8.5, fiber: 2.5, portion: 30, portionName: "2 fette" },
+        { id: 8, name: "Pane integrale", category: "colazione", kcal: 247, protein: 7.5, carbs: 43.2, fat: 3.4, fiber: 6.5, portion: 50, portionName: "1 fetta" },
+        { id: 9, name: "Pane bianco", category: "colazione", kcal: 289, protein: 8.8, carbs: 56.2, fat: 2.5, fiber: 2.4, portion: 50, portionName: "1 fetta" },
+        { id: 10, name: "Marmellata di frutta", category: "colazione", kcal: 240, protein: 0.5, carbs: 58.2, fat: 0.2, fiber: 1.5, portion: 30, portionName: "2 cucchiaini" },
+        { id: 11, name: "Miele", category: "colazione", kcal: 304, protein: 0.3, carbs: 82.4, fat: 0, fiber: 0, portion: 20, portionName: "1 cucchiaio" },
+        { id: 12, name: "Burro di arachidi", category: "colazione", kcal: 588, protein: 25.1, carbs: 19.6, fat: 50.4, fiber: 6, portion: 20, portionName: "1 cucchiaio" },
+        { id: 13, name: "Ricotta vaccina", category: "colazione", kcal: 146, protein: 11.4, carbs: 3.5, fat: 10.2, fiber: 0, portion: 100, portionName: "porzione" },
+        { id: 14, name: "Philadelphia", category: "colazione", kcal: 253, protein: 6.5, carbs: 4.1, fat: 23.4, fiber: 0, portion: 30, portionName: "porzione" },
+        { id: 15, name: "Uovo intero", category: "colazione", kcal: 143, protein: 12.6, carbs: 0.7, fat: 9.5, fiber: 0, portion: 60, portionName: "1 uovo" },
+        { id: 16, name: "Albume d'uovo", category: "colazione", kcal: 52, protein: 10.9, carbs: 0.7, fat: 0.2, fiber: 0, portion: 100, portionName: "3 albumi" },
+        { id: 17, name: "Latte intero", category: "colazione", kcal: 64, protein: 3.3, carbs: 4.9, fat: 3.6, fiber: 0, portion: 200, portionName: "1 bicchiere" },
+        { id: 18, name: "Latte parzialmente scremato", category: "colazione", kcal: 46, protein: 3.2, carbs: 4.9, fat: 1.5, fiber: 0, portion: 200, portionName: "1 bicchiere" },
+        { id: 19, name: "Latte scremato", category: "colazione", kcal: 34, protein: 3.4, carbs: 5, fat: 0.2, fiber: 0, portion: 200, portionName: "1 bicchiere" },
+        { id: 20, name: "Latte di soia", category: "colazione", kcal: 44, protein: 3.3, carbs: 2.9, fat: 1.8, fiber: 0.4, portion: 200, portionName: "1 bicchiere" },
+        { id: 21, name: "Latte di mandorla", category: "colazione", kcal: 24, protein: 0.6, carbs: 3, fat: 1.1, fiber: 0.2, portion: 200, portionName: "1 bicchiere" },
+        { id: 22, name: "Caffè espresso", category: "colazione", kcal: 2, protein: 0.1, carbs: 0, fat: 0, fiber: 0, portion: 30, portionName: "1 tazzina" },
+        { id: 23, name: "Cappuccino", category: "colazione", kcal: 55, protein: 2.8, carbs: 4.2, fat: 2.8, fiber: 0, portion: 150, portionName: "1 tazza" },
+        { id: 24, name: "Tè verde", category: "colazione", kcal: 1, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
+        { id: 25, name: "Succo d'arancia", category: "colazione", kcal: 45, protein: 0.7, carbs: 10.4, fat: 0.2, fiber: 0.2, portion: 200, portionName: "1 bicchiere" },
+        { id: 26, name: "Spremuta d'arancia fresca", category: "colazione", kcal: 47, protein: 0.7, carbs: 10.8, fat: 0.2, fiber: 0.3, portion: 200, portionName: "1 bicchiere" },
+        
+        // SPUNTINI
+        { id: 27, name: "Mandorle", category: "spuntino", kcal: 579, protein: 21.2, carbs: 21.6, fat: 49.9, fiber: 12.5, portion: 30, portionName: "20 mandorle" },
+        { id: 28, name: "Noci", category: "spuntino", kcal: 654, protein: 15.2, carbs: 13.7, fat: 65.2, fiber: 6.7, portion: 30, portionName: "5 noci" },
+        { id: 29, name: "Nocciole", category: "spuntino", kcal: 628, protein: 15, carbs: 16.7, fat: 60.8, fiber: 9.7, portion: 30, portionName: "porzione" },
+        { id: 30, name: "Anacardi", category: "spuntino", kcal: 553, protein: 18.2, carbs: 30.2, fat: 43.8, fiber: 3.3, portion: 30, portionName: "porzione" },
+        { id: 31, name: "Pistacchi", category: "spuntino", kcal: 562, protein: 20.2, carbs: 27.2, fat: 45.3, fiber: 10.6, portion: 30, portionName: "porzione" },
+        { id: 32, name: "Arachidi", category: "spuntino", kcal: 567, protein: 25.8, carbs: 16.1, fat: 49.2, fiber: 8.5, portion: 30, portionName: "porzione" },
+        { id: 33, name: "Banana", category: "spuntino", kcal: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, portion: 120, portionName: "1 banana" },
+        { id: 34, name: "Mela", category: "spuntino", kcal: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, portion: 180, portionName: "1 mela" },
+        { id: 35, name: "Pera", category: "spuntino", kcal: 57, protein: 0.4, carbs: 15.2, fat: 0.1, fiber: 3.1, portion: 170, portionName: "1 pera" },
+        { id: 36, name: "Arancia", category: "spuntino", kcal: 47, protein: 0.9, carbs: 11.8, fat: 0.1, fiber: 2.4, portion: 150, portionName: "1 arancia" },
+        { id: 37, name: "Kiwi", category: "spuntino", kcal: 61, protein: 1.1, carbs: 14.7, fat: 0.5, fiber: 3, portion: 75, portionName: "1 kiwi" },
+        { id: 38, name: "Fragole", category: "spuntino", kcal: 32, protein: 0.7, carbs: 7.7, fat: 0.3, fiber: 2, portion: 150, portionName: "porzione" },
+        { id: 39, name: "Mirtilli", category: "spuntino", kcal: 57, protein: 0.7, carbs: 14.5, fat: 0.3, fiber: 2.4, portion: 125, portionName: "porzione" },
+        { id: 40, name: "Ananas", category: "spuntino", kcal: 50, protein: 0.5, carbs: 13.1, fat: 0.1, fiber: 1.4, portion: 150, portionName: "porzione" },
+        { id: 41, name: "Barretta proteica", category: "spuntino", kcal: 380, protein: 30, carbs: 40, fat: 10, fiber: 3, portion: 60, portionName: "1 barretta" },
+        { id: 42, name: "Parmigiano Reggiano", category: "spuntino", kcal: 431, protein: 38, carbs: 0, fat: 29, fiber: 0, portion: 30, portionName: "1 pezzo" },
+        { id: 43, name: "Grana Padano", category: "spuntino", kcal: 418, protein: 33, carbs: 0, fat: 29, fiber: 0, portion: 30, portionName: "1 pezzo" },
+        { id: 44, name: "Bresaola", category: "spuntino", kcal: 151, protein: 33.2, carbs: 0, fat: 2, fiber: 0, portion: 80, portionName: "porzione" },
+        { id: 45, name: "Tacchino affumicato", category: "spuntino", kcal: 104, protein: 23.5, carbs: 1.5, fat: 0.7, fiber: 0, portion: 80, portionName: "3 fette" },
+        { id: 46, name: "Hummus di ceci", category: "spuntino", kcal: 166, protein: 7.9, carbs: 14.3, fat: 9.6, fiber: 6, portion: 50, portionName: "2 cucchiai" },
+        { id: 47, name: "Carote crude", category: "spuntino", kcal: 41, protein: 0.9, carbs: 9.6, fat: 0.2, fiber: 2.8, portion: 100, portionName: "2 carote" },
+        { id: 48, name: "Finocchi crudi", category: "spuntino", kcal: 31, protein: 1.2, carbs: 7.3, fat: 0.2, fiber: 3.1, portion: 100, portionName: "1 finocchio" },
+        { id: 49, name: "Sedano", category: "spuntino", kcal: 16, protein: 0.7, carbs: 3, fat: 0.2, fiber: 1.6, portion: 100, portionName: "2 coste" },
+        { id: 50, name: "Edamame", category: "spuntino", kcal: 121, protein: 11.9, carbs: 8.9, fat: 5.2, fiber: 5.2, portion: 100, portionName: "porzione" },
+        
+        // PRIMI PIATTI
+        { id: 51, name: "Pasta al pomodoro", category: "primo", kcal: 158, protein: 5.2, carbs: 28.4, fat: 2.1, fiber: 2.1, portion: 250, portionName: "1 piatto" },
+        { id: 52, name: "Spaghetti aglio, olio e peperoncino", category: "primo", kcal: 201, protein: 5.8, carbs: 30.2, fat: 6.5, fiber: 1.8, portion: 200, portionName: "1 piatto" },
+        { id: 53, name: "Pasta alla carbonara", category: "primo", kcal: 234, protein: 9.8, carbs: 28.5, fat: 9.2, fiber: 1.5, portion: 250, portionName: "1 piatto" },
+        { id: 54, name: "Pasta all'amatriciana", category: "primo", kcal: 215, protein: 8.5, carbs: 29.8, fat: 7.2, fiber: 2, portion: 250, portionName: "1 piatto" },
+        { id: 55, name: "Pasta cacio e pepe", category: "primo", kcal: 245, protein: 9.2, carbs: 32.1, fat: 9.5, fiber: 1.4, portion: 220, portionName: "1 piatto" },
+        { id: 56, name: "Pasta alla norma", category: "primo", kcal: 185, protein: 6.2, carbs: 28.5, fat: 5.8, fiber: 3.2, portion: 250, portionName: "1 piatto" },
+        { id: 57, name: "Pasta al pesto genovese", category: "primo", kcal: 245, protein: 7.5, carbs: 30.2, fat: 10.8, fiber: 2.2, portion: 220, portionName: "1 piatto" },
+        { id: 58, name: "Pasta al ragù bolognese", category: "primo", kcal: 218, protein: 10.5, carbs: 28.2, fat: 7.5, fiber: 2.5, portion: 250, portionName: "1 piatto" },
+        { id: 59, name: "Pasta alle vongole", category: "primo", kcal: 178, protein: 9.2, carbs: 28.5, fat: 3.2, fiber: 1.8, portion: 250, portionName: "1 piatto" },
+        { id: 60, name: "Pasta al tonno", category: "primo", kcal: 195, protein: 12.5, carbs: 28.2, fat: 4.2, fiber: 2, portion: 250, portionName: "1 piatto" },
+        { id: 61, name: "Risotto alla milanese", category: "primo", kcal: 195, protein: 5.8, carbs: 28.5, fat: 6.8, fiber: 0.8, portion: 220, portionName: "1 piatto" },
+        { id: 62, name: "Risotto ai funghi porcini", category: "primo", kcal: 185, protein: 6.2, carbs: 27.8, fat: 5.5, fiber: 1.5, portion: 220, portionName: "1 piatto" },
+        { id: 63, name: "Risotto al parmigiano", category: "primo", kcal: 198, protein: 7.2, carbs: 28.5, fat: 6.5, fiber: 0.5, portion: 220, portionName: "1 piatto" },
+        { id: 64, name: "Risotto allo zafferano", category: "primo", kcal: 192, protein: 5.5, carbs: 28.2, fat: 6.2, fiber: 0.6, portion: 220, portionName: "1 piatto" },
+        { id: 65, name: "Gnocchi al pomodoro", category: "primo", kcal: 142, protein: 4.5, carbs: 25.8, fat: 2.5, fiber: 1.8, portion: 250, portionName: "1 piatto" },
+        { id: 66, name: "Gnocchi al ragù", category: "primo", kcal: 178, protein: 7.2, carbs: 26.5, fat: 5.2, fiber: 2, portion: 250, portionName: "1 piatto" },
+        { id: 67, name: "Lasagne al forno", category: "primo", kcal: 198, protein: 10.5, carbs: 20.2, fat: 8.5, fiber: 1.8, portion: 250, portionName: "1 porzione" },
+        { id: 68, name: "Cannelloni ricotta e spinaci", category: "primo", kcal: 185, protein: 9.8, carbs: 18.5, fat: 8.2, fiber: 2.2, portion: 250, portionName: "2 cannelloni" },
+        { id: 69, name: "Ravioli ricotta e spinaci", category: "primo", kcal: 175, protein: 8.5, carbs: 24.2, fat: 5.2, fiber: 2, portion: 200, portionName: "1 piatto" },
+        { id: 70, name: "Tortellini in brodo", category: "primo", kcal: 145, protein: 7.2, carbs: 20.5, fat: 4.2, fiber: 1.2, portion: 250, portionName: "1 piatto" },
+        { id: 71, name: "Minestrone di verdure", category: "primo", kcal: 68, protein: 2.8, carbs: 10.5, fat: 1.5, fiber: 3.2, portion: 300, portionName: "1 piatto" },
+        { id: 72, name: "Pasta e fagioli", category: "primo", kcal: 142, protein: 6.5, carbs: 22.5, fat: 2.8, fiber: 5.5, portion: 300, portionName: "1 piatto" },
+        { id: 73, name: "Pasta e ceci", category: "primo", kcal: 138, protein: 5.8, carbs: 22.2, fat: 2.5, fiber: 5.2, portion: 300, portionName: "1 piatto" },
+        { id: 74, name: "Zuppa di farro", category: "primo", kcal: 118, protein: 4.5, carbs: 20.2, fat: 1.8, fiber: 4.2, portion: 300, portionName: "1 piatto" },
+        { id: 75, name: "Orzo alle verdure", category: "primo", kcal: 125, protein: 4.2, carbs: 22.5, fat: 1.5, fiber: 3.8, portion: 280, portionName: "1 piatto" },
+        { id: 76, name: "Couscous alle verdure", category: "primo", kcal: 145, protein: 4.5, carbs: 25.2, fat: 2.8, fiber: 2.5, portion: 250, portionName: "1 piatto" },
+        { id: 77, name: "Quinoa", category: "primo", kcal: 120, protein: 4.4, carbs: 21.3, fat: 1.9, fiber: 2.8, portion: 180, portionName: "1 piatto" },
+        { id: 78, name: "Insalata di riso", category: "primo", kcal: 158, protein: 5.2, carbs: 24.5, fat: 4.2, fiber: 1.8, portion: 250, portionName: "1 piatto" },
+        { id: 79, name: "Spaghetti", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
+        { id: 80, name: "Penne", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
+        { id: 81, name: "Fusilli", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
+        { id: 82, name: "Rigatoni", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
+        { id: 83, name: "Linguine", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
+        { id: 84, name: "Tagliatelle", category: "primo", kcal: 165, protein: 6.2, carbs: 30.5, fat: 1.5, fiber: 1.5, portion: 100, portionName: "porzione cruda" },
+        { id: 85, name: "Pappardelle", category: "primo", kcal: 165, protein: 6.2, carbs: 30.5, fat: 1.5, fiber: 1.5, portion: 100, portionName: "porzione cruda" },
+        
+        // SECONDI - CARNE
+        { id: 86, name: "Petto di pollo alla griglia", category: "secondo_carne", kcal: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0, portion: 150, portionName: "1 petto" },
+        { id: 87, name: "Coscia di pollo", category: "secondo_carne", kcal: 209, protein: 26, carbs: 0, fat: 10.9, fiber: 0, portion: 150, portionName: "1 coscia" },
+        { id: 88, name: "Tacchino alla griglia", category: "secondo_carne", kcal: 135, protein: 30.1, carbs: 0, fat: 1, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 89, name: "Vitello alla griglia", category: "secondo_carne", kcal: 172, protein: 26.5, carbs: 0, fat: 6.8, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 90, name: "Manzo (taglio magro)", category: "secondo_carne", kcal: 187, protein: 26.1, carbs: 0, fat: 8.5, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 91, name: "Hamburger di manzo", category: "secondo_carne", kcal: 254, protein: 25.8, carbs: 0, fat: 16.2, fiber: 0, portion: 150, portionName: "1 hamburger" },
+        { id: 92, name: "Bistecca alla fiorentina", category: "secondo_carne", kcal: 198, protein: 27.2, carbs: 0, fat: 9.2, fiber: 0, portion: 250, portionName: "1 bistecca" },
+        { id: 93, name: "Carne macinata magra", category: "secondo_carne", kcal: 172, protein: 25.5, carbs: 0, fat: 7.2, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 94, name: "Maiale (lonza)", category: "secondo_carne", kcal: 165, protein: 25.2, carbs: 0, fat: 6.5, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 95, name: "Prosciutto crudo", category: "secondo_carne", kcal: 230, protein: 26.5, carbs: 0, fat: 13.5, fiber: 0, portion: 80, portionName: "3 fette" },
+        { id: 96, name: "Prosciutto cotto", category: "secondo_carne", kcal: 135, protein: 21.5, carbs: 1.2, fat: 4.8, fiber: 0, portion: 80, portionName: "3 fette" },
+        { id: 97, name: "Speck", category: "secondo_carne", kcal: 245, protein: 28.5, carbs: 0.5, fat: 14.2, fiber: 0, portion: 60, portionName: "2 fette" },
+        { id: 98, name: "Salame", category: "secondo_carne", kcal: 378, protein: 22.5, carbs: 1.2, fat: 31.5, fiber: 0, portion: 50, portionName: "porzione" },
+        { id: 99, name: "Mortadella", category: "secondo_carne", kcal: 311, protein: 14.5, carbs: 2.5, fat: 26.8, fiber: 0, portion: 60, portionName: "2 fette" },
+        { id: 100, name: "Coniglio", category: "secondo_carne", kcal: 173, protein: 21, carbs: 0, fat: 9.5, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 101, name: "Agnello", category: "secondo_carne", kcal: 234, protein: 25.5, carbs: 0, fat: 14.2, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 102, name: "Fegato di vitello", category: "secondo_carne", kcal: 135, protein: 20.4, carbs: 3.9, fat: 3.6, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 103, name: "Cotoletta alla milanese", category: "secondo_carne", kcal: 265, protein: 22.5, carbs: 8.5, fat: 15.2, fiber: 0.5, portion: 200, portionName: "1 cotoletta" },
+        { id: 104, name: "Scaloppina al vino bianco", category: "secondo_carne", kcal: 185, protein: 24.5, carbs: 3.2, fat: 7.5, fiber: 0.2, portion: 150, portionName: "porzione" },
+        { id: 105, name: "Arrosto di vitello", category: "secondo_carne", kcal: 175, protein: 26.5, carbs: 0, fat: 7.2, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 106, name: "Brasato al barolo", category: "secondo_carne", kcal: 215, protein: 25.5, carbs: 2.5, fat: 11.2, fiber: 0.5, portion: 180, portionName: "porzione" },
+        { id: 107, name: "Stufato di manzo", category: "secondo_carne", kcal: 198, protein: 24.2, carbs: 3.5, fat: 9.5, fiber: 0.8, portion: 180, portionName: "porzione" },
+        { id: 108, name: "Polpette al sugo", category: "secondo_carne", kcal: 215, protein: 16.5, carbs: 8.5, fat: 12.5, fiber: 1.5, portion: 180, portionName: "3 polpette" },
+        { id: 109, name: "Involtini di vitello", category: "secondo_carne", kcal: 195, protein: 22.5, carbs: 4.2, fat: 9.5, fiber: 0.8, portion: 150, portionName: "2 involtini" },
+        { id: 110, name: "Straccetti di manzo", category: "secondo_carne", kcal: 185, protein: 25.2, carbs: 2.5, fat: 8.2, fiber: 0.5, portion: 150, portionName: "porzione" },
+        
+        // SECONDI - PESCE
+        { id: 111, name: "Salmone alla griglia", category: "secondo_pesce", kcal: 208, protein: 20.4, carbs: 0, fat: 13.4, fiber: 0, portion: 150, portionName: "1 trancio" },
+        { id: 112, name: "Tonno fresco", category: "secondo_pesce", kcal: 144, protein: 23.3, carbs: 0, fat: 4.9, fiber: 0, portion: 150, portionName: "1 trancio" },
+        { id: 113, name: "Merluzzo", category: "secondo_pesce", kcal: 82, protein: 17.8, carbs: 0, fat: 0.7, fiber: 0, portion: 180, portionName: "1 filetto" },
+        { id: 114, name: "Nasello", category: "secondo_pesce", kcal: 88, protein: 17.2, carbs: 0, fat: 1.5, fiber: 0, portion: 180, portionName: "1 filetto" },
+        { id: 115, name: "Orata al forno", category: "secondo_pesce", kcal: 120, protein: 20.5, carbs: 0, fat: 3.8, fiber: 0, portion: 200, portionName: "1 orata" },
+        { id: 116, name: "Branzino", category: "secondo_pesce", kcal: 115, protein: 20.2, carbs: 0, fat: 3.2, fiber: 0, portion: 200, portionName: "1 branzino" },
+        { id: 117, name: "Sogliola", category: "secondo_pesce", kcal: 95, protein: 18.5, carbs: 0, fat: 1.8, fiber: 0, portion: 180, portionName: "1 filetto" },
+        { id: 118, name: "Gamberi", category: "secondo_pesce", kcal: 99, protein: 20.9, carbs: 0.9, fat: 1.7, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 119, name: "Gamberetti", category: "secondo_pesce", kcal: 85, protein: 18.5, carbs: 0.5, fat: 1.2, fiber: 0, portion: 120, portionName: "porzione" },
+        { id: 120, name: "Cozze", category: "secondo_pesce", kcal: 86, protein: 11.9, carbs: 3.7, fat: 2.2, fiber: 0, portion: 200, portionName: "porzione" },
+        { id: 121, name: "Vongole", category: "secondo_pesce", kcal: 86, protein: 12.8, carbs: 3.2, fat: 1.2, fiber: 0, portion: 200, portionName: "porzione" },
+        { id: 122, name: "Calamari", category: "secondo_pesce", kcal: 92, protein: 15.6, carbs: 3.1, fat: 1.4, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 123, name: "Polpo", category: "secondo_pesce", kcal: 82, protein: 14.9, carbs: 2.2, fat: 1, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 124, name: "Seppia", category: "secondo_pesce", kcal: 79, protein: 15.6, carbs: 0.7, fat: 0.7, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 125, name: "Acciughe", category: "secondo_pesce", kcal: 131, protein: 20.4, carbs: 0, fat: 4.8, fiber: 0, portion: 80, portionName: "porzione" },
+        { id: 126, name: "Sardine", category: "secondo_pesce", kcal: 208, protein: 24.6, carbs: 0, fat: 11.5, fiber: 0, portion: 150, portionName: "porzione" },
+        { id: 127, name: "Sgombro", category: "secondo_pesce", kcal: 205, protein: 18.6, carbs: 0, fat: 13.9, fiber: 0, portion: 150, portionName: "1 filetto" },
+        { id: 128, name: "Trota", category: "secondo_pesce", kcal: 141, protein: 19.9, carbs: 0, fat: 6.6, fiber: 0, portion: 180, portionName: "1 trota" },
+        { id: 129, name: "Pesce spada", category: "secondo_pesce", kcal: 144, protein: 23.6, carbs: 0, fat: 4.5, fiber: 0, portion: 150, portionName: "1 trancio" },
+        { id: 130, name: "Halibut", category: "secondo_pesce", kcal: 111, protein: 20.8, carbs: 0, fat: 2.3, fiber: 0, portion: 180, portionName: "1 filetto" },
+        { id: 131, name: "Salmone affumicato", category: "secondo_pesce", kcal: 117, protein: 18.3, carbs: 0, fat: 4.3, fiber: 0, portion: 80, portionName: "3 fette" },
+        { id: 132, name: "Tonno in scatola al naturale", category: "secondo_pesce", kcal: 116, protein: 25.5, carbs: 0, fat: 0.8, fiber: 0, portion: 80, portionName: "1 scatoletta" },
+        { id: 133, name: "Baccalà", category: "secondo_pesce", kcal: 78, protein: 17.8, carbs: 0, fat: 0.6, fiber: 0, portion: 180, portionName: "porzione" },
+        
+        // CONTORNI
+        { id: 134, name: "Insalata verde mista", category: "contorno", kcal: 15, protein: 1.4, carbs: 2.9, fat: 0.2, fiber: 1.8, portion: 100, portionName: "1 piatto" },
+        { id: 135, name: "Insalata di pomodori", category: "contorno", kcal: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, portion: 150, portionName: "1 piatto" },
+        { id: 136, name: "Pomodorini", category: "contorno", kcal: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, portion: 150, portionName: "porzione" },
+        { id: 137, name: "Cetrioli", category: "contorno", kcal: 15, protein: 0.7, carbs: 3.6, fat: 0.1, fiber: 0.5, portion: 100, portionName: "1 cetriolo" },
+        { id: 138, name: "Zucchine grigliate", category: "contorno", kcal: 17, protein: 1.2, carbs: 3.1, fat: 0.3, fiber: 1, portion: 150, portionName: "1 zucchina" },
+        { id: 139, name: "Melanzane grigliate", category: "contorno", kcal: 25, protein: 1, carbs: 5.9, fat: 0.2, fiber: 3, portion: 150, portionName: "porzione" },
+        { id: 140, name: "Peperoni grigliati", category: "contorno", kcal: 31, protein: 1, carbs: 6, fat: 0.3, fiber: 2.1, portion: 150, portionName: "1 peperone" },
+        { id: 141, name: "Carote lesse", category: "contorno", kcal: 35, protein: 0.8, carbs: 8.2, fat: 0.2, fiber: 2.8, portion: 150, portionName: "2 carote" },
+        { id: 142, name: "Finocchi crudi", category: "contorno", kcal: 31, protein: 1.2, carbs: 7.3, fat: 0.2, fiber: 3.1, portion: 150, portionName: "1 finocchio" },
+        { id: 143, name: "Sedano", category: "contorno", kcal: 16, protein: 0.7, carbs: 3, fat: 0.2, fiber: 1.6, portion: 100, portionName: "2 coste" },
+        { id: 144, name: "Broccoli al vapore", category: "contorno", kcal: 34, protein: 2.8, carbs: 6.6, fat: 0.4, fiber: 2.6, portion: 150, portionName: "porzione" },
+        { id: 145, name: "Cavolfiore", category: "contorno", kcal: 25, protein: 1.9, carbs: 5, fat: 0.3, fiber: 2, portion: 150, portionName: "porzione" },
+        { id: 146, name: "Cavolo cappuccio", category: "contorno", kcal: 25, protein: 1.3, carbs: 5.8, fat: 0.1, fiber: 2.5, portion: 150, portionName: "porzione" },
+        { id: 147, name: "Spinaci", category: "contorno", kcal: 23, protein: 2.9, carbs: 3.6, fat: 0.4, fiber: 2.2, portion: 150, portionName: "porzione" },
+        { id: 148, name: "Bietole", category: "contorno", kcal: 19, protein: 1.8, carbs: 3.7, fat: 0.2, fiber: 1.6, portion: 150, portionName: "porzione" },
+        { id: 149, name: "Asparagi", category: "contorno", kcal: 20, protein: 2.2, carbs: 3.9, fat: 0.1, fiber: 2.1, portion: 120, portionName: "5 asparagi" },
+        { id: 150, name: "Fagiolini", category: "contorno", kcal: 31, protein: 1.8, carbs: 7, fat: 0.1, fiber: 3.4, portion: 150, portionName: "porzione" },
+        { id: 151, name: "Piselli", category: "contorno", kcal: 81, protein: 5.4, carbs: 14.5, fat: 0.4, fiber: 5.7, portion: 120, portionName: "porzione" },
+        { id: 152, name: "Carciofi", category: "contorno", kcal: 47, protein: 3.3, carbs: 10.5, fat: 0.2, fiber: 5.4, portion: 150, portionName: "2 carciofi" },
+        { id: 153, name: "Zucca", category: "contorno", kcal: 26, protein: 1, carbs: 6.5, fat: 0.1, fiber: 0.5, portion: 150, portionName: "porzione" },
+        { id: 154, name: "Patate lesse", category: "contorno", kcal: 77, protein: 2, carbs: 17.5, fat: 0.1, fiber: 2.2, portion: 200, portionName: "2 patate" },
+        { id: 155, name: "Patate al forno", category: "contorno", kcal: 93, protein: 2, carbs: 21.2, fat: 0.1, fiber: 2.4, portion: 200, portionName: "2 patate" },
+        { id: 156, name: "Patate dolci", category: "contorno", kcal: 86, protein: 1.6, carbs: 20.1, fat: 0.1, fiber: 3, portion: 200, portionName: "1 patata" },
+        { id: 157, name: "Cipolle", category: "contorno", kcal: 40, protein: 1.1, carbs: 9.3, fat: 0.1, fiber: 1.7, portion: 100, portionName: "1 cipolla" },
+        { id: 158, name: "Funghi champignon", category: "contorno", kcal: 22, protein: 3.1, carbs: 3.3, fat: 0.3, fiber: 1, portion: 150, portionName: "porzione" },
+        { id: 159, name: "Funghi porcini", category: "contorno", kcal: 26, protein: 3.1, carbs: 3.7, fat: 0.3, fiber: 2.7, portion: 120, portionName: "porzione" },
+        { id: 160, name: "Rucola", category: "contorno", kcal: 25, protein: 2.6, carbs: 3.7, fat: 0.7, fiber: 1.6, portion: 50, portionName: "1 mazzetto" },
+        { id: 161, name: "Lattuga", category: "contorno", kcal: 15, protein: 1.4, carbs: 2.9, fat: 0.2, fiber: 1.3, portion: 100, portionName: "porzione" },
+        { id: 162, name: "Radicchio", category: "contorno", kcal: 23, protein: 1.4, carbs: 4.5, fat: 0.3, fiber: 0.9, portion: 100, portionName: "porzione" },
+        { id: 163, name: "Cicoria", category: "contorno", kcal: 17, protein: 1.7, carbs: 3, fat: 0.3, fiber: 2.4, portion: 150, portionName: "porzione" },
+        
+        // FRUTTA
+        { id: 164, name: "Mela", category: "frutta", kcal: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, portion: 180, portionName: "1 mela" },
+        { id: 165, name: "Pera", category: "frutta", kcal: 57, protein: 0.4, carbs: 15.2, fat: 0.1, fiber: 3.1, portion: 170, portionName: "1 pera" },
+        { id: 166, name: "Banana", category: "frutta", kcal: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, portion: 120, portionName: "1 banana" },
+        { id: 167, name: "Arancia", category: "frutta", kcal: 47, protein: 0.9, carbs: 11.8, fat: 0.1, fiber: 2.4, portion: 150, portionName: "1 arancia" },
+        { id: 168, name: "Mandarino", category: "frutta", kcal: 53, protein: 0.8, carbs: 13.3, fat: 0.3, fiber: 1.8, portion: 100, portionName: "1 mandarino" },
+        { id: 169, name: "Limone", category: "frutta", kcal: 29, protein: 1.1, carbs: 9.3, fat: 0.3, fiber: 2.8, portion: 60, portionName: "1 limone" },
+        { id: 170, name: "Pompelmo", category: "frutta", kcal: 42, protein: 0.8, carbs: 10.7, fat: 0.1, fiber: 1.6, portion: 200, portionName: "1 pompelmo" },
+        { id: 171, name: "Kiwi", category: "frutta", kcal: 61, protein: 1.1, carbs: 14.7, fat: 0.5, fiber: 3, portion: 75, portionName: "1 kiwi" },
+        { id: 172, name: "Fragole", category: "frutta", kcal: 32, protein: 0.7, carbs: 7.7, fat: 0.3, fiber: 2, portion: 150, portionName: "porzione" },
+        { id: 173, name: "Mirtilli", category: "frutta", kcal: 57, protein: 0.7, carbs: 14.5, fat: 0.3, fiber: 2.4, portion: 125, portionName: "porzione" },
+        { id: 174, name: "Lamponi", category: "frutta", kcal: 52, protein: 1.2, carbs: 11.9, fat: 0.7, fiber: 6.5, portion: 125, portionName: "porzione" },
+        { id: 175, name: "More", category: "frutta", kcal: 43, protein: 1.4, carbs: 9.6, fat: 0.5, fiber: 5.3, portion: 125, portionName: "porzione" },
+        { id: 176, name: "Ananas", category: "frutta", kcal: 50, protein: 0.5, carbs: 13.1, fat: 0.1, fiber: 1.4, portion: 150, portionName: "porzione" },
+        { id: 177, name: "Mango", category: "frutta", kcal: 60, protein: 0.8, carbs: 15, fat: 0.4, fiber: 1.6, portion: 150, portionName: "porzione" },
+        { id: 178, name: "Papaia", category: "frutta", kcal: 43, protein: 0.5, carbs: 10.8, fat: 0.3, fiber: 1.7, portion: 150, portionName: "porzione" },
+        { id: 179, name: "Avocado", category: "frutta", kcal: 160, protein: 2, carbs: 8.5, fat: 14.7, fiber: 6.7, portion: 80, portionName: "1/2 avocado" },
+        { id: 180, name: "Uva", category: "frutta", kcal: 69, protein: 0.7, carbs: 18.1, fat: 0.2, fiber: 0.9, portion: 150, portionName: "1 grappolo" },
+        { id: 181, name: "Pesca", category: "frutta", kcal: 39, protein: 0.9, carbs: 9.5, fat: 0.3, fiber: 1.5, portion: 150, portionName: "1 pesca" },
+        { id: 182, name: "Albicocca", category: "frutta", kcal: 48, protein: 1.4, carbs: 11.1, fat: 0.4, fiber: 2, portion: 60, portionName: "1 albicocca" },
+        { id: 183, name: "Prugna", category: "frutta", kcal: 46, protein: 0.7, carbs: 11.4, fat: 0.3, fiber: 1.4, portion: 60, portionName: "1 prugna" },
+        { id: 184, name: "Fico", category: "frutta", kcal: 74, protein: 0.8, carbs: 19.2, fat: 0.3, fiber: 2.9, portion: 50, portionName: "1 fico" },
+        { id: 185, name: "Melone", category: "frutta", kcal: 34, protein: 0.8, carbs: 8.2, fat: 0.2, fiber: 0.9, portion: 200, portionName: "1 fetta" },
+        { id: 186, name: "Anguria", category: "frutta", kcal: 30, protein: 0.6, carbs: 7.6, fat: 0.2, fiber: 0.4, portion: 200, portionName: "1 fetta" },
+        { id: 187, name: "Cocomero", category: "frutta", kcal: 30, protein: 0.6, carbs: 7.6, fat: 0.2, fiber: 0.4, portion: 200, portionName: "1 fetta" },
+        { id: 188, name: "Ciliegie", category: "frutta", kcal: 63, protein: 1.1, carbs: 16, fat: 0.2, fiber: 2.1, portion: 100, portionName: "porzione" },
+        { id: 189, name: "Cachi", category: "frutta", kcal: 70, protein: 0.6, carbs: 18.6, fat: 0.2, fiber: 3.6, portion: 150, portionName: "1 caco" },
+        { id: 190, name: "Melagrana", category: "frutta", kcal: 83, protein: 1.7, carbs: 18.7, fat: 1.2, fiber: 4, portion: 150, portionName: "porzione" },
+        
+        // BEVANDE
+        { id: 191, name: "Acqua naturale", category: "bevanda", kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 250, portionName: "1 bicchiere" },
+        { id: 192, name: "Acqua frizzante", category: "bevanda", kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 250, portionName: "1 bicchiere" },
+        { id: 193, name: "Tè verde", category: "bevanda", kcal: 1, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
+        { id: 194, name: "Tè nero", category: "bevanda", kcal: 1, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
+        { id: 195, name: "Camomilla", category: "bevanda", kcal: 2, protein: 0, carbs: 0.5, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
+        { id: 196, name: "Caffè espresso", category: "bevanda", kcal: 2, protein: 0.1, carbs: 0, fat: 0, fiber: 0, portion: 30, portionName: "1 tazzina" },
+        { id: 197, name: "Caffè macchiato", category: "bevanda", kcal: 15, protein: 0.8, carbs: 1.2, fat: 0.8, fiber: 0, portion: 50, portionName: "1 tazzina" },
+        { id: 198, name: "Caffè latte", category: "bevanda", kcal: 55, protein: 2.8, carbs: 4.2, fat: 2.8, fiber: 0, portion: 200, portionName: "1 tazza" },
+        { id: 199, name: "Cappuccino", category: "bevanda", kcal: 55, protein: 2.8, carbs: 4.2, fat: 2.8, fiber: 0, portion: 150, portionName: "1 tazza" },
+        { id: 200, name: "Birra bionda", category: "bevanda", kcal: 43, protein: 0.5, carbs: 3.6, fat: 0, fiber: 0, portion: 330, portionName: "1 lattina" },
+        { id: 201, name: "Vino rosso", category: "bevanda", kcal: 85, protein: 0.1, carbs: 2.6, fat: 0, fiber: 0, portion: 125, portionName: "1 bicchiere" },
+        { id: 202, name: "Vino bianco", category: "bevanda", kcal: 82, protein: 0.1, carbs: 2.6, fat: 0, fiber: 0, portion: 125, portionName: "1 bicchiere" },
+        { id: 203, name: "Prosecco", category: "bevanda", kcal: 75, protein: 0, carbs: 2, fat: 0, fiber: 0, portion: 125, portionName: "1 bicchiere" },
+        { id: 204, name: "Cocktail analcolico", category: "bevanda", kcal: 45, protein: 0, carbs: 11.2, fat: 0, fiber: 0, portion: 200, portionName: "1 bicchiere" },
+        { id: 205, name: "Coca Cola", category: "bevanda", kcal: 42, protein: 0, carbs: 10.6, fat: 0, fiber: 0, portion: 330, portionName: "1 lattina" },
+        { id: 206, name: "Aranciata", category: "bevanda", kcal: 44, protein: 0, carbs: 11, fat: 0, fiber: 0, portion: 200, portionName: "1 bicchiere" },
+        { id: 207, name: "Smoothie di frutta", category: "bevanda", kcal: 65, protein: 0.8, carbs: 15.2, fat: 0.3, fiber: 1.2, portion: 250, portionName: "1 bicchiere" },
+        
+        // ALTRO / CONDIMENTI
+        { id: 208, name: "Olio extravergine d'oliva", category: "altro", kcal: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, portion: 10, portionName: "1 cucchiaio" },
+        { id: 209, name: "Olio di semi", category: "altro", kcal: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, portion: 10, portionName: "1 cucchiaio" },
+        { id: 210, name: "Burro", category: "altro", kcal: 717, protein: 0.9, carbs: 0.1, fat: 81.1, fiber: 0, portion: 10, portionName: "1 noce" },
+        { id: 211, name: "Maionese", category: "altro", kcal: 680, protein: 1.2, carbs: 1.2, fat: 72, fiber: 0, portion: 15, portionName: "1 cucchiaio" },
+        { id: 212, name: "Ketchup", category: "altro", kcal: 112, protein: 1.7, carbs: 25.8, fat: 0.5, fiber: 0.3, portion: 20, portionName: "2 cucchiai" },
+        { id: 213, name: "Senape", category: "altro", kcal: 66, protein: 4.4, carbs: 5.3, fat: 3.3, fiber: 3.3, portion: 15, portionName: "1 cucchiaio" },
+        { id: 214, name: "Aceto balsamico", category: "altro", kcal: 88, protein: 0.5, carbs: 17, fat: 0, fiber: 0, portion: 15, portionName: "1 cucchiaio" },
+        { id: 215, name: "Salsa di soia", category: "altro", kcal: 53, protein: 5.6, carbs: 4.9, fat: 0.1, fiber: 0.8, portion: 15, portionName: "1 cucchiaio" },
+        { id: 216, name: "Mozzarella", category: "altro", kcal: 280, protein: 18.5, carbs: 3.1, fat: 21.6, fiber: 0, portion: 125, portionName: "1 mozzarella" },
+        { id: 217, name: "Mozzarella light", category: "altro", kcal: 185, protein: 20.2, carbs: 2.5, fat: 10.5, fiber: 0, portion: 125, portionName: "1 mozzarella" },
+        { id: 218, name: "Feta", category: "altro", kcal: 264, protein: 14.2, carbs: 4.1, fat: 21.3, fiber: 0, portion: 50, portionName: "porzione" },
+        { id: 219, name: "Gorgonzola", category: "altro", kcal: 330, protein: 19, carbs: 1.8, fat: 27.5, fiber: 0, portion: 50, portionName: "porzione" },
+        { id: 220, name: "Fontina", category: "altro", kcal: 340, protein: 25.6, carbs: 1.5, fat: 26.2, fiber: 0, portion: 50, portionName: "porzione" },
+        { id: 221, name: "Emmental", category: "altro", kcal: 380, protein: 27.2, carbs: 0.5, fat: 29.5, fiber: 0, portion: 50, portionName: "porzione" },
+        { id: 222, name: "Scamorza", category: "altro", kcal: 300, protein: 24.5, carbs: 1.2, fat: 22.1, fiber: 0, portion: 100, portionName: "1 scamorza" },
+        { id: 223, name: "Crackers", category: "altro", kcal: 435, protein: 9.5, carbs: 72.5, fat: 12.5, fiber: 2.5, portion: 30, portionName: "4 crackers" },
+        { id: 224, name: "Grissini", category: "altro", kcal: 410, protein: 10.2, carbs: 68.5, fat: 10.5, fiber: 2.8, portion: 30, portionName: "5 grissini" },
+        { id: 225, name: "Taralli", category: "altro", kcal: 465, protein: 9.8, carbs: 68.2, fat: 16.5, fiber: 2.5, portion: 40, portionName: "porzione" },
+        { id: 226, name: "Pizza margherita", category: "altro", kcal: 266, protein: 11.2, carbs: 33.5, fat: 10.2, fiber: 2.2, portion: 200, portionName: "1 trancio" },
+        { id: 227, name: "Pizza bianca", category: "altro", kcal: 245, protein: 8.5, carbs: 38.2, fat: 7.2, fiber: 1.8, portion: 150, portionName: "1 trancio" },
+        { id: 228, name: "Focaccia", category: "altro", kcal: 285, protein: 7.2, carbs: 42.5, fat: 10.5, fiber: 1.8, portion: 100, portionName: "1 porzione" },
+        { id: 229, name: "Bruschetta al pomodoro", category: "altro", kcal: 185, protein: 5.2, carbs: 28.5, fat: 6.2, fiber: 2.5, portion: 150, portionName: "2 bruschette" },
+        { id: 230, name: "Hummus", category: "altro", kcal: 166, protein: 7.9, carbs: 14.3, fat: 9.6, fiber: 6, portion: 50, portionName: "2 cucchiai" },
+        { id: 231, name: "Guacamole", category: "altro", kcal: 160, protein: 2, carbs: 8.5, fat: 14.7, fiber: 6.7, portion: 50, portionName: "2 cucchiai" },
+        { id: 232, name: "Tofu", category: "altro", kcal: 76, protein: 8, carbs: 1.9, fat: 4.8, fiber: 0.3, portion: 150, portionName: "porzione" },
+        { id: 233, name: "Seitan", category: "altro", kcal: 370, protein: 75, carbs: 14, fat: 1.9, fiber: 0.6, portion: 100, portionName: "porzione" },
+        { id: 234, name: "Tempeh", category: "altro", kcal: 193, protein: 20.3, carbs: 9.4, fat: 10.8, fiber: 0, portion: 100, portionName: "porzione" },
+        { id: 235, name: "Lenticchie", category: "altro", kcal: 116, protein: 9, carbs: 20.1, fat: 0.4, fiber: 7.9, portion: 150, portionName: "porzione cotta" },
+        { id: 236, name: "Ceci", category: "altro", kcal: 164, protein: 8.9, carbs: 27.4, fat: 2.6, fiber: 7.6, portion: 150, portionName: "porzione cotta" },
+        { id: 237, name: "Fagioli cannellini", category: "altro", kcal: 139, protein: 9.7, carbs: 25.1, fat: 0.5, fiber: 6.3, portion: 150, portionName: "porzione cotta" },
+        { id: 238, name: "Fagioli borlotti", category: "altro", kcal: 143, protein: 9.5, carbs: 26.2, fat: 0.6, fiber: 7.2, portion: 150, portionName: "porzione cotta" }
+    ];
+    
+    const CATEGORY_LABELS = {
+        colazione: "Colazione",
+        spuntino: "Spuntino",
+        primo: "Primo",
+        secondo_carne: "Secondo (Carne)",
+        secondo_pesce: "Secondo (Pesce)",
+        contorno: "Contorno",
+        frutta: "Frutta",
+        bevanda: "Bevanda",
+        altro: "Altro"
+    };
+    
+    const DAYS = [
+        { name: "Lunedì", date: "20/10", icon: "" },
+        { name: "Martedì", date: "21/10", icon: "☀️" },
+        { name: "Mercoledì", date: "22/10", icon: "🌤️" },
+        { name: "Giovedì", date: "23/10", icon: "⛅" },
+        { name: "Venerdì", date: "24/10", icon: "️" },
+        { name: "Sabato", date: "25/10", icon: "🌞" },
+        { name: "Domenica", date: "26/10", icon: "🌻" }
+    ];
+    
+    const MEALS = [
+        { id: "mattina", label: "MATTINA", icon: "☀️", subtitle: "Colazione" },
+        { id: "mezzogiorno", label: "MEZZOGIORNO", icon: "🌤️", subtitle: "Spuntino" },
+        { id: "pranzo", label: "PRANZO", icon: "🍽️", subtitle: "Pasto principale" },
+        { id: "sera", label: "SERA", icon: "🌙", subtitle: "Cena" }
+    ];
+    
+    const DAILY_GOAL = 2200;
+    
+    // Stato dell'applicazione
+    let appState = {};
+    
+    function initApp() {
+        // Carica stato da localStorage
+        const saved = localStorage.getItem('dietPlanState');
+        if (saved) {
+            try { appState = JSON.parse(saved); } catch(e) { appState = {}; }
         }
+        
+        renderDays();
+        renderSummary();
+        updateDailyGoal();
+    }
+    
+    function renderDays() {
+        const grid = document.getElementById('daysGrid');
+        grid.innerHTML = '';
+        
+        DAYS.forEach((day, dayIndex) => {
+            const dayCard = document.createElement('div');
+            dayCard.className = 'day-card';
+            
+            let mealsHTML = '';
+            MEALS.forEach(meal => {
+                const key = `${dayIndex}_${meal.id}`;
+                const saved = appState[key] || {};
+                mealsHTML += `
+                    <div class="meal-block">
+                        <div class="meal-label">
+                            <span class="icon">${meal.icon}</span>
+                            ${meal.label} <span style="opacity:0.7; font-weight:400; text-transform:none; letter-spacing:0;">• ${meal.subtitle}</span>
+                        </div>
+                        <div class="autocomplete-wrapper">
+                            <input type="text" 
+                                   class="meal-input" 
+                                   placeholder="Cerca un alimento..." 
+                                   value="${saved.name || ''}"
+                                   data-day="${dayIndex}" 
+                                   data-meal="${meal.id}"
+                                   oninput="handleAutocomplete(this)"
+                                   onkeydown="handleAutocompleteKey(event, this)"
+                                   onblur="hideDropdown(this)">
+                            <div class="autocomplete-dropdown"></div>
+                        </div>
+                        <div class="portion-row">
+                            <select class="portion-select" onchange="updateMeal('${key}', this.parentElement.parentElement)">
+                                <option value="100">100g</option>
+                                <option value="${saved.portion || 100}" ${saved.portion && saved.portion != 100 ? 'selected' : ''}>Porzione (${saved.portionName || 'standard'})</option>
+                                <option value="custom">Personalizzata</option>
+                            </select>
+                            <input type="number" 
+                                   class="portion-custom" 
+                                   placeholder="g" 
+                                   value="${saved.grams || ''}"
+                                   onchange="updateMeal('${key}', this.closest('.meal-block'))"
+                                   style="${saved.portionType === 'custom' ? '' : 'display:none'}">
+                            <span class="portion-unit">g</span>
+                        </div>
+                        <div class="macro-badges">
+                            <span class="macro-badge kcal"><span class="kcal-val">${saved.kcal || 0}</span> kcal</span>
+                            <span class="macro-badge">P: <span class="protein-val">${(saved.protein || 0).toFixed(1)}</span>g</span>
+                            <span class="macro-badge">C: <span class="carbs-val">${(saved.carbs || 0).toFixed(1)}</span>g</span>
+                            <span class="macro-badge">G: <span class="fat-val">${(saved.fat || 0).toFixed(1)}</span>g</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const dayTotals = calculateDayTotals(dayIndex);
+            
+            dayCard.innerHTML = `
+                <div class="day-header">
+                    <span class="giorno">${day.icon} ${day.name}</span>
+                    <span class="data">${day.date}</span>
+                </div>
+                <div class="meals-container">
+                    ${mealsHTML}
+                </div>
+                <div class="day-total">
+                    <span>TOTALE GIORNALIERO</span>
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div class="macro-mini">
+                            <span>P: ${dayTotals.protein.toFixed(0)}g</span>
+                            <span>C: ${dayTotals.carbs.toFixed(0)}g</span>
+                            <span>G: ${dayTotals.fat.toFixed(0)}g</span>
+                        </div>
+                        <span class="total-value">${dayTotals.kcal.toFixed(0)} kcal</span>
+                    </div>
+                </div>
+            `;
+            
+            grid.appendChild(dayCard);
+        });
+    }
+    
+    function handleAutocomplete(input) {
+        const query = input.value.toLowerCase().trim();
+        const dropdown = input.nextElementSibling;
+        const dayIndex = input.dataset.day;
+        const mealId = input.dataset.meal;
+        const key = `${dayIndex}_${mealId}`;
+        
+        if (query.length < 2) {
+            dropdown.classList.remove('active');
+            return;
+        }
+        
+        // Ricerca fuzzy: cerca nel nome
+        const matches = FOOD_DATABASE.filter(food => 
+            food.name.toLowerCase().includes(query)
+        ).slice(0, 8);
+        
+        if (matches.length === 0) {
+            dropdown.innerHTML = '<div class="no-results">Nessun alimento trovato. Scrivi liberamente e aggiungi le calorie a mano.</div>';
+            dropdown.classList.add('active');
+            return;
+        }
+        
+        dropdown.innerHTML = matches.map((food, idx) => `
+            <div class="autocomplete-item" 
+                 data-idx="${idx}" 
+                 onclick="selectFood('${key}', ${food.id}, this.closest('.meal-block'))">
+                <div class="food-name">${food.name}</div>
+                <div class="food-macros">
+                    <span>${food.kcal} kcal</span>
+                    <span>P: ${food.protein}g</span>
+                    <span>C: ${food.carbs}g</span>
+                    <span>G: ${food.fat}g</span>
+                    <span class="food-category">${CATEGORY_LABELS[food.category]}</span>
+                </div>
+            </div>
+        `).join('');
+        
+        dropdown.classList.add('active');
+    }
+    
+    function handleAutocompleteKey(event, input) {
+        const dropdown = input.nextElementSibling;
+        const items = dropdown.querySelectorAll('.autocomplete-item');
+        
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            const current = dropdown.querySelector('.selected');
+            const next = current ? current.nextElementSibling : items[0];
+            if (current) current.classList.remove('selected');
+            if (next) { next.classList.add('selected'); next.scrollIntoView({block: 'nearest'}); }
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            const current = dropdown.querySelector('.selected');
+            const prev = current ? current.previousElementSibling : items[items.length - 1];
+            if (current) current.classList.remove('selected');
+            if (prev) { prev.classList.add('selected'); prev.scrollIntoView({block: 'nearest'}); }
+        } else if (event.key === 'Enter') {
+            const selected = dropdown.querySelector('.selected');
+            if (selected) {
+                event.preventDefault();
+                selected.click();
+            }
+        } else if (event.key === 'Escape') {
+            dropdown.classList.remove('active');
+        }
+    }
+    
+    function selectFood(key, foodId, mealBlock) {
+        const food = FOOD_DATABASE.find(f => f.id === foodId);
+        if (!food) return;
+        
+        const input = mealBlock.querySelector('.meal-input');
+        const portionSelect = mealBlock.querySelector('.portion-select');
+        const portionCustom = mealBlock.querySelector('.portion-custom');
+        
+        input.value = food.name;
+        
+        // Aggiorna opzione porzione standard
+        const standardOption = portionSelect.options[1];
+        standardOption.value = food.portion;
+        standardOption.textContent = `Porzione (${food.portionName})`;
+        standardOption.selected = true;
+        
+        portionCustom.value = food.portion;
+        
+        appState[key] = {
+            name: food.name,
+            foodId: food.id,
+            grams: food.portion,
+            portionType: 'standard',
+            portionName: food.portionName,
+            kcal: food.kcal * food.portion / 100,
+            protein: food.protein * food.portion / 100,
+            carbs: food.carbs * food.portion / 100,
+            fat: food.fat * food.portion / 100,
+            fiber: food.fiber * food.portion / 100
+        };
+        
+        mealBlock.querySelector('.dropdown')?.classList.remove('active');
+        input.nextElementSibling.classList.remove('active');
+        
+        updateMealBadges(mealBlock);
+        updateDayTotal(input.dataset.day);
+        updateDailyGoal();
+        renderSummary();
+        saveState();
+    }
+    
+    function updateMeal(key, mealBlock) {
+        const input = mealBlock.querySelector('.meal-input');
+        const portionSelect = mealBlock.querySelector('.portion-select');
+        const portionCustom = mealBlock.querySelector('.portion-custom');
+        const dayIndex = input.dataset.day;
+        
+        const selectedValue = portionSelect.value;
+        let grams = 100;
+        
+        if (selectedValue === 'custom') {
+            grams = parseFloat(portionCustom.value) || 0;
+            portionCustom.style.display = 'block';
+        } else {
+            grams = parseFloat(selectedValue) || 100;
+            portionCustom.style.display = 'none';
+        }
+        
+        const foodId = appState[key]?.foodId;
+        const food = foodId ? FOOD_DATABASE.find(f => f.id === foodId) : null;
+        
+        if (food) {
+            appState[key] = {
+                ...appState[key],
+                grams: grams,
+                portionType: selectedValue,
+                kcal: food.kcal * grams / 100,
+                protein: food.protein * grams / 100,
+                carbs: food.carbs * grams / 100,
+                fat: food.fat * grams / 100,
+                fiber: food.fiber * grams / 100
+            };
+        } else if (input.value.trim()) {
+            // Cibo personalizzato - mantieni i valori se già impostati
+            if (!appState[key]) appState[key] = {};
+            appState[key] = {
+                ...appState[key],
+                name: input.value,
+                grams: grams,
+                portionType: selectedValue
+            };
+        } else {
+            delete appState[key];
+        }
+        
+        updateMealBadges(mealBlock);
+        updateDayTotal(dayIndex);
+        updateDailyGoal();
+        renderSummary();
+        saveState();
+    }
+    
+    function updateMealBadges(mealBlock) {
+        const key = `${mealBlock.closest('.day-card').querySelector('.meal-input').dataset.day}_${mealBlock.closest('.day-card').querySelectorAll('.meal-block')[Array.from(mealBlock.parentElement.children).indexOf(mealBlock)]?.querySelector('.meal-input')?.dataset.meal}`;
+        
+        // Trova la key corretta
+        const input = mealBlock.querySelector('.meal-input');
+        const mealId = input.dataset.meal;
+        const dayIndex = input.dataset.day;
+        const correctKey = `${dayIndex}_${mealId}`;
+        const data = appState[correctKey] || {};
+        
+        mealBlock.querySelector('.kcal-val').textContent = (data.kcal || 0).toFixed(0);
+        mealBlock.querySelector('.protein-val').textContent = (data.protein || 0).toFixed(1);
+        mealBlock.querySelector('.carbs-val').textContent = (data.carbs || 0).toFixed(1);
+        mealBlock.querySelector('.fat-val').textContent = (data.fat || 0).toFixed(1);
+    }
+    
+    function calculateDayTotals(dayIndex) {
+        let totals = { kcal: 0, protein: 0, carbs: 0, fat: 0 };
+        MEALS.forEach(meal => {
+            const key = `${dayIndex}_${meal.id}`;
+            const data = appState[key] || {};
+            totals.kcal += data.kcal || 0;
+            totals.protein += data.protein || 0;
+            totals.carbs += data.carbs || 0;
+            totals.fat += data.fat || 0;
+        });
+        return totals;
+    }
+    
+    function updateDayTotal(dayIndex) {
+        const cards = document.querySelectorAll('.day-card');
+        const card = cards[dayIndex];
+        if (!card) return;
+        
+        const totals = calculateDayTotals(dayIndex);
+        const totalValue = card.querySelector('.total-value');
+        const macroMini = card.querySelector('.macro-mini');
+        
+        if (totalValue) totalValue.textContent = `${totals.kcal.toFixed(0)} kcal`;
+        if (macroMini) {
+            macroMini.innerHTML = `
+                <span>P: ${totals.protein.toFixed(0)}g</span>
+                <span>C: ${totals.carbs.toFixed(0)}g</span>
+                <span>G: ${totals.fat.toFixed(0)}g</span>
+            `;
+        }
+    }
+    
+    function updateDailyGoal() {
+        const today = 0; // Lunedì come esempio
+        const totals = calculateDayTotals(today);
+        const currentKcal = totals.kcal;
+        const percentage = Math.min((currentKcal / DAILY_GOAL) * 100, 100);
+        
+        document.getElementById('currentKcal').textContent = currentKcal.toFixed(0);
+        const fill = document.getElementById('progressFill');
+        fill.style.width = `${percentage}%`;
+        
+        if (currentKcal > DAILY_GOAL) {
+            fill.classList.add('over');
+        } else {
+            fill.classList.remove('over');
+        }
+    }
+    
+    function renderSummary() {
+        const chart = document.getElementById('summaryChart');
+        chart.innerHTML = '';
+        
+        let weekTotals = { kcal: 0, protein: 0, carbs: 0, fat: 0 };
+        const maxKcal = Math.max(...DAYS.map((_, i) => calculateDayTotals(i).kcal), DAILY_GOAL);
+        
+        DAYS.forEach((day, i) => {
+            const totals = calculateDayTotals(i);
+            weekTotals.kcal += totals.kcal;
+            weekTotals.protein += totals.protein;
+            weekTotals.carbs += totals.carbs;
+            weekTotals.fat += totals.fat;
+            
+            const barHeight = maxKcal > 0 ? (totals.kcal / maxKcal) * 100 : 0;
+            
+            chart.innerHTML += `
+                <div class="chart-day">
+                    <div class="day-name">${day.name.substring(0, 3)}</div>
+                    <div class="chart-bar-container">
+                        <div class="chart-bar" style="height: ${barHeight}%"></div>
+                    </div>
+                    <div class="day-kcal">${totals.kcal.toFixed(0)}</div>
+                    <div class="day-macro">P:${totals.protein.toFixed(0)} C:${totals.carbs.toFixed(0)}</div>
+                </div>
+            `;
+        });
+        
+        document.getElementById('weekKcal').textContent = weekTotals.kcal.toFixed(0);
+        document.getElementById('weekProtein').textContent = weekTotals.protein.toFixed(0);
+        document.getElementById('weekCarbs').textContent = weekTotals.carbs.toFixed(0);
+        document.getElementById('weekFat').textContent = weekTotals.fat.toFixed(0);
+    }
+    
+    function hideDropdown(input) {
+        setTimeout(() => {
+            input.nextElementSibling.classList.remove('active');
+        }, 200);
+    }
+    
+    function saveState() {
+        localStorage.setItem('dietPlanState', JSON.stringify(appState));
+    }
+    
+    function salvaPiano() {
+        saveState();
+        showToast('✅ Piano salvato con successo!');
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    function inviaWhatsApp() {
+        const telefono = "393331234567";
+        const totals = calculateDayTotals(0);
+        const weekKcal = Array.from({length: 7}, (_, i) => calculateDayTotals(i).kcal).reduce((a, b) => a + b, 0);
+        
+        const messaggio = encodeURIComponent(
+            `Ciao Marco! 🏋️‍♂️\n\n` +
+            `La tua nuova dieta settimanale è pronta.\n\n` +
+            `📅 Settimana 20-26 Ottobre 2026\n` +
+            ` Obiettivo: Definizione\n` +
+            `⚖️ Peso: 75 kg\n\n` +
+            `📊 Riepilogo:\n` +
+            `• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n` +
+            `• Proteine: ${totals.protein.toFixed(0)}g\n` +
+            `• Carboidrati: ${totals.carbs.toFixed(0)}g\n` +
+            `• Grassi: ${totals.fat.toFixed(0)}g\n\n` +
+            `Puoi visualizzare e stampare il piano completo qui:\n` +
+            `https://appcenterstudiogym.pages.dev/gestione-dieta.html\n\n` +
+            `Buon allenamento! 💪\n\n` +
+            `- AppCenterStudioGYM`
+        );
+        
+        window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
+        showToast('💬 WhatsApp aperto!');
+    }
+    
+    // Avvia l'app
+    initApp();
     </script>
 
 </body>

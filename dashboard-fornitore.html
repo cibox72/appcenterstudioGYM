@@ -149,6 +149,8 @@
         .alert-banner .icon { font-size: 20px; }
         .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 1000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
         .toast.show { opacity: 1; transform: translateY(0); }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        .loading-overlay.hidden { display: none; }
         
         @media (max-width: 768px) {
             .header { flex-direction: column; gap: 15px; padding: 20px; }
@@ -160,18 +162,20 @@
     </style>
 </head>
 <body>
+    <div class="loading-overlay" id="loadingOverlay">Caricamento dati dal cloud...</div>
+
     <!-- HEADER UNIVERSALE -->
     <div class="main-header">
         <div class="header-left">
             <div class="header-title">
-                <h1>AppCenterStudioGIM</h1>
+                <h1>AppCenterStudioGYM</h1>
                 <p>Dashboard Fornitore</p>
             </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
-            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
-            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <a href="index.html" class="nav-btn nav-btn-home">Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
                 <span class="sync-dot"></span>
                 <span id="syncLabel">Sync OK</span>
@@ -181,7 +185,7 @@
     
     <div class="container">
         <div class="welcome-card">
-            <h2>Benvenuto, AppCenterStudioGIM</h2>
+            <h2>Benvenuto, AppCenterStudioGYM</h2>
             <p>Dashboard di gestione fornitori - Gestione Palestre</p>
         </div>
         
@@ -206,7 +210,7 @@
             </div>
         </div>
         
-        <h3 class="section-title">🏋️ Stato Palestre</h3>
+        <h3 class="section-title">Stato Palestre</h3>
         <div class="palestre-list" id="palestreList">
             <div class="empty-state">
                 <div class="icon">🏋️</div>
@@ -218,18 +222,36 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    const TRIAL_DAYS = 30;
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
     const ALERT_DAYS = 30;
-    let palestre = JSON.parse(localStorage.getItem('palestre') || '[]');
+    let palestre = [];
     let syncState = 'online';
     let hasUnsavedChanges = false;
     
     function init() {
-        aggiornaStati();
-        renderStats();
-        renderAlerts();
-        renderPalestre();
-        aggiornaSyncStatus('online', 'Sync OK');
+        loadData();
+    }
+    
+    async function loadData() {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        aggiornaSyncStatus('warning', 'Caricamento...');
+        
+        try {
+            const res = await fetch(`${API_URL}/api/palestre`);
+            palestre = await res.json();
+            
+            aggiornaStati();
+            renderStats();
+            renderAlerts();
+            renderPalestre();
+            aggiornaSyncStatus('online', 'Sync OK');
+        } catch (error) {
+            console.error('Errore caricamento:', error);
+            showToast('Errore di connessione al cloud');
+            aggiornaSyncStatus('offline', 'Errore');
+        } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
     }
     
     function esci() {
@@ -254,29 +276,24 @@
     }
     
     function forzaSync() {
-        if (syncState === 'online') { showToast('✅ Dati già sincronizzati'); return; }
-        try {
-            localStorage.setItem('palestre', JSON.stringify(palestre));
-            aggiornaSyncStatus('online', 'Sync OK');
-            hasUnsavedChanges = false;
-            showToast('✅ Sincronizzazione completata!');
-        } catch (e) {
-            aggiornaSyncStatus('offline', 'Errore sync');
-            showToast('❌ Errore durante la sincronizzazione');
-        }
+        if (syncState === 'online') { showToast('Dati già sincronizzati'); return; }
+        loadData();
     }
     
     function aggiornaStati() {
         const oggi = new Date();
         palestre.forEach(palestra => {
             if (!palestra.stato) palestra.stato = 'prova';
-            const scadenza = new Date(palestra.dataScadenza);
+            const scadenza = new Date(palestra.data_scadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            if (palestra.stato === 'attiva') { palestra.giorniRimanenti = giorniRimanenti; }
-            else if (giorniRimanenti < 0) { palestra.stato = 'scaduta'; palestra.giorniRimanenti = giorniRimanenti; }
-            else { palestra.stato = 'prova'; palestra.giorniRimanenti = giorniRimanenti; }
+            palestra.giorniRimanenti = giorniRimanenti;
+            
+            if (palestra.stato === 'attiva' && giorniRimanenti < 0) {
+                palestra.stato = 'scaduta';
+            } else if (palestra.stato === 'prova' && giorniRimanenti < 0) {
+                palestra.stato = 'scaduta';
+            }
         });
-        savePalestre();
     }
     
     function renderStats() {
@@ -314,21 +331,21 @@
         });
         let html = '';
         palestreOrdinate.forEach(palestra => {
-            let statusClass = 'status-verde', dotClass = 'dot-verde', statusText = 'Attiva', countdownClass = 'countdown-verde', countdownText = '', btnToggleClass = 'btn-spegni', btnToggleText = '️ Spegni';
-            if (palestra.stato === 'scaduta') { statusClass = 'status-rosso'; dotClass = 'dot-rosso'; statusText = 'Scaduta'; countdownClass = 'countdown-rosso'; countdownText = `Scaduta da ${Math.abs(palestra.giorniRimanenti)} giorni`; btnToggleClass = 'btn-attiva'; btnToggleText = '✓ Riattiva'; }
-            else if (palestra.stato === 'prova' && palestra.giorniRimanenti <= ALERT_DAYS) { statusClass = 'status-arancione'; dotClass = 'dot-arancione'; statusText = 'In Scadenza'; countdownClass = 'countdown-arancione'; countdownText = `Scade tra ${palestra.giorniRimanenti} giorni`; btnToggleClass = 'btn-attiva'; btnToggleText = '✓ Attiva'; }
+            let statusClass = 'status-verde', dotClass = 'dot-verde', statusText = 'Attiva', countdownClass = 'countdown-verde', countdownText = '', btnToggleClass = 'btn-spegni', btnToggleText = 'Spegni';
+            if (palestra.stato === 'scaduta') { statusClass = 'status-rosso'; dotClass = 'dot-rosso'; statusText = 'Scaduta'; countdownClass = 'countdown-rosso'; countdownText = `Scaduta da ${Math.abs(palestra.giorniRimanenti)} giorni`; btnToggleClass = 'btn-attiva'; btnToggleText = 'Riattiva'; }
+            else if (palestra.stato === 'prova' && palestra.giorniRimanenti <= ALERT_DAYS) { statusClass = 'status-arancione'; dotClass = 'dot-arancione'; statusText = 'In Scadenza'; countdownClass = 'countdown-arancione'; countdownText = `Scade tra ${palestra.giorniRimanenti} giorni`; btnToggleClass = 'btn-attiva'; btnToggleText = 'Attiva'; }
             else if (palestra.stato === 'prova') { statusClass = 'status-verde'; dotClass = 'dot-verde'; statusText = 'In Prova'; countdownClass = 'countdown-verde'; countdownText = `Prova: ${palestra.giorniRimanenti} giorni rimanenti`; }
             else { countdownText = 'Abbonamento attivo'; }
-            const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
+            const scadenza = new Date(palestra.data_scadenza).toLocaleDateString('it-IT');
             html += `<div class="palestra-item">
                 <div class="palestra-info">
                     <div class="name">${palestra.nome}</div>
-                    <div class="details">${palestra.referente || 'Nessun referente'} • ${palestra.citta || 'Città non specificata'}<br>📞 ${palestra.telefono} • Scadenza: ${scadenza}</div>
+                    <div class="details">${palestra.referente || 'Nessun referente'} • ${palestra.citta || 'Città non specificata'}<br>Tel: ${palestra.telefono} • Scadenza: ${scadenza}</div>
                     <div class="countdown ${countdownClass}">${countdownText}</div>
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
                 <div class="palestra-actions">
-                    <a href="offerte.html" class="btn-action btn-offerte"> Offerte</a>
+                    <a href="offerte.html" class="btn-action btn-offerte">Offerte</a>
                     <button class="btn-action ${btnToggleClass}" onclick="togglePalestra(${palestra.id})">${btnToggleText}</button>
                 </div>
             </div>`;
@@ -336,21 +353,35 @@
         container.innerHTML = html;
     }
     
-    function togglePalestra(id) {
+    async function togglePalestra(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
-        if (palestra.stato === 'attiva') { palestra.stato = 'prova'; showToast(`⏸️ ${palestra.nome} disattivata`); }
-        else { palestra.stato = 'attiva'; const oggi = new Date(); const nuovaScadenza = new Date(oggi); nuovaScadenza.setDate(nuovaScadenza.getDate() + 30); palestra.dataScadenza = nuovaScadenza.toISOString(); showToast(`✅ ${palestra.nome} attivata per 30 giorni`); }
-        savePalestre();
-        aggiornaStati();
-        renderStats();
-        renderAlerts();
-        renderPalestre();
-        aggiornaSyncStatus('online', 'Sync OK');
-        hasUnsavedChanges = false;
+        
+        const nuovoStato = palestra.stato === 'attiva' ? 'prova' : 'attiva';
+        const nuovaScadenza = nuovoStato === 'attiva' ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() : palestra.data_scadenza;
+        
+        aggiornaSyncStatus('warning', 'Aggiornamento...');
+        try {
+            await fetch(`${API_URL}/api/palestre/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...palestra, stato: nuovoStato, data_scadenza: nuovaScadenza })
+            });
+            
+            palestra.stato = nuovoStato;
+            palestra.data_scadenza = nuovaScadenza;
+            aggiornaStati();
+            renderStats();
+            renderAlerts();
+            renderPalestre();
+            aggiornaSyncStatus('online', 'Sync OK');
+            showToast(nuovoStato === 'attiva' ? `${palestra.nome} attivata per 30 giorni` : `${palestra.nome} disattivata`);
+        } catch (e) {
+            showToast('Errore di connessione');
+            aggiornaSyncStatus('offline', 'Errore');
+        }
     }
     
-    function savePalestre() { localStorage.setItem('palestre', JSON.stringify(palestre)); }
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     
     init();

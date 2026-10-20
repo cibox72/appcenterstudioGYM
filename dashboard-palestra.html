@@ -46,7 +46,10 @@
             align-items: center;
             box-shadow: var(--ombra);
         }
-        .logo-section h1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+        .logo-section { display: flex; align-items: center; gap: 20px; }
+        .logo-section img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--tortora-chiaro); }
+        .logo-placeholder { width: 60px; height: 60px; background: var(--tortora-chiarissimo); border: 2px dashed var(--tortora); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--tortora); }
+        .logo-section h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
         .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
         .header-actions { display: flex; gap: 15px; align-items: center; }
         .status-badge {
@@ -86,21 +89,9 @@
             font-size: 14px;
             font-weight: 600;
         }
-        .alert-prova {
-            background: var(--arancione-chiaro);
-            border: 2px solid var(--arancione);
-            color: #9C640C;
-        }
-        .alert-scaduta {
-            background: var(--rosso-chiaro);
-            border: 2px solid var(--rosso);
-            color: #922B21;
-        }
-        .alert-ok {
-            background: var(--verde-chiaro);
-            border: 2px solid var(--verde);
-            color: #1E8449;
-        }
+        .alert-prova { background: var(--arancione-chiaro); border: 2px solid var(--arancione); color: #9C640C; }
+        .alert-scaduta { background: var(--rosso-chiaro); border: 2px solid var(--rosso); color: #922B21; }
+        .alert-ok { background: var(--verde-chiaro); border: 2px solid var(--verde); color: #1E8449; }
         
         /* STATS */
         .stats-grid {
@@ -119,14 +110,7 @@
             transition: transform 0.2s;
         }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
-        .stat-card .label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
+        .stat-card .label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .stat-card .value { font-size: 32px; font-weight: 700; color: var(--nero); }
         .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
         
@@ -151,11 +135,7 @@
             font-family: inherit;
         }
         .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
-        .tab-btn.active {
-            background: var(--tortora);
-            color: var(--bianco);
-            border-color: var(--tortora);
-        }
+        .tab-btn.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         
         /* SEZIONE */
         .section-container {
@@ -175,30 +155,13 @@
             padding-bottom: 15px;
             border-bottom: 2px solid var(--tortora-chiaro);
         }
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--nero);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
         
         /* FORM */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
+        .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
         .form-group input, .form-group select, .form-group textarea {
             padding: 12px 14px;
             border: 1.5px solid var(--tortora-chiaro);
@@ -209,11 +172,31 @@
             color: var(--nero);
             transition: border-color 0.2s;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--tortora);
-        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
         .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-hint { font-size: 11px; color: var(--tortora); font-style: italic; }
+        
+        /* LOGO UPLOAD */
+        .logo-upload-area {
+            border: 2px dashed var(--tortora);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--tortora-chiarissimo);
+        }
+        .logo-upload-area:hover { border-color: var(--tortora-scuro); background: var(--bianco); }
+        .logo-upload-area .icon { font-size: 48px; margin-bottom: 10px; }
+        .logo-upload-area .text { font-size: 14px; color: var(--tortora-scuro); font-weight: 600; }
+        .logo-upload-area .hint { font-size: 12px; color: var(--tortora); margin-top: 5px; }
+        .logo-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 15px auto;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--tortora-chiaro);
+        }
         
         /* BOTTONI */
         .btn {
@@ -240,13 +223,12 @@
         .btn-secondary:hover { background: var(--tortora-chiarissimo); }
         .btn-info { background: var(--blu); color: var(--bianco); }
         .btn-info:hover { opacity: 0.9; }
+        .btn-whatsapp { background: #25D366; color: var(--bianco); }
+        .btn-whatsapp:hover { background: #128C7E; }
         .btn-sm { padding: 8px 14px; font-size: 12px; }
         
         /* TABELLA ATLETI */
-        .atleti-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .atleti-table { width: 100%; border-collapse: collapse; }
         .atleti-table th {
             background: var(--tortora-chiarissimo);
             color: var(--tortora-scuro);
@@ -258,34 +240,17 @@
             text-align: left;
             border-bottom: 2px solid var(--tortora);
         }
-        .atleti-table td {
-            padding: 16px 12px;
-            border-bottom: 1px solid var(--tortora-chiaro);
-            font-size: 14px;
-            vertical-align: middle;
-        }
+        .atleti-table td { padding: 16px 12px; border-bottom: 1px solid var(--tortora-chiaro); font-size: 14px; vertical-align: middle; }
         .atleti-table tr:hover td { background: var(--tortora-chiarissimo); }
         
         /* BADGE */
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .badge-attivo { background: var(--verde-chiaro); color: #1E8449; }
         .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; }
         .badge-in-scadenza { background: var(--arancione-chiaro); color: #9C640C; }
         
         /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--tortora);
-        }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); }
         .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
         .empty-state .text { font-size: 15px; }
         
@@ -312,6 +277,63 @@
         }
         .toast.show { opacity: 1; transform: translateY(0); }
         
+        /* MODAL ONBOARDING */
+        .onboarding-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(26, 26, 26, 0.85);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .onboarding-overlay.hidden { display: none; }
+        .onboarding-modal {
+            background: var(--bianco);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--ombra-forte);
+        }
+        .onboarding-welcome {
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            padding: 40px;
+            text-align: center;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .onboarding-welcome .icon { font-size: 64px; margin-bottom: 15px; }
+        .onboarding-welcome h2 { font-size: 28px; margin-bottom: 10px; font-weight: 700; }
+        .onboarding-welcome p { font-size: 15px; opacity: 0.95; line-height: 1.6; }
+        .onboarding-welcome .trial-badge {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .onboarding-form { padding: 30px 40px; }
+        .onboarding-form h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--nero);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .onboarding-actions {
+            padding: 20px 40px 30px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
         /* RESPONSIVE */
         @media (max-width: 900px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -322,17 +344,128 @@
         @media (max-width: 600px) {
             .stats-grid { grid-template-columns: 1fr; }
             .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+            .logo-section { flex-direction: column; }
             .section-container { padding: 20px; }
+            .onboarding-form, .onboarding-actions { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ONBOARDING MODAL (primo accesso) -->
+    <div class="onboarding-overlay" id="onboardingOverlay">
+        <div class="onboarding-modal">
+            <div class="onboarding-welcome">
+                <div class="icon">🏋️</div>
+                <h2>Benvenuto in AppCenterStudioGYM!</h2>
+                <p>Grazie per aver scelto il nostro gestionale professionale per la tua palestra.<br>
+                Stai utilizzando la <strong>versione di prova gratuita di 30 giorni</strong>.<br>
+                Per iniziare, completa il profilo della tua palestra.</p>
+                <div class="trial-badge">🎁 PROVA GRATUITA 30 GIORNI</div>
+            </div>
+            
+            <div class="onboarding-form">
+                <h3>📋 Dati della Palestra</h3>
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Logo della Palestra</label>
+                        <div class="logo-upload-area" onclick="document.getElementById('obLogo').click()">
+                            <div class="icon">📷</div>
+                            <div class="text">Clicca per caricare il logo</div>
+                            <div class="hint">Formati: JPG, PNG, SVG (max 2MB)</div>
+                            <img id="obLogoPreview" class="logo-preview" style="display:none;">
+                        </div>
+                        <input type="file" id="obLogo" accept="image/*" style="display:none" onchange="previewLogo(this, 'obLogoPreview')">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome Commerciale *</label>
+                        <input type="text" id="obNome" required placeholder="Es. Fitness Center Roma">
+                    </div>
+                    <div class="form-group">
+                        <label>Ragione Sociale</label>
+                        <input type="text" id="obRagioneSociale" placeholder="Es. Fitness Center S.r.l.">
+                    </div>
+                    <div class="form-group">
+                        <label>Partita IVA / CF *</label>
+                        <input type="text" id="obPiva" required placeholder="Es. 12345678901">
+                    </div>
+                    <div class="form-group">
+                        <label>Codice SDI / PEC</label>
+                        <input type="text" id="obSdi" placeholder="Per fatturazione elettronica">
+                    </div>
+                    <div class="form-group full">
+                        <label>Indirizzo Completo *</label>
+                        <input type="text" id="obIndirizzo" required placeholder="Via, numero civico">
+                    </div>
+                    <div class="form-group">
+                        <label>Città *</label>
+                        <input type="text" id="obCitta" required placeholder="Es. Roma">
+                    </div>
+                    <div class="form-group">
+                        <label>CAP *</label>
+                        <input type="text" id="obCap" required placeholder="Es. 00100">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono / WhatsApp *</label>
+                        <input type="tel" id="obTelefono" required placeholder="Es. 3331234567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="obEmail" required placeholder="info@palestra.it">
+                    </div>
+                    <div class="form-group">
+                        <label>Sito Web</label>
+                        <input type="url" id="obSito" placeholder="https://www.palestra.it">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="obInstagram" placeholder="@nomepalestra">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="text" id="obFacebook" placeholder="facebook.com/nomepalestra">
+                    </div>
+                </div>
+                
+                <h3 style="margin-top:30px;">💳 Link di Pagamento Personale</h3>
+                <p style="font-size:13px; color:var(--tortora); margin-bottom:15px;">
+                    Inserisci il tuo link di pagamento per ricevere le mensilità dai tuoi atleti. 
+                    Questo link verrà usato nei messaggi di rinnovo e sulle fatture.
+                </p>
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Link PayPal.me *</label>
+                        <input type="url" id="obPaypal" required placeholder="https://paypal.me/tuonomepalestra">
+                        <span class="form-hint">Il link che gli atleti useranno per pagarti</span>
+                    </div>
+                    <div class="form-group">
+                        <label>IBAN (opzionale)</label>
+                        <input type="text" id="obIban" placeholder="IT00 X000 0000 0000 0000 0000 000">
+                    </div>
+                    <div class="form-group">
+                        <label>Intestatario Conto</label>
+                        <input type="text" id="obIntestatario" placeholder="Nome e cognome">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="onboarding-actions">
+                <button class="btn btn-secondary" onclick="saltaOnboarding()">️ Completa dopo</button>
+                <button class="btn btn-success" onclick="completaOnboarding()">✅ Salva e Accedi alla Dashboard</button>
+            </div>
+        </div>
+    </div>
+
     <!-- HEADER -->
     <div class="main-header">
         <div class="logo-section">
-            <h1>AppCenterStudioGYM</h1>
-            <p>Dashboard Palestra - Gestione Atleti</p>
+            <div id="headerLogoContainer">
+                <div class="logo-placeholder">🏋️</div>
+            </div>
+            <div>
+                <h1 id="headerNomePalestra">La Tua Palestra</h1>
+                <p>Dashboard Gestione Atleti</p>
+            </div>
         </div>
         <div class="header-actions">
             <span class="status-badge status-prova" id="headerStatus">In Prova</span>
@@ -371,8 +504,7 @@
     <div class="tabs-container">
         <button class="tab-btn active" onclick="showTab('atleti')">👥 Atleti</button>
         <button class="tab-btn" onclick="showTab('nuovo-atleta')">➕ Nuovo Atleta</button>
-        <button class="tab-btn" onclick="showTab('schede')">📋 Schede Allenamento</button>
-        <button class="tab-btn" onclick="showTab('diete')">🥗 Diete</button>
+        <button class="tab-btn" onclick="showTab('impostazioni')">️ Impostazioni</button>
     </div>
 
     <!-- TAB: LISTA ATLETI -->
@@ -455,29 +587,103 @@
         </div>
     </div>
 
-    <!-- TAB: SCHEDE ALLENAMENTO -->
-    <div class="tab-content" id="tab-schede">
+    <!-- TAB: IMPOSTAZIONI PALESTRA -->
+    <div class="tab-content" id="tab-impostazioni">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">📋 Schede di Allenamento</div>
+                <div class="section-title">️ Impostazioni Palestra</div>
+                <button class="btn btn-whatsapp btn-sm" onclick="inviaDatiFornitore()">📩 Invio Dati al Fornitore</button>
             </div>
-            <div class="empty-state">
-                <div class="icon">📋</div>
-                <div class="text">Sezione in sviluppo. Qui potrai creare e assegnare schede di allenamento personalizzate agli atleti.</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB: DIETE -->
-    <div class="tab-content" id="tab-diete">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-title">🥗 Piani Nutrizionali</div>
-            </div>
-            <div class="empty-state">
-                <div class="icon"></div>
-                <div class="text">Sezione in sviluppo. Qui potrai creare e assegnare diete personalizzate agli atleti usando il sistema di autocomplete con 238+ alimenti.</div>
-            </div>
+            <p style="font-size:13px; color:var(--tortora); margin-bottom:20px;">
+                Modifica i dati della tua palestra. Ogni salvataggio aggiornerà automaticamente anche il pannello del fornitore (AppCenterStudioGYM).
+            </p>
+            <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Logo della Palestra</label>
+                        <div class="logo-upload-area" onclick="document.getElementById('impLogo').click()">
+                            <div class="icon">📷</div>
+                            <div class="text">Clicca per cambiare il logo</div>
+                            <div class="hint">Formati: JPG, PNG, SVG (max 2MB)</div>
+                            <img id="impLogoPreview" class="logo-preview" style="display:none;">
+                        </div>
+                        <input type="file" id="impLogo" accept="image/*" style="display:none" onchange="previewLogo(this, 'impLogoPreview')">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome Commerciale *</label>
+                        <input type="text" id="impNome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ragione Sociale</label>
+                        <input type="text" id="impRagioneSociale">
+                    </div>
+                    <div class="form-group">
+                        <label>Partita IVA / CF *</label>
+                        <input type="text" id="impPiva" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Codice SDI / PEC</label>
+                        <input type="text" id="impSdi">
+                    </div>
+                    <div class="form-group full">
+                        <label>Indirizzo Completo *</label>
+                        <input type="text" id="impIndirizzo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Città *</label>
+                        <input type="text" id="impCitta" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CAP *</label>
+                        <input type="text" id="impCap" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono / WhatsApp *</label>
+                        <input type="tel" id="impTelefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="impEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sito Web</label>
+                        <input type="url" id="impSito">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="impInstagram">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="text" id="impFacebook">
+                    </div>
+                </div>
+                
+                <h3 style="margin-top:30px; font-size:18px; color:var(--nero); padding-bottom:10px; border-bottom:2px solid var(--tortora-chiaro);">💳 Link di Pagamento Personale</h3>
+                <p style="font-size:13px; color:var(--tortora); margin:10px 0 20px;">
+                    Questi dati verranno usati per ricevere i pagamenti dagli atleti.
+                </p>
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Link PayPal.me *</label>
+                        <input type="url" id="impPaypal" required placeholder="https://paypal.me/tuonomepalestra">
+                        <span class="form-hint">Il link che gli atleti useranno per pagarti</span>
+                    </div>
+                    <div class="form-group">
+                        <label>IBAN (opzionale)</label>
+                        <input type="text" id="impIban" placeholder="IT00 X000 0000 0000 0000 0000 000">
+                    </div>
+                    <div class="form-group">
+                        <label>Intestatario Conto</label>
+                        <input type="text" id="impIntestatario">
+                    </div>
+                </div>
+                
+                <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
+                    <button type="submit" class="btn btn-success">💾 Salva Impostazioni</button>
+                    <button type="button" class="btn btn-whatsapp" onclick="inviaDatiFornitore()">📩 Invia Aggiornamento al Fornitore</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -489,24 +695,34 @@
     // CONFIGURAZIONE
     // ============================================================
     const APP_URL = 'https://appcenterstudiogym.pages.dev';
+    const FORNITORE_PHONE = '3447507656'; // Numero del fornitore (Luigi)
     const ALERT_DAYS = 30;
+    const PALESTRA_ID = 'palestra_demo_001'; // ID univoco della palestra (in produzione dal login)
     
     // ============================================================
     // DATI
     // ============================================================
     let atleti = JSON.parse(localStorage.getItem('atleti') || '[]');
+    let profiloPalestra = JSON.parse(localStorage.getItem(`profilo_${PALESTRA_ID}`) || 'null');
     
-    // Simula la palestra corrente (in produzione verrebbe dal login)
-    const palestraCorrente = {
-        nome: 'Fitness Center Roma',
+    // Simula stato abbonamento palestra
+    const statoAbbonamento = {
         stato: 'prova', // prova | attiva | scaduta
-        dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString() // 25 giorni da ora
+        dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString()
     };
     
     // ============================================================
     // INIZIALIZZAZIONE
     // ============================================================
     function init() {
+        // Mostra onboarding se è il primo accesso
+        if (!profiloPalestra) {
+            document.getElementById('onboardingOverlay').classList.remove('hidden');
+        } else {
+            document.getElementById('onboardingOverlay').classList.add('hidden');
+            caricaProfilo();
+        }
+        
         aggiornaStatiAtleti();
         renderHeader();
         renderAlert();
@@ -515,18 +731,227 @@
     }
     
     // ============================================================
-    // HEADER STATUS
+    // ONBOARDING
+    // ============================================================
+    function previewLogo(input, previewId) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('⚠️ Il file è troppo grande (max 2MB)');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById(previewId);
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function completaOnboarding() {
+        const nome = document.getElementById('obNome').value.trim();
+        const piva = document.getElementById('obPiva').value.trim();
+        const telefono = document.getElementById('obTelefono').value.trim();
+        const email = document.getElementById('obEmail').value.trim();
+        const indirizzo = document.getElementById('obIndirizzo').value.trim();
+        const citta = document.getElementById('obCitta').value.trim();
+        const cap = document.getElementById('obCap').value.trim();
+        const paypal = document.getElementById('obPaypal').value.trim();
+        
+        if (!nome || !piva || !telefono || !email || !indirizzo || !citta || !cap || !paypal) {
+            showToast('⚠️ Compila tutti i campi obbligatori (*)');
+            return;
+        }
+        
+        const logoPreview = document.getElementById('obLogoPreview');
+        const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : '';
+        
+        profiloPalestra = {
+            id: PALESTRA_ID,
+            nome: nome,
+            ragioneSociale: document.getElementById('obRagioneSociale').value.trim(),
+            piva: piva,
+            sdi: document.getElementById('obSdi').value.trim(),
+            indirizzo: indirizzo,
+            citta: citta,
+            cap: cap,
+            telefono: telefono,
+            email: email,
+            sito: document.getElementById('obSito').value.trim(),
+            instagram: document.getElementById('obInstagram').value.trim(),
+            facebook: document.getElementById('obFacebook').value.trim(),
+            paypal: paypal,
+            iban: document.getElementById('obIban').value.trim(),
+            intestatario: document.getElementById('obIntestatario').value.trim(),
+            logo: logoData,
+            dataCreazione: new Date().toISOString(),
+            ultimoAggiornamento: new Date().toISOString()
+        };
+        
+        localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
+        sincronizzaConFornitore();
+        
+        document.getElementById('onboardingOverlay').classList.add('hidden');
+        showToast('✅ Profilo salvato! Benvenuto nella dashboard.');
+        caricaProfilo();
+        renderHeader();
+    }
+    
+    function saltaOnboarding() {
+        document.getElementById('onboardingOverlay').classList.add('hidden');
+        showToast('⏭️ Puoi completare il profilo più tardi nelle Impostazioni');
+    }
+    
+    function caricaProfilo() {
+        if (!profiloPalestra) return;
+        
+        // Carica dati nel form impostazioni
+        document.getElementById('impNome').value = profiloPalestra.nome || '';
+        document.getElementById('impRagioneSociale').value = profiloPalestra.ragioneSociale || '';
+        document.getElementById('impPiva').value = profiloPalestra.piva || '';
+        document.getElementById('impSdi').value = profiloPalestra.sdi || '';
+        document.getElementById('impIndirizzo').value = profiloPalestra.indirizzo || '';
+        document.getElementById('impCitta').value = profiloPalestra.citta || '';
+        document.getElementById('impCap').value = profiloPalestra.cap || '';
+        document.getElementById('impTelefono').value = profiloPalestra.telefono || '';
+        document.getElementById('impEmail').value = profiloPalestra.email || '';
+        document.getElementById('impSito').value = profiloPalestra.sito || '';
+        document.getElementById('impInstagram').value = profiloPalestra.instagram || '';
+        document.getElementById('impFacebook').value = profiloPalestra.facebook || '';
+        document.getElementById('impPaypal').value = profiloPalestra.paypal || '';
+        document.getElementById('impIban').value = profiloPalestra.iban || '';
+        document.getElementById('impIntestatario').value = profiloPalestra.intestatario || '';
+        
+        if (profiloPalestra.logo) {
+            const preview = document.getElementById('impLogoPreview');
+            preview.src = profiloPalestra.logo;
+            preview.style.display = 'block';
+        }
+    }
+    
+    // ============================================================
+    // SALVA IMPOSTAZIONI
+    // ============================================================
+    function salvaImpostazioni(e) {
+        e.preventDefault();
+        
+        const logoPreview = document.getElementById('impLogoPreview');
+        const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : (profiloPalestra?.logo || '');
+        
+        profiloPalestra = {
+            ...profiloPalestra,
+            id: PALESTRA_ID,
+            nome: document.getElementById('impNome').value.trim(),
+            ragioneSociale: document.getElementById('impRagioneSociale').value.trim(),
+            piva: document.getElementById('impPiva').value.trim(),
+            sdi: document.getElementById('impSdi').value.trim(),
+            indirizzo: document.getElementById('impIndirizzo').value.trim(),
+            citta: document.getElementById('impCitta').value.trim(),
+            cap: document.getElementById('impCap').value.trim(),
+            telefono: document.getElementById('impTelefono').value.trim(),
+            email: document.getElementById('impEmail').value.trim(),
+            sito: document.getElementById('impSito').value.trim(),
+            instagram: document.getElementById('impInstagram').value.trim(),
+            facebook: document.getElementById('impFacebook').value.trim(),
+            paypal: document.getElementById('impPaypal').value.trim(),
+            iban: document.getElementById('impIban').value.trim(),
+            intestatario: document.getElementById('impIntestatario').value.trim(),
+            logo: logoData,
+            ultimoAggiornamento: new Date().toISOString()
+        };
+        
+        localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
+        sincronizzaConFornitore();
+        
+        showToast('✅ Impostazioni salvate e sincronizzate con il fornitore!');
+        renderHeader();
+    }
+    
+    // ============================================================
+    // SINCRONIZZAZIONE CON FORNITORE
+    // ============================================================
+    function sincronizzaConFornitore() {
+        if (!profiloPalestra) return;
+        
+        // Salva in localStorage condiviso (stesso browser)
+        const palestreFornitore = JSON.parse(localStorage.getItem('palestre') || '[]');
+        const index = palestreFornitore.findIndex(p => p.id.toString() === PALESTRA_ID || p.username === PALESTRA_ID);
+        
+        if (index !== -1) {
+            palestreFornitore[index].profilo = profiloPalestra;
+            palestreFornitore[index].ultimoAggiornamentoProfilo = new Date().toISOString();
+        } else {
+            palestreFornitore.push({
+                id: Date.now(),
+                username: PALESTRA_ID,
+                nome: profiloPalestra.nome,
+                telefono: profiloPalestra.telefono,
+                email: profiloPalestra.email,
+                citta: profiloPalestra.citta,
+                piva: profiloPalestra.piva,
+                profilo: profiloPalestra,
+                stato: 'prova',
+                dataScadenza: statoAbbonamento.dataScadenza,
+                dataRegistrazione: profiloPalestra.dataCreazione
+            });
+        }
+        
+        localStorage.setItem('palestre', JSON.stringify(palestreFornitore));
+    }
+    
+    // ============================================================
+    // INVIO DATI AL FORNITORE VIA WHATSAPP
+    // ============================================================
+    function inviaDatiFornitore() {
+        if (!profiloPalestra) {
+            showToast('⚠️ Completa prima il profilo');
+            return;
+        }
+        
+        const messaggio = `📋 AGGIORNAMENTO DATI PALESTRA\n\n` +
+            `🏋️ *Nome:* ${profiloPalestra.nome}\n` +
+            `🏢 *Ragione Sociale:* ${profiloPalestra.ragioneSociale || '-'}\n` +
+            `🔢 *P.IVA:* ${profiloPalestra.piva}\n` +
+            `📍 *Indirizzo:* ${profiloPalestra.indirizzo}, ${profiloPalestra.cap} ${profiloPalestra.citta}\n` +
+            `📞 *Telefono:* ${profiloPalestra.telefono}\n` +
+            `📧 *Email:* ${profiloPalestra.email}\n` +
+            ` *Sito:* ${profiloPalestra.sito || '-'}\n` +
+            `📱 *Instagram:* ${profiloPalestra.instagram || '-'}\n` +
+            `📘 *Facebook:* ${profiloPalestra.facebook || '-'}\n\n` +
+            `💳 *LINK PAGAMENTO:* ${profiloPalestra.paypal}\n` +
+            (profiloPalestra.iban ? `🏦 *IBAN:* ${profiloPalestra.iban}\n` : '') +
+            (profiloPalestra.intestatario ? `👤 *Intestatario:* ${profiloPalestra.intestatario}\n` : '') +
+            `\n📅 Aggiornato il: ${new Date().toLocaleString('it-IT')}`;
+        
+        const url = `https://wa.me/${FORNITORE_PHONE}?text=${encodeURIComponent(messaggio)}`;
+        window.open(url, '_blank');
+        showToast('📩 WhatsApp aperto per inviare i dati al fornitore');
+    }
+    
+    // ============================================================
+    // HEADER
     // ============================================================
     function renderHeader() {
         const badge = document.getElementById('headerStatus');
+        const nomeEl = document.getElementById('headerNomePalestra');
+        const logoContainer = document.getElementById('headerLogoContainer');
+        
+        if (profiloPalestra) {
+            nomeEl.textContent = profiloPalestra.nome;
+            if (profiloPalestra.logo) {
+                logoContainer.innerHTML = `<img src="${profiloPalestra.logo}" alt="Logo">`;
+            }
+        }
+        
         const oggi = new Date();
-        const scadenza = new Date(palestraCorrente.dataScadenza);
+        const scadenza = new Date(statoAbbonamento.dataScadenza);
         const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
         
-        if (palestraCorrente.stato === 'attiva') {
+        if (statoAbbonamento.stato === 'attiva') {
             badge.className = 'status-badge status-attiva';
             badge.textContent = 'Attiva';
-        } else if (palestraCorrente.stato === 'scaduta') {
+        } else if (statoAbbonamento.stato === 'scaduta') {
             badge.className = 'status-badge status-scaduta';
             badge.textContent = 'Scaduta';
         } else {
@@ -541,32 +966,17 @@
     function renderAlert() {
         const container = document.getElementById('alertBanner');
         const oggi = new Date();
-        const scadenza = new Date(palestraCorrente.dataScadenza);
+        const scadenza = new Date(statoAbbonamento.dataScadenza);
         const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
         
         let html = '';
         
-        if (palestraCorrente.stato === 'scaduta') {
-            html = `
-                <div class="alert-banner alert-scaduta">
-                    <span>🚨</span>
-                    <span><strong>Il tuo abbonamento è SCADUTO!</strong> Contatta il fornitore per rinnovare.</span>
-                </div>
-            `;
-        } else if (giorniRimanenti <= ALERT_DAYS && palestraCorrente.stato === 'prova') {
-            html = `
-                <div class="alert-banner alert-prova">
-                    <span>⚠️</span>
-                    <span><strong>Attenzione!</strong> La tua prova gratuita scade tra ${giorniRimanenti} giorni. Contatta il fornitore per attivare l'abbonamento.</span>
-                </div>
-            `;
-        } else if (palestraCorrente.stato === 'attiva') {
-            html = `
-                <div class="alert-banner alert-ok">
-                    <span>✅</span>
-                    <span><strong>Abbonamento Attivo!</strong> Il tuo servizio è attivo e funzionante.</span>
-                </div>
-            `;
+        if (statoAbbonamento.stato === 'scaduta') {
+            html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Abbonamento SCADUTO!</strong> Contatta il fornitore per rinnovare.</span></div>`;
+        } else if (giorniRimanenti <= ALERT_DAYS && statoAbbonamento.stato === 'prova') {
+            html = `<div class="alert-banner alert-prova"><span>⚠️</span><span><strong>Attenzione!</strong> La prova gratuita scade tra ${giorniRimanenti} giorni. Contatta il fornitore per attivare l'abbonamento.</span></div>`;
+        } else if (statoAbbonamento.stato === 'attiva') {
+            html = `<div class="alert-banner alert-ok"><span>✅</span><span><strong>Abbonamento Attivo!</strong> Il tuo servizio è attivo e funzionante.</span></div>`;
         }
         
         container.innerHTML = html;
@@ -577,17 +987,12 @@
     // ============================================================
     function renderStats() {
         const oggi = new Date();
-        const attivi = atleti.filter(a => {
-            const scadenza = new Date(a.dataScadenza);
-            return a.stato === 'attivo' && scadenza > oggi;
-        }).length;
-        
+        const attivi = atleti.filter(a => a.stato === 'attivo' && new Date(a.dataScadenza) > oggi).length;
         const inScadenza = atleti.filter(a => {
             const scadenza = new Date(a.dataScadenza);
             const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
             return a.stato === 'attivo' && giorni <= ALERT_DAYS && giorni >= 0;
         }).length;
-        
         const scaduti = atleti.filter(a => a.stato === 'scaduto').length;
         
         document.getElementById('statAtleti').textContent = atleti.length;
@@ -604,66 +1009,30 @@
         const oggi = new Date();
         
         if (atleti.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <div class="icon">👥</div>
-                    <div class="text">Nessun atleta registrato. Clicca su "Nuovo Atleta" per iniziare.</div>
-                </div>
-            `;
+            container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="text">Nessun atleta registrato. Clicca su "Nuovo Atleta" per iniziare.</div></div>`;
             return;
         }
         
-        let html = `
-            <table class="atleti-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Telefono</th>
-                        <th>Obiettivo</th>
-                        <th>Stato</th>
-                        <th>Scadenza</th>
-                        <th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
+        let html = `<table class="atleti-table"><thead><tr><th>Nome</th><th>Telefono</th><th>Obiettivo</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
         
         atleti.forEach(atleta => {
             const scadenza = new Date(atleta.dataScadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+            let badgeClass = 'badge-attivo', badgeText = 'Attivo';
+            if (atleta.stato === 'scaduto') { badgeClass = 'badge-scaduto'; badgeText = 'Scaduto'; }
+            else if (giorniRimanenti <= ALERT_DAYS && giorniRimanenti >= 0) { badgeClass = 'badge-in-scadenza'; badgeText = 'In Scadenza'; }
             
-            let badgeClass = 'badge-attivo';
-            let badgeText = 'Attivo';
-            
-            if (atleta.stato === 'scaduto') {
-                badgeClass = 'badge-scaduto';
-                badgeText = 'Scaduto';
-            } else if (giorniRimanenti <= ALERT_DAYS && giorniRimanenti >= 0) {
-                badgeClass = 'badge-in-scadenza';
-                badgeText = 'In Scadenza';
-            }
-            
-            html += `
-                <tr>
-                    <td>
-                        <strong>${atleta.nome}</strong><br>
-                        <small style="color:var(--tortora)">${atleta.email || ''}</small>
-                    </td>
-                    <td>${atleta.telefono || '-'}</td>
-                    <td>${atleta.obiettivo || '-'}</td>
-                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                    <td>
-                        ${scadenza.toLocaleDateString('it-IT')}<br>
-                        <small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small>
-                    </td>
-                    <td style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">️</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">🗑️</button>
-                        <button class="btn btn-sm btn-success" onclick="assegnaDieta(${atleta.id})">🥗</button>
-                        <button class="btn btn-sm btn-primary" onclick="assegnaScheda(${atleta.id})">📋</button>
-                    </td>
-                </tr>
-            `;
+            html += `<tr>
+                <td><strong>${atleta.nome}</strong><br><small style="color:var(--tortora)">${atleta.email || ''}</small></td>
+                <td>${atleta.telefono || '-'}</td>
+                <td>${atleta.obiettivo || '-'}</td>
+                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                <td>${scadenza.toLocaleDateString('it-IT')}<br><small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small></td>
+                <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">🗑️</button>
+                </td>
+            </tr>`;
         });
         
         html += '</tbody></table>';
@@ -671,15 +1040,13 @@
     }
     
     // ============================================================
-    // REGISTRA ATLETA
+    // GESTIONE ATLETI
     // ============================================================
     function registraAtleta(e) {
         e.preventDefault();
-        
         const id = document.getElementById('aId').value;
         const dataInizio = document.getElementById('aDataInizio').value;
         const durata = parseInt(document.getElementById('aDurata').value);
-        
         const oggi = new Date();
         const dataInizioObj = dataInizio ? new Date(dataInizio) : oggi;
         const dataScadenza = new Date(dataInizioObj);
@@ -726,7 +1093,6 @@
     function modificaAtleta(id) {
         const atleta = atleti.find(a => a.id === id);
         if (!atleta) return;
-        
         document.getElementById('aId').value = atleta.id;
         document.getElementById('aNome').value = atleta.nome;
         document.getElementById('aTelefono').value = atleta.telefono || '';
@@ -738,7 +1104,6 @@
         document.getElementById('aDataInizio').value = new Date(atleta.dataInizio).toISOString().split('T')[0];
         document.getElementById('aDurata').value = atleta.durata || 30;
         document.getElementById('aNote').value = atleta.note || '';
-        
         showTab('nuovo-atleta');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
@@ -750,20 +1115,7 @@
         saveAtleti();
         renderStats();
         renderAtleti();
-        showToast('️ Atleta eliminato');
-    }
-    
-    function assegnaDieta(id) {
-        const atleta = atleti.find(a => a.id === id);
-        if (!atleta) return;
-        showToast(`🥗 Apertura dieta per ${atleta.nome} (in sviluppo)`);
-        // window.open(`gestione-dieta.html?atleta=${id}`, '_blank');
-    }
-    
-    function assegnaScheda(id) {
-        const atleta = atleti.find(a => a.id === id);
-        if (!atleta) return;
-        showToast(` Apertura scheda per ${atleta.nome} (in sviluppo)`);
+        showToast('🗑️ Atleta eliminato');
     }
     
     function resetFormAtleta() {
@@ -771,20 +1123,12 @@
         document.getElementById('aId').value = '';
     }
     
-    // ============================================================
-    // UTILITIES
-    // ============================================================
     function aggiornaStatiAtleti() {
         const oggi = new Date();
         atleti.forEach(atleta => {
             const scadenza = new Date(atleta.dataScadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            
-            if (giorniRimanenti < 0) {
-                atleta.stato = 'scaduto';
-            } else {
-                atleta.stato = 'attivo';
-            }
+            atleta.stato = giorniRimanenti < 0 ? 'scaduto' : 'attivo';
         });
         saveAtleti();
     }
@@ -793,13 +1137,12 @@
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(`tab-${tabName}`).classList.add('active');
-        event.target.classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
         if (tabName === 'atleti') renderAtleti();
+        if (tabName === 'impostazioni') caricaProfilo();
     }
     
-    function saveAtleti() {
-        localStorage.setItem('atleti', JSON.stringify(atleti));
-    }
+    function saveAtleti() { localStorage.setItem('atleti', JSON.stringify(atleti)); }
     
     function showToast(message) {
         const toast = document.getElementById('toast');

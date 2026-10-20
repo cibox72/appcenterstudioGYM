@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Personale Atleta - AppCenterStudioGYM</title>
+    <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #27AE60;
+            --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12;
+            --arancione-chiaro: #FDEBD0;
+            --rosso: #E74C3C;
+            --rosso-chiaro: #FADBD8;
+            --blu: #3498DB;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* HEADER UNIVERSALE */
+        .main-header {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: 1.5px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        .sync-status {
+            display: flex; align-items: center; gap: 6px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: 1.5px solid;
+        }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
+        .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
+        .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
+        .sync-warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
+        .sync-warning .sync-dot { background: var(--arancione); animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
+        .sync-offline .sync-dot { background: var(--rosso); animation: pulse-rosso 1s infinite; }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
+        /* BENVENUTO */
+        .welcome-banner {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            border-radius: var(--radius);
+            padding: 35px 40px;
+            box-shadow: var(--ombra-forte);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .welcome-text h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .welcome-text p { font-size: 15px; opacity: 0.95; }
+        .welcome-palestra {
+            background: rgba(255,255,255,0.15);
+            border-radius: var(--radius-sm);
+            padding: 15px 20px;
+            text-align: right;
+            backdrop-filter: blur(10px);
+        }
+        .welcome-palestra img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; margin-bottom: 8px; border: 2px solid rgba(255,255,255,0.3); }
+        .welcome-palestra .nome { font-size: 16px; font-weight: 700; }
+        .welcome-palestra .contatti { font-size: 12px; opacity: 0.9; margin-top: 4px; }
+        
+        /* ALERT */
+        .alert-banner {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .alert-attiva { background: var(--verde-chiaro); border: 2px solid var(--verde); color: #1E8449; }
+        .alert-scadenza { background: var(--arancione-chiaro); border: 2px solid var(--arancione); color: #9C640C; }
+        .alert-scaduta { background: var(--rosso-chiaro); border: 2px solid var(--rosso); color: #922B21; }
+        
+        /* STATUS CARD */
+        .status-card {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px 30px;
+            box-shadow: var(--ombra);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .status-info { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .status-badge {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-attivo { background: var(--verde-chiaro); color: #1E8449; border: 2px solid var(--verde); }
+        .badge-scadenza { background: var(--arancione-chiaro); color: #9C640C; border: 2px solid var(--arancione); }
+        .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 2px solid var(--rosso); }
+        .status-details { font-size: 14px; color: var(--tortora-scuro); }
+        .status-details strong { color: var(--nero); }
+        .btn-paga {
+            padding: 14px 28px;
+            background: var(--verde);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-paga:hover { background: #1E8449; transform: translateY(-2px); }
+        
+        /* TABS */
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 14px 24px;
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tortora-scuro);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
+        .tab-btn.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        
+        /* SEZIONI */
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--ombra);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
+        
+        /* INFO ATLETA */
+        .atleta-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .info-item {
+            padding: 18px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--tortora);
+        }
+        .info-item .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .info-item .value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--nero);
+        }
+        .info-item .sub {
+            font-size: 12px;
+            color: var(--tortora);
+            margin-top: 4px;
+        }
+        
+        /* SCHEDA ALLENAMENTO */
+        .scheda-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+        .giorno-card {
+            background: var(--tortora-chiarissimo);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .giorno-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
+        .giorno-header {
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            padding: 14px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .giorno-body { padding: 18px; }
+        .esercizio {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--tortora-chiaro);
+        }
+        .esercizio:last-child { border-bottom: none; }
+        .esercizio .nome { font-size: 14px; font-weight: 600; color: var(--nero); margin-bottom: 4px; }
+        .esercizio .dettagli { font-size: 12px; color: var(--tortora-scuro); }
+        .esercizio .serie { font-size: 11px; color: var(--tortora); margin-top: 3px; font-weight: 600; }
+        
+        /* DIETA */
+        .dieta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+        }
+        .dieta-card {
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--ombra);
+        }
+        .dieta-header {
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dieta-header .giorno { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .dieta-header .totale { font-size: 13px; font-weight: 600; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 15px; }
+        .dieta-body { padding: 15px; }
+        .pasto {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--tortora-chiarissimo);
+        }
+        .pasto:last-child { border-bottom: none; }
+        .pasto .tipo { font-size: 11px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+        .pasto .cibo { font-size: 14px; color: var(--nero); font-weight: 500; }
+        .pasto .kcal { font-size: 12px; color: var(--tortora-scuro); margin-top: 3px; font-weight: 600; }
+        
+        /* CERTIFICATO */
+        .certificato-box {
+            background: var(--tortora-chiarissimo);
+            border: 2px dashed var(--tortora);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+        }
+        .certificato-box .icon { font-size: 64px; margin-bottom: 15px; }
+        .certificato-box .title { font-size: 18px; font-weight: 700; color: var(--nero); margin-bottom: 8px; }
+        .certificato-box .info { font-size: 14px; color: var(--tortora-scuro); margin-bottom: 20px; }
+        .btn-download {
+            padding: 12px 24px;
+            background: var(--blu);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-download:hover { background: #2980B9; }
+        
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); }
+        .empty-state .icon { font-size: 64px; margin-bottom: 15px; }
+        .empty-state .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--nero); }
+        .empty-state .text { font-size: 14px; }
+        
+        /* TAB CONTENT */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ombra-forte);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .welcome-banner { flex-direction: column; text-align: center; }
+            .welcome-palestra { text-align: center; }
+            .status-card { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 600px) {
+            .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+            .section-container { padding: 20px; }
+            .nav-btn { padding: 7px 10px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER UNIVERSALE -->
+    <div class="main-header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Area Personale Atleta</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
+                <span class="sync-dot"></span>
+                <span id="syncLabel">Sync OK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BENVENUTO -->
+    <div class="welcome-banner">
+        <div class="welcome-text">
+            <h2>Ciao, <span id="atletaNome">Marco</span>! 💪</h2>
+            <p>Benvenuto nella tua area personale. Qui trovi il tuo piano di allenamento, la dieta e tutti i dettagli del tuo abbonamento.</p>
+        </div>
+        <div class="welcome-palestra">
+            <img id="palestraLogo" src="" alt="Logo Palestra" style="display:none;">
+            <div class="nome" id="palestraNome">La Tua Palestra</div>
+            <div class="contatti" id="palestraContatti">📞 --- • 📧 ---</div>
+        </div>
+    </div>
+
+    <!-- ALERT -->
+    <div id="alertBanner"></div>
+
+    <!-- STATUS ABBONAMENTO -->
+    <div class="status-card">
+        <div class="status-info">
+            <span class="status-badge badge-attivo" id="statusBadge">Attivo</span>
+            <div class="status-details">
+                <div>Scadenza: <strong id="scadenzaData">--</strong></div>
+                <div id="giorniRimanenti">-- giorni rimanenti</div>
+            </div>
+        </div>
+        <a href="#" class="btn-paga" id="btnPaga" style="display:none;">💳 Rinnova Abbonamento</a>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="showTab('profilo')"> Il Mio Profilo</button>
+        <button class="tab-btn" onclick="showTab('scheda')">🏋️ Scheda Allenamento</button>
+        <button class="tab-btn" onclick="showTab('dieta')">🥗 Piano Nutrizionale</button>
+        <button class="tab-btn" onclick="showTab('certificato')"> Certificato Medico</button>
+    </div>
+
+    <!-- TAB: PROFILO -->
+    <div class="tab-content active" id="tab-profilo">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title">👤 Il Mio Profilo</div>
+            </div>
+            <div class="atleta-info-grid">
+                <div class="info-item">
+                    <div class="label">Nome Completo</div>
+                    <div class="value" id="infoNome">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Data di Nascita</div>
+                    <div class="value" id="infoNascita">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Peso Attuale</div>
+                    <div class="value" id="infoPeso">--</div>
+                    <div class="sub">kg</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Altezza</div>
+                    <div class="value" id="infoAltezza">--</div>
+                    <div class="sub">cm</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Obiettivo</div>
+                    <div class="value" id="infoObiettivo">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Email</div>
+                    <div class="value" id="infoEmail" style="font-size:14px;">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Telefono</div>
+                    <div class="value" id="infoTelefono" style="font-size:14px;">--</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">Abbonamento</div>
+                    <div class="value" id="infoAbbonamento">--</div>
+                    <div class="sub" id="infoDurata">--</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: SCHEDA ALLENAMENTO -->
+    <div class="tab-content" id="tab-scheda">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title">🏋️ La Mia Scheda di Allenamento</div>
+                <span style="font-size:12px; color:var(--tortora);">Settimana in corso</span>
+            </div>
+            <div id="schedaContent"></div>
+        </div>
+    </div>
+
+    <!-- TAB: DIETA -->
+    <div class="tab-content" id="tab-dieta">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title"> Il Mio Piano Nutrizionale</div>
+                <button class="btn-download" onclick="stampaDieta()">🖨️ Stampa / PDF</button>
+            </div>
+            <div id="dietaContent"></div>
+        </div>
+    </div>
+
+    <!-- TAB: CERTIFICATO -->
+    <div class="tab-content" id="tab-certificato">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title"> Certificato Medico Sportivo</div>
+            </div>
+            <div id="certificatoContent"></div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ============================================================
+    // CONFIGURAZIONE
+    // ============================================================
+    const ALERT_DAYS = 30;
+    const syncState = { stato: 'online' };
+    let hasUnsavedChanges = false;
+    
+    // ============================================================
+    // DATI SIMULATI ATLETA (in produzione arrivano dal login)
+    // ============================================================
+    const atletaCorrente = {
+        id: 1,
+        nome: 'Marco Rossi',
+        email: 'marco.rossi@email.it',
+        telefono: '3331234567',
+        dataNascita: '1990-05-15',
+        peso: 75,
+        altezza: 180,
+        obiettivo: 'Definizione',
+        dataInizio: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+        dataScadenza: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+        durata: 30,
+        stato: 'attivo'
+    };
+    
+    // Dati della palestra (in produzione dal profilo salvato)
+    const palestraDati = {
+        nome: 'Fitness Center Roma',
+        logo: '',
+        telefono: '0612345678',
+        email: 'info@fitnesscenterroma.it',
+        paypal: 'https://www.paypal.biz/volleymanagerpro'
+    };
+    
+    // Scheda allenamento di esempio
+    const schedaAllenamento = {
+        'Lunedì': [
+            { nome: 'Panca piana', serie: '4x8', recupero: '90"', note: 'Carico moderato' },
+            { nome: 'Spalle military press', serie: '3x10', recupero: '75"', note: '' },
+            { nome: 'Croci ai cavi', serie: '3x12', recupero: '60"', note: 'Controllo eccentrico' },
+            { nome: 'Tricipiti pushdown', serie: '3x12', recupero: '60"', note: '' }
+        ],
+        'Martedì': [
+            { nome: 'Squat', serie: '4x8', recupero: '120"', note: 'Tecnica perfetta' },
+            { nome: 'Affondi camminati', serie: '3x10', recupero: '90"', note: 'Per gamba' },
+            { nome: 'Leg press', serie: '3x12', recupero: '90"', note: '' },
+            { nome: 'Polpacci alla macchina', serie: '4x15', recupero: '60"', note: '' }
+        ],
+        'Mercoledì': [
+            { nome: 'Stacco da terra', serie: '4x6', recupero: '150"', note: 'Carico pesante' },
+            { nome: 'Rematore bilanciere', serie: '4x8', recupero: '90"', note: '' },
+            { nome: 'Lat machine', serie: '3x10', recupero: '75"', note: 'Presa larga' },
+            { nome: 'Curl bicipiti', serie: '3x12', recupero: '60"', note: '' }
+        ],
+        'Giovedì': [
+            { nome: 'Riposo attivo', serie: '-', recupero: '-', note: 'Camminata 30-45 min' }
+        ],
+        'Venerdì': [
+            { nome: 'Panca inclinata', serie: '4x8', recupero: '90"', note: '' },
+            { nome: 'Dip alle parallele', serie: '3x10', recupero: '75"', note: '' },
+            { nome: 'Alzate laterali', serie: '4x12', recupero: '60"', note: '' },
+            { nome: 'Face pull', serie: '3x15', recupero: '60"', note: 'Postura' }
+        ],
+        'Sabato': [
+            { nome: 'Front squat', serie: '4x8', recupero: '120"', note: '' },
+            { nome: 'Stacco rumeno', serie: '3x10', recupero: '90"', note: '' },
+            { nome: 'Leg curl', serie: '3x12', recupero: '75"', note: '' },
+            { nome: 'Addominali crunch', serie: '4x20', recupero: '45"', note: '' }
+        ],
+        'Domenica': [
+            { nome: 'Riposo completo', serie: '-', recupero: '-', note: 'Recupero e stretching' }
+        ]
+    };
+    
+    // Piano nutrizionale di esempio
+    const pianoNutrizionale = {
+        'Lunedì': {
+            'Mattina': { cibo: 'Yogurt greco 0% con fiocchi d\'avena e mirtilli', kcal: 320 },
+            'Mezzogiorno': { cibo: 'Mela + 20g mandorle', kcal: 180 },
+            'Pranzo': { cibo: 'Riso integrale 80g, petto di pollo 150g, broccoli', kcal: 520 },
+            'Sera': { cibo: 'Salmone 150g, insalata mista, 1 cucchiaio olio EVO', kcal: 450 }
+        },
+        'Martedì': {
+            'Mattina': { cibo: 'Fette biscottate integrali con ricotta e miele', kcal: 310 },
+            'Mezzogiorno': { cibo: 'Banana + shaker proteine', kcal: 220 },
+            'Pranzo': { cibo: 'Pasta integrale 80g al pomodoro, mozzarella light', kcal: 540 },
+            'Sera': { cibo: 'Tacchino alla griglia 150g, zucchine grigliate', kcal: 380 }
+        },
+        'Mercoledì': {
+            'Mattina': { cibo: 'Porridge d\'avena con banana e cannella', kcal: 340 },
+            'Mezzogiorno': { cibo: 'Yogurt greco + noci', kcal: 200 },
+            'Pranzo': { cibo: 'Quinoa 80g, tonno al naturale, insalata', kcal: 480 },
+            'Sera': { cibo: 'Frittata 2 uova con spinaci, pane integrale', kcal: 420 }
+        },
+        'Giovedì': {
+            'Mattina': { cibo: 'Smoothie: latte di mandorla, banana, burro arachidi', kcal: 350 },
+            'Mezzogiorno': { cibo: 'Frutta fresca di stagione', kcal: 120 },
+            'Pranzo': { cibo: 'Risotto ai funghi porcini, parmigiano', kcal: 560 },
+            'Sera': { cibo: 'Merluzzo al forno 180g, patate dolci', kcal: 440 }
+        },
+        'Venerdì': {
+            'Mattina': { cibo: 'Uova strapazzate 2, pane integrale tostato', kcal: 330 },
+            'Mezzogiorno': { cibo: 'Barretta proteica + arancia', kcal: 240 },
+            'Pranzo': { cibo: 'Pasta al pesto 80g, fagiolini', kcal: 520 },
+            'Sera': { cibo: 'Hamburger di tacchino, insalata di pomodori', kcal: 410 }
+        },
+        'Sabato': {
+            'Mattina': { cibo: 'Pancake proteici con frutti di bosco', kcal: 360 },
+            'Mezzogiorno': { cibo: 'Parmigiano 30g + crackers integrali', kcal: 210 },
+            'Pranzo': { cibo: 'Pizza margherita (pasto libero controllato)', kcal: 650 },
+            'Sera': { cibo: 'Insalatona mista con bresaola e grana', kcal: 380 }
+        },
+        'Domenica': {
+            'Mattina': { cibo: 'Colazione libera moderata', kcal: 400 },
+            'Mezzogiorno': { cibo: 'Frutta fresca', kcal: 100 },
+            'Pranzo': { cibo: 'Lasagne al forno (porzione controllata)', kcal: 620 },
+            'Sera': { cibo: 'Minestrone di verdure + crostini', kcal: 320 }
+        }
+    };
+    
+    // Certificato medico (simulato)
+    const certificatoMedico = {
+        presente: true,
+        nomeFile: 'Certificato_Medico_Marco_Rossi.pdf',
+        dataScadenza: '2027-03-15',
+        dataCaricamento: '2025-10-01'
+    };
+    
+    // ============================================================
+    // NAVIGAZIONE
+    // ============================================================
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire dall\'applicazione?')) {
+            window.location.href = 'index.html';
+        }
+    }
+    
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = 'index.html';
+    }
+    
+    // ============================================================
+    // SINCRONIZZAZIONE
+    // ============================================================
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+    }
+    
+    function forzaSync() {
+        if (syncState.stato === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast('❌ Errore durante la sincronizzazione');
+        }
+    }
+    
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    // ============================================================
+    // INIZIALIZZAZIONE
+    // ============================================================
+    function init() {
+        renderProfilo();
+        renderStatus();
+        renderAlert();
+        renderScheda();
+        renderDieta();
+        renderCertificato();
+        aggiornaSyncStatus('online', 'Sync OK');
+    }
+    
+    function renderProfilo() {
+        document.getElementById('atletaNome').textContent = atletaCorrente.nome.split(' ')[0];
+        document.getElementById('palestraNome').textContent = palestraDati.nome;
+        document.getElementById('palestraContatti').textContent = `📞 ${palestraDati.telefono} • 📧 ${palestraDati.email}`;
+        
+        if (palestraDati.logo) {
+            const img = document.getElementById('palestraLogo');
+            img.src = palestraDati.logo;
+            img.style.display = 'block';
+        }
+        
+        document.getElementById('infoNome').textContent = atletaCorrente.nome;
+        document.getElementById('infoNascita').textContent = new Date(atletaCorrente.dataNascita).toLocaleDateString('it-IT');
+        document.getElementById('infoPeso').textContent = atletaCorrente.peso;
+        document.getElementById('infoAltezza').textContent = atletaCorrente.altezza;
+        document.getElementById('infoObiettivo').textContent = atletaCorrente.obiettivo;
+        document.getElementById('infoEmail').textContent = atletaCorrente.email;
+        document.getElementById('infoTelefono').textContent = atletaCorrente.telefono;
+        document.getElementById('infoAbbonamento').textContent = 'Mensile';
+        document.getElementById('infoDurata').textContent = `${atletaCorrente.durata} giorni`;
+    }
+    
+    function renderStatus() {
+        const oggi = new Date();
+        const scadenza = new Date(atletaCorrente.dataScadenza);
+        const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+        const badge = document.getElementById('statusBadge');
+        const btnPaga = document.getElementById('btnPaga');
+        
+        document.getElementById('scadenzaData').textContent = scadenza.toLocaleDateString('it-IT');
+        document.getElementById('giorniRimanenti').textContent = `${giorniRimanenti} giorni rimanenti`;
+        
+        if (giorniRimanenti < 0) {
+            badge.className = 'status-badge badge-scaduto';
+            badge.textContent = 'Scaduto';
+            btnPaga.style.display = 'inline-flex';
+            btnPaga.href = palestraDati.paypal;
+            btnPaga.innerHTML = ' Paga e Rinnova Ora';
+        } else if (giorniRimanenti <= ALERT_DAYS) {
+            badge.className = 'status-badge badge-scadenza';
+            badge.textContent = `Scade tra ${giorniRimanenti}gg`;
+            btnPaga.style.display = 'inline-flex';
+            btnPaga.href = palestraDati.paypal;
+            btnPaga.innerHTML = '💳 Rinnova Ora';
+        } else {
+            badge.className = 'status-badge badge-attivo';
+            badge.textContent = 'Attivo';
+            btnPaga.style.display = 'none';
+        }
+    }
+    
+    function renderAlert() {
+        const container = document.getElementById('alertBanner');
+        const oggi = new Date();
+        const scadenza = new Date(atletaCorrente.dataScadenza);
+        const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+        
+        let html = '';
+        if (giorniRimanenti < 0) {
+            html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Il tuo abbonamento è SCADUTO!</strong> Rinnova ora per continuare ad accedere ai tuoi piani.</span></div>`;
+        } else if (giorniRimanenti <= 7) {
+            html = `<div class="alert-banner alert-scadenza"><span>⚠️</span><span><strong>Attenzione!</strong> Il tuo abbonamento scade tra ${giorniRimanenti} giorni. Rinnova per non perdere l'accesso.</span></div>`;
+        } else if (giorniRimanenti <= ALERT_DAYS) {
+            html = `<div class="alert-banner alert-scadenza"><span>💡</span><span>Il tuo abbonamento scade tra ${giorniRimanenti} giorni. Puoi rinnovare in anticipo.</span></div>`;
+        } else {
+            html = `<div class="alert-banner alert-attiva"><span>✅</span><span><strong>Abbonamento attivo!</strong> Hai ${giorniRimanenti} giorni di accesso rimanenti.</span></div>`;
+        }
+        container.innerHTML = html;
+    }
+    
+    function renderScheda() {
+        const container = document.getElementById('schedaContent');
+        const giorni = Object.keys(schedaAllenamento);
+        
+        if (giorni.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">️</div><div class="title">Nessuna scheda assegnata</div><div class="text">Il tuo gestore non ha ancora creato la tua scheda di allenamento. Contatta la palestra per maggiori informazioni.</div></div>`;
+            return;
+        }
+        
+        let html = '<div class="scheda-container">';
+        giorni.forEach(giorno => {
+            const esercizi = schedaAllenamento[giorno];
+            html += `<div class="giorno-card">
+                <div class="giorno-header">${giorno}</div>
+                <div class="giorno-body">`;
+            esercizi.forEach(es => {
+                html += `<div class="esercizio">
+                    <div class="nome">${es.nome}</div>
+                    <div class="dettagli">${es.note || ''}</div>
+                    <div class="serie">Serie: ${es.serie} • Recupero: ${es.recupero}</div>
+                </div>`;
+            });
+            html += `</div></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    function renderDieta() {
+        const container = document.getElementById('dietaContent');
+        const giorni = Object.keys(pianoNutrizionale);
+        
+        if (giorni.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🥗</div><div class="title">Nessun piano nutrizionale assegnato</div><div class="text">Il tuo gestore non ha ancora creato il tuo piano alimentare. Contatta la palestra per maggiori informazioni.</div></div>`;
+            return;
+        }
+        
+        let html = '<div class="dieta-grid">';
+        giorni.forEach(giorno => {
+            const pasti = pianoNutrizionale[giorno];
+            const totaleKcal = Object.values(pasti).reduce((sum, p) => sum + p.kcal, 0);
+            
+            html += `<div class="dieta-card">
+                <div class="dieta-header">
+                    <span class="giorno">${giorno}</span>
+                    <span class="totale">${totaleKcal} kcal</span>
+                </div>
+                <div class="dieta-body">`;
+            
+            Object.entries(pasti).forEach(([tipo, pasto]) => {
+                html += `<div class="pasto">
+                    <div class="tipo">${tipo}</div>
+                    <div class="cibo">${pasto.cibo}</div>
+                    <div class="kcal">🔥 ${pasto.kcal} kcal</div>
+                </div>`;
+            });
+            
+            html += `</div></div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    function renderCertificato() {
+        const container = document.getElementById('certificatoContent');
+        
+        if (!certificatoMedico.presente) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">📄</div><div class="title">Nessun certificato caricato</div><div class="text">Il tuo certificato medico non è ancora stato caricato. Contatta la tua palestra per fornirlo.</div></div>`;
+            return;
+        }
+        
+        const scadenzaCert = new Date(certificatoMedico.dataScadenza);
+        const oggi = new Date();
+        const giorniAllaScadenza = Math.ceil((scadenzaCert - oggi) / (1000 * 60 * 60 * 24));
+        
+        container.innerHTML = `<div class="certificato-box">
+            <div class="icon">📄</div>
+            <div class="title">Certificato Medico Sportivo</div>
+            <div class="info">
+                <div><strong>File:</strong> ${certificatoMedico.nomeFile}</div>
+                <div><strong>Caricato il:</strong> ${new Date(certificatoMedico.dataCaricamento).toLocaleDateString('it-IT')}</div>
+                <div><strong>Scadenza:</strong> ${scadenzaCert.toLocaleDateString('it-IT')} (${giorniAllaScadenza > 0 ? `${giorniAllaScadenza} giorni` : 'SCADUTO'})</div>
+            </div>
+            <button class="btn-download" onclick="downloadCertificato()">📥 Scarica Certificato</button>
+            ${giorniAllaScadenza <= 30 && giorniAllaScadenza > 0 ? `<div style="margin-top:15px; color:var(--arancione); font-size:13px; font-weight:600;">⚠️ Il certificato scade tra ${giorniAllaScadenza} giorni. Rinnentalo presso il tuo medico.</div>` : ''}
+            ${giorniAllaScadenza <= 0 ? `<div style="margin-top:15px; color:var(--rosso); font-size:13px; font-weight:600;">🚨 Certificato SCADUTO. Rinnentalo immediatamente.</div>` : ''}
+        </div>`;
+    }
+    
+    function downloadCertificato() {
+        showToast('📥 Download certificato avviato!');
+        // In produzione: link al file reale su Cloudflare R2
+    }
+    
+    function stampaDieta() {
+        window.print();
+        showToast('🖨️ Preparazione stampa/PDF...');
+    }
+    
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    // Avvia
+    init();
+    </script>
+</body>
+</html>

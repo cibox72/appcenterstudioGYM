@@ -141,14 +141,17 @@
         .totale-card .label {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             opacity: 0.9;
             margin-bottom: 8px;
+            font-weight: 600;
         }
         .totale-card .valore {
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
         }
         .totale-card .dettaglio {
             font-size: 12px;
@@ -178,6 +181,7 @@
             align-items: flex-end;
             gap: 8px;
             height: 100px;
+            padding-bottom: 25px;
         }
         .barra {
             flex: 1;
@@ -190,12 +194,13 @@
         .barra:hover { background: rgba(255,255,255,0.5); }
         .barra .label-mese {
             position: absolute;
-            bottom: -20px;
+            bottom: -22px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 10px;
             opacity: 0.8;
             white-space: nowrap;
+            font-weight: 600;
         }
         .barra .valore-barra {
             position: absolute;
@@ -205,6 +210,7 @@
             font-size: 10px;
             font-weight: 700;
             white-space: nowrap;
+            font-family: 'Courier New', monospace;
         }
         
         /* LAYOUT PRINCIPALE */
@@ -238,9 +244,7 @@
             font-size: 18px;
             font-weight: 700;
             color: var(--nero);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: 0.5px;
         }
         .filter-controls {
             display: flex;
@@ -306,8 +310,8 @@
             vertical-align: middle;
         }
         .movimenti-table tr:hover td { background: var(--tortora-chiarissimo); }
-        .movimenti-table .importo-entrata { color: var(--verde); font-weight: 700; }
-        .movimenti-table .importo-uscita { color: var(--rosso); font-weight: 700; }
+        .movimenti-table .importo-entrata { color: var(--verde); font-weight: 700; font-family: 'Courier New', monospace; }
+        .movimenti-table .importo-uscita { color: var(--rosso); font-weight: 700; font-family: 'Courier New', monospace; }
         
         .badge {
             display: inline-block;
@@ -341,9 +345,7 @@
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 2px solid var(--tortora-chiaro);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: 0.5px;
         }
         .form-group { margin-bottom: 14px; }
         .form-group label {
@@ -381,6 +383,7 @@
             cursor: pointer;
             transition: all 0.2s;
             margin-top: 10px;
+            letter-spacing: 0.5px;
         }
         .btn-salva:hover { background: var(--nero); }
         
@@ -421,6 +424,7 @@
             font-size: 24px;
             cursor: pointer;
             color: var(--tortora);
+            font-weight: 300;
         }
         
         /* EMPTY STATE */
@@ -429,7 +433,6 @@
             padding: 50px 20px;
             color: var(--tortora);
         }
-        .empty-state .icon { font-size: 64px; margin-bottom: 15px; }
         .empty-state .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--nero); }
         .empty-state .text { font-size: 14px; }
         
@@ -489,9 +492,9 @@
             </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
-            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
-            <button class="nav-btn nav-btn-logout" onclick="esci()"> Esci</button>
+            <a href="index.html" class="nav-btn nav-btn-home">Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
                 <span class="sync-dot"></span>
                 <span id="syncLabel">Sync OK</span>
@@ -503,41 +506,41 @@
     <div class="dashboard-totale">
         <div class="dashboard-header">
             <div>
-                <h2>📊 Dashboard Contabilità</h2>
+                <h2>Dashboard Contabilità</h2>
                 <div class="periodo" id="periodoCorrente">--</div>
             </div>
             <div class="dashboard-nav">
-                <button onclick="cambiaPeriodo(-1)">◀ Precedente</button>
-                <button class="active" onclick="vaiAMeseCorrente()">📍 Mese Corrente</button>
-                <button onclick="cambiaPeriodo(1)">Successivo ▶</button>
+                <button onclick="cambiaPeriodo(-1)">Precedente</button>
+                <button class="active" onclick="vaiAMeseCorrente()">Mese Corrente</button>
+                <button onclick="cambiaPeriodo(1)">Successivo</button>
             </div>
         </div>
         
         <div class="totale-principale">
             <div class="totale-card entrate">
-                <div class="label">💰 Entrate Mese</div>
+                <div class="label">Entrate Mese</div>
                 <div class="valore" id="totaleEntrate">€ 0,00</div>
                 <div class="dettaglio" id="dettaglioEntrate">0 pagamenti</div>
             </div>
             <div class="totale-card uscite">
-                <div class="label">💸 Uscite Mese</div>
+                <div class="label">Uscite Mese</div>
                 <div class="valore" id="totaleUscite">€ 0,00</div>
                 <div class="dettaglio" id="dettaglioUscite">0 movimenti</div>
             </div>
             <div class="totale-card saldo">
-                <div class="label">📈 Saldo Mese</div>
+                <div class="label">Saldo Mese</div>
                 <div class="valore" id="totaleSaldo">€ 0,00</div>
                 <div class="dettaglio" id="dettaglioSaldo">--</div>
             </div>
             <div class="totale-card pending">
-                <div class="label">⏳ In Attesa</div>
+                <div class="label">In Attesa</div>
                 <div class="valore" id="totalePending">€ 0,00</div>
                 <div class="dettaglio" id="dettaglioPending">0 pagamenti</div>
             </div>
         </div>
         
         <div class="grafico-barre">
-            <div class="titolo">📊 Andamento Annuale Entrate</div>
+            <div class="titolo">Andamento Annuale Entrate</div>
             <div class="barre-container" id="graficoBarre"></div>
         </div>
     </div>
@@ -548,20 +551,20 @@
         <!-- SEZIONE MOVIMENTI -->
         <div class="movimenti-section">
             <div class="section-header">
-                <div class="section-title">📋 Movimenti Contabili</div>
+                <div class="section-title">Movimenti Contabili</div>
                 <div class="filter-controls">
                     <select id="filtroTipo" onchange="renderMovimenti()">
                         <option value="tutti">Tutti i tipi</option>
-                        <option value="entrata">💰 Entrate</option>
-                        <option value="uscita"> Uscite</option>
+                        <option value="entrata">Entrate</option>
+                        <option value="uscita">Uscite</option>
                     </select>
                     <select id="filtroStato" onchange="renderMovimenti()">
                         <option value="tutti">Tutti gli stati</option>
-                        <option value="pagato">✅ Pagati</option>
-                        <option value="pending">⏳ In attesa</option>
+                        <option value="pagato">Pagati</option>
+                        <option value="pending">In attesa</option>
                     </select>
-                    <input type="text" id="filtroRicerca" placeholder="🔍 Cerca..." oninput="renderMovimenti()">
-                    <button class="btn btn-info btn-sm" onclick="stampaContabilita()">🖨️ Stampa</button>
+                    <input type="text" id="filtroRicerca" placeholder="Cerca..." oninput="renderMovimenti()">
+                    <button class="btn btn-info btn-sm" onclick="stampaContabilita()">Stampa</button>
                 </div>
             </div>
             <div id="movimentiList"></div>
@@ -569,18 +572,18 @@
         
         <!-- FORM AGGIUNGI -->
         <div class="form-section">
-            <h3>➕ Nuovo Movimento</h3>
+            <h3>Nuovo Movimento</h3>
             <form id="formMovimento" onsubmit="salvaMovimento(event)">
                 <input type="hidden" id="mId">
                 <div class="form-group">
-                    <label>Tipo *</label>
+                    <label>Tipo</label>
                     <select id="mTipo" required>
-                        <option value="entrata">💰 Entrata (Pagamento ricevuto)</option>
-                        <option value="uscita"> Uscita (Spesa)</option>
+                        <option value="entrata">Entrata (Pagamento ricevuto)</option>
+                        <option value="uscita">Uscita (Spesa)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Categoria *</label>
+                    <label>Categoria</label>
                     <select id="mCategoria" required>
                         <option value="Abbonamento mensile">Abbonamento mensile</option>
                         <option value="Abbonamento trimestrale">Abbonamento trimestrale</option>
@@ -598,16 +601,16 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Descrizione *</label>
+                    <label>Descrizione</label>
                     <input type="text" id="mDescrizione" required placeholder="Es. Pagamento Mario Rossi">
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Importo (€) *</label>
+                        <label>Importo (€)</label>
                         <input type="number" id="mImporto" step="0.01" min="0" required placeholder="0,00">
                     </div>
                     <div class="form-group">
-                        <label>Data *</label>
+                        <label>Data</label>
                         <input type="date" id="mData" required>
                     </div>
                 </div>
@@ -619,18 +622,18 @@
                     <div class="form-group">
                         <label>Stato</label>
                         <select id="mStato">
-                            <option value="pagato">✅ Pagato</option>
-                            <option value="pending">⏳ In attesa</option>
+                            <option value="pagato">Pagato</option>
+                            <option value="pending">In attesa</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Metodo di pagamento</label>
                     <select id="mMetodo">
-                        <option value="Contanti"> Contanti</option>
-                        <option value="Carta">💳 Carta</option>
-                        <option value="Bonifico">🏦 Bonifico</option>
-                        <option value="PayPal">🅿️ PayPal</option>
+                        <option value="Contanti">Contanti</option>
+                        <option value="Carta">Carta</option>
+                        <option value="Bonifico">Bonifico</option>
+                        <option value="PayPal">PayPal</option>
                         <option value="Altro">Altro</option>
                     </select>
                 </div>
@@ -638,8 +641,8 @@
                     <label>Note</label>
                     <textarea id="mNote" placeholder="Note aggiuntive..."></textarea>
                 </div>
-                <button type="submit" class="btn-salva" id="btnSalva">💾 Salva Movimento</button>
-                <button type="button" class="btn btn-secondary" style="width:100%; margin-top:8px;" onclick="resetForm()">🗑️ Reset Form</button>
+                <button type="submit" class="btn-salva" id="btnSalva">Salva Movimento</button>
+                <button type="button" class="btn btn-secondary" style="width:100%; margin-top:8px;" onclick="resetForm()">Reset Form</button>
             </form>
         </div>
     </div>
@@ -648,16 +651,16 @@
     <div class="modal-overlay" id="modalModifica">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title">✏️ Modifica Movimento</div>
-                <button class="modal-close" onclick="chiudiModal()">×</button>
+                <div class="modal-title">Modifica Movimento</div>
+                <button class="modal-close" onclick="chiudiModal()">x</button>
             </div>
             <form id="formModifica" onsubmit="aggiornaMovimento(event)">
                 <input type="hidden" id="modId">
                 <div class="form-group">
                     <label>Tipo</label>
                     <select id="modTipo" required>
-                        <option value="entrata">💰 Entrata</option>
-                        <option value="uscita">💸 Uscita</option>
+                        <option value="entrata">Entrata</option>
+                        <option value="uscita">Uscita</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -686,18 +689,18 @@
                     <div class="form-group">
                         <label>Stato</label>
                         <select id="modStato">
-                            <option value="pagato">✅ Pagato</option>
-                            <option value="pending">⏳ In attesa</option>
+                            <option value="pagato">Pagato</option>
+                            <option value="pending">In attesa</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Metodo di pagamento</label>
                     <select id="modMetodo">
-                        <option value="Contanti">💵 Contanti</option>
-                        <option value="Carta">💳 Carta</option>
-                        <option value="Bonifico"> Bonifico</option>
-                        <option value="PayPal">🅿️ PayPal</option>
+                        <option value="Contanti">Contanti</option>
+                        <option value="Carta">Carta</option>
+                        <option value="Bonifico">Bonifico</option>
+                        <option value="PayPal">PayPal</option>
                         <option value="Altro">Altro</option>
                     </select>
                 </div>
@@ -705,7 +708,7 @@
                     <label>Note</label>
                     <textarea id="modNote"></textarea>
                 </div>
-                <button type="submit" class="btn-salva">💾 Aggiorna Movimento</button>
+                <button type="submit" class="btn-salva">Aggiorna Movimento</button>
             </form>
         </div>
     </div>
@@ -714,26 +717,15 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    // ============================================================
-    // CONFIGURAZIONE
-    // ============================================================
     const syncState = { stato: 'online' };
     let hasUnsavedChanges = false;
-    
-    // Periodo corrente visualizzato (mese/anno)
     let periodoCorrente = new Date();
-    
-    // ============================================================
-    // DATI
-    // ============================================================
     let movimenti = JSON.parse(localStorage.getItem('contabilita_movimenti') || '[]');
     
-    // Dati di esempio se vuoti
     if (movimenti.length === 0) {
         const oggi = new Date();
         const anno = oggi.getFullYear();
         const mese = oggi.getMonth();
-        
         movimenti = [
             { id: 1, tipo: 'entrata', categoria: 'Abbonamento mensile', descrizione: 'Pagamento Mario Rossi', importo: 50, data: new Date(anno, mese, 5).toISOString().split('T')[0], cliente: 'Mario Rossi', stato: 'pagato', metodo: 'Carta', note: '' },
             { id: 2, tipo: 'entrata', categoria: 'Abbonamento mensile', descrizione: 'Pagamento Luigi Bianchi', importo: 50, data: new Date(anno, mese, 10).toISOString().split('T')[0], cliente: 'Luigi Bianchi', stato: 'pagato', metodo: 'Bonifico', note: '' },
@@ -747,9 +739,6 @@
     const MESI = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
     const MESI_CORTI = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
     
-    // ============================================================
-    // NAVIGAZIONE
-    // ============================================================
     function esci() {
         if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
         if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
@@ -760,9 +749,6 @@
         else window.location.href = 'index.html';
     }
     
-    // ============================================================
-    // SINCRONIZZAZIONE
-    // ============================================================
     function aggiornaSyncStatus(stato, messaggio) {
         const syncEl = document.getElementById('syncStatus');
         const syncLabel = document.getElementById('syncLabel');
@@ -773,23 +759,20 @@
         syncState.stato = stato;
     }
     function forzaSync() {
-        if (syncState.stato === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        if (syncState.stato === 'online') { showToast('Dati già sincronizzati'); return; }
         try {
             saveMovimenti();
             aggiornaSyncStatus('online', 'Sync OK');
             hasUnsavedChanges = false;
-            showToast('✅ Sincronizzazione completata!');
+            showToast('Sincronizzazione completata');
         } catch (e) {
             aggiornaSyncStatus('offline', 'Errore sync');
-            showToast('❌ Errore durante la sincronizzazione');
+            showToast('Errore durante la sincronizzazione');
         }
     }
     window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
     window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
     
-    // ============================================================
-    // UTILITÀ
-    // ============================================================
     function formattaEuro(importo) {
         return '€ ' + importo.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
@@ -801,9 +784,6 @@
         return `${data.getFullYear()}-${data.getMonth().toString().padStart(2, '0')}`;
     }
     
-    // ============================================================
-    // PERIODO
-    // ============================================================
     function cambiaPeriodo(direzione) {
         periodoCorrente.setMonth(periodoCorrente.getMonth() + direzione);
         renderTutto();
@@ -813,9 +793,6 @@
         renderTutto();
     }
     
-    // ============================================================
-    // RENDER DASHBOARD
-    // ============================================================
     function renderDashboard() {
         const meseAnno = getMeseAnno(periodoCorrente);
         const movimentiMese = movimenti.filter(m => m.data.startsWith(meseAnno));
@@ -836,7 +813,7 @@
         document.getElementById('totaleUscite').textContent = formattaEuro(uscite);
         document.getElementById('dettaglioUscite').textContent = `${numUscite} movimenti`;
         document.getElementById('totaleSaldo').textContent = formattaEuro(saldo);
-        document.getElementById('dettaglioSaldo').textContent = saldo >= 0 ? ' Positivo' : '📉 Negativo';
+        document.getElementById('dettaglioSaldo').textContent = saldo >= 0 ? 'Positivo' : 'Negativo';
         document.getElementById('totalePending').textContent = formattaEuro(pending);
         document.getElementById('dettaglioPending').textContent = `${numPending} pagamenti`;
         
@@ -873,9 +850,6 @@
         });
     }
     
-    // ============================================================
-    // RENDER MOVIMENTI
-    // ============================================================
     function renderMovimenti() {
         const container = document.getElementById('movimentiList');
         const meseAnno = getMeseAnno(periodoCorrente);
@@ -899,7 +873,7 @@
         movimentiFiltrati.sort((a, b) => new Date(b.data) - new Date(a.data));
         
         if (movimentiFiltrati.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><div class="title">Nessun movimento trovato</div><div class="text">Aggiungi il primo movimento usando il form a destra.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div class="title">Nessun movimento trovato</div><div class="text">Aggiungi il primo movimento usando il form a destra.</div></div>`;
             return;
         }
         
@@ -926,15 +900,15 @@
             
             html += `<tr>
                 <td>${formattaData(m.data)}</td>
-                <td><span class="badge ${tipoBadge}">${m.tipo === 'entrata' ? '💰 Entrata' : '💸 Uscita'}</span></td>
+                <td><span class="badge ${tipoBadge}">${m.tipo === 'entrata' ? 'ENT' : 'USC'}</span></td>
                 <td>${m.categoria}</td>
                 <td><strong>${m.descrizione}</strong>${m.note ? `<br><small style="color:var(--tortora)">${m.note}</small>` : ''}</td>
                 <td>${m.cliente || '-'}</td>
                 <td class="${importoClass}">${segno} ${formattaEuro(m.importo)}</td>
-                <td><span class="badge ${statoBadge}">${m.stato === 'pagato' ? '✅ Pagato' : '⏳ In attesa'}</span></td>
+                <td><span class="badge ${statoBadge}">${m.stato === 'pagato' ? 'PAGATO' : 'IN ATTESA'}</span></td>
                 <td style="display:flex; gap:5px; flex-wrap:wrap;">
-                    <button class="btn btn-sm btn-info" onclick="apriModifica(${m.id})">✏️</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminaMovimento(${m.id})">🗑️</button>
+                    <button class="btn btn-sm btn-info" onclick="apriModifica(${m.id})">Modifica</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaMovimento(${m.id})">Elimina</button>
                 </td>
             </tr>`;
         });
@@ -943,12 +917,8 @@
         container.innerHTML = html;
     }
     
-    // ============================================================
-    // GESTIONE MOVIMENTI
-    // ============================================================
     function salvaMovimento(e) {
         e.preventDefault();
-        
         const movimento = {
             id: Date.now(),
             tipo: document.getElementById('mTipo').value,
@@ -961,17 +931,13 @@
             metodo: document.getElementById('mMetodo').value,
             note: document.getElementById('mNote').value.trim()
         };
-        
         movimenti.push(movimento);
         saveMovimenti();
-        
         hasUnsavedChanges = true;
         aggiornaSyncStatus('warning', 'Modifiche non salvate');
-        
         resetForm();
         renderTutto();
-        showToast('✅ Movimento salvato con successo!');
-        
+        showToast('Movimento salvato con successo');
         setTimeout(() => {
             aggiornaSyncStatus('online', 'Sync OK');
             hasUnsavedChanges = false;
@@ -981,7 +947,6 @@
     function apriModifica(id) {
         const m = movimenti.find(mov => mov.id === id);
         if (!m) return;
-        
         document.getElementById('modId').value = m.id;
         document.getElementById('modTipo').value = m.tipo;
         document.getElementById('modCategoria').value = m.categoria;
@@ -992,16 +957,13 @@
         document.getElementById('modStato').value = m.stato;
         document.getElementById('modMetodo').value = m.metodo || 'Contanti';
         document.getElementById('modNote').value = m.note || '';
-        
         document.getElementById('modalModifica').classList.add('active');
     }
     
     function aggiornaMovimento(e) {
         e.preventDefault();
-        
         const id = parseInt(document.getElementById('modId').value);
         const index = movimenti.findIndex(m => m.id === id);
-        
         if (index !== -1) {
             movimenti[index] = {
                 ...movimenti[index],
@@ -1015,11 +977,10 @@
                 metodo: document.getElementById('modMetodo').value,
                 note: document.getElementById('modNote').value.trim()
             };
-            
             saveMovimenti();
             chiudiModal();
             renderTutto();
-            showToast('✅ Movimento aggiornato!');
+            showToast('Movimento aggiornato');
         }
     }
     
@@ -1028,7 +989,7 @@
         movimenti = movimenti.filter(m => m.id !== id);
         saveMovimenti();
         renderTutto();
-        showToast('🗑️ Movimento eliminato');
+        showToast('Movimento eliminato');
     }
     
     function resetForm() {
@@ -1041,17 +1002,11 @@
         document.getElementById('modalModifica').classList.remove('active');
     }
     
-    // ============================================================
-    // STAMPA
-    // ============================================================
     function stampaContabilita() {
         window.print();
-        showToast('🖨️ Preparazione stampa...');
+        showToast('Preparazione stampa in corso');
     }
     
-    // ============================================================
-    // STORAGE
-    // ============================================================
     function saveMovimenti() { localStorage.setItem('contabilita_movimenti', JSON.stringify(movimenti)); }
     
     function showToast(message) {
@@ -1061,9 +1016,6 @@
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
     
-    // ============================================================
-    // INIT
-    // ============================================================
     function renderTutto() {
         renderDashboard();
         renderMovimenti();
@@ -1075,7 +1027,6 @@
         aggiornaSyncStatus('online', 'Sync OK');
     }
     
-    // Chiudi modal cliccando fuori
     document.getElementById('modalModifica').addEventListener('click', function(e) {
         if (e.target === this) chiudiModal();
     });

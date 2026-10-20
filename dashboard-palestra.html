@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Palestra - AppCenterStudioGYM</title>
+    <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #27AE60;
+            --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12;
+            --arancione-chiaro: #FDEBD0;
+            --rosso: #E74C3C;
+            --rosso-chiaro: #FADBD8;
+            --blu: #3498DB;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        /* HEADER */
+        .main-header {
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+        }
+        .logo-section h1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+        .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-attiva { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
+        .status-prova { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
+        .status-scaduta { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
+        .btn-logout {
+            padding: 10px 20px;
+            background: var(--bianco);
+            color: var(--rosso);
+            border: 1.5px solid var(--rosso);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        
+        /* ALERT BANNER */
+        .alert-banner {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            padding: 15px 20px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .alert-prova {
+            background: var(--arancione-chiaro);
+            border: 2px solid var(--arancione);
+            color: #9C640C;
+        }
+        .alert-scaduta {
+            background: var(--rosso-chiaro);
+            border: 2px solid var(--rosso);
+            color: #922B21;
+        }
+        .alert-ok {
+            background: var(--verde-chiaro);
+            border: 2px solid var(--verde);
+            color: #1E8449;
+        }
+        
+        /* STATS */
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .stat-card {
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--ombra);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
+        .stat-card .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .stat-card .value { font-size: 32px; font-weight: 700; color: var(--nero); }
+        .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
+        
+        /* TABS */
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 14px 24px;
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tortora-scuro);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
+        .tab-btn.active {
+            background: var(--tortora);
+            color: var(--bianco);
+            border-color: var(--tortora);
+        }
+        
+        /* SEZIONE */
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--ombra);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--nero);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* FORM */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px 14px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--tortora);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        
+        /* BOTTONI */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-success { background: var(--verde); color: var(--bianco); }
+        .btn-success:hover { background: #1E8449; }
+        .btn-danger { background: var(--rosso); color: var(--bianco); }
+        .btn-danger:hover { opacity: 0.9; }
+        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-secondary:hover { background: var(--tortora-chiarissimo); }
+        .btn-info { background: var(--blu); color: var(--bianco); }
+        .btn-info:hover { opacity: 0.9; }
+        .btn-sm { padding: 8px 14px; font-size: 12px; }
+        
+        /* TABELLA ATLETI */
+        .atleti-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .atleti-table th {
+            background: var(--tortora-chiarissimo);
+            color: var(--tortora-scuro);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--tortora);
+        }
+        .atleti-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--tortora-chiaro);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .atleti-table tr:hover td { background: var(--tortora-chiarissimo); }
+        
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-attivo { background: var(--verde-chiaro); color: #1E8449; }
+        .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; }
+        .badge-in-scadenza { background: var(--arancione-chiaro); color: #9C640C; }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--tortora);
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
+        .empty-state .text { font-size: 15px; }
+        
+        /* TAB CONTENT */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ombra-forte);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-grid { grid-template-columns: 1fr; }
+            .atleti-table { font-size: 12px; }
+            .atleti-table th, .atleti-table td { padding: 10px 6px; }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+            .section-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="main-header">
+        <div class="logo-section">
+            <h1>AppCenterStudioGYM</h1>
+            <p>Dashboard Palestra - Gestione Atleti</p>
+        </div>
+        <div class="header-actions">
+            <span class="status-badge status-prova" id="headerStatus">In Prova</span>
+            <a href="index.html" class="btn-logout">Esci</a>
+        </div>
+    </div>
+
+    <!-- ALERT BANNER -->
+    <div id="alertBanner"></div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="label">Atleti Totali</div>
+            <div class="value" id="statAtleti">0</div>
+            <div class="sub">registrati</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Abbonamenti Attivi</div>
+            <div class="value" id="statAttivi">0</div>
+            <div class="sub">in corso</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">In Scadenza</div>
+            <div class="value" id="statScadenza">0</div>
+            <div class="sub">entro 30 giorni</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Scaduti</div>
+            <div class="value" id="statScaduti">0</div>
+            <div class="sub">da rinnovare</div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="showTab('atleti')">👥 Atleti</button>
+        <button class="tab-btn" onclick="showTab('nuovo-atleta')">➕ Nuovo Atleta</button>
+        <button class="tab-btn" onclick="showTab('schede')">📋 Schede Allenamento</button>
+        <button class="tab-btn" onclick="showTab('diete')">🥗 Diete</button>
+    </div>
+
+    <!-- TAB: LISTA ATLETI -->
+    <div class="tab-content active" id="tab-atleti">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title">👥 Lista Atleti</div>
+                <button class="btn btn-primary btn-sm" onclick="showTab('nuovo-atleta')">➕ Aggiungi Atleta</button>
+            </div>
+            <div id="atletiList"></div>
+        </div>
+    </div>
+
+    <!-- TAB: NUOVO ATLETA -->
+    <div class="tab-content" id="tab-nuovo-atleta">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title"> Registra Nuovo Atleta</div>
+            </div>
+            <form id="formAtleta" onsubmit="registraAtleta(event)">
+                <input type="hidden" id="aId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome *</label>
+                        <input type="text" id="aNome" required placeholder="Es. Mario Rossi">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="tel" id="aTelefono" placeholder="Es. 3331234567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="aEmail" placeholder="Es. mario@email.it">
+                    </div>
+                    <div class="form-group">
+                        <label>Data di Nascita</label>
+                        <input type="date" id="aDataNascita">
+                    </div>
+                    <div class="form-group">
+                        <label>Peso (kg)</label>
+                        <input type="number" id="aPeso" step="0.1" placeholder="Es. 75">
+                    </div>
+                    <div class="form-group">
+                        <label>Altezza (cm)</label>
+                        <input type="number" id="aAltezza" placeholder="Es. 180">
+                    </div>
+                    <div class="form-group">
+                        <label>Obiettivo</label>
+                        <select id="aObiettivo">
+                            <option value="Mantenimento">Mantenimento</option>
+                            <option value="Dimagrimento">Dimagrimento</option>
+                            <option value="Massa Muscolare">Massa Muscolare</option>
+                            <option value="Definizione">Definizione</option>
+                            <option value="Performance">Performance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Data Inizio Abbonamento</label>
+                        <input type="date" id="aDataInizio">
+                    </div>
+                    <div class="form-group">
+                        <label>Durata Abbonamento</label>
+                        <select id="aDurata">
+                            <option value="30">1 Mese</option>
+                            <option value="90">3 Mesi</option>
+                            <option value="180">6 Mesi</option>
+                            <option value="365">12 Mesi</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>Note</label>
+                        <textarea id="aNote" placeholder="Es. Infortunio al ginocchio, allergie alimentari..."></textarea>
+                    </div>
+                </div>
+                <div style="display:flex; gap:12px; margin-top:25px;">
+                    <button type="submit" class="btn btn-primary">💾 Salva Atleta</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetFormAtleta()">🗑️ Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TAB: SCHEDE ALLENAMENTO -->
+    <div class="tab-content" id="tab-schede">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title">📋 Schede di Allenamento</div>
+            </div>
+            <div class="empty-state">
+                <div class="icon">📋</div>
+                <div class="text">Sezione in sviluppo. Qui potrai creare e assegnare schede di allenamento personalizzate agli atleti.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: DIETE -->
+    <div class="tab-content" id="tab-diete">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-title">🥗 Piani Nutrizionali</div>
+            </div>
+            <div class="empty-state">
+                <div class="icon"></div>
+                <div class="text">Sezione in sviluppo. Qui potrai creare e assegnare diete personalizzate agli atleti usando il sistema di autocomplete con 238+ alimenti.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ============================================================
+    // CONFIGURAZIONE
+    // ============================================================
+    const APP_URL = 'https://appcenterstudiogym.pages.dev';
+    const ALERT_DAYS = 30;
+    
+    // ============================================================
+    // DATI
+    // ============================================================
+    let atleti = JSON.parse(localStorage.getItem('atleti') || '[]');
+    
+    // Simula la palestra corrente (in produzione verrebbe dal login)
+    const palestraCorrente = {
+        nome: 'Fitness Center Roma',
+        stato: 'prova', // prova | attiva | scaduta
+        dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString() // 25 giorni da ora
+    };
+    
+    // ============================================================
+    // INIZIALIZZAZIONE
+    // ============================================================
+    function init() {
+        aggiornaStatiAtleti();
+        renderHeader();
+        renderAlert();
+        renderStats();
+        renderAtleti();
+    }
+    
+    // ============================================================
+    // HEADER STATUS
+    // ============================================================
+    function renderHeader() {
+        const badge = document.getElementById('headerStatus');
+        const oggi = new Date();
+        const scadenza = new Date(palestraCorrente.dataScadenza);
+        const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+        
+        if (palestraCorrente.stato === 'attiva') {
+            badge.className = 'status-badge status-attiva';
+            badge.textContent = 'Attiva';
+        } else if (palestraCorrente.stato === 'scaduta') {
+            badge.className = 'status-badge status-scaduta';
+            badge.textContent = 'Scaduta';
+        } else {
+            badge.className = 'status-badge status-prova';
+            badge.textContent = `Prova (${giorniRimanenti}gg)`;
+        }
+    }
+    
+    // ============================================================
+    // ALERT BANNER
+    // ============================================================
+    function renderAlert() {
+        const container = document.getElementById('alertBanner');
+        const oggi = new Date();
+        const scadenza = new Date(palestraCorrente.dataScadenza);
+        const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+        
+        let html = '';
+        
+        if (palestraCorrente.stato === 'scaduta') {
+            html = `
+                <div class="alert-banner alert-scaduta">
+                    <span>🚨</span>
+                    <span><strong>Il tuo abbonamento è SCADUTO!</strong> Contatta il fornitore per rinnovare.</span>
+                </div>
+            `;
+        } else if (giorniRimanenti <= ALERT_DAYS && palestraCorrente.stato === 'prova') {
+            html = `
+                <div class="alert-banner alert-prova">
+                    <span>⚠️</span>
+                    <span><strong>Attenzione!</strong> La tua prova gratuita scade tra ${giorniRimanenti} giorni. Contatta il fornitore per attivare l'abbonamento.</span>
+                </div>
+            `;
+        } else if (palestraCorrente.stato === 'attiva') {
+            html = `
+                <div class="alert-banner alert-ok">
+                    <span>✅</span>
+                    <span><strong>Abbonamento Attivo!</strong> Il tuo servizio è attivo e funzionante.</span>
+                </div>
+            `;
+        }
+        
+        container.innerHTML = html;
+    }
+    
+    // ============================================================
+    // STATS
+    // ============================================================
+    function renderStats() {
+        const oggi = new Date();
+        const attivi = atleti.filter(a => {
+            const scadenza = new Date(a.dataScadenza);
+            return a.stato === 'attivo' && scadenza > oggi;
+        }).length;
+        
+        const inScadenza = atleti.filter(a => {
+            const scadenza = new Date(a.dataScadenza);
+            const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+            return a.stato === 'attivo' && giorni <= ALERT_DAYS && giorni >= 0;
+        }).length;
+        
+        const scaduti = atleti.filter(a => a.stato === 'scaduto').length;
+        
+        document.getElementById('statAtleti').textContent = atleti.length;
+        document.getElementById('statAttivi').textContent = attivi;
+        document.getElementById('statScadenza').textContent = inScadenza;
+        document.getElementById('statScaduti').textContent = scaduti;
+    }
+    
+    // ============================================================
+    // RENDER ATLETI
+    // ============================================================
+    function renderAtleti() {
+        const container = document.getElementById('atletiList');
+        const oggi = new Date();
+        
+        if (atleti.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">👥</div>
+                    <div class="text">Nessun atleta registrato. Clicca su "Nuovo Atleta" per iniziare.</div>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = `
+            <table class="atleti-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefono</th>
+                        <th>Obiettivo</th>
+                        <th>Stato</th>
+                        <th>Scadenza</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        atleti.forEach(atleta => {
+            const scadenza = new Date(atleta.dataScadenza);
+            const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+            
+            let badgeClass = 'badge-attivo';
+            let badgeText = 'Attivo';
+            
+            if (atleta.stato === 'scaduto') {
+                badgeClass = 'badge-scaduto';
+                badgeText = 'Scaduto';
+            } else if (giorniRimanenti <= ALERT_DAYS && giorniRimanenti >= 0) {
+                badgeClass = 'badge-in-scadenza';
+                badgeText = 'In Scadenza';
+            }
+            
+            html += `
+                <tr>
+                    <td>
+                        <strong>${atleta.nome}</strong><br>
+                        <small style="color:var(--tortora)">${atleta.email || ''}</small>
+                    </td>
+                    <td>${atleta.telefono || '-'}</td>
+                    <td>${atleta.obiettivo || '-'}</td>
+                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                    <td>
+                        ${scadenza.toLocaleDateString('it-IT')}<br>
+                        <small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small>
+                    </td>
+                    <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">️</button>
+                        <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">🗑️</button>
+                        <button class="btn btn-sm btn-success" onclick="assegnaDieta(${atleta.id})">🥗</button>
+                        <button class="btn btn-sm btn-primary" onclick="assegnaScheda(${atleta.id})">📋</button>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+    
+    // ============================================================
+    // REGISTRA ATLETA
+    // ============================================================
+    function registraAtleta(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('aId').value;
+        const dataInizio = document.getElementById('aDataInizio').value;
+        const durata = parseInt(document.getElementById('aDurata').value);
+        
+        const oggi = new Date();
+        const dataInizioObj = dataInizio ? new Date(dataInizio) : oggi;
+        const dataScadenza = new Date(dataInizioObj);
+        dataScadenza.setDate(dataScadenza.getDate() + durata);
+        
+        const atleta = {
+            id: id ? parseInt(id) : Date.now(),
+            nome: document.getElementById('aNome').value.trim(),
+            telefono: document.getElementById('aTelefono').value.trim(),
+            email: document.getElementById('aEmail').value.trim(),
+            dataNascita: document.getElementById('aDataNascita').value,
+            peso: parseFloat(document.getElementById('aPeso').value) || 0,
+            altezza: parseInt(document.getElementById('aAltezza').value) || 0,
+            obiettivo: document.getElementById('aObiettivo').value,
+            dataInizio: dataInizioObj.toISOString(),
+            dataScadenza: dataScadenza.toISOString(),
+            durata: durata,
+            note: document.getElementById('aNote').value.trim(),
+            stato: 'attivo',
+            dataRegistrazione: oggi.toISOString()
+        };
+        
+        if (id) {
+            const index = atleti.findIndex(a => a.id === parseInt(id));
+            if (index !== -1) atleti[index] = atleta;
+        } else {
+            atleti.push(atleta);
+        }
+        
+        saveAtleti();
+        showToast('✅ Atleta salvato con successo!');
+        resetFormAtleta();
+        aggiornaStatiAtleti();
+        renderStats();
+        renderAtleti();
+        
+        setTimeout(() => {
+            showTab('atleti');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        }, 500);
+    }
+    
+    function modificaAtleta(id) {
+        const atleta = atleti.find(a => a.id === id);
+        if (!atleta) return;
+        
+        document.getElementById('aId').value = atleta.id;
+        document.getElementById('aNome').value = atleta.nome;
+        document.getElementById('aTelefono').value = atleta.telefono || '';
+        document.getElementById('aEmail').value = atleta.email || '';
+        document.getElementById('aDataNascita').value = atleta.dataNascita || '';
+        document.getElementById('aPeso').value = atleta.peso || '';
+        document.getElementById('aAltezza').value = atleta.altezza || '';
+        document.getElementById('aObiettivo').value = atleta.obiettivo || 'Mantenimento';
+        document.getElementById('aDataInizio').value = new Date(atleta.dataInizio).toISOString().split('T')[0];
+        document.getElementById('aDurata').value = atleta.durata || 30;
+        document.getElementById('aNote').value = atleta.note || '';
+        
+        showTab('nuovo-atleta');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    }
+    
+    function eliminaAtleta(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
+        atleti = atleti.filter(a => a.id !== id);
+        saveAtleti();
+        renderStats();
+        renderAtleti();
+        showToast('️ Atleta eliminato');
+    }
+    
+    function assegnaDieta(id) {
+        const atleta = atleti.find(a => a.id === id);
+        if (!atleta) return;
+        showToast(`🥗 Apertura dieta per ${atleta.nome} (in sviluppo)`);
+        // window.open(`gestione-dieta.html?atleta=${id}`, '_blank');
+    }
+    
+    function assegnaScheda(id) {
+        const atleta = atleti.find(a => a.id === id);
+        if (!atleta) return;
+        showToast(` Apertura scheda per ${atleta.nome} (in sviluppo)`);
+    }
+    
+    function resetFormAtleta() {
+        document.getElementById('formAtleta').reset();
+        document.getElementById('aId').value = '';
+    }
+    
+    // ============================================================
+    // UTILITIES
+    // ============================================================
+    function aggiornaStatiAtleti() {
+        const oggi = new Date();
+        atleti.forEach(atleta => {
+            const scadenza = new Date(atleta.dataScadenza);
+            const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+            
+            if (giorniRimanenti < 0) {
+                atleta.stato = 'scaduto';
+            } else {
+                atleta.stato = 'attivo';
+            }
+        });
+        saveAtleti();
+    }
+    
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        event.target.classList.add('active');
+        if (tabName === 'atleti') renderAtleti();
+    }
+    
+    function saveAtleti() {
+        localStorage.setItem('atleti', JSON.stringify(atleti));
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    // Avvia
+    init();
+    </script>
+</body>
+</html>

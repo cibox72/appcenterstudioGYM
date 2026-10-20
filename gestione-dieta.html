@@ -5,628 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Piano Nutrizionale - AppCenterStudioGYM</title>
     <style>
-        :root {
-            --nero: #1A1A1A;
-            --tortora: #9C928A;
-            --tortora-scuro: #7A716A;
-            --tortora-chiaro: #E8E3DE;
-            --tortora-chiarissimo: #F5F2EF;
-            --bianco: #FFFFFF;
-            --verde: #25D366;
-            --verde-scuro: #128C7E;
-            --ombra: 0 2px 12px rgba(156, 146, 138, 0.12);
-            --ombra-forte: 0 8px 30px rgba(156, 146, 138, 0.2);
-            --radius: 12px;
-            --radius-sm: 8px;
-        }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #25D366; --verde-scuro: #128C7E; --ombra: 0 2px 12px rgba(156, 146, 138, 0.12); --ombra-forte: 0 8px 30px rgba(156, 146, 138, 0.2); --radius: 12px; --radius-sm: 8px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
-            color: var(--nero);
-            min-height: 100vh;
-            padding: 30px 20px;
-            line-height: 1.5;
-        }
+        body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%); color: var(--nero); min-height: 100vh; padding: 20px; line-height: 1.5; }
         
-        /* HEADER */
-        .main-header {
-            max-width: 1400px;
-            margin: 0 auto 30px;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 30px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--ombra);
-        }
-        .logo-section h1 {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--nero);
-        }
-        .logo-section p {
-            font-size: 12px;
-            color: var(--tortora);
-            margin-top: 4px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
+        /* HEADER UNIVERSALE */
+        .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: #E74C3C; border-color: #E74C3C; }
+        .nav-btn-logout:hover { background: #E74C3C; color: var(--bianco); }
+        .sync-status { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid; }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
+        .sync-online { background: #D5F5E3; color: #1E8449; border-color: #27AE60; }
+        .sync-online .sync-dot { background: #27AE60; animation: pulse-verde 2s infinite; }
+        .sync-warning { background: #FDEBD0; color: #9C640C; border-color: #F39C12; }
+        .sync-warning .sync-dot { background: #F39C12; animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: #FADBD8; color: #922B21; border-color: #E74C3C; }
+        .sync-offline .sync-dot { background: #E74C3C; animation: pulse-rosso 1s infinite; }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
+        /* CONTENUTO */
+        .main-header-content { max-width: 1400px; margin: 0 auto 30px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); }
+        .logo-section h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
+        .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
         .atleta-badge { text-align: right; }
-        .atleta-badge .nome {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--nero);
-        }
-        .atleta-badge .dettagli {
-            font-size: 13px;
-            color: var(--tortora);
-            margin-top: 4px;
-        }
-        .atleta-badge .settimana {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 16px;
-            background: var(--tortora-chiarissimo);
-            border: 1px solid var(--tortora);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--tortora-scuro);
-            letter-spacing: 0.5px;
-        }
-
-        /* GUIDA ALLA LETTURA */
-        .legend-section {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            padding: 22px 28px;
-            box-shadow: var(--ombra);
-        }
-        .legend-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--tortora-chiaro);
-        }
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--tortora);
-        }
-        .legend-icon {
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-        .legend-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .legend-text strong {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--nero);
-        }
-        .legend-text span {
-            font-size: 11px;
-            color: var(--tortora-scuro);
-            line-height: 1.3;
-        }
-        
-        /* OBIETTIVO GIORNALIERO */
-        .daily-goal-bar {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            padding: 20px 30px;
-            box-shadow: var(--ombra);
-        }
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .goal-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .goal-values {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--nero);
-        }
+        .atleta-badge .nome { font-size: 20px; font-weight: 700; color: var(--nero); }
+        .atleta-badge .dettagli { font-size: 13px; color: var(--tortora); margin-top: 4px; }
+        .atleta-badge .settimana { display: inline-block; margin-top: 10px; padding: 8px 16px; background: var(--tortora-chiarissimo); border: 1px solid var(--tortora); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--tortora-scuro); letter-spacing: 0.5px; }
+        .legend-section { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px 28px; box-shadow: var(--ombra); }
+        .legend-title { font-size: 14px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--tortora-chiaro); }
+        .legend-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .legend-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); border-left: 3px solid var(--tortora); }
+        .legend-icon { font-size: 22px; flex-shrink: 0; }
+        .legend-text { display: flex; flex-direction: column; gap: 2px; }
+        .legend-text strong { font-size: 13px; font-weight: 700; color: var(--nero); }
+        .legend-text span { font-size: 11px; color: var(--tortora-scuro); line-height: 1.3; }
+        .daily-goal-bar { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px 30px; box-shadow: var(--ombra); }
+        .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .goal-label { font-size: 13px; font-weight: 600; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; }
+        .goal-values { font-size: 14px; font-weight: 600; color: var(--nero); }
         .goal-values span { color: var(--tortora); }
-        .progress-track {
-            height: 10px;
-            background: var(--tortora-chiarissimo);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
-            border-radius: 10px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
+        .progress-track { height: 10px; background: var(--tortora-chiarissimo); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--tortora) 0%, var(--tortora-scuro) 100%); border-radius: 10px; transition: width 0.4s ease; width: 0%; }
         .progress-fill.over { background: linear-gradient(90deg, #E74C3C 0%, #C0392B 100%); }
-        
-        /* GRIGLIA GIORNI */
-        .days-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 22px;
-        }
-        
-        /* CARD GIORNO */
-        .day-card {
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--ombra);
-            transition: transform 0.25s, box-shadow 0.25s;
-        }
-        .day-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--ombra-forte);
-        }
-        .day-header {
-            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
-            color: var(--bianco);
-            padding: 18px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .day-header .giorno {
-            font-size: 19px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .day-header .data {
-            font-size: 12px;
-            opacity: 0.9;
-            font-weight: 500;
-        }
-        
-        /* PASTI */
+        .days-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 22px; }
+        .day-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); overflow: hidden; box-shadow: var(--ombra); transition: transform 0.25s, box-shadow 0.25s; }
+        .day-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
+        .day-header { background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%); color: var(--bianco); padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .day-header .giorno { font-size: 19px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .day-header .data { font-size: 12px; opacity: 0.9; font-weight: 500; }
         .meals-container { padding: 18px; }
-        .meal-block {
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--tortora);
-            position: relative;
-        }
+        .meal-block { background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid var(--tortora); position: relative; }
         .meal-block:last-child { margin-bottom: 0; }
-        .meal-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
+        .meal-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .meal-label .icon { font-size: 15px; }
-        
-        /* AUTOCOMPLETE */
         .autocomplete-wrapper { position: relative; margin-bottom: 8px; }
-        .meal-input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 6px;
-            font-size: 13px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            transition: border-color 0.2s;
-        }
-        .meal-input:focus {
-            outline: none;
-            border-color: var(--tortora);
-            box-shadow: 0 0 0 3px rgba(156, 146, 138, 0.1);
-        }
+        .meal-input { width: 100%; padding: 10px 12px; border: 1px solid var(--tortora-chiaro); border-radius: 6px; font-size: 13px; font-family: inherit; background: var(--bianco); color: var(--nero); transition: border-color 0.2s; }
+        .meal-input:focus { outline: none; border-color: var(--tortora); box-shadow: 0 0 0 3px rgba(156, 146, 138, 0.1); }
         .meal-input::placeholder { color: #B8B0A8; }
-        .autocomplete-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--bianco);
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 6px;
-            box-shadow: var(--ombra-forte);
-            max-height: 220px;
-            overflow-y: auto;
-            z-index: 100;
-            margin-top: 4px;
-            display: none;
-        }
+        .autocomplete-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: 6px; box-shadow: var(--ombra-forte); max-height: 220px; overflow-y: auto; z-index: 100; margin-top: 4px; display: none; }
         .autocomplete-dropdown.active { display: block; }
-        .autocomplete-item {
-            padding: 10px 14px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--tortora-chiarissimo);
-            transition: background 0.15s;
-        }
+        .autocomplete-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--tortora-chiarissimo); transition: background 0.15s; }
         .autocomplete-item:last-child { border-bottom: none; }
-        .autocomplete-item:hover, .autocomplete-item.selected {
-            background: var(--tortora-chiarissimo);
-        }
-        .autocomplete-item .food-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--nero);
-            margin-bottom: 3px;
-        }
-        .autocomplete-item .food-macros {
-            font-size: 11px;
-            color: var(--tortora);
-            display: flex;
-            gap: 10px;
-        }
+        .autocomplete-item:hover, .autocomplete-item.selected { background: var(--tortora-chiarissimo); }
+        .autocomplete-item .food-name { font-size: 13px; font-weight: 600; color: var(--nero); margin-bottom: 3px; }
+        .autocomplete-item .food-macros { font-size: 11px; color: var(--tortora); display: flex; gap: 10px; }
         .autocomplete-item .food-macros span { font-weight: 600; }
-        .autocomplete-item .food-category {
-            display: inline-block;
-            font-size: 9px;
-            padding: 2px 6px;
-            background: var(--tortora-chiarissimo);
-            color: var(--tortora-scuro);
-            border-radius: 10px;
-            margin-left: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .no-results {
-            padding: 14px;
-            text-align: center;
-            color: var(--tortora);
-            font-size: 12px;
-            font-style: italic;
-        }
-        
-        /* PORZIONE */
-        .portion-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .portion-select {
-            flex: 1;
-            padding: 7px 10px;
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 6px;
-            font-size: 12px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            cursor: pointer;
-        }
+        .autocomplete-item .food-category { display: inline-block; font-size: 9px; padding: 2px 6px; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-radius: 10px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .no-results { padding: 14px; text-align: center; color: var(--tortora); font-size: 12px; font-style: italic; }
+        .portion-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .portion-select { flex: 1; padding: 7px 10px; border: 1px solid var(--tortora-chiaro); border-radius: 6px; font-size: 12px; font-family: inherit; background: var(--bianco); color: var(--nero); cursor: pointer; }
         .portion-select:focus { outline: none; border-color: var(--tortora); }
-        .portion-custom {
-            width: 70px;
-            padding: 7px 10px;
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 6px;
-            font-size: 12px;
-            font-family: inherit;
-            background: var(--bianco);
-            text-align: center;
-        }
+        .portion-custom { width: 70px; padding: 7px 10px; border: 1px solid var(--tortora-chiaro); border-radius: 6px; font-size: 12px; font-family: inherit; background: var(--bianco); text-align: center; }
         .portion-custom:focus { outline: none; border-color: var(--tortora); }
-        .portion-unit {
-            font-size: 11px;
-            color: var(--tortora);
-            font-weight: 600;
-        }
-        
-        /* MACRO BADGE */
-        .macro-badges {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .macro-badge {
-            font-size: 10px;
-            padding: 4px 8px;
-            background: var(--bianco);
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 12px;
-            color: var(--tortora-scuro);
-            font-weight: 600;
-        }
+        .portion-unit { font-size: 11px; color: var(--tortora); font-weight: 600; }
+        .macro-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+        .macro-badge { font-size: 10px; padding: 4px 8px; background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: 12px; color: var(--tortora-scuro); font-weight: 600; }
         .macro-badge.kcal { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
-        
-        /* TOTALE GIORNALIERO */
-        .day-total {
-            background: var(--nero);
-            color: var(--bianco);
-            padding: 14px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        .day-total .total-value {
-            font-size: 17px;
-            font-weight: 700;
-        }
-        .day-total .macro-mini {
-            display: flex;
-            gap: 12px;
-            font-size: 11px;
-            opacity: 0.9;
-        }
-        
-        /* RIEPILOGO SETTIMANALE */
-        .weekly-summary {
-            max-width: 1400px;
-            margin: 30px auto 0;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--ombra);
-        }
-        .summary-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--nero);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .summary-chart {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        .chart-day {
-            text-align: center;
-            padding: 15px 8px;
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--tortora-chiaro);
-            position: relative;
-        }
-        .chart-day .day-name {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        .chart-bar-container {
-            height: 60px;
-            background: var(--bianco);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-        .chart-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
-            transition: height 0.4s ease;
-            border-radius: 4px 4px 0 0;
-        }
-        .chart-day .day-kcal {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--nero);
-        }
-        .chart-day .day-macro {
-            font-size: 10px;
-            color: var(--tortora);
-            margin-top: 3px;
-        }
-        .summary-total {
-            padding-top: 20px;
-            border-top: 2px solid var(--tortora);
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .total-block {
-            text-align: center;
-            padding: 15px;
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-        }
-        .total-block .label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .total-block .value {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--nero);
-        }
-        .total-block .unit {
-            font-size: 12px;
-            color: var(--tortora);
-            font-weight: 500;
-        }
-        
-        /* PULSANTI AZIONE */
-        .action-bar {
-            max-width: 1400px;
-            margin: 25px auto 0;
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .btn-print {
-            background: var(--bianco);
-            color: var(--nero);
-            border: 2px solid var(--nero);
-        }
+        .day-total { background: var(--nero); color: var(--bianco); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+        .day-total .total-value { font-size: 17px; font-weight: 700; }
+        .day-total .macro-mini { display: flex; gap: 12px; font-size: 11px; opacity: 0.9; }
+        .weekly-summary { max-width: 1400px; margin: 30px auto 0; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px; box-shadow: var(--ombra); }
+        .summary-title { font-size: 17px; font-weight: 700; color: var(--nero); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--tortora-chiaro); letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+        .summary-chart { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 25px; }
+        .chart-day { text-align: center; padding: 15px 8px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); border: 1px solid var(--tortora-chiaro); }
+        .chart-day .day-name { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .chart-bar-container { height: 60px; background: var(--bianco); border-radius: 4px; position: relative; overflow: hidden; margin-bottom: 8px; }
+        .chart-bar { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(180deg, var(--tortora) 0%, var(--tortora-scuro) 100%); transition: height 0.4s ease; border-radius: 4px 4px 0 0; }
+        .chart-day .day-kcal { font-size: 16px; font-weight: 700; color: var(--nero); }
+        .chart-day .day-macro { font-size: 10px; color: var(--tortora); margin-top: 3px; }
+        .summary-total { padding-top: 20px; border-top: 2px solid var(--tortora); display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .total-block { text-align: center; padding: 15px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); }
+        .total-block .label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .total-block .value { font-size: 26px; font-weight: 700; color: var(--nero); }
+        .total-block .unit { font-size: 12px; color: var(--tortora); font-weight: 500; }
+        .action-bar { max-width: 1400px; margin: 25px auto 0; display: flex; gap: 15px; justify-content: flex-end; flex-wrap: wrap; }
+        .btn { padding: 14px 28px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; letter-spacing: 0.5px; transition: all 0.2s; font-family: inherit; }
+        .btn-print { background: var(--bianco); color: var(--nero); border: 2px solid var(--nero); }
         .btn-print:hover { background: var(--tortora-chiarissimo); }
-        .btn-whatsapp {
-            background: var(--verde);
-            color: var(--bianco);
-        }
+        .btn-whatsapp { background: var(--verde); color: var(--bianco); }
         .btn-whatsapp:hover { background: var(--verde-scuro); }
-        .btn-save {
-            background: var(--tortora);
-            color: var(--bianco);
-        }
+        .btn-save { background: var(--tortora); color: var(--bianco); }
         .btn-save:hover { background: var(--nero); }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 1000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
         
-        /* TOAST NOTIFICATION */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--nero);
-            color: var(--bianco);
-            padding: 16px 24px;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--ombra-forte);
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-            pointer-events: none;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* STAMPA PROFESSIONALE */
-        @media print {
-            @page { size: A4; margin: 12mm; }
-            body { background: var(--bianco); padding: 0; }
-            .action-bar, .btn, .toast, .daily-goal-bar, .legend-section { display: none !important; }
-            .main-header { box-shadow: none; border: 2px solid var(--tortora); page-break-inside: avoid; }
-            .day-card { 
-                box-shadow: none; 
-                border: 1.5px solid var(--tortora-chiaro);
-                break-inside: avoid;
-                margin-bottom: 15px;
-            }
-            .day-card:hover { transform: none; }
-            .meal-block { 
-                background: var(--tortora-chiarissimo) !important; 
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .day-header { 
-                background: var(--tortora) !important; 
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .day-total { 
-                background: var(--nero) !important; 
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .meal-input, .portion-select, .portion-custom { 
-                border: none; 
-                background: transparent;
-                padding: 0;
-            }
-            .autocomplete-dropdown { display: none !important; }
-            .weekly-summary { box-shadow: none; break-inside: avoid; }
-            .days-grid { gap: 15px; }
-            .chart-bar {
-                background: var(--tortora) !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .main-header { flex-direction: column; gap: 20px; text-align: center; padding: 25px; }
-            .atleta-badge { text-align: center; }
-            .days-grid { grid-template-columns: 1fr; }
-            .summary-chart { grid-template-columns: repeat(4, 1fr); }
-            .summary-total { grid-template-columns: repeat(2, 1fr); }
-            .action-bar { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-            .legend-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
-            .legend-grid { grid-template-columns: 1fr; }
-        }
+        @media print { @page { size: A4; margin: 12mm; } body { background: var(--bianco); padding: 0; } .action-bar, .btn, .toast, .daily-goal-bar, .legend-section, .main-header { display: none !important; } .main-header-content { box-shadow: none; border: 2px solid var(--tortora); page-break-inside: avoid; } .day-card { box-shadow: none; border: 1.5px solid var(--tortora-chiaro); break-inside: avoid; margin-bottom: 15px; } .day-card:hover { transform: none; } .meal-block { background: var(--tortora-chiarissimo) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .day-header { background: var(--tortora) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .day-total { background: var(--nero) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .meal-input, .portion-select, .portion-custom { border: none; background: transparent; padding: 0; } .autocomplete-dropdown { display: none !important; } .weekly-summary { box-shadow: none; break-inside: avoid; } .days-grid { gap: 15px; } .chart-bar { background: var(--tortora) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+        @media (max-width: 768px) { .main-header-content { flex-direction: column; gap: 20px; text-align: center; padding: 25px; } .atleta-badge { text-align: center; } .days-grid { grid-template-columns: 1fr; } .summary-chart { grid-template-columns: repeat(4, 1fr); } .summary-total { grid-template-columns: repeat(2, 1fr); } .action-bar { flex-direction: column; } .btn { width: 100%; justify-content: center; } .legend-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .legend-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- HEADER UNIVERSALE -->
     <div class="main-header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Piano Nutrizionale</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
+                <span class="sync-dot"></span>
+                <span id="syncLabel">Sync OK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER CONTENUTO -->
+    <div class="main-header-content">
         <div class="logo-section">
             <h1>AppCenterStudioGYM</h1>
             <p>Piano Nutrizionale Settimanale</p>
@@ -642,34 +164,10 @@
     <div class="legend-section">
         <div class="legend-title">📘 Guida alla lettura</div>
         <div class="legend-grid">
-            <div class="legend-item">
-                <span class="legend-icon">🔥</span>
-                <div class="legend-text">
-                    <strong>kcal</strong>
-                    <span>Chilocalorie: l'energia che il cibo fornisce al corpo</span>
-                </div>
-            </div>
-            <div class="legend-item">
-                <span class="legend-icon">🥩</span>
-                <div class="legend-text">
-                    <strong>P = Proteine</strong>
-                    <span>Costruiscono e riparano i muscoli</span>
-                </div>
-            </div>
-            <div class="legend-item">
-                <span class="legend-icon">⚡</span>
-                <div class="legend-text">
-                    <strong>C = Carboidrati</strong>
-                    <span>Forniscono energia immediata per l'allenamento</span>
-                </div>
-            </div>
-            <div class="legend-item">
-                <span class="legend-icon">🥑</span>
-                <div class="legend-text">
-                    <strong>G = Grassi</strong>
-                    <span>Importanti per gli ormoni e l'assorbimento delle vitamine</span>
-                </div>
-            </div>
+            <div class="legend-item"><span class="legend-icon">🔥</span><div class="legend-text"><strong>kcal</strong><span>Chilocalorie: l'energia che il cibo fornisce al corpo</span></div></div>
+            <div class="legend-item"><span class="legend-icon"></span><div class="legend-text"><strong>P = Proteine</strong><span>Costruiscono e riparano i muscoli</span></div></div>
+            <div class="legend-item"><span class="legend-icon">⚡</span><div class="legend-text"><strong>C = Carboidrati</strong><span>Forniscono energia immediata per l'allenamento</span></div></div>
+            <div class="legend-item"><span class="legend-icon"></span><div class="legend-text"><strong>G = Grassi</strong><span>Importanti per gli ormoni e l'assorbimento delle vitamine</span></div></div>
         </div>
     </div>
 
@@ -679,9 +177,7 @@
             <div class="goal-label">🎯 Obiettivo calorico giornaliero</div>
             <div class="goal-values"><span id="currentKcal">0</span> / <span>2.200</span> kcal</div>
         </div>
-        <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
     <!-- GRIGLIA GIORNI -->
@@ -692,32 +188,16 @@
         <div class="summary-title">📊 Riepilogo Settimanale</div>
         <div class="summary-chart" id="summaryChart"></div>
         <div class="summary-total">
-            <div class="total-block">
-                <div class="label">Calorie Totali</div>
-                <div class="value" id="weekKcal">0</div>
-                <div class="unit">kcal</div>
-            </div>
-            <div class="total-block">
-                <div class="label">Proteine</div>
-                <div class="value" id="weekProtein">0</div>
-                <div class="unit">g</div>
-            </div>
-            <div class="total-block">
-                <div class="label">Carboidrati</div>
-                <div class="value" id="weekCarbs">0</div>
-                <div class="unit">g</div>
-            </div>
-            <div class="total-block">
-                <div class="label">Grassi</div>
-                <div class="value" id="weekFat">0</div>
-                <div class="unit">g</div>
-            </div>
+            <div class="total-block"><div class="label">Calorie Totali</div><div class="value" id="weekKcal">0</div><div class="unit">kcal</div></div>
+            <div class="total-block"><div class="label">Proteine</div><div class="value" id="weekProtein">0</div><div class="unit">g</div></div>
+            <div class="total-block"><div class="label">Carboidrati</div><div class="value" id="weekCarbs">0</div><div class="unit">g</div></div>
+            <div class="total-block"><div class="label">Grassi</div><div class="value" id="weekFat">0</div><div class="unit">g</div></div>
         </div>
     </div>
 
     <!-- PULSANTI -->
     <div class="action-bar">
-        <button class="btn btn-print" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
+        <button class="btn btn-print" onclick="window.print()">️ Stampa / Salva PDF</button>
         <button class="btn btn-whatsapp" onclick="inviaWhatsApp()">💬 Invia su WhatsApp</button>
         <button class="btn btn-save" onclick="salvaPiano()">💾 Salva Piano</button>
     </div>
@@ -726,10 +206,6 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    // ============================================================
-    // DATABASE NUTRIZIONALE - 238 alimenti italiani (valori per 100g)
-    // Fonte: CREA (Consiglio per la Ricerca in Agricoltura) / USDA
-    // ============================================================
     const FOOD_DATABASE = [
         { id: 1, name: "Yogurt greco 0% grassi", category: "colazione", kcal: 59, protein: 10.3, carbs: 3.6, fat: 0.4, fiber: 0, portion: 150, portionName: "1 vasetto" },
         { id: 2, name: "Yogurt bianco intero", category: "colazione", kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, fiber: 0, portion: 125, portionName: "1 vasetto" },
@@ -971,31 +447,13 @@
         { id: 238, name: "Fagioli borlotti", category: "altro", kcal: 143, protein: 9.5, carbs: 26.2, fat: 0.6, fiber: 7.2, portion: 150, portionName: "porzione cotta" }
     ];
     
-    const CATEGORY_LABELS = {
-        colazione: "Colazione", spuntino: "Spuntino", primo: "Primo",
-        secondo_carne: "Secondo (Carne)", secondo_pesce: "Secondo (Pesce)",
-        contorno: "Contorno", frutta: "Frutta", bevanda: "Bevanda", altro: "Altro"
-    };
-    
-    const DAYS = [
-        { name: "Lunedì", date: "20/10", icon: "" },
-        { name: "Martedì", date: "21/10", icon: "☀️" },
-        { name: "Mercoledì", date: "22/10", icon: "🌤️" },
-        { name: "Giovedì", date: "23/10", icon: "⛅" },
-        { name: "Venerdì", date: "24/10", icon: "" },
-        { name: "Sabato", date: "25/10", icon: "🌞" },
-        { name: "Domenica", date: "26/10", icon: "🌻" }
-    ];
-    
-    const MEALS = [
-        { id: "mattina", label: "MATTINA", icon: "☀️", subtitle: "Colazione" },
-        { id: "mezzogiorno", label: "MEZZOGIORNO", icon: "🌤️", subtitle: "Spuntino" },
-        { id: "pranzo", label: "PRANZO", icon: "🍽️", subtitle: "Pasto principale" },
-        { id: "sera", label: "SERA", icon: "🌙", subtitle: "Cena" }
-    ];
-    
+    const CATEGORY_LABELS = { colazione: "Colazione", spuntino: "Spuntino", primo: "Primo", secondo_carne: "Secondo (Carne)", secondo_pesce: "Secondo (Pesce)", contorno: "Contorno", frutta: "Frutta", bevanda: "Bevanda", altro: "Altro" };
+    const DAYS = [ { name: "Lunedì", date: "20/10", icon: "" }, { name: "Martedì", date: "21/10", icon: "☀️" }, { name: "Mercoledì", date: "22/10", icon: "🌤️" }, { name: "Giovedì", date: "23/10", icon: "⛅" }, { name: "Venerdì", date: "24/10", icon: "" }, { name: "Sabato", date: "25/10", icon: "🌞" }, { name: "Domenica", date: "26/10", icon: "🌻" } ];
+    const MEALS = [ { id: "mattina", label: "MATTINA", icon: "☀️", subtitle: "Colazione" }, { id: "mezzogiorno", label: "MEZZOGIORNO", icon: "️", subtitle: "Spuntino" }, { id: "pranzo", label: "PRANZO", icon: "🍽️", subtitle: "Pasto principale" }, { id: "sera", label: "SERA", icon: "", subtitle: "Cena" } ];
     const DAILY_GOAL = 2200;
     let appState = {};
+    let syncState = 'online';
+    let hasUnsavedChanges = false;
     
     function initApp() {
         const saved = localStorage.getItem('dietPlanState');
@@ -1003,6 +461,41 @@
         renderDays();
         renderSummary();
         updateDailyGoal();
+        aggiornaSyncStatus('online', 'Sync OK');
+    }
+    
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+    }
+    
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = 'index.html';
+    }
+    
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+        syncState = stato;
+    }
+    
+    function forzaSync() {
+        if (syncState === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            saveState();
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast(' Errore durante la sincronizzazione');
+        }
     }
     
     function renderDays() {
@@ -1015,53 +508,10 @@
             MEALS.forEach(meal => {
                 const key = `${dayIndex}_${meal.id}`;
                 const saved = appState[key] || {};
-                mealsHTML += `
-                    <div class="meal-block">
-                        <div class="meal-label">
-                            <span class="icon">${meal.icon}</span>
-                            ${meal.label} <span style="opacity:0.7; font-weight:400; text-transform:none; letter-spacing:0;">• ${meal.subtitle}</span>
-                        </div>
-                        <div class="autocomplete-wrapper">
-                            <input type="text" class="meal-input" placeholder="Cerca un alimento..." value="${saved.name || ''}" data-day="${dayIndex}" data-meal="${meal.id}" oninput="handleAutocomplete(this)" onkeydown="handleAutocompleteKey(event, this)" onblur="hideDropdown(this)">
-                            <div class="autocomplete-dropdown"></div>
-                        </div>
-                        <div class="portion-row">
-                            <select class="portion-select" onchange="updateMeal('${key}', this.parentElement.parentElement)">
-                                <option value="100">100g</option>
-                                <option value="${saved.portion || 100}" ${saved.portion && saved.portion != 100 ? 'selected' : ''}>Porzione (${saved.portionName || 'standard'})</option>
-                                <option value="custom">Personalizzata</option>
-                            </select>
-                            <input type="number" class="portion-custom" placeholder="g" value="${saved.grams || ''}" onchange="updateMeal('${key}', this.closest('.meal-block'))" style="${saved.portionType === 'custom' ? '' : 'display:none'}">
-                            <span class="portion-unit">g</span>
-                        </div>
-                        <div class="macro-badges">
-                            <span class="macro-badge kcal"><span class="kcal-val">${saved.kcal ? saved.kcal.toFixed(0) : 0}</span> kcal</span>
-                            <span class="macro-badge">P: <span class="protein-val">${(saved.protein || 0).toFixed(1)}</span>g</span>
-                            <span class="macro-badge">C: <span class="carbs-val">${(saved.carbs || 0).toFixed(1)}</span>g</span>
-                            <span class="macro-badge">G: <span class="fat-val">${(saved.fat || 0).toFixed(1)}</span>g</span>
-                        </div>
-                    </div>
-                `;
+                mealsHTML += `<div class="meal-block"><div class="meal-label"><span class="icon">${meal.icon}</span>${meal.label} <span style="opacity:0.7; font-weight:400; text-transform:none; letter-spacing:0;">• ${meal.subtitle}</span></div><div class="autocomplete-wrapper"><input type="text" class="meal-input" placeholder="Cerca un alimento..." value="${saved.name || ''}" data-day="${dayIndex}" data-meal="${meal.id}" oninput="handleAutocomplete(this)" onkeydown="handleAutocompleteKey(event, this)" onblur="hideDropdown(this)"><div class="autocomplete-dropdown"></div></div><div class="portion-row"><select class="portion-select" onchange="updateMeal('${key}', this.parentElement.parentElement)"><option value="100">100g</option><option value="${saved.portion || 100}" ${saved.portion && saved.portion != 100 ? 'selected' : ''}>Porzione (${saved.portionName || 'standard'})</option><option value="custom">Personalizzata</option></select><input type="number" class="portion-custom" placeholder="g" value="${saved.grams || ''}" onchange="updateMeal('${key}', this.closest('.meal-block'))" style="${saved.portionType === 'custom' ? '' : 'display:none'}"><span class="portion-unit">g</span></div><div class="macro-badges"><span class="macro-badge kcal"><span class="kcal-val">${saved.kcal ? saved.kcal.toFixed(0) : 0}</span> kcal</span><span class="macro-badge">P: <span class="protein-val">${(saved.protein || 0).toFixed(1)}</span>g</span><span class="macro-badge">C: <span class="carbs-val">${(saved.carbs || 0).toFixed(1)}</span>g</span><span class="macro-badge">G: <span class="fat-val">${(saved.fat || 0).toFixed(1)}</span>g</span></div></div>`;
             });
             const dayTotals = calculateDayTotals(dayIndex);
-            dayCard.innerHTML = `
-                <div class="day-header">
-                    <span class="giorno">${day.icon} ${day.name}</span>
-                    <span class="data">${day.date}</span>
-                </div>
-                <div class="meals-container">${mealsHTML}</div>
-                <div class="day-total">
-                    <span>TOTALE GIORNALIERO</span>
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="macro-mini">
-                            <span>P: ${dayTotals.protein.toFixed(0)}g</span>
-                            <span>C: ${dayTotals.carbs.toFixed(0)}g</span>
-                            <span>G: ${dayTotals.fat.toFixed(0)}g</span>
-                        </div>
-                        <span class="total-value">${dayTotals.kcal.toFixed(0)} kcal</span>
-                    </div>
-                </div>
-            `;
+            dayCard.innerHTML = `<div class="day-header"><span class="giorno">${day.icon} ${day.name}</span><span class="data">${day.date}</span></div><div class="meals-container">${mealsHTML}</div><div class="day-total"><span>TOTALE GIORNALIERO</span><div style="display:flex; align-items:center; gap:15px;"><div class="macro-mini"><span>P: ${dayTotals.protein.toFixed(0)}g</span><span>C: ${dayTotals.carbs.toFixed(0)}g</span><span>G: ${dayTotals.fat.toFixed(0)}g</span></div><span class="total-value">${dayTotals.kcal.toFixed(0)} kcal</span></div></div>`;
             grid.appendChild(dayCard);
         });
     }
@@ -1071,43 +521,18 @@
         const dropdown = input.nextElementSibling;
         if (query.length < 2) { dropdown.classList.remove('active'); return; }
         const matches = FOOD_DATABASE.filter(food => food.name.toLowerCase().includes(query)).slice(0, 8);
-        if (matches.length === 0) {
-            dropdown.innerHTML = '<div class="no-results">Nessun alimento trovato. Scrivi liberamente e aggiungi le calorie a mano.</div>';
-        } else {
-            dropdown.innerHTML = matches.map((food, idx) => `
-                <div class="autocomplete-item" data-idx="${idx}" onclick="selectFood('${input.dataset.day}_${input.dataset.meal}', ${food.id}, this.closest('.meal-block'))">
-                    <div class="food-name">${food.name}</div>
-                    <div class="food-macros">
-                        <span>${food.kcal} kcal</span><span>P: ${food.protein}g</span><span>C: ${food.carbs}g</span><span>G: ${food.fat}g</span>
-                        <span class="food-category">${CATEGORY_LABELS[food.category]}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
+        if (matches.length === 0) { dropdown.innerHTML = '<div class="no-results">Nessun alimento trovato. Scrivi liberamente e aggiungi le calorie a mano.</div>'; }
+        else { dropdown.innerHTML = matches.map((food, idx) => `<div class="autocomplete-item" data-idx="${idx}" onclick="selectFood('${input.dataset.day}_${input.dataset.meal}', ${food.id}, this.closest('.meal-block'))"><div class="food-name">${food.name}</div><div class="food-macros"><span>${food.kcal} kcal</span><span>P: ${food.protein}g</span><span>C: ${food.carbs}g</span><span>G: ${food.fat}g</span><span class="food-category">${CATEGORY_LABELS[food.category]}</span></div></div>`).join(''); }
         dropdown.classList.add('active');
     }
     
     function handleAutocompleteKey(event, input) {
         const dropdown = input.nextElementSibling;
         const items = dropdown.querySelectorAll('.autocomplete-item');
-        if (event.key === 'ArrowDown') {
-            event.preventDefault();
-            const current = dropdown.querySelector('.selected');
-            const next = current ? current.nextElementSibling : items[0];
-            if (current) current.classList.remove('selected');
-            if (next) { next.classList.add('selected'); next.scrollIntoView({block: 'nearest'}); }
-        } else if (event.key === 'ArrowUp') {
-            event.preventDefault();
-            const current = dropdown.querySelector('.selected');
-            const prev = current ? current.previousElementSibling : items[items.length - 1];
-            if (current) current.classList.remove('selected');
-            if (prev) { prev.classList.add('selected'); prev.scrollIntoView({block: 'nearest'}); }
-        } else if (event.key === 'Enter') {
-            const selected = dropdown.querySelector('.selected');
-            if (selected) { event.preventDefault(); selected.click(); }
-        } else if (event.key === 'Escape') {
-            dropdown.classList.remove('active');
-        }
+        if (event.key === 'ArrowDown') { event.preventDefault(); const current = dropdown.querySelector('.selected'); const next = current ? current.nextElementSibling : items[0]; if (current) current.classList.remove('selected'); if (next) { next.classList.add('selected'); next.scrollIntoView({block: 'nearest'}); } }
+        else if (event.key === 'ArrowUp') { event.preventDefault(); const current = dropdown.querySelector('.selected'); const prev = current ? current.previousElementSibling : items[items.length - 1]; if (current) current.classList.remove('selected'); if (prev) { prev.classList.add('selected'); prev.scrollIntoView({block: 'nearest'}); } }
+        else if (event.key === 'Enter') { const selected = dropdown.querySelector('.selected'); if (selected) { event.preventDefault(); selected.click(); } }
+        else if (event.key === 'Escape') { dropdown.classList.remove('active'); }
     }
     
     function selectFood(key, foodId, mealBlock) {
@@ -1122,17 +547,15 @@
         standardOption.textContent = `Porzione (${food.portionName})`;
         standardOption.selected = true;
         portionCustom.value = food.portion;
-        appState[key] = {
-            name: food.name, foodId: food.id, grams: food.portion, portionType: 'standard', portionName: food.portionName,
-            kcal: food.kcal * food.portion / 100, protein: food.protein * food.portion / 100,
-            carbs: food.carbs * food.portion / 100, fat: food.fat * food.portion / 100, fiber: food.fiber * food.portion / 100
-        };
+        appState[key] = { name: food.name, foodId: food.id, grams: food.portion, portionType: 'standard', portionName: food.portionName, kcal: food.kcal * food.portion / 100, protein: food.protein * food.portion / 100, carbs: food.carbs * food.portion / 100, fat: food.fat * food.portion / 100, fiber: food.fiber * food.portion / 100 };
         input.nextElementSibling.classList.remove('active');
         updateMealBadges(mealBlock);
         updateDayTotal(input.dataset.day);
         updateDailyGoal();
         renderSummary();
         saveState();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
     function updateMeal(key, mealBlock) {
@@ -1142,28 +565,20 @@
         const dayIndex = input.dataset.day;
         const selectedValue = portionSelect.value;
         let grams = 100;
-        if (selectedValue === 'custom') {
-            grams = parseFloat(portionCustom.value) || 0;
-            portionCustom.style.display = 'block';
-        } else {
-            grams = parseFloat(selectedValue) || 100;
-            portionCustom.style.display = 'none';
-        }
+        if (selectedValue === 'custom') { grams = parseFloat(portionCustom.value) || 0; portionCustom.style.display = 'block'; }
+        else { grams = parseFloat(selectedValue) || 100; portionCustom.style.display = 'none'; }
         const foodId = appState[key]?.foodId;
         const food = foodId ? FOOD_DATABASE.find(f => f.id === foodId) : null;
-        if (food) {
-            appState[key] = { ...appState[key], grams: grams, portionType: selectedValue, kcal: food.kcal * grams / 100, protein: food.protein * grams / 100, carbs: food.carbs * grams / 100, fat: food.fat * grams / 100, fiber: food.fiber * grams / 100 };
-        } else if (input.value.trim()) {
-            if (!appState[key]) appState[key] = {};
-            appState[key] = { ...appState[key], name: input.value, grams: grams, portionType: selectedValue };
-        } else {
-            delete appState[key];
-        }
+        if (food) { appState[key] = { ...appState[key], grams: grams, portionType: selectedValue, kcal: food.kcal * grams / 100, protein: food.protein * grams / 100, carbs: food.carbs * grams / 100, fat: food.fat * grams / 100, fiber: food.fiber * grams / 100 }; }
+        else if (input.value.trim()) { if (!appState[key]) appState[key] = {}; appState[key] = { ...appState[key], name: input.value, grams: grams, portionType: selectedValue }; }
+        else { delete appState[key]; }
         updateMealBadges(mealBlock);
         updateDayTotal(dayIndex);
         updateDailyGoal();
         renderSummary();
         saveState();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
     function updateMealBadges(mealBlock) {
@@ -1180,14 +595,7 @@
     
     function calculateDayTotals(dayIndex) {
         let totals = { kcal: 0, protein: 0, carbs: 0, fat: 0 };
-        MEALS.forEach(meal => {
-            const key = `${dayIndex}_${meal.id}`;
-            const data = appState[key] || {};
-            totals.kcal += data.kcal || 0;
-            totals.protein += data.protein || 0;
-            totals.carbs += data.carbs || 0;
-            totals.fat += data.fat || 0;
-        });
+        MEALS.forEach(meal => { const key = `${dayIndex}_${meal.id}`; const data = appState[key] || {}; totals.kcal += data.kcal || 0; totals.protein += data.protein || 0; totals.carbs += data.carbs || 0; totals.fat += data.fat || 0; });
         return totals;
     }
     
@@ -1222,14 +630,7 @@
             const totals = calculateDayTotals(i);
             weekTotals.kcal += totals.kcal; weekTotals.protein += totals.protein; weekTotals.carbs += totals.carbs; weekTotals.fat += totals.fat;
             const barHeight = maxKcal > 0 ? (totals.kcal / maxKcal) * 100 : 0;
-            chart.innerHTML += `
-                <div class="chart-day">
-                    <div class="day-name">${day.name.substring(0, 3)}</div>
-                    <div class="chart-bar-container"><div class="chart-bar" style="height: ${barHeight}%"></div></div>
-                    <div class="day-kcal">${totals.kcal.toFixed(0)}</div>
-                    <div class="day-macro">P:${totals.protein.toFixed(0)} C:${totals.carbs.toFixed(0)}</div>
-                </div>
-            `;
+            chart.innerHTML += `<div class="chart-day"><div class="day-name">${day.name.substring(0, 3)}</div><div class="chart-bar-container"><div class="chart-bar" style="height: ${barHeight}%"></div></div><div class="day-kcal">${totals.kcal.toFixed(0)}</div><div class="day-macro">P:${totals.protein.toFixed(0)} C:${totals.carbs.toFixed(0)}</div></div>`;
         });
         document.getElementById('weekKcal').textContent = weekTotals.kcal.toFixed(0);
         document.getElementById('weekProtein').textContent = weekTotals.protein.toFixed(0);
@@ -1239,18 +640,13 @@
     
     function hideDropdown(input) { setTimeout(() => { input.nextElementSibling.classList.remove('active'); }, 200); }
     function saveState() { localStorage.setItem('dietPlanState', JSON.stringify(appState)); }
-    function salvaPiano() { saveState(); showToast('✅ Piano salvato con successo!'); }
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    function salvaPiano() { saveState(); showToast('✅ Piano salvato con successo!'); aggiornaSyncStatus('online', 'Sync OK'); hasUnsavedChanges = false; }
+    function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     function inviaWhatsApp() {
         const telefono = "393331234567";
         const totals = calculateDayTotals(0);
         const weekKcal = Array.from({length: 7}, (_, i) => calculateDayTotals(i).kcal).reduce((a, b) => a + b, 0);
-        const messaggio = encodeURIComponent(`Ciao Marco! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n🎯 Obiettivo: Definizione\n⚖️ Peso: 75 kg\n\n📊 Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM`);
+        const messaggio = encodeURIComponent(`Ciao Marco! 🏋️‍️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n Obiettivo: Definizione\n⚖️ Peso: 75 kg\n\n📊 Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM`);
         window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
         showToast('💬 WhatsApp aperto!');
     }

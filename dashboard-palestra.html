@@ -19,6 +19,8 @@
             --rosso: #E74C3C;
             --rosso-chiaro: #FADBD8;
             --blu: #3498DB;
+            --blu-chiaro: #D6EAF8;
+            --anydesk: #EF443B;
             --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
             --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
             --radius: 12px;
@@ -33,9 +35,7 @@
             padding: 20px;
         }
         
-        /* ============================================================
-           HEADER UNIVERSALE CON 4 PULSANTI + SYNC
-           ============================================================ */
+        /* HEADER UNIVERSALE */
         .main-header {
             max-width: 1400px;
             margin: 0 auto 25px;
@@ -53,141 +53,42 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-            min-width: 200px;
-        }
-        .header-logo-container img {
-            width: 45px;
-            height: 45px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid var(--tortora-chiaro);
-        }
-        .logo-placeholder {
-            width: 45px;
-            height: 45px;
-            background: var(--tortora-chiarissimo);
-            border: 2px dashed var(--tortora);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-logo-container img { width: 45px; height: 45px; object-fit: cover; border-radius: 8px; border: 2px solid var(--tortora-chiaro); }
+        .logo-placeholder { width: 45px; height: 45px; background: var(--tortora-chiarissimo); border: 2px dashed var(--tortora); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .header-title h1 { font-size: 18px; font-weight: 700; color: var(--nero); }
         .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
-        
-        /* NAVIGAZIONE - 4 PULSANTI */
-        .header-nav {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            padding: 8px 14px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-            font-family: inherit;
-            border: 1.5px solid transparent;
-            white-space: nowrap;
-        }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; }
         .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
         .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
         .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
         .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
         .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
-        
-        /* SYNC STATUS */
-        .sync-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1.5px solid;
-        }
-        .sync-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .sync-dot::after {
-            content: 'S';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 7px;
-            font-weight: 900;
-            color: var(--bianco);
-        }
+        .sync-status { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid; }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
         .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
         .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
         .sync-warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
         .sync-warning .sync-dot { background: var(--arancione); animation: pulse-arancione 1.5s infinite; }
         .sync-offline { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
         .sync-offline .sync-dot { background: var(--rosso); animation: pulse-rosso 1s infinite; }
-        
-        @keyframes pulse-verde {
-            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
-            70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
-        }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
         @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
         
-        /* STATUS BADGE */
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .status-attiva { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
         .status-prova { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
         .status-scaduta { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
         
-        /* ALERT */
-        .alert-banner {
-            max-width: 1400px;
-            margin: 0 auto 20px;
-            padding: 15px 20px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 600;
-        }
+        .alert-banner { max-width: 1400px; margin: 0 auto 20px; padding: 15px 20px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
         .alert-prova { background: var(--arancione-chiaro); border: 2px solid var(--arancione); color: #9C640C; }
         .alert-scaduta { background: var(--rosso-chiaro); border: 2px solid var(--rosso); color: #922B21; }
         .alert-ok { background: var(--verde-chiaro); border: 2px solid var(--verde); color: #1E8449; }
         
-        /* STATS */
         .stats-grid { max-width: 1400px; margin: 0 auto 25px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
         .stat-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
@@ -195,18 +96,148 @@
         .stat-card .value { font-size: 32px; font-weight: 700; color: var(--nero); }
         .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
         
+        /* ============================================================
+           CARD ASSISTENZA - NUOVA
+           ============================================================ */
+        .assistenza-card {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px 30px;
+            box-shadow: var(--ombra);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .assistenza-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--tortora) 0%, var(--blu) 50%, var(--anydesk) 100%);
+        }
+        .assistenza-header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+            margin-bottom: 5px;
+        }
+        .assistenza-header .icon {
+            font-size: 28px;
+            background: var(--tortora-chiarissimo);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .assistenza-header .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--nero);
+        }
+        .assistenza-header .subtitle {
+            font-size: 12px;
+            color: var(--tortora);
+            margin-top: 2px;
+        }
+        .assistenza-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .assistenza-item {
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+            border-left: 4px solid var(--tortora);
+        }
+        .assistenza-item:hover {
+            transform: translateX(3px);
+            box-shadow: var(--ombra);
+        }
+        .assistenza-item.whatsapp { border-left-color: #25D366; }
+        .assistenza-item.anydesk { border-left-color: var(--anydesk); }
+        .assistenza-item .item-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+        .assistenza-item .item-info { flex: 1; }
+        .assistenza-item .item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 3px;
+        }
+        .assistenza-item .item-desc {
+            font-size: 12px;
+            color: var(--tortora-scuro);
+            line-height: 1.4;
+        }
+        .assistenza-item .item-action {
+            padding: 10px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: none;
+            white-space: nowrap;
+        }
+        .btn-whatsapp-assistenza {
+            background: #25D366;
+            color: var(--bianco);
+        }
+        .btn-whatsapp-assistenza:hover { background: #128C7E; transform: translateY(-2px); }
+        .btn-anydesk {
+            background: var(--anydesk);
+            color: var(--bianco);
+        }
+        .btn-anydesk:hover { background: #D63B32; transform: translateY(-2px); }
+        .assistenza-note {
+            grid-column: 1 / -1;
+            background: var(--blu-chiaro);
+            border: 1px solid var(--blu);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #1A5276;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .assistenza-note .note-icon { font-size: 18px; }
+        
         /* TABS */
         .tabs-container { max-width: 1400px; margin: 0 auto 25px; display: flex; gap: 8px; flex-wrap: wrap; }
         .tab-btn { padding: 14px 24px; background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--tortora-scuro); transition: all 0.2s; font-family: inherit; }
         .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
         .tab-btn.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         
-        /* SEZIONI */
         .section-container { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px; box-shadow: var(--ombra); }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
         .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
         
-        /* FORM */
         .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
@@ -216,38 +247,16 @@
         .form-group textarea { resize: vertical; min-height: 80px; }
         .form-hint { font-size: 11px; color: var(--tortora); font-style: italic; }
         
-        /* UPLOAD FILE (Logo e Certificato) */
-        .file-upload-area {
-            border: 2px dashed var(--tortora);
-            border-radius: var(--radius);
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--tortora-chiarissimo);
-        }
+        .file-upload-area { border: 2px dashed var(--tortora); border-radius: var(--radius); padding: 25px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--tortora-chiarissimo); }
         .file-upload-area:hover { border-color: var(--tortora-scuro); background: var(--bianco); }
         .file-upload-area .icon { font-size: 42px; margin-bottom: 8px; }
         .file-upload-area .text { font-size: 14px; color: var(--tortora-scuro); font-weight: 600; }
         .file-upload-area .hint { font-size: 11px; color: var(--tortora); margin-top: 5px; }
         .file-preview { max-width: 200px; max-height: 200px; margin: 12px auto; border-radius: var(--radius-sm); border: 2px solid var(--tortora-chiaro); display: block; }
-        .file-info {
-            margin-top: 10px;
-            padding: 10px 14px;
-            background: var(--verde-chiaro);
-            border: 1px solid var(--verde);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            color: #1E8449;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
+        .file-info { margin-top: 10px; padding: 10px 14px; background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); font-size: 12px; color: #1E8449; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
         .file-info .filename { font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .file-info .btn-remove { background: var(--rosso); color: var(--bianco); border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; }
         
-        /* BOTTONI */
         .btn { padding: 12px 24px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: inherit; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
@@ -263,7 +272,6 @@
         .btn-whatsapp:hover { background: #128C7E; }
         .btn-sm { padding: 8px 14px; font-size: 12px; }
         
-        /* TABELLA */
         .atleti-table { width: 100%; border-collapse: collapse; }
         .atleti-table th { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 12px; text-align: left; border-bottom: 2px solid var(--tortora); }
         .atleti-table td { padding: 16px 12px; border-bottom: 1px solid var(--tortora-chiaro); font-size: 14px; vertical-align: middle; }
@@ -298,7 +306,6 @@
         .onboarding-form h3 { font-size: 18px; margin-bottom: 20px; color: var(--nero); padding-bottom: 10px; border-bottom: 2px solid var(--tortora-chiaro); }
         .onboarding-actions { padding: 20px 40px 30px; display: flex; gap: 12px; justify-content: flex-end; }
         
-        /* RESPONSIVE */
         @media (max-width: 900px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .form-grid { grid-template-columns: 1fr; }
@@ -306,6 +313,7 @@
             .atleti-table th, .atleti-table td { padding: 10px 6px; }
             .main-header { flex-direction: column; align-items: stretch; }
             .header-nav { justify-content: center; }
+            .assistenza-card { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -329,7 +337,7 @@
                 <div class="trial-badge">🎁 PROVA GRATUITA 30 GIORNI</div>
             </div>
             <div class="onboarding-form">
-                <h3> Dati della Palestra</h3>
+                <h3>📋 Dati della Palestra</h3>
                 <div class="form-grid">
                     <div class="form-group full">
                         <label>Logo della Palestra</label>
@@ -368,7 +376,7 @@
         </div>
     </div>
 
-    <!-- HEADER UNIVERSALE CON 4 PULSANTI + SYNC -->
+    <!-- HEADER UNIVERSALE -->
     <div class="main-header">
         <div class="header-left">
             <div class="header-logo-container" id="headerLogoContainer">
@@ -381,7 +389,7 @@
         </div>
         <div class="header-nav">
             <span class="status-badge status-prova" id="headerStatus">In Prova</span>
-            <a href="index.html" class="nav-btn nav-btn-home" title="Torna alla Home"> Home</a>
+            <a href="index.html" class="nav-btn nav-btn-home" title="Torna alla Home">🏠 Home</a>
             <button class="nav-btn nav-btn-back" onclick="tornaIndietro()" title="Torna Indietro">← Indietro</button>
             <button class="nav-btn nav-btn-logout" onclick="esci()" title="Esci dall'app">🚪 Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()" title="Stato sincronizzazione">
@@ -402,6 +410,78 @@
         <div class="stat-card"><div class="label">Scaduti</div><div class="value" id="statScaduti">0</div><div class="sub">da rinnovare</div></div>
     </div>
 
+    <!-- ============================================================
+         CARD ASSISTENZA - NUOVA
+         ============================================================ -->
+    <div class="assistenza-card">
+        <div class="assistenza-header">
+            <div class="icon">🎧</div>
+            <div>
+                <div class="title">Centro Assistenza AppCenterStudioGYM</div>
+                <div class="subtitle">Supporto tecnico e assistenza remota per la tua palestra</div>
+            </div>
+        </div>
+        
+        <div class="assistenza-col">
+            <div class="assistenza-item whatsapp">
+                <div class="item-icon">💬</div>
+                <div class="item-info">
+                    <div class="item-title">Assistenza via WhatsApp</div>
+                    <div class="item-desc">Contatta direttamente il supporto tecnico per qualsiasi problema o domanda. Risposta rapida garantita.</div>
+                </div>
+                <a href="https://wa.me/393447507656?text=Ciao%2C%20ho%20bisogno%20di%20assistenza%20per%20AppCenterStudioGYM" target="_blank" class="item-action btn-whatsapp-assistenza">
+                    💬 Contatta ora
+                </a>
+            </div>
+            
+            <div class="assistenza-item">
+                <div class="item-icon">📞</div>
+                <div class="item-info">
+                    <div class="item-title">Numero diretto</div>
+                    <div class="item-desc">
+                        <strong>+39 344 750 7656</strong><br>
+                        Lun - Ven: 9:00 - 18:00
+                    </div>
+                </div>
+                <a href="tel:+393447507656" class="item-action btn-secondary" style="border:1.5px solid var(--tortora); color:var(--tortora-scuro);">
+                    📞 Chiama
+                </a>
+            </div>
+        </div>
+        
+        <div class="assistenza-col">
+            <div class="assistenza-item anydesk">
+                <div class="item-icon">🖥️</div>
+                <div class="item-info">
+                    <div class="item-title">Assistenza Remota con AnyDesk</div>
+                    <div class="item-desc">Scarica AnyDesk e permetti al nostro tecnico di connettersi al tuo computer per risolvere il problema in tempo reale.</div>
+                </div>
+                <a href="https://anydesk.com/it/downloads" target="_blank" class="item-action btn-anydesk">
+                    ⬇️ Scarica AnyDesk
+                </a>
+            </div>
+            
+            <div class="assistenza-item">
+                <div class="item-icon">📧</div>
+                <div class="item-info">
+                    <div class="item-title">Email di supporto</div>
+                    <div class="item-desc">
+                        <strong>support@appcenterstudiogym.it</strong><br>
+                        Risposta entro 24 ore
+                    </div>
+                </div>
+                <a href="mailto:support@appcenterstudiogym.it?subject=Richiesta%20Assistenza%20AppCenterStudioGYM" class="item-action btn-secondary" style="border:1.5px solid var(--tortora); color:var(--tortora-scuro);">
+                    ✉️ Invia email
+                </a>
+            </div>
+        </div>
+        
+        <div class="assistenza-note">
+            <span class="note-icon">️</span>
+            <span><strong>Come funziona l'assistenza remota:</strong> Scarica AnyDesk dal link sopra, avvialo e comunica il tuo codice ID al tecnico via WhatsApp. Il tecnico si connetterà al tuo computer per risolvere il problema in pochi minuti.</span>
+        </div>
+    </div>
+
     <!-- TABS -->
     <div class="tabs-container">
         <button class="tab-btn active" onclick="showTab('atleti')">👥 Atleti</button>
@@ -414,13 +494,13 @@
         <div class="section-container">
             <div class="section-header">
                 <div class="section-title">👥 Lista Atleti</div>
-                <button class="btn btn-primary btn-sm" onclick="showTab('nuovo-atleta')"> Aggiungi Atleta</button>
+                <button class="btn btn-primary btn-sm" onclick="showTab('nuovo-atleta')">➕ Aggiungi Atleta</button>
             </div>
             <div id="atletiList"></div>
         </div>
     </div>
 
-    <!-- TAB: NUOVO ATLETA (con certificato medico) -->
+    <!-- TAB: NUOVO ATLETA -->
     <div class="tab-content" id="tab-nuovo-atleta">
         <div class="section-container">
             <div class="section-header">
@@ -453,19 +533,16 @@
                             <option value="365">12 Mesi</option>
                         </select>
                     </div>
-                    
-                    <!-- CERTIFICATO MEDICO SPORTIVO -->
                     <div class="form-group full">
                         <label>📄 Certificato Medico Sportivo</label>
                         <div class="file-upload-area" onclick="document.getElementById('aCertificato').click()">
-                            <div class="icon"></div>
+                            <div class="icon">📄</div>
                             <div class="text">Clicca per caricare il certificato medico</div>
                             <div class="hint">Formati: JPG, PNG, PDF, PSD, DOC, DOCX (max 5MB)</div>
                         </div>
                         <input type="file" id="aCertificato" accept=".jpg,.jpeg,.png,.pdf,.psd,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="previewCertificato(this)">
                         <div id="certificatoInfo"></div>
                     </div>
-                    
                     <div class="form-group full"><label>Note</label><textarea id="aNote" placeholder="Es. Infortunio al ginocchio, allergie alimentari..."></textarea></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px;">
@@ -481,7 +558,7 @@
         <div class="section-container">
             <div class="section-header">
                 <div class="section-title">⚙️ Impostazioni Palestra</div>
-                <button class="btn btn-whatsapp btn-sm" onclick="inviaDatiFornitore()">📩 Invio Dati al Fornitore</button>
+                <button class="btn btn-whatsapp btn-sm" onclick="inviaDatiFornitore()"> Invio Dati al Fornitore</button>
             </div>
             <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
                 <div class="form-grid">
@@ -526,161 +603,19 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    // ============================================================
-    // CONFIGURAZIONE
-    // ============================================================
     const APP_URL = 'https://appcenterstudiogym.pages.dev';
     const FORNITORE_PHONE = '3447507656';
     const ALERT_DAYS = 30;
     const PALESTRA_ID = 'palestra_demo_001';
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
     
-    // ============================================================
-    // DATI
-    // ============================================================
     let atleti = JSON.parse(localStorage.getItem('atleti') || '[]');
     let profiloPalestra = JSON.parse(localStorage.getItem(`profilo_${PALESTRA_ID}`) || 'null');
     let statoAbbonamento = { stato: 'prova', dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString() };
-    let syncState = 'online'; // online | warning | offline
+    let syncState = 'online';
     let hasUnsavedChanges = false;
     let tempCertificato = null;
     
-    // ============================================================
-    // NAVIGAZIONE - 4 PULSANTI
-    // ============================================================
-    function esci() {
-        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
-        if (confirm('Sei sicuro di voler uscire dall\'applicazione?')) {
-            window.location.href = 'index.html';
-        }
-    }
-    
-    function tornaIndietro() {
-        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = 'index.html';
-        }
-    }
-    
-    function vaiHome() {
-        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare alla home comunque?')) return;
-        window.location.href = 'dashboard-palestra.html';
-    }
-    
-    // ============================================================
-    // SINCRONIZZAZIONE
-    // ============================================================
-    function aggiornaSyncStatus(stato, messaggio) {
-        const syncEl = document.getElementById('syncStatus');
-        const syncLabel = document.getElementById('syncLabel');
-        
-        syncEl.className = 'sync-status';
-        if (stato === 'online') {
-            syncEl.classList.add('sync-online');
-            syncLabel.textContent = messaggio || 'Sync OK';
-        } else if (stato === 'warning') {
-            syncEl.classList.add('sync-warning');
-            syncLabel.textContent = messaggio || 'Modifiche non salvate';
-        } else if (stato === 'offline') {
-            syncEl.classList.add('sync-offline');
-            syncLabel.textContent = messaggio || 'Errore sync';
-        }
-        syncState = stato;
-    }
-    
-    function forzaSync() {
-        if (syncState === 'online') {
-            showToast('✅ Dati già sincronizzati');
-            return;
-        }
-        try {
-            localStorage.setItem('atleti', JSON.stringify(atleti));
-            if (profiloPalestra) {
-                localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
-                sincronizzaConFornitore();
-            }
-            aggiornaSyncStatus('online', 'Sync OK');
-            hasUnsavedChanges = false;
-            showToast('✅ Sincronizzazione completata!');
-        } catch (e) {
-            aggiornaSyncStatus('offline', 'Errore sync');
-            showToast(' Errore durante la sincronizzazione');
-        }
-    }
-    
-    function marcaModifiche() {
-        hasUnsavedChanges = true;
-        aggiornaSyncStatus('warning', 'Modifiche non salvate');
-    }
-    
-    // Controlla connessione
-    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
-    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
-    
-    // ============================================================
-    // UPLOAD FILE UNIVERSALE
-    // ============================================================
-    function previewFile(input, previewId, tipo) {
-        const file = input.files[0];
-        if (!file) return;
-        if (file.size > MAX_FILE_SIZE) {
-            showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`);
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const preview = document.getElementById(previewId);
-            if (tipo === 'logo') {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            marcaModifiche();
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    function previewCertificato(input) {
-        const file = input.files[0];
-        if (!file) return;
-        if (file.size > MAX_FILE_SIZE) {
-            showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`);
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            tempCertificato = {
-                nome: file.name,
-                tipo: file.type,
-                size: file.size,
-                data: e.target.result,
-                dataCaricamento: new Date().toISOString()
-            };
-            const infoDiv = document.getElementById('certificatoInfo');
-            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
-            infoDiv.innerHTML = `
-                <div class="file-info">
-                    <span>📄</span>
-                    <span class="filename">${file.name} (${sizeMB} MB)</span>
-                    <button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button>
-                </div>
-            `;
-            marcaModifiche();
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    function rimuoviCertificato() {
-        tempCertificato = null;
-        document.getElementById('aCertificato').value = '';
-        document.getElementById('certificatoInfo').innerHTML = '';
-        marcaModifiche();
-    }
-    
-    // ============================================================
-    // ONBOARDING
-    // ============================================================
     function init() {
         if (!profiloPalestra) {
             document.getElementById('onboardingOverlay').classList.remove('hidden');
@@ -696,6 +631,74 @@
         aggiornaSyncStatus('online', 'Sync OK');
     }
     
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+    }
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = 'index.html';
+    }
+    
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+        syncState = stato;
+    }
+    function forzaSync() {
+        if (syncState === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            localStorage.setItem('atleti', JSON.stringify(atleti));
+            if (profiloPalestra) {
+                localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
+                sincronizzaConFornitore();
+            }
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast('❌ Errore durante la sincronizzazione');
+        }
+    }
+    function marcaModifiche() { hasUnsavedChanges = true; aggiornaSyncStatus('warning', 'Modifiche non salvate'); }
+    
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    function previewFile(input, previewId, tipo) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > MAX_FILE_SIZE) { showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`); return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById(previewId);
+            if (tipo === 'logo') { preview.src = e.target.result; preview.style.display = 'block'; }
+            marcaModifiche();
+        };
+        reader.readAsDataURL(file);
+    }
+    function previewCertificato(input) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > MAX_FILE_SIZE) { showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`); return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            tempCertificato = { nome: file.name, tipo: file.type, size: file.size, data: e.target.result, dataCaricamento: new Date().toISOString() };
+            const infoDiv = document.getElementById('certificatoInfo');
+            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+            infoDiv.innerHTML = `<div class="file-info"><span>📄</span><span class="filename">${file.name} (${sizeMB} MB)</span><button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button></div>`;
+            marcaModifiche();
+        };
+        reader.readAsDataURL(file);
+    }
+    function rimuoviCertificato() { tempCertificato = null; document.getElementById('aCertificato').value = ''; document.getElementById('certificatoInfo').innerHTML = ''; marcaModifiche(); }
+    
     function completaOnboarding() {
         const nome = document.getElementById('obNome').value.trim();
         const piva = document.getElementById('obPiva').value.trim();
@@ -705,27 +708,10 @@
         const citta = document.getElementById('obCitta').value.trim();
         const cap = document.getElementById('obCap').value.trim();
         const paypal = document.getElementById('obPaypal').value.trim();
-        
-        if (!nome || !piva || !telefono || !email || !indirizzo || !citta || !cap || !paypal) {
-            showToast('⚠️ Compila tutti i campi obbligatori (*)');
-            return;
-        }
-        
+        if (!nome || !piva || !telefono || !email || !indirizzo || !citta || !cap || !paypal) { showToast('️ Compila tutti i campi obbligatori (*)'); return; }
         const logoPreview = document.getElementById('obLogoPreview');
         const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : '';
-        
-        profiloPalestra = {
-            id: PALESTRA_ID, nome, ragioneSociale: document.getElementById('obRagioneSociale').value.trim(),
-            piva, sdi: document.getElementById('obSdi').value.trim(), indirizzo, citta, cap,
-            telefono, email, sito: document.getElementById('obSito').value.trim(),
-            instagram: document.getElementById('obInstagram').value.trim(),
-            facebook: document.getElementById('obFacebook').value.trim(),
-            paypal, iban: document.getElementById('obIban').value.trim(),
-            intestatario: document.getElementById('obIntestatario').value.trim(),
-            logo: logoData, dataCreazione: new Date().toISOString(),
-            ultimoAggiornamento: new Date().toISOString()
-        };
-        
+        profiloPalestra = { id: PALESTRA_ID, nome, ragioneSociale: document.getElementById('obRagioneSociale').value.trim(), piva, sdi: document.getElementById('obSdi').value.trim(), indirizzo, citta, cap, telefono, email, sito: document.getElementById('obSito').value.trim(), instagram: document.getElementById('obInstagram').value.trim(), facebook: document.getElementById('obFacebook').value.trim(), paypal, iban: document.getElementById('obIban').value.trim(), intestatario: document.getElementById('obIntestatario').value.trim(), logo: logoData, dataCreazione: new Date().toISOString(), ultimoAggiornamento: new Date().toISOString() };
         localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
         sincronizzaConFornitore();
         document.getElementById('onboardingOverlay').classList.add('hidden');
@@ -734,12 +720,7 @@
         renderHeader();
         aggiornaSyncStatus('online', 'Sync OK');
     }
-    
-    function saltaOnboarding() {
-        document.getElementById('onboardingOverlay').classList.add('hidden');
-        showToast('⏭️ Puoi completare il profilo più tardi nelle Impostazioni');
-    }
-    
+    function saltaOnboarding() { document.getElementById('onboardingOverlay').classList.add('hidden'); showToast('⏭️ Puoi completare il profilo più tardi nelle Impostazioni'); }
     function caricaProfilo() {
         if (!profiloPalestra) return;
         document.getElementById('impNome').value = profiloPalestra.nome || '';
@@ -757,39 +738,13 @@
         document.getElementById('impPaypal').value = profiloPalestra.paypal || '';
         document.getElementById('impIban').value = profiloPalestra.iban || '';
         document.getElementById('impIntestatario').value = profiloPalestra.intestatario || '';
-        if (profiloPalestra.logo) {
-            const preview = document.getElementById('impLogoPreview');
-            preview.src = profiloPalestra.logo;
-            preview.style.display = 'block';
-        }
+        if (profiloPalestra.logo) { const preview = document.getElementById('impLogoPreview'); preview.src = profiloPalestra.logo; preview.style.display = 'block'; }
     }
-    
     function salvaImpostazioni(e) {
         e.preventDefault();
         const logoPreview = document.getElementById('impLogoPreview');
         const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : (profiloPalestra?.logo || '');
-        
-        profiloPalestra = {
-            ...profiloPalestra, id: PALESTRA_ID,
-            nome: document.getElementById('impNome').value.trim(),
-            ragioneSociale: document.getElementById('impRagioneSociale').value.trim(),
-            piva: document.getElementById('impPiva').value.trim(),
-            sdi: document.getElementById('impSdi').value.trim(),
-            indirizzo: document.getElementById('impIndirizzo').value.trim(),
-            citta: document.getElementById('impCitta').value.trim(),
-            cap: document.getElementById('impCap').value.trim(),
-            telefono: document.getElementById('impTelefono').value.trim(),
-            email: document.getElementById('impEmail').value.trim(),
-            sito: document.getElementById('impSito').value.trim(),
-            instagram: document.getElementById('impInstagram').value.trim(),
-            facebook: document.getElementById('impFacebook').value.trim(),
-            paypal: document.getElementById('impPaypal').value.trim(),
-            iban: document.getElementById('impIban').value.trim(),
-            intestatario: document.getElementById('impIntestatario').value.trim(),
-            logo: logoData,
-            ultimoAggiornamento: new Date().toISOString()
-        };
-        
+        profiloPalestra = { ...profiloPalestra, id: PALESTRA_ID, nome: document.getElementById('impNome').value.trim(), ragioneSociale: document.getElementById('impRagioneSociale').value.trim(), piva: document.getElementById('impPiva').value.trim(), sdi: document.getElementById('impSdi').value.trim(), indirizzo: document.getElementById('impIndirizzo').value.trim(), citta: document.getElementById('impCitta').value.trim(), cap: document.getElementById('impCap').value.trim(), telefono: document.getElementById('impTelefono').value.trim(), email: document.getElementById('impEmail').value.trim(), sito: document.getElementById('impSito').value.trim(), instagram: document.getElementById('impInstagram').value.trim(), facebook: document.getElementById('impFacebook').value.trim(), paypal: document.getElementById('impPaypal').value.trim(), iban: document.getElementById('impIban').value.trim(), intestatario: document.getElementById('impIntestatario').value.trim(), logo: logoData, ultimoAggiornamento: new Date().toISOString() };
         localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
         sincronizzaConFornitore();
         showToast('✅ Impostazioni salvate e sincronizzate con il fornitore!');
@@ -797,56 +752,26 @@
         aggiornaSyncStatus('online', 'Sync OK');
         hasUnsavedChanges = false;
     }
-    
     function sincronizzaConFornitore() {
         if (!profiloPalestra) return;
         const palestreFornitore = JSON.parse(localStorage.getItem('palestre') || '[]');
         const index = palestreFornitore.findIndex(p => p.id.toString() === PALESTRA_ID || p.username === PALESTRA_ID);
-        if (index !== -1) {
-            palestreFornitore[index].profilo = profiloPalestra;
-            palestreFornitore[index].ultimoAggiornamentoProfilo = new Date().toISOString();
-        } else {
-            palestreFornitore.push({
-                id: Date.now(), username: PALESTRA_ID, nome: profiloPalestra.nome,
-                telefono: profiloPalestra.telefono, email: profiloPalestra.email,
-                citta: profiloPalestra.citta, piva: profiloPalestra.piva,
-                profilo: profiloPalestra, stato: 'prova',
-                dataScadenza: statoAbbonamento.dataScadenza,
-                dataRegistrazione: profiloPalestra.dataCreazione
-            });
-        }
+        if (index !== -1) { palestreFornitore[index].profilo = profiloPalestra; palestreFornitore[index].ultimoAggiornamentoProfilo = new Date().toISOString(); }
+        else { palestreFornitore.push({ id: Date.now(), username: PALESTRA_ID, nome: profiloPalestra.nome, telefono: profiloPalestra.telefono, email: profiloPalestra.email, citta: profiloPalestra.citta, piva: profiloPalestra.piva, profilo: profiloPalestra, stato: 'prova', dataScadenza: statoAbbonamento.dataScadenza, dataRegistrazione: profiloPalestra.dataCreazione }); }
         localStorage.setItem('palestre', JSON.stringify(palestreFornitore));
     }
-    
     function inviaDatiFornitore() {
         if (!profiloPalestra) { showToast('⚠️ Completa prima il profilo'); return; }
-        const messaggio = `📋 AGGIORNAMENTO DATI PALESTRA\n\n` +
-            `️ *Nome:* ${profiloPalestra.nome}\n🏢 *Ragione Sociale:* ${profiloPalestra.ragioneSociale || '-'}\n` +
-            `🔢 *P.IVA:* ${profiloPalestra.piva}\n📍 *Indirizzo:* ${profiloPalestra.indirizzo}, ${profiloPalestra.cap} ${profiloPalestra.citta}\n` +
-            `📞 *Telefono:* ${profiloPalestra.telefono}\n📧 *Email:* ${profiloPalestra.email}\n` +
-            `🌐 *Sito:* ${profiloPalestra.sito || '-'}\n📱 *Instagram:* ${profiloPalestra.instagram || '-'}\n` +
-            `📘 *Facebook:* ${profiloPalestra.facebook || '-'}\n\n` +
-            `💳 *LINK PAGAMENTO:* ${profiloPalestra.paypal}\n` +
-            (profiloPalestra.iban ? `🏦 *IBAN:* ${profiloPalestra.iban}\n` : '') +
-            (profiloPalestra.intestatario ? `👤 *Intestatario:* ${profiloPalestra.intestatario}\n` : '') +
-            `\n📅 Aggiornato il: ${new Date().toLocaleString('it-IT')}`;
+        const messaggio = `📋 AGGIORNAMENTO DATI PALESTRA\n\n🏋️ *Nome:* ${profiloPalestra.nome}\n🏢 *Ragione Sociale:* ${profiloPalestra.ragioneSociale || '-'}\n🔢 *P.IVA:* ${profiloPalestra.piva}\n📍 *Indirizzo:* ${profiloPalestra.indirizzo}, ${profiloPalestra.cap} ${profiloPalestra.citta}\n📞 *Telefono:* ${profiloPalestra.telefono}\n *Email:* ${profiloPalestra.email}\n🌐 *Sito:* ${profiloPalestra.sito || '-'}\n📱 *Instagram:* ${profiloPalestra.instagram || '-'}\n📘 *Facebook:* ${profiloPalestra.facebook || '-'}\n\n💳 *LINK PAGAMENTO:* ${profiloPalestra.paypal}\n${profiloPalestra.iban ? `🏦 *IBAN:* ${profiloPalestra.iban}\n` : ''}${profiloPalestra.intestatario ? `👤 *Intestatario:* ${profiloPalestra.intestatario}\n` : ''}\n📅 Aggiornato il: ${new Date().toLocaleString('it-IT')}`;
         window.open(`https://wa.me/${FORNITORE_PHONE}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('📩 WhatsApp aperto per inviare i dati al fornitore');
     }
     
-    // ============================================================
-    // HEADER
-    // ============================================================
     function renderHeader() {
         const badge = document.getElementById('headerStatus');
         const nomeEl = document.getElementById('headerNomePalestra');
         const logoContainer = document.getElementById('headerLogoContainer');
-        if (profiloPalestra) {
-            nomeEl.textContent = profiloPalestra.nome;
-            if (profiloPalestra.logo) {
-                logoContainer.innerHTML = `<img src="${profiloPalestra.logo}" alt="Logo">`;
-            }
-        }
+        if (profiloPalestra) { nomeEl.textContent = profiloPalestra.nome; if (profiloPalestra.logo) { logoContainer.innerHTML = `<img src="${profiloPalestra.logo}" alt="Logo">`; } }
         const oggi = new Date();
         const scadenza = new Date(statoAbbonamento.dataScadenza);
         const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
@@ -854,7 +779,6 @@
         else if (statoAbbonamento.stato === 'scaduta') { badge.className = 'status-badge status-scaduta'; badge.textContent = 'Scaduta'; }
         else { badge.className = 'status-badge status-prova'; badge.textContent = `Prova (${giorniRimanenti}gg)`; }
     }
-    
     function renderAlert() {
         const container = document.getElementById('alertBanner');
         const oggi = new Date();
@@ -866,7 +790,6 @@
         else if (statoAbbonamento.stato === 'attiva') html = `<div class="alert-banner alert-ok"><span>✅</span><span><strong>Abbonamento Attivo!</strong></span></div>`;
         container.innerHTML = html;
     }
-    
     function renderStats() {
         const oggi = new Date();
         const attivi = atleti.filter(a => a.stato === 'attivo' && new Date(a.dataScadenza) > oggi).length;
@@ -877,14 +800,10 @@
         document.getElementById('statScadenza').textContent = inScadenza;
         document.getElementById('statScaduti').textContent = scaduti;
     }
-    
     function renderAtleti() {
         const container = document.getElementById('atletiList');
         const oggi = new Date();
-        if (atleti.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="text">Nessun atleta registrato.</div></div>`;
-            return;
-        }
+        if (atleti.length === 0) { container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="text">Nessun atleta registrato.</div></div>`; return; }
         let html = `<table class="atleti-table"><thead><tr><th>Nome</th><th>Telefono</th><th>Obiettivo</th><th>Certificato</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
         atleti.forEach(atleta => {
             const scadenza = new Date(atleta.dataScadenza);
@@ -892,29 +811,12 @@
             let badgeClass = 'badge-attivo', badgeText = 'Attivo';
             if (atleta.stato === 'scaduto') { badgeClass = 'badge-scaduto'; badgeText = 'Scaduto'; }
             else if (giorniRimanenti <= ALERT_DAYS && giorniRimanenti >= 0) { badgeClass = 'badge-in-scadenza'; badgeText = 'In Scadenza'; }
-            
-            const certBadge = atleta.certificato 
-                ? `<span class="badge badge-certificato" title="${atleta.certificato.nome}">📄 ${atleta.certificato.nome.substring(0, 15)}${atleta.certificato.nome.length > 15 ? '...' : ''}</span>` 
-                : '<span style="color:var(--tortora); font-size:11px;">Non caricato</span>';
-            
-            html += `<tr>
-                <td><strong>${atleta.nome}</strong><br><small style="color:var(--tortora)">${atleta.email || ''}</small></td>
-                <td>${atleta.telefono || '-'}</td>
-                <td>${atleta.obiettivo || '-'}</td>
-                <td>${certBadge}</td>
-                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                <td>${scadenza.toLocaleDateString('it-IT')}<br><small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small></td>
-                <td style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">✏️</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">️</button>
-                    ${atleta.certificato ? `<button class="btn btn-sm btn-success" onclick="scaricaCertificato(${atleta.id})" title="Scarica certificato">📄</button>` : ''}
-                </td>
-            </tr>`;
+            const certBadge = atleta.certificato ? `<span class="badge badge-certificato" title="${atleta.certificato.nome}">📄 ${atleta.certificato.nome.substring(0, 15)}${atleta.certificato.nome.length > 15 ? '...' : ''}</span>` : '<span style="color:var(--tortora); font-size:11px;">Non caricato</span>';
+            html += `<tr><td><strong>${atleta.nome}</strong><br><small style="color:var(--tortora)">${atleta.email || ''}</small></td><td>${atleta.telefono || '-'}</td><td>${atleta.obiettivo || '-'}</td><td>${certBadge}</td><td><span class="badge ${badgeClass}">${badgeText}</span></td><td>${scadenza.toLocaleDateString('it-IT')}<br><small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small></td><td style="display:flex; gap:6px; flex-wrap:wrap;"><button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">✏️</button><button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">🗑️</button>${atleta.certificato ? `<button class="btn btn-sm btn-success" onclick="scaricaCertificato(${atleta.id})" title="Scarica certificato">📄</button>` : ''}</td></tr>`;
         });
         html += '</tbody></table>';
         container.innerHTML = html;
     }
-    
     function registraAtleta(e) {
         e.preventDefault();
         const id = document.getElementById('aId').value;
@@ -924,28 +826,8 @@
         const dataInizioObj = dataInizio ? new Date(dataInizio) : oggi;
         const dataScadenza = new Date(dataInizioObj);
         dataScadenza.setDate(dataScadenza.getDate() + durata);
-        
-        const atleta = {
-            id: id ? parseInt(id) : Date.now(),
-            nome: document.getElementById('aNome').value.trim(),
-            telefono: document.getElementById('aTelefono').value.trim(),
-            email: document.getElementById('aEmail').value.trim(),
-            dataNascita: document.getElementById('aDataNascita').value,
-            peso: parseFloat(document.getElementById('aPeso').value) || 0,
-            altezza: parseInt(document.getElementById('aAltezza').value) || 0,
-            obiettivo: document.getElementById('aObiettivo').value,
-            dataInizio: dataInizioObj.toISOString(),
-            dataScadenza: dataScadenza.toISOString(),
-            durata, note: document.getElementById('aNote').value.trim(),
-            certificato: tempCertificato,
-            stato: 'attivo', dataRegistrazione: oggi.toISOString()
-        };
-        
-        if (id) {
-            const index = atleti.findIndex(a => a.id === parseInt(id));
-            if (index !== -1) atleti[index] = atleta;
-        } else { atleti.push(atleta); }
-        
+        const atleta = { id: id ? parseInt(id) : Date.now(), nome: document.getElementById('aNome').value.trim(), telefono: document.getElementById('aTelefono').value.trim(), email: document.getElementById('aEmail').value.trim(), dataNascita: document.getElementById('aDataNascita').value, peso: parseFloat(document.getElementById('aPeso').value) || 0, altezza: parseInt(document.getElementById('aAltezza').value) || 0, obiettivo: document.getElementById('aObiettivo').value, dataInizio: dataInizioObj.toISOString(), dataScadenza: dataScadenza.toISOString(), durata, note: document.getElementById('aNote').value.trim(), certificato: tempCertificato, stato: 'attivo', dataRegistrazione: oggi.toISOString() };
+        if (id) { const index = atleti.findIndex(a => a.id === parseInt(id)); if (index !== -1) atleti[index] = atleta; } else { atleti.push(atleta); }
         saveAtleti();
         showToast('✅ Atleta salvato con successo!');
         resetFormAtleta();
@@ -954,14 +836,8 @@
         renderAtleti();
         aggiornaSyncStatus('online', 'Sync OK');
         hasUnsavedChanges = false;
-        
-        setTimeout(() => {
-            showTab('atleti');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        }, 500);
+        setTimeout(() => { showTab('atleti'); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-btn')[0].classList.add('active'); }, 500);
     }
-    
     function modificaAtleta(id) {
         const atleta = atleti.find(a => a.id === id);
         if (!atleta) return;
@@ -976,83 +852,22 @@
         document.getElementById('aDataInizio').value = new Date(atleta.dataInizio).toISOString().split('T')[0];
         document.getElementById('aDurata').value = atleta.durata || 30;
         document.getElementById('aNote').value = atleta.note || '';
-        
         if (atleta.certificato) {
             tempCertificato = atleta.certificato;
             const sizeMB = (atleta.certificato.size / 1024 / 1024).toFixed(2);
-            document.getElementById('certificatoInfo').innerHTML = `
-                <div class="file-info">
-                    <span>📄</span>
-                    <span class="filename">${atleta.certificato.nome} (${sizeMB} MB)</span>
-                    <button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button>
-                </div>
-            `;
-        } else {
-            tempCertificato = null;
-            document.getElementById('certificatoInfo').innerHTML = '';
-        }
-        
+            document.getElementById('certificatoInfo').innerHTML = `<div class="file-info"><span></span><span class="filename">${atleta.certificato.nome} (${sizeMB} MB)</span><button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button></div>`;
+        } else { tempCertificato = null; document.getElementById('certificatoInfo').innerHTML = ''; }
         showTab('nuovo-atleta');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
     }
-    
-    function eliminaAtleta(id) {
-        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
-        atleti = atleti.filter(a => a.id !== id);
-        saveAtleti();
-        renderStats();
-        renderAtleti();
-        marcaModifiche();
-        showToast('🗑️ Atleta eliminato');
-    }
-    
-    function scaricaCertificato(id) {
-        const atleta = atleti.find(a => a.id === id);
-        if (!atleta || !atleta.certificato) { showToast('️ Nessun certificato'); return; }
-        const link = document.createElement('a');
-        link.href = atleta.certificato.data;
-        link.download = `Certificato_${atleta.nome.replace(/\s+/g, '_')}_${atleta.certificato.nome}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast('📄 Certificato scaricato!');
-    }
-    
-    function resetFormAtleta() {
-        document.getElementById('formAtleta').reset();
-        document.getElementById('aId').value = '';
-        tempCertificato = null;
-        document.getElementById('certificatoInfo').innerHTML = '';
-    }
-    
-    function aggiornaStatiAtleti() {
-        const oggi = new Date();
-        atleti.forEach(atleta => {
-            const scadenza = new Date(atleta.dataScadenza);
-            const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            atleta.stato = giorniRimanenti < 0 ? 'scaduto' : 'attivo';
-        });
-        saveAtleti();
-    }
-    
-    function showTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(`tab-${tabName}`).classList.add('active');
-        if (event && event.target) event.target.classList.add('active');
-        if (tabName === 'atleti') renderAtleti();
-        if (tabName === 'impostazioni') caricaProfilo();
-    }
-    
+    function eliminaAtleta(id) { if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return; atleti = atleti.filter(a => a.id !== id); saveAtleti(); renderStats(); renderAtleti(); marcaModifiche(); showToast('🗑️ Atleta eliminato'); }
+    function scaricaCertificato(id) { const atleta = atleti.find(a => a.id === id); if (!atleta || !atleta.certificato) { showToast('⚠️ Nessun certificato'); return; } const link = document.createElement('a'); link.href = atleta.certificato.data; link.download = `Certificato_${atleta.nome.replace(/\s+/g, '_')}_${atleta.certificato.nome}`; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast('📄 Certificato scaricato!'); }
+    function resetFormAtleta() { document.getElementById('formAtleta').reset(); document.getElementById('aId').value = ''; tempCertificato = null; document.getElementById('certificatoInfo').innerHTML = ''; }
+    function aggiornaStatiAtleti() { const oggi = new Date(); atleti.forEach(atleta => { const scadenza = new Date(atleta.dataScadenza); const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24)); atleta.stato = giorniRimanenti < 0 ? 'scaduto' : 'attivo'; }); saveAtleti(); }
+    function showTab(tabName) { document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(`tab-${tabName}`).classList.add('active'); if (event && event.target) event.target.classList.add('active'); if (tabName === 'atleti') renderAtleti(); if (tabName === 'impostazioni') caricaProfilo(); }
     function saveAtleti() { localStorage.setItem('atleti', JSON.stringify(atleti)); }
-    
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     
     init();
     </script>

@@ -23,212 +23,63 @@
             --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
-            color: var(--nero);
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+        body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
         
-        /* HEADER */
-        .main-header {
-            max-width: 1400px;
-            margin: 0 auto 30px;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 25px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--ombra);
-        }
-        .logo-section h1 { font-size: 24px; font-weight: 700; letter-spacing: 1px; }
-        .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-        .header-actions { display: flex; gap: 12px; align-items: center; }
-        .btn-back {
-            padding: 10px 20px;
-            background: var(--bianco);
-            color: var(--tortora);
-            border: 1.5px solid var(--tortora);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .btn-back:hover { background: var(--tortora-chiarissimo); color: var(--nero); }
+        /* HEADER UNIVERSALE */
+        .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        .sync-status { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid; }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
+        .sync-online { background: #D5F5E3; color: #1E8449; border-color: #27AE60; }
+        .sync-online .sync-dot { background: #27AE60; animation: pulse-verde 2s infinite; }
+        .sync-warning { background: #FDEBD0; color: #9C640C; border-color: #F39C12; }
+        .sync-warning .sync-dot { background: #F39C12; animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: #FADBD8; color: #922B21; border-color: #E74C3C; }
+        .sync-offline .sync-dot { background: #E74C3C; animation: pulse-rosso 1s infinite; }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
         
-        /* STATS */
-        .stats-grid {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-        .stat-card {
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            padding: 22px;
-            box-shadow: var(--ombra);
-            transition: transform 0.2s;
-        }
+        /* CONTENUTO */
+        .stats-grid { max-width: 1400px; margin: 0 auto 25px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        .stat-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
-        .stat-card .label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
+        .stat-card .label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .stat-card .value { font-size: 32px; font-weight: 700; color: var(--nero); }
         .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
-        
-        /* TABS */
-        .tabs-container {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            padding: 14px 24px;
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--tortora-scuro);
-            transition: all 0.2s;
-            font-family: inherit;
-        }
+        .tabs-container { max-width: 1400px; margin: 0 auto 25px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .tab-btn { padding: 14px 24px; background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--tortora-scuro); transition: all 0.2s; font-family: inherit; }
         .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
-        .tab-btn.active {
-            background: var(--tortora);
-            color: var(--bianco);
-            border-color: var(--tortora);
-        }
-        
-        /* SEZIONE */
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--ombra);
-        }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--nero);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* FORM */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
+        .tab-btn.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .section-container { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px; box-shadow: var(--ombra); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 12px 14px;
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            transition: border-color 0.2s;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--tortora);
-        }
+        .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 12px 14px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bianco); color: var(--nero); transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
         .form-group textarea { resize: vertical; min-height: 80px; }
-        .form-hint {
-            font-size: 11px;
-            color: var(--tortora);
-            font-style: italic;
-        }
-        
-        /* CREDENZIALI BOX */
-        .credentials-box {
-            background: var(--tortora-chiarissimo);
-            border: 2px dashed var(--tortora);
-            border-radius: var(--radius-sm);
-            padding: 20px;
-            margin-top: 15px;
-        }
-        .credentials-box .title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        .cred-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--tortora-chiaro);
-        }
+        .form-hint { font-size: 11px; color: var(--tortora); font-style: italic; }
+        .credentials-box { background: var(--tortora-chiarissimo); border: 2px dashed var(--tortora); border-radius: var(--radius-sm); padding: 20px; margin-top: 15px; }
+        .credentials-box .title { font-size: 13px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .cred-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--tortora-chiaro); }
         .cred-row:last-child { border-bottom: none; }
         .cred-label { font-size: 13px; color: var(--tortora-scuro); font-weight: 600; }
-        .cred-value {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--nero);
-            font-family: 'Courier New', monospace;
-            background: var(--bianco);
-            padding: 6px 12px;
-            border-radius: 4px;
-        }
-        
-        /* BOTTONI */
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
+        .cred-value { font-size: 14px; font-weight: 700; color: var(--nero); font-family: 'Courier New', monospace; background: var(--bianco); padding: 6px 12px; border-radius: 4px; }
+        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
         .btn-success { background: var(--verde); color: var(--bianco); }
@@ -242,222 +93,73 @@
         .btn-info { background: var(--blu); color: var(--bianco); }
         .btn-info:hover { opacity: 0.9; }
         .btn-sm { padding: 8px 12px; font-size: 12px; }
-        
-        /* TABELLA PALESTRE */
-        .palestre-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .palestre-table th {
-            background: var(--tortora-chiarissimo);
-            color: var(--tortora-scuro);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 14px 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--tortora);
-        }
-        .palestre-table td {
-            padding: 16px 12px;
-            border-bottom: 1px solid var(--tortora-chiaro);
-            font-size: 14px;
-            vertical-align: middle;
-        }
+        .palestre-table { width: 100%; border-collapse: collapse; }
+        .palestre-table th { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 12px; text-align: left; border-bottom: 2px solid var(--tortora); }
+        .palestre-table td { padding: 16px 12px; border-bottom: 1px solid var(--tortora-chiaro); font-size: 14px; vertical-align: middle; }
         .palestre-table tr:hover td { background: var(--tortora-chiarissimo); }
-        
-        /* BADGE STATO */
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .badge-attiva { background: #D4EDDA; color: #155724; }
         .badge-prova { background: #FFF3CD; color: #856404; }
         .badge-scaduta { background: #F8D7DA; color: #721C24; }
-        
-        /* COUNTDOWN */
-        .countdown {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--tortora-scuro);
-        }
+        .countdown { font-size: 12px; font-weight: 600; color: var(--tortora-scuro); }
         .countdown.urgent { color: var(--giallo); }
         .countdown.expired { color: var(--rosso); }
-        
-        /* OFFERTA CARD */
-        .offerte-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 18px;
-        }
-        .offerta-card {
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            padding: 22px;
-            box-shadow: var(--ombra);
-            transition: all 0.2s;
-            position: relative;
-        }
+        .offerte-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+        .offerta-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); transition: all 0.2s; }
         .offerta-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
-        .offerta-card .nome {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--nero);
-            margin-bottom: 6px;
-        }
-        .offerta-card .prezzo {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--tortora);
-            margin: 12px 0;
-        }
+        .offerta-card .nome { font-size: 18px; font-weight: 700; color: var(--nero); margin-bottom: 6px; }
+        .offerta-card .prezzo { font-size: 28px; font-weight: 700; color: var(--tortora); margin: 12px 0; }
         .offerta-card .prezzo span { font-size: 14px; color: var(--tortora-scuro); font-weight: 500; }
-        .offerta-card .servizi {
-            list-style: none;
-            margin: 15px 0;
-        }
-        .offerta-card .servizi li {
-            padding: 6px 0;
-            font-size: 13px;
-            color: var(--tortora-scuro);
-            border-bottom: 1px solid var(--tortora-chiarissimo);
-        }
+        .offerta-card .servizi { list-style: none; margin: 15px 0; }
+        .offerta-card .servizi li { padding: 6px 0; font-size: 13px; color: var(--tortora-scuro); border-bottom: 1px solid var(--tortora-chiarissimo); }
         .offerta-card .servizi li:last-child { border-bottom: none; }
         .offerta-card .servizi li::before { content: "✓ "; color: var(--verde); font-weight: 700; }
-        .offerta-card .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        /* MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(26, 26, 26, 0.6);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        .offerta-card .actions { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 26, 26, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--bianco);
-            border-radius: var(--radius);
-            padding: 30px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--ombra-forte);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
+        .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--ombra-forte); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
         .modal-title { font-size: 20px; font-weight: 700; }
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--tortora);
-        }
-        
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--nero);
-            color: var(--bianco);
-            padding: 16px 24px;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--ombra-forte);
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 2000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-        }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--tortora);
-        }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); }
         .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
         .empty-state .text { font-size: 15px; }
-        
-        /* TAB CONTENT */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .form-grid { grid-template-columns: 1fr; }
-            .palestre-table { font-size: 12px; }
-            .palestre-table th, .palestre-table td { padding: 10px 6px; }
-        }
-        @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
-            .section-container { padding: 20px; }
-        }
+        @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .form-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; } }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- HEADER UNIVERSALE -->
     <div class="main-header">
-        <div class="logo-section">
-            <h1>AppCenterStudioGYM</h1>
-            <p>Gestione Offerte e Palestre</p>
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Gestione Offerte e Palestre</p>
+            </div>
         </div>
-        <div class="header-actions">
-            <a href="dashboard-fornitore.html" class="btn-back">← Dashboard</a>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
+            <a href="dashboard-fornitore.html" class="nav-btn nav-btn-back">← Dashboard</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
+                <span class="sync-dot"></span>
+                <span id="syncLabel">Sync OK</span>
+            </div>
         </div>
     </div>
 
     <!-- STATS -->
     <div class="stats-grid">
-        <div class="stat-card">
-            <div class="label">Palestre Totali</div>
-            <div class="value" id="statTotali">0</div>
-            <div class="sub">registrate</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">In Prova</div>
-            <div class="value" id="statProva">0</div>
-            <div class="sub">30 giorni gratuiti</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Attive</div>
-            <div class="value" id="statAttive">0</div>
-            <div class="sub">pagamento ricevuto</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Offerte Inviate</div>
-            <div class="value" id="statOfferte">0</div>
-            <div class="sub">totali inviate</div>
-        </div>
+        <div class="stat-card"><div class="label">Palestre Totali</div><div class="value" id="statTotali">0</div><div class="sub">registrate</div></div>
+        <div class="stat-card"><div class="label">In Prova</div><div class="value" id="statProva">0</div><div class="sub">30 giorni gratuiti</div></div>
+        <div class="stat-card"><div class="label">Attive</div><div class="value" id="statAttive">0</div><div class="sub">pagamento ricevuto</div></div>
+        <div class="stat-card"><div class="label">Offerte Inviate</div><div class="value" id="statOfferte">0</div><div class="sub">totali inviate</div></div>
     </div>
 
     <!-- TABS -->
@@ -472,7 +174,7 @@
     <div class="tab-content active" id="tab-palestre">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">🏋️ Palestre Registrate</div>
+                <div class="section-title">️ Palestre Registrate</div>
                 <button class="btn btn-primary btn-sm" onclick="showTab('nuova-palestra')">➕ Aggiungi</button>
             </div>
             <div id="palestreList"></div>
@@ -482,66 +184,26 @@
     <!-- TAB: NUOVA PALESTRA -->
     <div class="tab-content" id="tab-nuova-palestra">
         <div class="section-container">
-            <div class="section-header">
-                <div class="section-title">➕ Registra Nuova Palestra</div>
-            </div>
+            <div class="section-header"><div class="section-title">➕ Registra Nuova Palestra</div></div>
             <form id="formPalestra" onsubmit="registraPalestra(event)">
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nome Palestra *</label>
-                        <input type="text" id="pNome" required placeholder="Es. Fitness Center Roma">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono (WhatsApp) *</label>
-                        <input type="tel" id="pTelefono" required placeholder="Es. 393331234567">
-                        <span class="form-hint">Formato: 39 + numero senza spazi</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="pEmail" placeholder="info@palestra.it">
-                    </div>
-                    <div class="form-group">
-                        <label>Città</label>
-                        <input type="text" id="pCitta" placeholder="Es. Roma">
-                    </div>
-                    <div class="form-group">
-                        <label>P.IVA / CF</label>
-                        <input type="text" id="pPiva" placeholder="Es. 12345678901">
-                    </div>
-                    <div class="form-group">
-                        <label>Referente</label>
-                        <input type="text" id="pReferente" placeholder="Nome del gestore">
-                    </div>
-                    <div class="form-group full">
-                        <label>Offerta da Inviare</label>
-                        <select id="pOfferta" required>
-                            <option value="">-- Seleziona un'offerta --</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Nome Palestra *</label><input type="text" id="pNome" required placeholder="Es. Fitness Center Roma"></div>
+                    <div class="form-group"><label>Telefono (WhatsApp) *</label><input type="tel" id="pTelefono" required placeholder="Es. 393331234567"><span class="form-hint">Formato: 39 + numero senza spazi</span></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="pEmail" placeholder="info@palestra.it"></div>
+                    <div class="form-group"><label>Città</label><input type="text" id="pCitta" placeholder="Es. Roma"></div>
+                    <div class="form-group"><label>P.IVA / CF</label><input type="text" id="pPiva" placeholder="Es. 12345678901"></div>
+                    <div class="form-group"><label>Referente</label><input type="text" id="pReferente" placeholder="Nome del gestore"></div>
+                    <div class="form-group full"><label>Offerta da Inviare</label><select id="pOfferta" required><option value="">-- Seleziona un'offerta --</option></select></div>
                 </div>
-                
                 <div class="credentials-box">
                     <div class="title">🔐 Credenziali Generate Automaticamente</div>
-                    <div class="cred-row">
-                        <span class="cred-label">Username</span>
-                        <span class="cred-value" id="genUsername">-</span>
-                    </div>
-                    <div class="cred-row">
-                        <span class="cred-label">Password</span>
-                        <span class="cred-value" id="genPassword">-</span>
-                    </div>
-                    <div class="cred-row">
-                        <span class="cred-label">Link di Accesso</span>
-                        <span class="cred-value" style="font-size:12px;">appcenterstudiogym.pages.dev</span>
-                    </div>
-                    <div class="cred-row">
-                        <span class="cred-label">Periodo di Prova</span>
-                        <span class="cred-value">30 giorni gratuiti</span>
-                    </div>
+                    <div class="cred-row"><span class="cred-label">Username</span><span class="cred-value" id="genUsername">-</span></div>
+                    <div class="cred-row"><span class="cred-label">Password</span><span class="cred-value" id="genPassword">-</span></div>
+                    <div class="cred-row"><span class="cred-label">Link di Accesso</span><span class="cred-value" style="font-size:12px;">appcenterstudiogym.pages.dev</span></div>
+                    <div class="cred-row"><span class="cred-label">Periodo di Prova</span><span class="cred-value">30 giorni gratuiti</span></div>
                 </div>
-                
                 <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
-                    <button type="submit" class="btn btn-primary">💾 Salva Palestra</button>
+                    <button type="submit" class="btn btn-primary"> Salva Palestra</button>
                     <button type="button" class="btn btn-success" onclick="salvaEInvia()">💬 Salva e Invia Credenziali</button>
                     <button type="button" class="btn btn-secondary" onclick="generaCredenziali()">🔄 Rigenera Credenziali</button>
                 </div>
@@ -563,42 +225,16 @@
     <!-- TAB: NUOVA OFFERTA -->
     <div class="tab-content" id="tab-nuova-offerta">
         <div class="section-container">
-            <div class="section-header">
-                <div class="section-title">✨ Crea Nuova Offerta</div>
-            </div>
+            <div class="section-header"><div class="section-title">✨ Crea Nuova Offerta</div></div>
             <form id="formOfferta" onsubmit="salvaOfferta(event)">
                 <input type="hidden" id="oId">
                 <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Nome Offerta *</label>
-                        <input type="text" id="oNome" required placeholder="Es. Piano Base Mensile">
-                    </div>
-                    <div class="form-group">
-                        <label>Prezzo (€) *</label>
-                        <input type="number" id="oPrezzo" step="0.01" required placeholder="Es. 49.99">
-                    </div>
-                    <div class="form-group">
-                        <label>Durata</label>
-                        <select id="oDurata">
-                            <option value="Mensile">Mensile</option>
-                            <option value="Trimestrale">Trimestrale</option>
-                            <option value="Semestrale">Semestrale</option>
-                            <option value="Annuale">Annuale</option>
-                        </select>
-                    </div>
-                    <div class="form-group full">
-                        <label>Link PayPal per Pagamento</label>
-                        <input type="url" id="oPaypal" placeholder="https://paypal.me/TUO_LINK">
-                        <span class="form-hint">Inserisci il tuo link PayPal per ricevere il pagamento</span>
-                    </div>
-                    <div class="form-group full">
-                        <label>Servizi Inclusi (uno per riga)</label>
-                        <textarea id="oServizi" rows="6" placeholder="Gestione atleti illimitata&#10;Creazione schede allenamento&#10;Piani nutrizionali&#10;Reportistica mensile&#10;Supporto WhatsApp"></textarea>
-                    </div>
-                    <div class="form-group full">
-                        <label>Descrizione Breve</label>
-                        <input type="text" id="oDescrizione" placeholder="Es. Ideale per palestre piccole e medie">
-                    </div>
+                    <div class="form-group full"><label>Nome Offerta *</label><input type="text" id="oNome" required placeholder="Es. Piano Base Mensile"></div>
+                    <div class="form-group"><label>Prezzo (€) *</label><input type="number" id="oPrezzo" step="0.01" required placeholder="Es. 49.99"></div>
+                    <div class="form-group"><label>Durata</label><select id="oDurata"><option value="Mensile">Mensile</option><option value="Trimestrale">Trimestrale</option><option value="Semestrale">Semestrale</option><option value="Annuale">Annuale</option></select></div>
+                    <div class="form-group full"><label>Link PayPal per Pagamento</label><input type="url" id="oPaypal" placeholder="https://paypal.me/TUO_LINK"><span class="form-hint">Inserisci il tuo link PayPal per ricevere il pagamento</span></div>
+                    <div class="form-group full"><label>Servizi Inclusi (uno per riga)</label><textarea id="oServizi" rows="6" placeholder="Gestione atleti illimitata&#10;Creazione schede allenamento&#10;Piani nutrizionali&#10;Reportistica mensile&#10;Supporto WhatsApp"></textarea></div>
+                    <div class="form-group full"><label>Descrizione Breve</label><input type="text" id="oDescrizione" placeholder="Es. Ideale per palestre piccole e medie"></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px;">
                     <button type="submit" class="btn btn-primary">💾 Salva Offerta</button>
@@ -623,65 +259,59 @@
     <div class="toast" id="toast"></div>
 
     <script>
-    // ============================================================
-    // CONFIGURAZIONE - I TUOI DATI
-    // ============================================================
     const APP_URL = 'https://appcenterstudiogym.pages.dev';
-    const YOUR_PHONE = '3447507656'; // Il tuo numero WhatsApp
-    const PAYPAL_LINK = 'https://www.paypal.biz/volleymanagerpro'; // Il tuo link PayPal
+    const YOUR_PHONE = '3447507656';
+    const PAYPAL_LINK = 'https://www.paypal.biz/volleymanagerpro';
     const TRIAL_DAYS = 30;
-    
-    // ============================================================
-    // DATI E STATO
-    // ============================================================
     let palestre = JSON.parse(localStorage.getItem('palestre') || '[]');
     let offerte = JSON.parse(localStorage.getItem('offerte') || '[]');
     let tempCredenziali = { username: '', password: '' };
+    let syncState = 'online';
+    let hasUnsavedChanges = false;
     
-    // ============================================================
-    // INIZIALIZZAZIONE
-    // ============================================================
     function init() {
         if (offerte.length === 0) {
             offerte = [
-                {
-                    id: Date.now(),
-                    nome: 'Piano Base',
-                    prezzo: 29.99,
-                    durata: 'Mensile',
-                    paypal: PAYPAL_LINK,
-                    servizi: ['Gestione fino a 50 atleti', 'Creazione schede allenamento', 'Piani nutrizionali base', 'Supporto email'],
-                    descrizione: 'Ideale per palestre piccole'
-                },
-                {
-                    id: Date.now() + 1,
-                    nome: 'Piano Professional',
-                    prezzo: 59.99,
-                    durata: 'Mensile',
-                    paypal: PAYPAL_LINK,
-                    servizi: ['Atleti illimitati', 'Schede allenamento avanzate', 'Piani nutrizionali completi', 'Reportistica mensile', 'Supporto WhatsApp prioritario', 'Backup automatico'],
-                    descrizione: 'Per palestre in crescita'
-                },
-                {
-                    id: Date.now() + 2,
-                    nome: 'Piano Enterprise',
-                    prezzo: 99.99,
-                    durata: 'Mensile',
-                    paypal: PAYPAL_LINK,
-                    servizi: ['Tutto del Piano Professional', 'Multi-sede', 'API personalizzate', 'Manager dedicato', 'Formazione staff', 'SLA garantito'],
-                    descrizione: 'Per catene e grandi strutture'
-                }
+                { id: Date.now(), nome: 'Piano Base', prezzo: 29.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Gestione fino a 50 atleti', 'Creazione schede allenamento', 'Piani nutrizionali base', 'Supporto email'], descrizione: 'Ideale per palestre piccole' },
+                { id: Date.now() + 1, nome: 'Piano Professional', prezzo: 59.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Atleti illimitati', 'Schede allenamento avanzate', 'Piani nutrizionali completi', 'Reportistica mensile', 'Supporto WhatsApp prioritario', 'Backup automatico'], descrizione: 'Per palestre in crescita' },
+                { id: Date.now() + 2, nome: 'Piano Enterprise', prezzo: 99.99, durata: 'Mensile', paypal: PAYPAL_LINK, servizi: ['Tutto del Piano Professional', 'Multi-sede', 'API personalizzate', 'Manager dedicato', 'Formazione staff', 'SLA garantito'], descrizione: 'Per catene e grandi strutture' }
             ];
             saveOfferte();
         }
-        
         generaCredenziali();
         renderAll();
+        aggiornaSyncStatus('online', 'Sync OK');
     }
     
-    // ============================================================
-    // TABS
-    // ============================================================
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+    }
+    
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+        syncState = stato;
+    }
+    
+    function forzaSync() {
+        if (syncState === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            localStorage.setItem('palestre', JSON.stringify(palestre));
+            localStorage.setItem('offerte', JSON.stringify(offerte));
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast('❌ Errore durante la sincronizzazione');
+        }
+    }
+    
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -692,9 +322,6 @@
         if (tabName === 'nuova-palestra') aggiornaSelectOfferte();
     }
     
-    // ============================================================
-    // CREDENZIALI
-    // ============================================================
     function generaCredenziali() {
         const nome = document.getElementById('pNome').value || 'palestra';
         const username = nome.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') + '_' + Math.floor(Math.random() * 1000);
@@ -713,22 +340,8 @@
     
     document.getElementById('pNome').addEventListener('input', generaCredenziali);
     
-    // ============================================================
-    // REGISTRA PALESTRA
-    // ============================================================
-    function registraPalestra(e) {
-        e.preventDefault();
-        salvaPalestra(false);
-    }
-    
-    function salvaEInvia() {
-        const form = document.getElementById('formPalestra');
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-        salvaPalestra(true);
-    }
+    function registraPalestra(e) { e.preventDefault(); salvaPalestra(false); }
+    function salvaEInvia() { const form = document.getElementById('formPalestra'); if (!form.checkValidity()) { form.reportValidity(); return; } salvaPalestra(true); }
     
     function salvaPalestra(inviaWhatsApp) {
         const nome = document.getElementById('pNome').value.trim();
@@ -738,77 +351,32 @@
         const piva = document.getElementById('pPiva').value.trim();
         const referente = document.getElementById('pReferente').value.trim();
         const offertaId = parseInt(document.getElementById('pOfferta').value);
-        
         const offerta = offerte.find(o => o.id === offertaId);
-        if (!offerta) {
-            showToast('⚠️ Seleziona un\'offerta valida');
-            return;
-        }
-        
+        if (!offerta) { showToast('⚠️ Seleziona un\'offerta valida'); return; }
         const oggi = new Date();
         const scadenza = new Date(oggi);
         scadenza.setDate(scadenza.getDate() + TRIAL_DAYS);
-        
-        const palestra = {
-            id: Date.now(),
-            nome, telefono, email, citta, piva, referente,
-            offertaId,
-            username: tempCredenziali.username,
-            password: tempCredenziali.password,
-            dataAttivazione: oggi.toISOString(),
-            dataScadenza: scadenza.toISOString(),
-            stato: 'prova',
-            offerteInviati: [],
-            dataRegistrazione: oggi.toISOString()
-        };
-        
+        const palestra = { id: Date.now(), nome, telefono, email, citta, piva, referente, offertaId, username: tempCredenziali.username, password: tempCredenziali.password, dataAttivazione: oggi.toISOString(), dataScadenza: scadenza.toISOString(), stato: 'prova', offerteInviati: [], dataRegistrazione: oggi.toISOString() };
         palestre.push(palestra);
         savePalestre();
-        
-        palestra.offerteInviati.push({
-            offertaId: offerta.id,
-            dataInvio: oggi.toISOString(),
-            stato: 'inviata'
-        });
+        palestra.offerteInviati.push({ offertaId: offerta.id, dataInvio: oggi.toISOString(), stato: 'inviata' });
         savePalestre();
-        
         showToast('✅ Palestra registrata con successo!');
         document.getElementById('formPalestra').reset();
         generaCredenziali();
-        
-        if (inviaWhatsApp) {
-            inviaCredenzialiWhatsApp(palestra);
-        }
-        
-        setTimeout(() => {
-            showTab('palestre');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        }, 500);
+        if (inviaWhatsApp) inviaCredenzialiWhatsApp(palestra);
+        setTimeout(() => { showTab('palestre'); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-btn')[0].classList.add('active'); }, 500);
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
-    // ============================================================
-    // FUNZIONI WHATSAPP (OFFERTA, RINNOVO, CREDENZIALI)
-    // ============================================================
     function inviaOffertaWhatsApp(palestraId) {
         const palestra = palestre.find(p => p.id === palestraId);
         if (!palestra) return;
         const offerta = offerte.find(o => o.id === palestra.offertaId);
-        if (!offerta) {
-            showToast('⚠️ Nessuna offerta associata a questa palestra');
-            return;
-        }
-        
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
-            `Ecco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\n` +
-            `📋 *PIANO:* ${offerta.nome}\n` +
-            `💰 *IMPORTO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n` +
-            `🔗 *LINK PER ATTIVARE E PAGARE:* ${offerta.paypal}\n\n` +
-            `Fammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\n` +
-            `A presto, 💪\n— AppCenterStudioGYM`;
-            
-        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
-        window.open(url, '_blank');
+        if (!offerta) { showToast('⚠️ Nessuna offerta associata'); return; }
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nEcco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\n📋 *PIANO:* ${offerta.nome}\n💰 *IMPORTO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n🔗 *LINK PER ATTIVARE E PAGARE:* ${offerta.paypal}\n\nFammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\nA presto, 💪\n— AppCenterStudioGYM`;
+        window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('💬 WhatsApp offerta aperto!');
     }
 
@@ -816,71 +384,27 @@
         const palestra = palestre.find(p => p.id === palestraId);
         if (!palestra) return;
         const offerta = offerte.find(o => o.id === palestra.offertaId);
-        if (!offerta) {
-            showToast('⚠️ Nessuna offerta associata a questa palestra');
-            return;
-        }
-
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
-            `Ti ricordo che il tuo abbonamento a *AppCenterStudioGYM* è in scadenza o già scaduto.\n\n` +
-            `Per rinnovare il servizio e continuare a gestire la tua palestra senza interruzioni:\n\n` +
-            `📋 *PIANO:* ${offerta.nome}\n` +
-            `💰 *IMPORTO RINNOVO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n` +
-            `🔗 *LINK SICURO PER IL PAGAMENTO:* ${offerta.paypal}\n\n` +
-            `Appena effettuato il pagamento, il tuo account verrà riattivato immediatamente.\n\n` +
-            `Grazie per la fiducia! 💪\n— AppCenterStudioGYM`;
-            
-        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
-        window.open(url, '_blank');
-        showToast('💬 WhatsApp rinnovo aperto!');
+        if (!offerta) { showToast('️ Nessuna offerta associata'); return; }
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nTi ricordo che il tuo abbonamento a *AppCenterStudioGYM* è in scadenza o già scaduto.\n\nPer rinnovare il servizio e continuare a gestire la tua palestra senza interruzioni:\n\n📋 *PIANO:* ${offerta.nome}\n💰 *IMPORTO RINNOVO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n🔗 *LINK SICURO PER IL PAGAMENTO:* ${offerta.paypal}\n\nAppena effettuato il pagamento, il tuo account verrà riattivato immediatamente.\n\nGrazie per la fiducia! 💪\n— AppCenterStudioGYM`;
+        window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
+        showToast(' WhatsApp rinnovo aperto!');
     }
 
     function inviaCredenzialiWhatsApp(palestra) {
         const offerta = offerte.find(o => o.id === palestra.offertaId);
         const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
-        
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
-            `Benvenuto in AppCenterStudioGYM - il gestionale professionale per la tua palestra.\n\n` +
-            `🎁 Ti abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\n` +
-            `🔐 *LE TUE CREDENZIALI DI ACCESSO:*\n` +
-            `• Username: ${palestra.username}\n` +
-            `• Password: ${palestra.password}\n` +
-            `• Link: ${APP_URL}\n\n` +
-            `📋 *OFFERTA ATTIVA:* ${offerta.nome}\n` +
-            `💰 *Prezzo:* €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n` +
-            `⏰ *Scadenza prova:* ${scadenza}\n\n` +
-            `🚀 ACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\n` +
-            `Dopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\n` +
-            `Per qualsiasi domanda sono a disposizione su WhatsApp.\n\n` +
-            `Buon lavoro! 💪\n\n` +
-            `— AppCenterStudioGYM\n` +
-            `Il gestionale che fa crescere la tua palestra`;
-        
-        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
-        window.open(url, '_blank');
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\nBenvenuto in AppCenterStudioGYM - il gestionale professionale per la tua palestra.\n\n🎁 Ti abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\n🔐 *LE TUE CREDENZIALI DI ACCESSO:*\n• Username: ${palestra.username}\n• Password: ${palestra.password}\n• Link: ${APP_URL}\n\n📋 *OFFERTA ATTIVA:* ${offerta.nome}\n💰 *Prezzo:* €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n⏰ *Scadenza prova:* ${scadenza}\n\n🚀 ACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\nDopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\nPer qualsiasi domanda sono a disposizione su WhatsApp.\n\nBuon lavoro! 💪\n\n— AppCenterStudioGYM\nIl gestionale che fa crescere la tua palestra`;
+        window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('💬 WhatsApp credenziali aperto!');
     }
     
-    // ============================================================
-    // RENDER FUNCTIONS
-    // ============================================================
-    function renderAll() {
-        renderStats();
-        renderPalestre();
-        renderOfferte();
-        aggiornaSelectOfferte();
-    }
+    function renderAll() { renderStats(); renderPalestre(); renderOfferte(); aggiornaSelectOfferte(); }
     
     function renderStats() {
         const oggi = new Date();
-        const inProva = palestre.filter(p => {
-            const scadenza = new Date(p.dataScadenza);
-            return p.stato === 'prova' && scadenza > oggi;
-        }).length;
-        
+        const inProva = palestre.filter(p => { const scadenza = new Date(p.dataScadenza); return p.stato === 'prova' && scadenza > oggi; }).length;
         const attive = palestre.filter(p => p.stato === 'attiva').length;
         const offerteInviate = palestre.reduce((acc, p) => acc + p.offerteInviati.length, 0);
-        
         document.getElementById('statTotali').textContent = palestre.length;
         document.getElementById('statProva').textContent = inProva;
         document.getElementById('statAttive').textContent = attive;
@@ -890,176 +414,64 @@
     function renderPalestre() {
         const container = document.getElementById('palestreList');
         const oggi = new Date();
-        
         palestre.forEach(palestra => {
             if (palestra.stato === 'prova') {
                 const scadenza = new Date(palestra.dataScadenza);
                 const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-                if (giorniRimanenti < 0) {
-                    palestra.stato = 'scaduta';
-                    savePalestre();
-                }
+                if (giorniRimanenti < 0) { palestra.stato = 'scaduta'; savePalestre(); }
             }
         });
-        
-        if (palestre.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <div class="icon">🏋️</div>
-                    <div class="text">Nessuna palestra registrata. Clicca su "Nuova Palestra" per iniziare.</div>
-                </div>
-            `;
-            return;
-        }
-        
-        let html = `
-            <table class="palestre-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Referente</th>
-                        <th>Telefono</th>
-                        <th>Stato</th>
-                        <th>Scadenza</th>
-                        <th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        
+        if (palestre.length === 0) { container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="text">Nessuna palestra registrata. Clicca su "Nuova Palestra" per iniziare.</div></div>`; return; }
+        let html = `<table class="palestre-table"><thead><tr><th>Nome</th><th>Referente</th><th>Telefono</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
         palestre.forEach(palestra => {
             const scadenza = new Date(palestra.dataScadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
             const offerta = offerte.find(o => o.id === palestra.offertaId);
-            
-            let badgeClass = 'badge-prova';
-            let badgeText = 'In Prova';
-            let countdownClass = 'countdown';
-            
-            if (palestra.stato === 'attiva') {
-                badgeClass = 'badge-attiva';
-                badgeText = 'Attiva';
-            } else if (palestra.stato === 'scaduta') {
-                badgeClass = 'badge-scaduta';
-                badgeText = 'Scaduta';
-                countdownClass += ' expired';
-            } else if (giorniRimanenti <= 3) {
-                countdownClass += ' urgent';
-            }
-            
-            html += `
-                <tr>
-                    <td>
-                        <strong>${palestra.nome}</strong><br>
-                        <small style="color:var(--tortora)">${offerta ? offerta.nome : ''}</small>
-                    </td>
-                    <td>${palestra.referente || '-'}</td>
-                    <td>${palestra.telefono}</td>
-                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                    <td>
-                        <div class="${countdownClass}">
-                            ${scadenza.toLocaleDateString('it-IT')}<br>
-                            ${palestra.stato === 'prova' ? `(${giorniRimanenti} giorni)` : ''}
-                        </div>
-                    </td>
-                    <td style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})" title="Dettagli">👁️</button>
-                        <button class="btn btn-sm btn-info" onclick="inviaOffertaWhatsApp(${palestra.id})" title="Invia Offerta con Link Pagamento">📩 Offerta</button>
-                        <button class="btn btn-sm btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id})" title="Invia Richiesta Rinnovo">🔄 Rinnovo</button>
-                        <button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))" title="Invia Credenziali">🔑</button>
-                        <button class="btn btn-sm ${palestra.stato === 'attiva' ? 'btn-secondary' : 'btn-primary'}" onclick="attivaPalestra(${palestra.id})" title="Attiva/Disattiva">${palestra.stato === 'attiva' ? '⏸️' : '✓'}</button>
-                    </td>
-                </tr>
-            `;
+            let badgeClass = 'badge-prova', badgeText = 'In Prova', countdownClass = 'countdown';
+            if (palestra.stato === 'attiva') { badgeClass = 'badge-attiva'; badgeText = 'Attiva'; }
+            else if (palestra.stato === 'scaduta') { badgeClass = 'badge-scaduta'; badgeText = 'Scaduta'; countdownClass += ' expired'; }
+            else if (giorniRimanenti <= 3) { countdownClass += ' urgent'; }
+            html += `<tr><td><strong>${palestra.nome}</strong><br><small style="color:var(--tortora)">${offerta ? offerta.nome : ''}</small></td><td>${palestra.referente || '-'}</td><td>${palestra.telefono}</td><td><span class="badge ${badgeClass}">${badgeText}</span></td><td><div class="${countdownClass}">${scadenza.toLocaleDateString('it-IT')}<br>${palestra.stato === 'prova' ? `(${giorniRimanenti} giorni)` : ''}</div></td><td style="display:flex; gap:6px; flex-wrap:wrap;"><button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})" title="Dettagli">👁️</button><button class="btn btn-sm btn-info" onclick="inviaOffertaWhatsApp(${palestra.id})" title="Invia Offerta con Link Pagamento">📩 Offerta</button><button class="btn btn-sm btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id})" title="Invia Richiesta Rinnovo">🔄 Rinnovo</button><button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))" title="Invia Credenziali">🔑</button><button class="btn btn-sm ${palestra.stato === 'attiva' ? 'btn-secondary' : 'btn-primary'}" onclick="attivaPalestra(${palestra.id})" title="Attiva/Disattiva">${palestra.stato === 'attiva' ? '⏸️' : '✓'}</button></td></tr>`;
         });
-        
         html += '</tbody></table>';
         container.innerHTML = html;
     }
     
     function renderOfferte() {
         const container = document.getElementById('offerteList');
-        
-        if (offerte.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <div class="icon">📋</div>
-                    <div class="text">Nessuna offerta creata. Clicca su "Crea Offerta" per iniziare.</div>
-                </div>
-            `;
-            return;
-        }
-        
+        if (offerte.length === 0) { container.innerHTML = `<div class="empty-state"><div class="icon"></div><div class="text">Nessuna offerta creata. Clicca su "Crea Offerta" per iniziare.</div></div>`; return; }
         let html = '';
         offerte.forEach(offerta => {
-            html += `
-                <div class="offerta-card">
-                    <div class="nome">${offerta.nome}</div>
-                    <div style="font-size:13px; color:var(--tortora)">${offerta.descrizione || ''}</div>
-                    <div class="prezzo">€${offerta.prezzo} <span>/${offerta.durata.toLowerCase()}</span></div>
-                    <ul class="servizi">
-                        ${(offerta.servizi || []).map(s => `<li>${s}</li>`).join('')}
-                    </ul>
-                    <div style="font-size:11px; color:var(--tortora); margin-bottom:10px;">
-                        PayPal: <a href="${offerta.paypal}" target="_blank" style="color:var(--blu)">Link Pagamento</a>
-                    </div>
-                    <div class="actions">
-                        <button class="btn btn-sm btn-secondary" onclick="modificaOfferta(${offerta.id})">✏️ Modifica</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminaOfferta(${offerta.id})">🗑️</button>
-                    </div>
-                </div>
-            `;
+            html += `<div class="offerta-card"><div class="nome">${offerta.nome}</div><div style="font-size:13px; color:var(--tortora)">${offerta.descrizione || ''}</div><div class="prezzo">€${offerta.prezzo} <span>/${offerta.durata.toLowerCase()}</span></div><ul class="servizi">${(offerta.servizi || []).map(s => `<li>${s}</li>`).join('')}</ul><div style="font-size:11px; color:var(--tortora); margin-bottom:10px;">PayPal: <a href="${offerta.paypal}" target="_blank" style="color:var(--blu)">Link Pagamento</a></div><div class="actions"><button class="btn btn-sm btn-secondary" onclick="modificaOfferta(${offerta.id})">✏️ Modifica</button><button class="btn btn-sm btn-danger" onclick="eliminaOfferta(${offerta.id})">🗑️</button></div></div>`;
         });
-        
         container.innerHTML = html;
     }
     
     function aggiornaSelectOfferte() {
         const select = document.getElementById('pOfferta');
         select.innerHTML = '<option value="">-- Seleziona un\'offerta --</option>';
-        offerte.forEach(o => {
-            select.innerHTML += `<option value="${o.id}">${o.nome} - €${o.prezzo}/${o.durata.toLowerCase()}</option>`;
-        });
+        offerte.forEach(o => { select.innerHTML += `<option value="${o.id}">${o.nome} - €${o.prezzo}/${o.durata.toLowerCase()}</option>`; });
     }
     
-    // ============================================================
-    // GESTIONE OFFERTE
-    // ============================================================
     function salvaOfferta(e) {
         e.preventDefault();
-        
         const id = document.getElementById('oId').value;
         const serviziText = document.getElementById('oServizi').value;
         const servizi = serviziText.split('\n').filter(s => s.trim());
-        
-        const offerta = {
-            id: id ? parseInt(id) : Date.now(),
-            nome: document.getElementById('oNome').value.trim(),
-            prezzo: parseFloat(document.getElementById('oPrezzo').value),
-            durata: document.getElementById('oDurata').value,
-            paypal: document.getElementById('oPaypal').value.trim() || PAYPAL_LINK,
-            servizi: servizi,
-            descrizione: document.getElementById('oDescrizione').value.trim()
-        };
-        
-        if (id) {
-            const index = offerte.findIndex(o => o.id === parseInt(id));
-            if (index !== -1) offerte[index] = offerta;
-        } else {
-            offerte.push(offerta);
-        }
-        
+        const offerta = { id: id ? parseInt(id) : Date.now(), nome: document.getElementById('oNome').value.trim(), prezzo: parseFloat(document.getElementById('oPrezzo').value), durata: document.getElementById('oDurata').value, paypal: document.getElementById('oPaypal').value.trim() || PAYPAL_LINK, servizi: servizi, descrizione: document.getElementById('oDescrizione').value.trim() };
+        if (id) { const index = offerte.findIndex(o => o.id === parseInt(id)); if (index !== -1) offerte[index] = offerta; } else { offerte.push(offerta); }
         saveOfferte();
         showToast('✅ Offerta salvata con successo!');
         resetFormOfferta();
         renderOfferte();
         aggiornaSelectOfferte();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
     function modificaOfferta(id) {
         const offerta = offerte.find(o => o.id === id);
         if (!offerta) return;
-        
         document.getElementById('oId').value = offerta.id;
         document.getElementById('oNome').value = offerta.nome;
         document.getElementById('oPrezzo').value = offerta.prezzo;
@@ -1067,7 +479,6 @@
         document.getElementById('oPaypal').value = offerta.paypal;
         document.getElementById('oServizi').value = (offerta.servizi || []).join('\n');
         document.getElementById('oDescrizione').value = offerta.descrizione || '';
-        
         showTab('nuova-offerta');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn')[3].classList.add('active');
@@ -1079,125 +490,43 @@
         saveOfferte();
         renderOfferte();
         aggiornaSelectOfferte();
-        showToast('🗑️ Offerta eliminata');
+        showToast('️ Offerta eliminata');
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
-    function resetFormOfferta() {
-        document.getElementById('formOfferta').reset();
-        document.getElementById('oId').value = '';
-    }
+    function resetFormOfferta() { document.getElementById('formOfferta').reset(); document.getElementById('oId').value = ''; }
     
-    // ============================================================
-    // GESTIONE PALESTRE
-    // ============================================================
     function attivaPalestra(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
-        
-        if (palestra.stato === 'attiva') {
-            palestra.stato = 'prova';
-            showToast('⏸️ Palestra impostata in prova');
-        } else {
-            palestra.stato = 'attiva';
-            showToast('✅ Palestra attivata!');
-        }
-        
+        if (palestra.stato === 'attiva') { palestra.stato = 'prova'; showToast('⏸️ Palestra impostata in prova'); }
+        else { palestra.stato = 'attiva'; showToast('✅ Palestra attivata!'); }
         savePalestre();
         renderPalestre();
         renderStats();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
     function vediDettagli(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
-        
         const offerta = offerte.find(o => o.id === palestra.offertaId);
         const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
         const attivazione = new Date(palestra.dataAttivazione).toLocaleDateString('it-IT');
-        
         const content = document.getElementById('modalPalestraContent');
-        content.innerHTML = `
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Nome Palestra</div>
-                <div style="font-size:18px; font-weight:700;">${palestra.nome}</div>
-            </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Referente</div>
-                <div style="font-size:16px;">${palestra.referente || '-'}</div>
-            </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div>
-                <div style="font-size:14px;">📞 ${palestra.telefono}</div>
-                <div style="font-size:14px;">📧 ${palestra.email || '-'}</div>
-                <div style="font-size:14px;">📍 ${palestra.citta || '-'}</div>
-            </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div>
-                <div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;">
-                    <div>Username: <strong>${palestra.username}</strong></div>
-                    <div>Password: <strong>${palestra.password}</strong></div>
-                    <div style="margin-top:8px;">Link: <a href="${APP_URL}" target="_blank" style="color:var(--blu)">${APP_URL}</a></div>
-                </div>
-            </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Offerta</div>
-                <div style="font-size:16px; font-weight:600;">${offerta ? offerta.nome : '-'}</div>
-                <div style="font-size:14px;">€${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}</div>
-            </div>
-            <div style="margin-bottom:20px;">
-                <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Stato</div>
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <span class="badge ${palestra.stato === 'attiva' ? 'badge-attiva' : palestra.stato === 'scaduta' ? 'badge-scaduta' : 'badge-prova'}">
-                        ${palestra.stato === 'attiva' ? 'Attiva' : palestra.stato === 'scaduta' ? 'Scaduta' : 'In Prova'}
-                    </span>
-                    <span style="font-size:13px; color:var(--tortora);">
-                        Attivata: ${attivazione}<br>
-                        Scadenza: ${scadenza}
-                    </span>
-                </div>
-            </div>
-            <div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;">
-                <button class="btn btn-info" onclick="inviaOffertaWhatsApp(${palestra.id}); closeModal('modalPalestra')">📩 Invia Offerta</button>
-                <button class="btn btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id}); closeModal('modalPalestra')">🔄 Invia Rinnovo</button>
-                <button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">🔑 Invia Credenziali</button>
-                <button class="btn btn-secondary" onclick="closeModal('modalPalestra')">Chiudi</button>
-            </div>
-        `;
-        
+        content.innerHTML = `<div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Nome Palestra</div><div style="font-size:18px; font-weight:700;">${palestra.nome}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Referente</div><div style="font-size:16px;">${palestra.referente || '-'}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div><div style="font-size:14px;">📞 ${palestra.telefono}</div><div style="font-size:14px;">📧 ${palestra.email || '-'}</div><div style="font-size:14px;">📍 ${palestra.citta || '-'}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div><div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;"><div>Username: <strong>${palestra.username}</strong></div><div>Password: <strong>${palestra.password}</strong></div><div style="margin-top:8px;">Link: <a href="${APP_URL}" target="_blank" style="color:var(--blu)">${APP_URL}</a></div></div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Offerta</div><div style="font-size:16px; font-weight:600;">${offerta ? offerta.nome : '-'}</div><div style="font-size:14px;">€${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}</div></div><div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Stato</div><div style="display:flex; gap:10px; align-items:center;"><span class="badge ${palestra.stato === 'attiva' ? 'badge-attiva' : palestra.stato === 'scaduta' ? 'badge-scaduta' : 'badge-prova'}">${palestra.stato === 'attiva' ? 'Attiva' : palestra.stato === 'scaduta' ? 'Scaduta' : 'In Prova'}</span><span style="font-size:13px; color:var(--tortora);">Attivata: ${attivazione}<br>Scadenza: ${scadenza}</span></div></div><div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;"><button class="btn btn-info" onclick="inviaOffertaWhatsApp(${palestra.id}); closeModal('modalPalestra')">📩 Invia Offerta</button><button class="btn btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id}); closeModal('modalPalestra')">🔄 Invia Rinnovo</button><button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">🔑 Invia Credenziali</button><button class="btn btn-secondary" onclick="closeModal('modalPalestra')">Chiudi</button></div>`;
         openModal('modalPalestra');
     }
     
-    // ============================================================
-    // UTILITIES
-    // ============================================================
-    function openModal(id) {
-        document.getElementById(id).classList.add('active');
-    }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
+    function savePalestre() { localStorage.setItem('palestre', JSON.stringify(palestre)); }
+    function saveOfferte() { localStorage.setItem('offerte', JSON.stringify(offerte)); }
     
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('active');
-    }
-    
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-    
-    function savePalestre() {
-        localStorage.setItem('palestre', JSON.stringify(palestre));
-    }
-    
-    function saveOfferte() {
-        localStorage.setItem('offerte', JSON.stringify(offerte));
-    }
-    
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('active');
-        });
-    });
+    document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); }); });
     
     init();
     </script>

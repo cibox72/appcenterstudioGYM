@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppCenterStudioGYM - Login</title>
+    <title>Accedi - AppCenterStudioGYM</title>
     <style>
         :root {
             --nero: #1A1A1A;
@@ -12,212 +12,225 @@
             --tortora-chiaro: #E8E3DE;
             --tortora-chiarissimo: #F5F2EF;
             --bianco: #FFFFFF;
-            --verde: #27AE60;
-            --verde-chiaro: #D5F5E3;
-            --arancione: #F39C12;
             --rosso: #E74C3C;
-            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra: 0 4px 20px rgba(156, 146, 138, 0.15);
             --radius: 12px;
             --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
             color: var(--nero);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
         
-        /* HEADER UNIVERSALE */
-        .main-header {
-            position: fixed;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 1400px;
-            width: calc(100% - 40px);
+        .login-container {
             background: var(--bianco);
             border: 2px solid var(--tortora);
             border-radius: var(--radius);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--ombra);
-            z-index: 100;
-        }
-        .header-left { display: flex; align-items: center; gap: 12px; }
-        .header-title h1 { font-size: 16px; font-weight: 700; color: var(--nero); }
-        .header-title p { font-size: 9px; color: var(--tortora); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-        .header-nav { display: flex; align-items: center; gap: 8px; }
-        .nav-btn {
-            padding: 7px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-            font-family: inherit;
-            border: 1.5px solid transparent;
-        }
-        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
-        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); }
-        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
-        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
-        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
-        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
-        .sync-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1.5px solid;
-        }
-        .sync-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            position: relative;
-        }
-        .sync-dot::after {
-            content: 'S';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 6px;
-            font-weight: 900;
-            color: var(--bianco);
-        }
-        .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
-        .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
-        @keyframes pulse-verde {
-            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
-            70% { box-shadow: 0 0 0 6px rgba(39, 174, 96, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
-        }
-        
-        /* LOGIN FORM */
-        .login-container {
+            padding: 40px;
             width: 100%;
             max-width: 420px;
-            padding: 40px;
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            background-color: var(--bianco);
             box-shadow: var(--ombra);
-            margin-top: 80px;
         }
-        .logo { text-align: center; margin-bottom: 30px; }
-        .logo h1 { font-size: 26px; color: var(--nero); font-weight: 600; letter-spacing: 0.5px; }
-        .logo p { font-size: 13px; color: var(--tortora); margin-top: 6px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 13px; color: var(--nero); margin-bottom: 8px; font-weight: 500; }
-        .form-group select, .form-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--tortora-chiaro);
-            border-radius: 4px;
-            font-size: 14px;
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        
+        .login-header h1 {
+            font-size: 22px;
+            font-weight: 700;
             color: var(--nero);
-            background-color: var(--bianco);
-            font-family: inherit;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
         }
-        .form-group select:focus, .form-group input:focus { outline: none; border-color: var(--tortora); }
+        
+        .login-header p {
+            font-size: 11px;
+            color: var(--tortora);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--tortora);
+        }
+        
         .btn-login {
             width: 100%;
-            padding: 14px;
-            background-color: var(--tortora);
+            padding: 16px;
+            background: var(--tortora);
             color: var(--bianco);
             border: none;
-            border-radius: 4px;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            transition: all 0.2s;
             letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 10px;
         }
-        .btn-login:hover { background-color: var(--nero); }
-        .forgot-password { text-align: center; margin-top: 20px; }
-        .forgot-password a { color: var(--tortora); text-decoration: none; font-size: 13px; }
-        .forgot-password a:hover { color: var(--nero); text-decoration: underline; }
+        
+        .btn-login:hover {
+            background: var(--nero);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background: #FADBD8;
+            color: #922B21;
+            border: 1px solid var(--rosso);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 11px;
+            color: var(--tortora);
+        }
     </style>
 </head>
 <body>
-    <!-- HEADER UNIVERSALE -->
-    <div class="main-header">
-        <div class="header-left">
-            <div class="header-title">
-                <h1>AppCenterStudioGYM</h1>
-                <p>Login</p>
-            </div>
-        </div>
-        <div class="header-nav">
-            <div class="sync-status sync-online">
-                <span class="sync-dot"></span>
-                <span>Online</span>
-            </div>
-        </div>
-    </div>
 
     <div class="login-container">
-        <div class="logo">
+        <div class="login-header">
             <h1>AppCenterStudioGYM</h1>
-            <p>Gestionale Palestre - AppCenterStudioGIM</p>
+            <p>Accesso Riservato</p>
         </div>
-        <form onsubmit="effettuaLogin(event)">
-            <div class="form-group">
-                <label for="ruolo">Seleziona il tuo ruolo</label>
-                <select id="ruolo" name="ruolo" required>
-                    <option value="" disabled selected>-- Seleziona --</option>
-                    <option value="fornitore">Fornitore</option>
-                    <option value="palestra">Palestra (Gestore)</option>
-                    <option value="atleta">Atleta (Cliente)</option>
-                </select>
-            </div>
+
+        <div class="error-message" id="errorMessage">
+            Username o password non corretti.
+        </div>
+
+        <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Inserisci il tuo username" required>
+                <input type="text" id="username" name="username" required autocomplete="username" placeholder="Inserisci il tuo username">
             </div>
+            
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Inserisci la tua password">
             </div>
-            <button type="submit" class="btn-login">ACCEDI</button>
-            <div class="forgot-password">
-                <a href="#">Password dimenticata?</a>
-            </div>
+            
+            <button type="submit" class="btn-login" id="btnLogin">Accedi</button>
         </form>
+
+        <div class="footer-text">
+            Sistema di gestione professionale per palestre
+        </div>
     </div>
 
     <script>
-    function effettuaLogin(e) {
-        e.preventDefault();
-        const ruolo = document.getElementById('ruolo').value;
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        
-        // Simulazione login (in produzione sarà con database reale)
-        if (ruolo === 'fornitore') {
-            window.location.href = 'dashboard-fornitore.html';
-        } else if (ruolo === 'palestra') {
-            window.location.href = 'dashboard-palestra.html';
-        } else if (ruolo === 'atleta') {
-            window.location.href = 'dashboard-atleta.html';
-        }
-    }
+        const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('btnLogin');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Nascondi errore precedente
+            errorMsg.classList.remove('show');
+            
+            // Disabilita bottone durante il caricamento
+            btn.disabled = true;
+            btn.textContent = 'Verifica in corso...';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Salva i dati dell'utente nel browser
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    
+                    // Reindirizza in base al ruolo
+                    if (data.user.ruolo === 'fornitore') {
+                        window.location.href = 'dashboard-fornitore.html';
+                    } else if (data.user.ruolo === 'palestra') {
+                        window.location.href = 'dashboard-palestra.html';
+                    } else if (data.user.ruolo === 'atleta') {
+                        window.location.href = 'dashboard-atleta.html';
+                    } else {
+                        // Ruolo non riconosciuto, manda alla home
+                        window.location.href = 'dashboard-fornitore.html';
+                    }
+                } else {
+                    // Mostra errore
+                    errorMsg.textContent = data.message || 'Credenziali non valide.';
+                    errorMsg.classList.add('show');
+                    btn.disabled = false;
+                    btn.textContent = 'Accedi';
+                }
+            } catch (error) {
+                console.error('Errore di connessione:', error);
+                errorMsg.textContent = 'Errore di connessione al server. Riprova.';
+                errorMsg.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = 'Accedi';
+            }
+        });
     </script>
 </body>
 </html>

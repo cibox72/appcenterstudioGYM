@@ -25,7 +25,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
         
-        /* HEADER UNIVERSALE */
         .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
         .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
         .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
@@ -51,7 +50,6 @@
         @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
         
-        /* CONTENUTO */
         .stats-grid { max-width: 1400px; margin: 0 auto 25px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
         .stat-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
@@ -78,7 +76,8 @@
         .cred-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--tortora-chiaro); }
         .cred-row:last-child { border-bottom: none; }
         .cred-label { font-size: 13px; color: var(--tortora-scuro); font-weight: 600; }
-        .cred-value { font-size: 14px; font-weight: 700; color: var(--nero); font-family: 'Courier New', monospace; background: var(--bianco); padding: 6px 12px; border-radius: 4px; }
+        .cred-value { font-size: 14px; font-weight: 700; color: var(--nero); font-family: 'Courier New', monospace; background: var(--bianco); padding: 6px 12px; border-radius: 4px; letter-spacing: 1px; }
+        .cred-value.id-generato { background: #D5F5E3; color: #1E8449; border: 1px solid #27AE60; font-size: 18px; padding: 10px 16px; }
         .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
@@ -139,7 +138,6 @@
 
     <div class="loading-overlay" id="loadingOverlay">Caricamento dati dal cloud...</div>
 
-    <!-- HEADER UNIVERSALE -->
     <div class="main-header">
         <div class="header-left">
             <div class="header-title">
@@ -158,7 +156,6 @@
         </div>
     </div>
 
-    <!-- STATS -->
     <div class="stats-grid">
         <div class="stat-card"><div class="label">Palestre Totali</div><div class="value" id="statTotali">0</div><div class="sub">registrate</div></div>
         <div class="stat-card"><div class="label">In Prova</div><div class="value" id="statProva">0</div><div class="sub">30 giorni gratuiti</div></div>
@@ -166,7 +163,6 @@
         <div class="stat-card"><div class="label">Offerte Create</div><div class="value" id="statOfferte">0</div><div class="sub">disponibili</div></div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs-container">
         <button class="tab-btn active" onclick="showTab('palestre')">Palestre</button>
         <button class="tab-btn" onclick="showTab('nuova-palestra')">Nuova Palestra</button>
@@ -174,7 +170,6 @@
         <button class="tab-btn" onclick="showTab('nuova-offerta')">Crea Offerta</button>
     </div>
 
-    <!-- TAB: LISTA PALESTRE -->
     <div class="tab-content active" id="tab-palestre">
         <div class="section-container">
             <div class="section-header">
@@ -185,7 +180,6 @@
         </div>
     </div>
 
-    <!-- TAB: NUOVA PALESTRA -->
     <div class="tab-content" id="tab-nuova-palestra">
         <div class="section-container">
             <div class="section-header"><div class="section-title">Registra Nuova Palestra</div></div>
@@ -198,24 +192,23 @@
                     <div class="form-group"><label>P.IVA / CF</label><input type="text" id="pPiva" placeholder="Es. 12345678901"></div>
                     <div class="form-group"><label>Referente</label><input type="text" id="pReferente" placeholder="Nome del gestore"></div>
                     <div class="form-group full"><label>Offerta da Inviare</label><select id="pOfferta" required><option value="">-- Seleziona un'offerta --</option></select></div>
+                    <div class="form-group"><label>Password di Accesso *</label><input type="text" id="pPassword" required placeholder="Es. Palestra2024!"><span class="form-hint">La password che il gestore userà per accedere</span></div>
                 </div>
                 <div class="credentials-box">
-                    <div class="title">Credenziali Generate Automaticamente</div>
-                    <div class="cred-row"><span class="cred-label">Username</span><span class="cred-value" id="genUsername">-</span></div>
-                    <div class="cred-row"><span class="cred-label">Password</span><span class="cred-value" id="genPassword">-</span></div>
+                    <div class="title">ID Unico Generato Automaticamente</div>
+                    <div class="cred-row"><span class="cred-label">ID Palestra (Username)</span><span class="cred-value" id="genId">Verrà generato al salvataggio</span></div>
+                    <div class="cred-row"><span class="cred-label">Password</span><span class="cred-value" id="genPassword">Quella inserita sopra</span></div>
                     <div class="cred-row"><span class="cred-label">Link di Accesso</span><span class="cred-value" style="font-size:12px;">appcenterstudiogym.pages.dev</span></div>
                     <div class="cred-row"><span class="cred-label">Periodo di Prova</span><span class="cred-value">30 giorni gratuiti</span></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
                     <button type="submit" class="btn btn-primary">Salva Palestra</button>
                     <button type="button" class="btn btn-success" onclick="salvaEInvia()">Salva e Invia Credenziali</button>
-                    <button type="button" class="btn btn-secondary" onclick="generaCredenziali()">Rigenera Credenziali</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- TAB: ARCHIVIO OFFERTE -->
     <div class="tab-content" id="tab-offerte">
         <div class="section-container">
             <div class="section-header">
@@ -226,7 +219,6 @@
         </div>
     </div>
 
-    <!-- TAB: NUOVA OFFERTA -->
     <div class="tab-content" id="tab-nuova-offerta">
         <div class="section-container">
             <div class="section-header"><div class="section-title">Crea Nuova Offerta</div></div>
@@ -234,7 +226,7 @@
                 <input type="hidden" id="oId">
                 <div class="form-grid">
                     <div class="form-group full"><label>Nome Offerta *</label><input type="text" id="oNome" required placeholder="Es. Piano Base Mensile"></div>
-                    <div class="form-group"><label>Prezzo (€) *</label><input type="number" id="oPrezzo" step="0.01" required placeholder="Es. 49.99"></div>
+                    <div class="form-group"><label>Prezzo (EUR) *</label><input type="number" id="oPrezzo" step="0.01" required placeholder="Es. 49.99"></div>
                     <div class="form-group"><label>Durata</label><select id="oDurata"><option value="Mensile">Mensile</option><option value="Trimestrale">Trimestrale</option><option value="Semestrale">Semestrale</option><option value="Annuale">Annuale</option></select></div>
                     <div class="form-group full"><label>Link PayPal per Pagamento</label><input type="url" id="oPaypal" placeholder="https://paypal.me/TUO_LINK"><span class="form-hint">Inserisci il tuo link PayPal per ricevere il pagamento</span></div>
                     <div class="form-group full"><label>Servizi Inclusi (uno per riga)</label><textarea id="oServizi" rows="6" placeholder="Gestione atleti illimitata&#10;Creazione schede allenamento&#10;Piani nutrizionali&#10;Reportistica mensile&#10;Supporto WhatsApp"></textarea></div>
@@ -248,37 +240,28 @@
         </div>
     </div>
 
-    <!-- MODAL DETTAGLI PALESTRA -->
     <div class="modal-overlay" id="modalPalestra">
         <div class="modal">
             <div class="modal-header">
                 <div class="modal-title">Dettagli Palestra</div>
-                <button class="modal-close" onclick="closeModal('modalPalestra')">×</button>
+                <button class="modal-close" onclick="closeModal('modalPalestra')">x</button>
             </div>
             <div id="modalPalestraContent"></div>
         </div>
     </div>
 
-    <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
     <script>
-    // ============================================================
-    // CONFIGURAZIONE CLOUD
-    // ============================================================
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    const YOUR_PHONE = '3447507656';
     const TRIAL_DAYS = 30;
     
     let palestre = [];
     let offerte = [];
-    let tempCredenziali = { username: '', password: '' };
     let syncState = 'online';
     let hasUnsavedChanges = false;
+    let pendingInvio = false;
     
-    // ============================================================
-    // NAVIGAZIONE E SYNC
-    // ============================================================
     function esci() {
         if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
         if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
@@ -302,9 +285,6 @@
     window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
     window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
     
-    // ============================================================
-    // CARICAMENTO DATI DAL CLOUD
-    // ============================================================
     async function loadData() {
         document.getElementById('loadingOverlay').classList.remove('hidden');
         aggiornaSyncStatus('warning', 'Caricamento...');
@@ -318,7 +298,6 @@
             offerte = await offerteRes.json();
             palestre = await palestreRes.json();
             
-            // Se non ci sono offerte, crea quelle di default
             if (offerte.length === 0) {
                 await seedDefaultOffers();
             }
@@ -348,14 +327,10 @@
                 body: JSON.stringify(off)
             });
         }
-        // Ricarica
         const res = await fetch(`${API_URL}/api/offerte`);
         offerte = await res.json();
     }
     
-    // ============================================================
-    // TABS
-    // ============================================================
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -363,35 +338,20 @@
         event.target.classList.add('active');
         if (tabName === 'palestre') renderPalestre();
         if (tabName === 'offerte') renderOfferte();
-        if (tabName === 'nuova-palestra') aggiornaSelectOfferte();
+        if (tabName === 'nuova-palestra') {
+            aggiornaSelectOfferte();
+            document.getElementById('genId').textContent = 'Verrà generato al salvataggio';
+            document.getElementById('genPassword').textContent = 'Quella inserita sopra';
+        }
     }
     
-    // ============================================================
-    // CREDENZIALI
-    // ============================================================
-    function generaCredenziali() {
-        const nome = document.getElementById('pNome').value || 'palestra';
-        const username = nome.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') + '_' + Math.floor(Math.random() * 1000);
-        const password = generaPasswordSicura();
-        tempCredenziali = { username, password };
-        document.getElementById('genUsername').textContent = username;
-        document.getElementById('genPassword').textContent = password;
+    function registraPalestra(e) { e.preventDefault(); pendingInvio = false; salvaPalestra(false); }
+    function salvaEInvia() { 
+        const form = document.getElementById('formPalestra'); 
+        if (!form.checkValidity()) { form.reportValidity(); return; } 
+        pendingInvio = true;
+        salvaPalestra(true); 
     }
-    
-    function generaPasswordSicura() {
-        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
-        let pwd = '';
-        for (let i = 0; i < 12; i++) pwd += chars.charAt(Math.floor(Math.random() * chars.length));
-        return pwd;
-    }
-    
-    document.getElementById('pNome').addEventListener('input', generaCredenziali);
-    
-    // ============================================================
-    // REGISTRA PALESTRA
-    // ============================================================
-    function registraPalestra(e) { e.preventDefault(); salvaPalestra(false); }
-    function salvaEInvia() { const form = document.getElementById('formPalestra'); if (!form.checkValidity()) { form.reportValidity(); return; } salvaPalestra(true); }
     
     async function salvaPalestra(inviaWhatsApp) {
         const nome = document.getElementById('pNome').value.trim();
@@ -401,9 +361,11 @@
         const piva = document.getElementById('pPiva').value.trim();
         const referente = document.getElementById('pReferente').value.trim();
         const offertaId = parseInt(document.getElementById('pOfferta').value);
+        const password = document.getElementById('pPassword').value.trim();
         
         const offerta = offerte.find(o => o.id === offertaId);
         if (!offerta) { showToast('Seleziona un\'offerta valida'); return; }
+        if (!password || password.length < 4) { showToast('La password deve avere almeno 4 caratteri'); return; }
         
         const oggi = new Date();
         const scadenza = new Date(oggi);
@@ -412,8 +374,7 @@
         const palestraData = {
             nome, telefono, email, citta, piva, referente,
             offerta_id: offertaId,
-            username: tempCredenziali.username,
-            password: tempCredenziali.password,
+            password: password,
             stato: 'prova',
             data_attivazione: oggi.toISOString(),
             data_scadenza: scadenza.toISOString()
@@ -429,15 +390,29 @@
             const result = await res.json();
             
             if (result.success) {
-                palestraData.id = result.id;
-                palestre.push(palestraData);
-                showToast('Palestra registrata con successo!');
+                // Mostra l'ID generato
+                document.getElementById('genId').textContent = result.id_univoco;
+                document.getElementById('genPassword').textContent = result.password;
+                
+                // Aggiorna la lista
+                palestre.push({
+                    ...palestraData,
+                    id: result.id,
+                    username: result.id_univoco,
+                    id_univoco: result.id_univoco
+                });
+                
+                showToast(`Palestra creata! ID: ${result.id_univoco}`);
                 document.getElementById('formPalestra').reset();
-                generaCredenziali();
-                if (inviaWhatsApp) inviaCredenzialiWhatsApp(palestraData);
+                
+                if (inviaWhatsApp) {
+                    const palestraCompletata = palestre.find(p => p.id === result.id);
+                    setTimeout(() => inviaCredenzialiWhatsApp(palestraCompletata), 1000);
+                }
+                
                 renderAll();
                 aggiornaSyncStatus('online', 'Sync OK');
-                setTimeout(() => showTab('palestre'), 500);
+                setTimeout(() => showTab('palestre'), 1500);
             } else {
                 showToast('Errore nel salvataggio');
             }
@@ -447,13 +422,10 @@
         }
     }
     
-    // ============================================================
-    // FUNZIONI WHATSAPP
-    // ============================================================
     function inviaOffertaWhatsApp(palestra) {
         const offerta = offerte.find(o => o.id === palestra.offerta_id);
         if (!offerta) { showToast('Nessuna offerta associata'); return; }
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nEcco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\nPIANO: ${offerta.nome}\nIMPORTO: EUR ${offerta.prezzo} / ${offerta.durata.toLowerCase()}\nLINK PER ATTIVARE E PAGARE: ${offerta.paypal_link}\n\nFammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\nA presto,\n- AppCenterStudioGYM`;
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nEcco l'offerta personalizzata per la tua palestra ${palestra.nome}.\n\nPIANO: ${offerta.nome}\nIMPORTO: EUR ${offerta.prezzo} / ${offerta.durata.toLowerCase()}\nLINK PER ATTIVARE E PAGARE: ${offerta.paypal_link}\n\nFammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\nA presto,\n- AppCenterStudioGYM`;
         window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('WhatsApp offerta aperto');
     }
@@ -469,14 +441,12 @@
     function inviaCredenzialiWhatsApp(palestra) {
         const offerta = offerte.find(o => o.id === palestra.offerta_id);
         const scadenza = new Date(palestra.data_scadenza).toLocaleDateString('it-IT');
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nBenvenuto in AppCenterStudioGYM.\n\nTi abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\nLE TUE CREDENZIALI DI ACCESSO:\n- Username: ${palestra.username}\n- Password: ${palestra.password}\n- Link: https://appcenterstudiogym.pages.dev/dashboard-palestra.html\n\nOFFERTA ATTIVA: ${offerta ? offerta.nome : '-'}\nPrezzo: EUR ${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}\nScadenza prova: ${scadenza}\n\nACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\nDopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\nPer qualsiasi domanda sono a disposizione su WhatsApp.\n\nBuon lavoro!\n- AppCenterStudioGYM`;
+        const username = palestra.id_univoco || palestra.username;
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}!\n\nBenvenuto in AppCenterStudioGYM.\n\nTi abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\nLE TUE CREDENZIALI DI ACCESSO:\n- ID Palestra (Username): ${username}\n- Password: ${palestra.password}\n- Link: https://appcenterstudiogym.pages.dev\n\nOFFERTA ATTIVA: ${offerta ? offerta.nome : '-'}\nPrezzo: EUR ${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}\nScadenza prova: ${scadenza}\n\nACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\nDopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\nPer qualsiasi domanda sono a disposizione su WhatsApp.\n\nBuon lavoro!\n- AppCenterStudioGYM`;
         window.open(`https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('WhatsApp credenziali aperto');
     }
     
-    // ============================================================
-    // RENDER FUNCTIONS
-    // ============================================================
     function renderAll() { renderStats(); renderPalestre(); renderOfferte(); aggiornaSelectOfferte(); }
     
     function renderStats() {
@@ -499,12 +469,13 @@
             return;
         }
         
-        let html = `<table class="palestre-table"><thead><tr><th>Nome</th><th>Referente</th><th>Telefono</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
+        let html = `<table class="palestre-table"><thead><tr><th>ID Unico</th><th>Nome</th><th>Referente</th><th>Telefono</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
         
         palestre.forEach(palestra => {
             const scadenza = new Date(palestra.data_scadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
             const offerta = offerte.find(o => o.id === palestra.offerta_id);
+            const idUnivoco = palestra.id_univoco || palestra.username || '-';
             
             let badgeClass = 'badge-prova', badgeText = 'In Prova', countdownClass = 'countdown';
             if (palestra.stato === 'attiva') { badgeClass = 'badge-attiva'; badgeText = 'Attiva'; }
@@ -512,6 +483,7 @@
             else if (giorniRimanenti <= 3) { countdownClass += ' urgent'; }
             
             html += `<tr>
+                <td><strong style="font-family:'Courier New',monospace; letter-spacing:1px; font-size:15px;">${idUnivoco}</strong></td>
                 <td><strong>${palestra.nome}</strong><br><small style="color:var(--tortora)">${offerta ? offerta.nome : ''}</small></td>
                 <td>${palestra.referente || '-'}</td>
                 <td>${palestra.telefono}</td>
@@ -534,7 +506,7 @@
     function renderOfferte() {
         const container = document.getElementById('offerteList');
         if (offerte.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><div class="text">Nessuna offerta creata.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div class="icon"></div><div class="text">Nessuna offerta creata.</div></div>`;
             return;
         }
         let html = '';
@@ -563,9 +535,6 @@
         });
     }
     
-    // ============================================================
-    // GESTIONE OFFERTE
-    // ============================================================
     async function salvaOfferta(e) {
         e.preventDefault();
         const id = document.getElementById('oId').value;
@@ -622,7 +591,6 @@
     
     async function eliminaOfferta(id) {
         if (!confirm('Sei sicuro di voler eliminare questa offerta?')) return;
-        // Nota: l'API attuale non ha DELETE per offerte, quindi la rimuoviamo solo localmente per ora
         offerte = offerte.filter(o => o.id !== id);
         renderOfferte();
         aggiornaSelectOfferte();
@@ -632,9 +600,6 @@
     
     function resetFormOfferta() { document.getElementById('formOfferta').reset(); document.getElementById('oId').value = ''; }
     
-    // ============================================================
-    // GESTIONE PALESTRE
-    // ============================================================
     async function attivaPalestra(id) {
         const palestra = palestre.find(p => p.id === id);
         if (!palestra) return;
@@ -668,13 +633,15 @@
         const offerta = offerte.find(o => o.id === palestra.offerta_id);
         const scadenza = new Date(palestra.data_scadenza).toLocaleDateString('it-IT');
         const attivazione = new Date(palestra.data_attivazione).toLocaleDateString('it-IT');
+        const username = palestra.id_univoco || palestra.username || '-';
         
         const content = document.getElementById('modalPalestraContent');
         content.innerHTML = `
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">ID Unico Palestra</div><div style="font-size:24px; font-weight:700; font-family:'Courier New',monospace; letter-spacing:2px; color:var(--verde);">${username}</div></div>
             <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Nome Palestra</div><div style="font-size:18px; font-weight:700;">${palestra.nome}</div></div>
             <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Referente</div><div style="font-size:16px;">${palestra.referente || '-'}</div></div>
             <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div><div style="font-size:14px;">Tel: ${palestra.telefono}</div><div style="font-size:14px;">Email: ${palestra.email || '-'}</div><div style="font-size:14px;">Citta: ${palestra.citta || '-'}</div></div>
-            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div><div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;"><div>Username: <strong>${palestra.username}</strong></div><div>Password: <strong>${palestra.password}</strong></div><div style="margin-top:8px;">Link: <a href="https://appcenterstudiogym.pages.dev/dashboard-palestra.html" target="_blank" style="color:var(--blu)">Accedi alla Dashboard</a></div></div></div>
+            <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Credenziali di Accesso</div><div style="background:var(--tortora-chiarissimo); padding:12px; border-radius:6px; font-family:monospace;"><div>ID (Username): <strong>${username}</strong></div><div>Password: <strong>${palestra.password}</strong></div><div style="margin-top:8px;">Link: <a href="https://appcenterstudiogym.pages.dev" target="_blank" style="color:var(--blu)">Accedi alla Dashboard</a></div></div></div>
             <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Offerta</div><div style="font-size:16px; font-weight:600;">${offerta ? offerta.nome : '-'}</div><div style="font-size:14px;">EUR ${offerta ? offerta.prezzo : 0} ${offerta ? offerta.durata.toLowerCase() : ''}</div></div>
             <div style="margin-bottom:20px;"><div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Stato</div><div style="display:flex; gap:10px; align-items:center;"><span class="badge ${palestra.stato === 'attiva' ? 'badge-attiva' : palestra.stato === 'scaduta' ? 'badge-scaduta' : 'badge-prova'}">${palestra.stato === 'attiva' ? 'Attiva' : palestra.stato === 'scaduta' ? 'Scaduta' : 'In Prova'}</span><span style="font-size:13px; color:var(--tortora);">Attivata: ${attivazione}<br>Scadenza: ${scadenza}</span></div></div>
             <div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;">
@@ -693,7 +660,6 @@
     
     document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); }); });
     
-    // AVVIO
     loadData();
     </script>
 </body>

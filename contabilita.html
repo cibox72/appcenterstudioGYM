@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contabilità - AppCenterStudioGYM</title>
+    <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #27AE60;
+            --verde-chiaro: #D5F5E3;
+            --rosso: #E74C3C;
+            --rosso-chiaro: #FADBD8;
+            --blu: #3498DB;
+            --blu-chiaro: #D6EAF8;
+            --arancione: #F39C12;
+            --viola: #9B59B6;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        /* HEADER UNIVERSALE */
+        .main-header {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        .sync-status { display: flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1.5px solid; }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; flex-shrink: 0; }
+        .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
+        .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
+        .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
+        .sync-warning { background: #FDEBD0; color: #9C640C; border-color: var(--arancione); }
+        .sync-warning .sync-dot { background: var(--arancione); animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
+        .sync-offline .sync-dot { background: var(--rosso); animation: pulse-rosso 1s infinite; }
+        @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
+        /* DASHBOARD TOTALI */
+        .dashboard-totale {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--ombra-forte);
+            color: var(--bianco);
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .dashboard-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .dashboard-header .periodo {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+        .dashboard-nav {
+            display: flex;
+            gap: 10px;
+        }
+        .dashboard-nav button {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            color: var(--bianco);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .dashboard-nav button:hover { background: rgba(255,255,255,0.3); }
+        .dashboard-nav button.active { background: var(--bianco); color: var(--tortora-scuro); }
+        
+        .totale-principale {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .totale-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+        .totale-card:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); }
+        .totale-card .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        .totale-card .valore {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .totale-card .dettaglio {
+            font-size: 12px;
+            opacity: 0.85;
+        }
+        .totale-card.entrate { border-left: 4px solid var(--verde); }
+        .totale-card.uscite { border-left: 4px solid var(--rosso); }
+        .totale-card.saldo { border-left: 4px solid var(--blu); }
+        .totale-card.pending { border-left: 4px solid var(--arancione); }
+        
+        .grafico-barre {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .grafico-barre .titolo {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .barre-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 100px;
+        }
+        .barra {
+            flex: 1;
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: all 0.3s;
+            min-height: 4px;
+        }
+        .barra:hover { background: rgba(255,255,255,0.5); }
+        .barra .label-mese {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            opacity: 0.8;
+            white-space: nowrap;
+        }
+        .barra .valore-barra {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        /* LAYOUT PRINCIPALE */
+        .contabilita-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+        }
+        
+        /* SEZIONE MOVIMENTI */
+        .movimenti-section {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--ombra);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--nero);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-controls select, .filter-controls input {
+            padding: 8px 12px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: inherit;
+            background: var(--bianco);
+        }
+        .filter-controls select:focus, .filter-controls input:focus { outline: none; border-color: var(--tortora); }
+        
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-success { background: var(--verde); color: var(--bianco); }
+        .btn-success:hover { background: #1E8449; }
+        .btn-danger { background: var(--rosso); color: var(--bianco); }
+        .btn-danger:hover { opacity: 0.9; }
+        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-secondary:hover { background: var(--tortora-chiarissimo); }
+        .btn-info { background: var(--blu); color: var(--bianco); }
+        .btn-info:hover { opacity: 0.9; }
+        .btn-sm { padding: 6px 12px; font-size: 11px; }
+        
+        .movimenti-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .movimenti-table th {
+            background: var(--tortora-chiarissimo);
+            color: var(--tortora-scuro);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 2px solid var(--tortora);
+        }
+        .movimenti-table td {
+            padding: 14px 10px;
+            border-bottom: 1px solid var(--tortora-chiaro);
+            font-size: 13px;
+            vertical-align: middle;
+        }
+        .movimenti-table tr:hover td { background: var(--tortora-chiarissimo); }
+        .movimenti-table .importo-entrata { color: var(--verde); font-weight: 700; }
+        .movimenti-table .importo-uscita { color: var(--rosso); font-weight: 700; }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-entrata { background: var(--verde-chiaro); color: #1E8449; }
+        .badge-uscita { background: var(--rosso-chiaro); color: #922B21; }
+        .badge-pagato { background: var(--verde-chiaro); color: #1E8449; }
+        .badge-pending { background: #FFF3CD; color: #856404; }
+        
+        /* FORM AGGIUNGI */
+        .form-section {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--ombra);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-family: inherit;
+            background: var(--bianco);
+            color: var(--nero);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        .btn-salva {
+            width: 100%;
+            padding: 14px;
+            background: var(--tortora);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-salva:hover { background: var(--nero); }
+        
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(26, 26, 26, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bianco);
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--ombra-forte);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .modal-title { font-size: 20px; font-weight: 700; }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--tortora);
+        }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--tortora);
+        }
+        .empty-state .icon { font-size: 64px; margin-bottom: 15px; }
+        .empty-state .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--nero); }
+        .empty-state .text { font-size: 14px; }
+        
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ombra-forte);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* STAMPA */
+        @media print {
+            body { background: var(--bianco); padding: 0; }
+            .main-header, .form-section, .dashboard-nav, .filter-controls, .btn, .modal-overlay, .toast { display: none !important; }
+            .dashboard-totale {
+                background: var(--tortora) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                page-break-inside: avoid;
+            }
+            .contabilita-layout { grid-template-columns: 1fr; }
+            .movimenti-section { border: 1px solid var(--tortora); }
+            .totale-card { background: rgba(255,255,255,0.2) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+        
+        @media (max-width: 1000px) {
+            .contabilita-layout { grid-template-columns: 1fr; }
+            .form-section { position: static; }
+            .totale-principale { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .totale-principale { grid-template-columns: 1fr; }
+            .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER UNIVERSALE -->
+    <div class="main-header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Contabilità e Pagamenti</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()"> Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
+                <span class="sync-dot"></span>
+                <span id="syncLabel">Sync OK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD TOTALI -->
+    <div class="dashboard-totale">
+        <div class="dashboard-header">
+            <div>
+                <h2>📊 Dashboard Contabilità</h2>
+                <div class="periodo" id="periodoCorrente">--</div>
+            </div>
+            <div class="dashboard-nav">
+                <button onclick="cambiaPeriodo(-1)">◀ Precedente</button>
+                <button class="active" onclick="vaiAMeseCorrente()">📍 Mese Corrente</button>
+                <button onclick="cambiaPeriodo(1)">Successivo ▶</button>
+            </div>
+        </div>
+        
+        <div class="totale-principale">
+            <div class="totale-card entrate">
+                <div class="label">💰 Entrate Mese</div>
+                <div class="valore" id="totaleEntrate">€ 0,00</div>
+                <div class="dettaglio" id="dettaglioEntrate">0 pagamenti</div>
+            </div>
+            <div class="totale-card uscite">
+                <div class="label">💸 Uscite Mese</div>
+                <div class="valore" id="totaleUscite">€ 0,00</div>
+                <div class="dettaglio" id="dettaglioUscite">0 movimenti</div>
+            </div>
+            <div class="totale-card saldo">
+                <div class="label">📈 Saldo Mese</div>
+                <div class="valore" id="totaleSaldo">€ 0,00</div>
+                <div class="dettaglio" id="dettaglioSaldo">--</div>
+            </div>
+            <div class="totale-card pending">
+                <div class="label">⏳ In Attesa</div>
+                <div class="valore" id="totalePending">€ 0,00</div>
+                <div class="dettaglio" id="dettaglioPending">0 pagamenti</div>
+            </div>
+        </div>
+        
+        <div class="grafico-barre">
+            <div class="titolo">📊 Andamento Annuale Entrate</div>
+            <div class="barre-container" id="graficoBarre"></div>
+        </div>
+    </div>
+
+    <!-- LAYOUT PRINCIPALE -->
+    <div class="contabilita-layout">
+        
+        <!-- SEZIONE MOVIMENTI -->
+        <div class="movimenti-section">
+            <div class="section-header">
+                <div class="section-title">📋 Movimenti Contabili</div>
+                <div class="filter-controls">
+                    <select id="filtroTipo" onchange="renderMovimenti()">
+                        <option value="tutti">Tutti i tipi</option>
+                        <option value="entrata">💰 Entrate</option>
+                        <option value="uscita"> Uscite</option>
+                    </select>
+                    <select id="filtroStato" onchange="renderMovimenti()">
+                        <option value="tutti">Tutti gli stati</option>
+                        <option value="pagato">✅ Pagati</option>
+                        <option value="pending">⏳ In attesa</option>
+                    </select>
+                    <input type="text" id="filtroRicerca" placeholder="🔍 Cerca..." oninput="renderMovimenti()">
+                    <button class="btn btn-info btn-sm" onclick="stampaContabilita()">🖨️ Stampa</button>
+                </div>
+            </div>
+            <div id="movimentiList"></div>
+        </div>
+        
+        <!-- FORM AGGIUNGI -->
+        <div class="form-section">
+            <h3>➕ Nuovo Movimento</h3>
+            <form id="formMovimento" onsubmit="salvaMovimento(event)">
+                <input type="hidden" id="mId">
+                <div class="form-group">
+                    <label>Tipo *</label>
+                    <select id="mTipo" required>
+                        <option value="entrata">💰 Entrata (Pagamento ricevuto)</option>
+                        <option value="uscita"> Uscita (Spesa)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Categoria *</label>
+                    <select id="mCategoria" required>
+                        <option value="Abbonamento mensile">Abbonamento mensile</option>
+                        <option value="Abbonamento trimestrale">Abbonamento trimestrale</option>
+                        <option value="Abbonamento semestrale">Abbonamento semestrale</option>
+                        <option value="Abbonamento annuale">Abbonamento annuale</option>
+                        <option value="Scheda allenamento">Scheda allenamento</option>
+                        <option value="Piano nutrizionale">Piano nutrizionale</option>
+                        <option value="Certificato medico">Certificato medico</option>
+                        <option value="Affitto palestra">Affitto palestra</option>
+                        <option value="Utenze">Utenze (luce, acqua, gas)</option>
+                        <option value="Attrezzatura">Attrezzatura</option>
+                        <option value="Marketing">Marketing/Pubblicità</option>
+                        <option value="Stipendi">Stipendi personale</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Descrizione *</label>
+                    <input type="text" id="mDescrizione" required placeholder="Es. Pagamento Mario Rossi">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Importo (€) *</label>
+                        <input type="number" id="mImporto" step="0.01" min="0" required placeholder="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Data *</label>
+                        <input type="date" id="mData" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cliente/Fornitore</label>
+                        <input type="text" id="mCliente" placeholder="Es. Mario Rossi">
+                    </div>
+                    <div class="form-group">
+                        <label>Stato</label>
+                        <select id="mStato">
+                            <option value="pagato">✅ Pagato</option>
+                            <option value="pending">⏳ In attesa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Metodo di pagamento</label>
+                    <select id="mMetodo">
+                        <option value="Contanti"> Contanti</option>
+                        <option value="Carta">💳 Carta</option>
+                        <option value="Bonifico">🏦 Bonifico</option>
+                        <option value="PayPal">🅿️ PayPal</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="mNote" placeholder="Note aggiuntive..."></textarea>
+                </div>
+                <button type="submit" class="btn-salva" id="btnSalva">💾 Salva Movimento</button>
+                <button type="button" class="btn btn-secondary" style="width:100%; margin-top:8px;" onclick="resetForm()">🗑️ Reset Form</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL MODIFICA -->
+    <div class="modal-overlay" id="modalModifica">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">✏️ Modifica Movimento</div>
+                <button class="modal-close" onclick="chiudiModal()">×</button>
+            </div>
+            <form id="formModifica" onsubmit="aggiornaMovimento(event)">
+                <input type="hidden" id="modId">
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select id="modTipo" required>
+                        <option value="entrata">💰 Entrata</option>
+                        <option value="uscita">💸 Uscita</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="modCategoria" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Descrizione</label>
+                    <input type="text" id="modDescrizione" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Importo (€)</label>
+                        <input type="number" id="modImporto" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" id="modData" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cliente/Fornitore</label>
+                        <input type="text" id="modCliente">
+                    </div>
+                    <div class="form-group">
+                        <label>Stato</label>
+                        <select id="modStato">
+                            <option value="pagato">✅ Pagato</option>
+                            <option value="pending">⏳ In attesa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Metodo di pagamento</label>
+                    <select id="modMetodo">
+                        <option value="Contanti">💵 Contanti</option>
+                        <option value="Carta">💳 Carta</option>
+                        <option value="Bonifico"> Bonifico</option>
+                        <option value="PayPal">🅿️ PayPal</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="modNote"></textarea>
+                </div>
+                <button type="submit" class="btn-salva">💾 Aggiorna Movimento</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ============================================================
+    // CONFIGURAZIONE
+    // ============================================================
+    const syncState = { stato: 'online' };
+    let hasUnsavedChanges = false;
+    
+    // Periodo corrente visualizzato (mese/anno)
+    let periodoCorrente = new Date();
+    
+    // ============================================================
+    // DATI
+    // ============================================================
+    let movimenti = JSON.parse(localStorage.getItem('contabilita_movimenti') || '[]');
+    
+    // Dati di esempio se vuoti
+    if (movimenti.length === 0) {
+        const oggi = new Date();
+        const anno = oggi.getFullYear();
+        const mese = oggi.getMonth();
+        
+        movimenti = [
+            { id: 1, tipo: 'entrata', categoria: 'Abbonamento mensile', descrizione: 'Pagamento Mario Rossi', importo: 50, data: new Date(anno, mese, 5).toISOString().split('T')[0], cliente: 'Mario Rossi', stato: 'pagato', metodo: 'Carta', note: '' },
+            { id: 2, tipo: 'entrata', categoria: 'Abbonamento mensile', descrizione: 'Pagamento Luigi Bianchi', importo: 50, data: new Date(anno, mese, 10).toISOString().split('T')[0], cliente: 'Luigi Bianchi', stato: 'pagato', metodo: 'Bonifico', note: '' },
+            { id: 3, tipo: 'entrata', categoria: 'Abbonamento mensile', descrizione: 'Pagamento Anna Verdi', importo: 50, data: new Date(anno, mese, 15).toISOString().split('T')[0], cliente: 'Anna Verdi', stato: 'pending', metodo: 'PayPal', note: 'In attesa conferma' },
+            { id: 4, tipo: 'uscita', categoria: 'Affitto palestra', descrizione: 'Canone mensile affitto', importo: 800, data: new Date(anno, mese, 1).toISOString().split('T')[0], cliente: 'Proprietario immobile', stato: 'pagato', metodo: 'Bonifico', note: '' },
+            { id: 5, tipo: 'uscita', categoria: 'Utenze', descrizione: 'Bolletta luce', importo: 150, data: new Date(anno, mese, 20).toISOString().split('T')[0], cliente: 'Enel', stato: 'pagato', metodo: 'Bonifico', note: '' }
+        ];
+        saveMovimenti();
+    }
+    
+    const MESI = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+    const MESI_CORTI = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
+    
+    // ============================================================
+    // NAVIGAZIONE
+    // ============================================================
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+    }
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) window.history.back();
+        else window.location.href = 'index.html';
+    }
+    
+    // ============================================================
+    // SINCRONIZZAZIONE
+    // ============================================================
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        syncEl.className = 'sync-status';
+        if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
+        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
+        else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
+        syncState.stato = stato;
+    }
+    function forzaSync() {
+        if (syncState.stato === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        try {
+            saveMovimenti();
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast('❌ Errore durante la sincronizzazione');
+        }
+    }
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    // ============================================================
+    // UTILITÀ
+    // ============================================================
+    function formattaEuro(importo) {
+        return '€ ' + importo.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    function formattaData(dataStr) {
+        const data = new Date(dataStr);
+        return `${data.getDate().toString().padStart(2, '0')}/${(data.getMonth() + 1).toString().padStart(2, '0')}/${data.getFullYear()}`;
+    }
+    function getMeseAnno(data) {
+        return `${data.getFullYear()}-${data.getMonth().toString().padStart(2, '0')}`;
+    }
+    
+    // ============================================================
+    // PERIODO
+    // ============================================================
+    function cambiaPeriodo(direzione) {
+        periodoCorrente.setMonth(periodoCorrente.getMonth() + direzione);
+        renderTutto();
+    }
+    function vaiAMeseCorrente() {
+        periodoCorrente = new Date();
+        renderTutto();
+    }
+    
+    // ============================================================
+    // RENDER DASHBOARD
+    // ============================================================
+    function renderDashboard() {
+        const meseAnno = getMeseAnno(periodoCorrente);
+        const movimentiMese = movimenti.filter(m => m.data.startsWith(meseAnno));
+        
+        document.getElementById('periodoCorrente').textContent = `${MESI[periodoCorrente.getMonth()]} ${periodoCorrente.getFullYear()}`;
+        
+        const entrate = movimentiMese.filter(m => m.tipo === 'entrata' && m.stato === 'pagato').reduce((sum, m) => sum + m.importo, 0);
+        const uscite = movimentiMese.filter(m => m.tipo === 'uscita' && m.stato === 'pagato').reduce((sum, m) => sum + m.importo, 0);
+        const pending = movimentiMese.filter(m => m.stato === 'pending').reduce((sum, m) => sum + m.importo, 0);
+        const saldo = entrate - uscite;
+        
+        const numEntrate = movimentiMese.filter(m => m.tipo === 'entrata' && m.stato === 'pagato').length;
+        const numUscite = movimentiMese.filter(m => m.tipo === 'uscita' && m.stato === 'pagato').length;
+        const numPending = movimentiMese.filter(m => m.stato === 'pending').length;
+        
+        document.getElementById('totaleEntrate').textContent = formattaEuro(entrate);
+        document.getElementById('dettaglioEntrate').textContent = `${numEntrate} pagamenti`;
+        document.getElementById('totaleUscite').textContent = formattaEuro(uscite);
+        document.getElementById('dettaglioUscite').textContent = `${numUscite} movimenti`;
+        document.getElementById('totaleSaldo').textContent = formattaEuro(saldo);
+        document.getElementById('dettaglioSaldo').textContent = saldo >= 0 ? ' Positivo' : '📉 Negativo';
+        document.getElementById('totalePending').textContent = formattaEuro(pending);
+        document.getElementById('dettaglioPending').textContent = `${numPending} pagamenti`;
+        
+        renderGraficoAnnuale();
+    }
+    
+    function renderGraficoAnnuale() {
+        const anno = periodoCorrente.getFullYear();
+        const container = document.getElementById('graficoBarre');
+        container.innerHTML = '';
+        
+        const datiMensili = [];
+        let maxValore = 0;
+        
+        for (let i = 0; i < 12; i++) {
+            const meseAnno = `${anno}-${i.toString().padStart(2, '0')}`;
+            const totale = movimenti.filter(m => m.data.startsWith(meseAnno) && m.tipo === 'entrata' && m.stato === 'pagato').reduce((sum, m) => sum + m.importo, 0);
+            datiMensili.push({ mese: MESI_CORTI[i], valore: totale });
+            if (totale > maxValore) maxValore = totale;
+        }
+        
+        if (maxValore === 0) maxValore = 1;
+        
+        datiMensili.forEach(d => {
+            const altezza = (d.valore / maxValore) * 100;
+            const barra = document.createElement('div');
+            barra.className = 'barra';
+            barra.style.height = `${Math.max(altezza, 2)}%`;
+            barra.innerHTML = `
+                <div class="valore-barra">${d.valore > 0 ? '€' + Math.round(d.valore) : ''}</div>
+                <div class="label-mese">${d.mese}</div>
+            `;
+            container.appendChild(barra);
+        });
+    }
+    
+    // ============================================================
+    // RENDER MOVIMENTI
+    // ============================================================
+    function renderMovimenti() {
+        const container = document.getElementById('movimentiList');
+        const meseAnno = getMeseAnno(periodoCorrente);
+        
+        let movimentiFiltrati = movimenti.filter(m => m.data.startsWith(meseAnno));
+        
+        const filtroTipo = document.getElementById('filtroTipo').value;
+        const filtroStato = document.getElementById('filtroStato').value;
+        const filtroRicerca = document.getElementById('filtroRicerca').value.toLowerCase();
+        
+        if (filtroTipo !== 'tutti') movimentiFiltrati = movimentiFiltrati.filter(m => m.tipo === filtroTipo);
+        if (filtroStato !== 'tutti') movimentiFiltrati = movimentiFiltrati.filter(m => m.stato === filtroStato);
+        if (filtroRicerca) {
+            movimentiFiltrati = movimentiFiltrati.filter(m => 
+                m.descrizione.toLowerCase().includes(filtroRicerca) ||
+                (m.cliente && m.cliente.toLowerCase().includes(filtroRicerca)) ||
+                m.categoria.toLowerCase().includes(filtroRicerca)
+            );
+        }
+        
+        movimentiFiltrati.sort((a, b) => new Date(b.data) - new Date(a.data));
+        
+        if (movimentiFiltrati.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><div class="title">Nessun movimento trovato</div><div class="text">Aggiungi il primo movimento usando il form a destra.</div></div>`;
+            return;
+        }
+        
+        let html = `<table class="movimenti-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Descrizione</th>
+                    <th>Cliente</th>
+                    <th>Importo</th>
+                    <th>Stato</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>`;
+        
+        movimentiFiltrati.forEach(m => {
+            const tipoBadge = m.tipo === 'entrata' ? 'badge-entrata' : 'badge-uscita';
+            const statoBadge = m.stato === 'pagato' ? 'badge-pagato' : 'badge-pending';
+            const importoClass = m.tipo === 'entrata' ? 'importo-entrata' : 'importo-uscita';
+            const segno = m.tipo === 'entrata' ? '+' : '-';
+            
+            html += `<tr>
+                <td>${formattaData(m.data)}</td>
+                <td><span class="badge ${tipoBadge}">${m.tipo === 'entrata' ? '💰 Entrata' : '💸 Uscita'}</span></td>
+                <td>${m.categoria}</td>
+                <td><strong>${m.descrizione}</strong>${m.note ? `<br><small style="color:var(--tortora)">${m.note}</small>` : ''}</td>
+                <td>${m.cliente || '-'}</td>
+                <td class="${importoClass}">${segno} ${formattaEuro(m.importo)}</td>
+                <td><span class="badge ${statoBadge}">${m.stato === 'pagato' ? '✅ Pagato' : '⏳ In attesa'}</span></td>
+                <td style="display:flex; gap:5px; flex-wrap:wrap;">
+                    <button class="btn btn-sm btn-info" onclick="apriModifica(${m.id})">✏️</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaMovimento(${m.id})">🗑️</button>
+                </td>
+            </tr>`;
+        });
+        
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+    
+    // ============================================================
+    // GESTIONE MOVIMENTI
+    // ============================================================
+    function salvaMovimento(e) {
+        e.preventDefault();
+        
+        const movimento = {
+            id: Date.now(),
+            tipo: document.getElementById('mTipo').value,
+            categoria: document.getElementById('mCategoria').value,
+            descrizione: document.getElementById('mDescrizione').value.trim(),
+            importo: parseFloat(document.getElementById('mImporto').value),
+            data: document.getElementById('mData').value,
+            cliente: document.getElementById('mCliente').value.trim(),
+            stato: document.getElementById('mStato').value,
+            metodo: document.getElementById('mMetodo').value,
+            note: document.getElementById('mNote').value.trim()
+        };
+        
+        movimenti.push(movimento);
+        saveMovimenti();
+        
+        hasUnsavedChanges = true;
+        aggiornaSyncStatus('warning', 'Modifiche non salvate');
+        
+        resetForm();
+        renderTutto();
+        showToast('✅ Movimento salvato con successo!');
+        
+        setTimeout(() => {
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+        }, 2000);
+    }
+    
+    function apriModifica(id) {
+        const m = movimenti.find(mov => mov.id === id);
+        if (!m) return;
+        
+        document.getElementById('modId').value = m.id;
+        document.getElementById('modTipo').value = m.tipo;
+        document.getElementById('modCategoria').value = m.categoria;
+        document.getElementById('modDescrizione').value = m.descrizione;
+        document.getElementById('modImporto').value = m.importo;
+        document.getElementById('modData').value = m.data;
+        document.getElementById('modCliente').value = m.cliente || '';
+        document.getElementById('modStato').value = m.stato;
+        document.getElementById('modMetodo').value = m.metodo || 'Contanti';
+        document.getElementById('modNote').value = m.note || '';
+        
+        document.getElementById('modalModifica').classList.add('active');
+    }
+    
+    function aggiornaMovimento(e) {
+        e.preventDefault();
+        
+        const id = parseInt(document.getElementById('modId').value);
+        const index = movimenti.findIndex(m => m.id === id);
+        
+        if (index !== -1) {
+            movimenti[index] = {
+                ...movimenti[index],
+                tipo: document.getElementById('modTipo').value,
+                categoria: document.getElementById('modCategoria').value,
+                descrizione: document.getElementById('modDescrizione').value.trim(),
+                importo: parseFloat(document.getElementById('modImporto').value),
+                data: document.getElementById('modData').value,
+                cliente: document.getElementById('modCliente').value.trim(),
+                stato: document.getElementById('modStato').value,
+                metodo: document.getElementById('modMetodo').value,
+                note: document.getElementById('modNote').value.trim()
+            };
+            
+            saveMovimenti();
+            chiudiModal();
+            renderTutto();
+            showToast('✅ Movimento aggiornato!');
+        }
+    }
+    
+    function eliminaMovimento(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo movimento?')) return;
+        movimenti = movimenti.filter(m => m.id !== id);
+        saveMovimenti();
+        renderTutto();
+        showToast('🗑️ Movimento eliminato');
+    }
+    
+    function resetForm() {
+        document.getElementById('formMovimento').reset();
+        document.getElementById('mId').value = '';
+        document.getElementById('mData').value = new Date().toISOString().split('T')[0];
+    }
+    
+    function chiudiModal() {
+        document.getElementById('modalModifica').classList.remove('active');
+    }
+    
+    // ============================================================
+    // STAMPA
+    // ============================================================
+    function stampaContabilita() {
+        window.print();
+        showToast('🖨️ Preparazione stampa...');
+    }
+    
+    // ============================================================
+    // STORAGE
+    // ============================================================
+    function saveMovimenti() { localStorage.setItem('contabilita_movimenti', JSON.stringify(movimenti)); }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    // ============================================================
+    // INIT
+    // ============================================================
+    function renderTutto() {
+        renderDashboard();
+        renderMovimenti();
+    }
+    
+    function init() {
+        document.getElementById('mData').value = new Date().toISOString().split('T')[0];
+        renderTutto();
+        aggiornaSyncStatus('online', 'Sync OK');
+    }
+    
+    // Chiudi modal cliccando fuori
+    document.getElementById('modalModifica').addEventListener('click', function(e) {
+        if (e.target === this) chiudiModal();
+    });
+    
+    init();
+    </script>
+</body>
+</html>

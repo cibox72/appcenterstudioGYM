@@ -3,51 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppCenterStudioGYM</title>
+    <title>AppCenterStudioGYM - Login</title>
     <style>
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #27AE60;
+            --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12;
+            --rosso: #E74C3C;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
-    color: #1A1A1A;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-        .container {
-            text-align: center;
-            padding: 40px;
-            border: 2px solid #9C928A;
-            border-radius: 8px;
-            max-width: 500px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
+            color: var(--nero);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
-        h1 {
-            color: #1A1A1A;
-            font-size: 28px;
-            margin-bottom: 10px;
+        
+        /* HEADER UNIVERSALE */
+        .main-header {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 1400px;
+            width: calc(100% - 40px);
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--ombra);
+            z-index: 100;
         }
-        .subtitle {
-            color: #9C928A;
-            font-size: 16px;
-            margin-top: 0;
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-title h1 { font-size: 16px; font-weight: 700; color: var(--nero); }
+        .header-title p { font-size: 9px; color: var(--tortora); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+        .header-nav { display: flex; align-items: center; gap: 8px; }
+        .nav-btn {
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: 1.5px solid transparent;
         }
-        .badge {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 8px 20px;
-            background-color: #9C928A;
-            color: #FFFFFF;
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1.5px solid;
         }
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: relative;
+        }
+        .sync-dot::after {
+            content: 'S';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6px;
+            font-weight: 900;
+            color: var(--bianco);
+        }
+        .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
+        .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
+        @keyframes pulse-verde {
+            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(39, 174, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        }
+        
+        /* LOGIN FORM */
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            background-color: var(--bianco);
+            box-shadow: var(--ombra);
+            margin-top: 80px;
+        }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { font-size: 26px; color: var(--nero); font-weight: 600; letter-spacing: 0.5px; }
+        .logo p { font-size: 13px; color: var(--tortora); margin-top: 6px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; color: var(--nero); margin-bottom: 8px; font-weight: 500; }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--tortora-chiaro);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--nero);
+            background-color: var(--bianco);
+            font-family: inherit;
+        }
+        .form-group select:focus, .form-group input:focus { outline: none; border-color: var(--tortora); }
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--tortora);
+            color: var(--bianco);
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+        .btn-login:hover { background-color: var(--nero); }
+        .forgot-password { text-align: center; margin-top: 20px; }
+        .forgot-password a { color: var(--tortora); text-decoration: none; font-size: 13px; }
+        .forgot-password a:hover { color: var(--nero); text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>AppCenterStudioGYM</h1>
-        <p class="subtitle">Gestionale Palestre - AppCenterStudioGIM</p>
-        <div class="badge">App in costruzione</div>
+    <!-- HEADER UNIVERSALE -->
+    <div class="main-header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Login</p>
+            </div>
+        </div>
+        <div class="header-nav">
+            <div class="sync-status sync-online">
+                <span class="sync-dot"></span>
+                <span>Online</span>
+            </div>
+        </div>
     </div>
+
+    <div class="login-container">
+        <div class="logo">
+            <h1>AppCenterStudioGYM</h1>
+            <p>Gestionale Palestre - AppCenterStudioGIM</p>
+        </div>
+        <form onsubmit="effettuaLogin(event)">
+            <div class="form-group">
+                <label for="ruolo">Seleziona il tuo ruolo</label>
+                <select id="ruolo" name="ruolo" required>
+                    <option value="" disabled selected>-- Seleziona --</option>
+                    <option value="fornitore">Fornitore</option>
+                    <option value="palestra">Palestra (Gestore)</option>
+                    <option value="atleta">Atleta (Cliente)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Inserisci il tuo username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+            </div>
+            <button type="submit" class="btn-login">ACCEDI</button>
+            <div class="forgot-password">
+                <a href="#">Password dimenticata?</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    function effettuaLogin(e) {
+        e.preventDefault();
+        const ruolo = document.getElementById('ruolo').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // Simulazione login (in produzione sarà con database reale)
+        if (ruolo === 'fornitore') {
+            window.location.href = 'dashboard-fornitore.html';
+        } else if (ruolo === 'palestra') {
+            window.location.href = 'dashboard-palestra.html';
+        } else if (ruolo === 'atleta') {
+            window.location.href = 'dashboard-atleta.html';
+        }
+    }
+    </script>
 </body>
 </html>
-

@@ -216,16 +216,16 @@
         
         /* BOTTONI */
         .btn {
-            padding: 12px 24px;
+            padding: 10px 18px;
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.2s;
             font-family: inherit;
         }
@@ -239,7 +239,9 @@
         .btn-secondary:hover { background: var(--tortora-chiarissimo); }
         .btn-warning { background: var(--giallo); color: var(--bianco); }
         .btn-warning:hover { opacity: 0.9; }
-        .btn-sm { padding: 8px 14px; font-size: 12px; }
+        .btn-info { background: var(--blu); color: var(--bianco); }
+        .btn-info:hover { opacity: 0.9; }
+        .btn-sm { padding: 8px 12px; font-size: 12px; }
         
         /* TABELLA PALESTRE */
         .palestre-table {
@@ -278,9 +280,6 @@
         .badge-attiva { background: #D4EDDA; color: #155724; }
         .badge-prova { background: #FFF3CD; color: #856404; }
         .badge-scaduta { background: #F8D7DA; color: #721C24; }
-        .badge-inviata { background: #D1ECF1; color: #0C5460; }
-        .badge-accettata { background: #D4EDDA; color: #155724; }
-        .badge-rifiutata { background: #F8D7DA; color: #721C24; }
         
         /* COUNTDOWN */
         .countdown {
@@ -463,7 +462,7 @@
 
     <!-- TABS -->
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="showTab('palestre')">️ Palestre</button>
+        <button class="tab-btn active" onclick="showTab('palestre')">🏋️ Palestre</button>
         <button class="tab-btn" onclick="showTab('nuova-palestra')">➕ Nuova Palestra</button>
         <button class="tab-btn" onclick="showTab('offerte')">📋 Archivio Offerte</button>
         <button class="tab-btn" onclick="showTab('nuova-offerta')">✨ Crea Offerta</button>
@@ -473,7 +472,7 @@
     <div class="tab-content active" id="tab-palestre">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">️ Palestre Registrate</div>
+                <div class="section-title">🏋️ Palestre Registrate</div>
                 <button class="btn btn-primary btn-sm" onclick="showTab('nuova-palestra')">➕ Aggiungi</button>
             </div>
             <div id="palestreList"></div>
@@ -522,7 +521,7 @@
                 </div>
                 
                 <div class="credentials-box">
-                    <div class="title"> Credenziali Generate Automaticamente</div>
+                    <div class="title">🔐 Credenziali Generate Automaticamente</div>
                     <div class="cred-row">
                         <span class="cred-label">Username</span>
                         <span class="cred-value" id="genUsername">-</span>
@@ -543,7 +542,7 @@
                 
                 <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
                     <button type="submit" class="btn btn-primary">💾 Salva Palestra</button>
-                    <button type="button" class="btn btn-success" onclick="salvaEInvia()">💬 Salva e Invia WhatsApp</button>
+                    <button type="button" class="btn btn-success" onclick="salvaEInvia()">💬 Salva e Invia Credenziali</button>
                     <button type="button" class="btn btn-secondary" onclick="generaCredenziali()">🔄 Rigenera Credenziali</button>
                 </div>
             </form>
@@ -590,7 +589,7 @@
                     <div class="form-group full">
                         <label>Link PayPal per Pagamento</label>
                         <input type="url" id="oPaypal" placeholder="https://paypal.me/TUO_LINK">
-                        <span class="form-hint">Inserisci il tuo link PayPal.me per ricevere il pagamento</span>
+                        <span class="form-hint">Inserisci il tuo link PayPal per ricevere il pagamento</span>
                     </div>
                     <div class="form-group full">
                         <label>Servizi Inclusi (uno per riga)</label>
@@ -643,7 +642,6 @@
     // INIZIALIZZAZIONE
     // ============================================================
     function init() {
-        // Offerte di default se vuote
         if (offerte.length === 0) {
             offerte = [
                 {
@@ -759,7 +757,7 @@
             password: tempCredenziali.password,
             dataAttivazione: oggi.toISOString(),
             dataScadenza: scadenza.toISOString(),
-            stato: 'prova', // prova | attiva | scaduta
+            stato: 'prova',
             offerteInviati: [],
             dataRegistrazione: oggi.toISOString()
         };
@@ -767,7 +765,6 @@
         palestre.push(palestra);
         savePalestre();
         
-        // Registra l'offerta inviata
         palestra.offerteInviati.push({
             offertaId: offerta.id,
             dataInvio: oggi.toISOString(),
@@ -791,23 +788,68 @@
     }
     
     // ============================================================
-    // INVIO WHATSAPP CREDENZIALI
+    // FUNZIONI WHATSAPP (OFFERTA, RINNOVO, CREDENZIALI)
     // ============================================================
+    function inviaOffertaWhatsApp(palestraId) {
+        const palestra = palestre.find(p => p.id === palestraId);
+        if (!palestra) return;
+        const offerta = offerte.find(o => o.id === palestra.offertaId);
+        if (!offerta) {
+            showToast('⚠️ Nessuna offerta associata a questa palestra');
+            return;
+        }
+        
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
+            `Ecco l'offerta personalizzata per la tua palestra *${palestra.nome}*.\n\n` +
+            `📋 *PIANO:* ${offerta.nome}\n` +
+            `💰 *IMPORTO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n` +
+            `🔗 *LINK PER ATTIVARE E PAGARE:* ${offerta.paypal}\n\n` +
+            `Fammi sapere se hai dubbi o se vuoi procedere con l'attivazione!\n\n` +
+            `A presto, 💪\n— AppCenterStudioGYM`;
+            
+        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
+        window.open(url, '_blank');
+        showToast('💬 WhatsApp offerta aperto!');
+    }
+
+    function inviaRinnovoWhatsApp(palestraId) {
+        const palestra = palestre.find(p => p.id === palestraId);
+        if (!palestra) return;
+        const offerta = offerte.find(o => o.id === palestra.offertaId);
+        if (!offerta) {
+            showToast('⚠️ Nessuna offerta associata a questa palestra');
+            return;
+        }
+
+        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
+            `Ti ricordo che il tuo abbonamento a *AppCenterStudioGYM* è in scadenza o già scaduto.\n\n` +
+            `Per rinnovare il servizio e continuare a gestire la tua palestra senza interruzioni:\n\n` +
+            `📋 *PIANO:* ${offerta.nome}\n` +
+            `💰 *IMPORTO RINNOVO:* €${offerta.prezzo} / ${offerta.durata.toLowerCase()}\n` +
+            `🔗 *LINK SICURO PER IL PAGAMENTO:* ${offerta.paypal}\n\n` +
+            `Appena effettuato il pagamento, il tuo account verrà riattivato immediatamente.\n\n` +
+            `Grazie per la fiducia! 💪\n— AppCenterStudioGYM`;
+            
+        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
+        window.open(url, '_blank');
+        showToast('💬 WhatsApp rinnovo aperto!');
+    }
+
     function inviaCredenzialiWhatsApp(palestra) {
         const offerta = offerte.find(o => o.id === palestra.offertaId);
         const scadenza = new Date(palestra.dataScadenza).toLocaleDateString('it-IT');
         
         const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
             `Benvenuto in AppCenterStudioGYM - il gestionale professionale per la tua palestra.\n\n` +
-            ` Ti abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\n` +
-            `🔐 LE TUE CREDENZIALI DI ACCESSO:\n` +
+            `🎁 Ti abbiamo attivato una PROVA GRATUITA di ${TRIAL_DAYS} giorni.\n\n` +
+            `🔐 *LE TUE CREDENZIALI DI ACCESSO:*\n` +
             `• Username: ${palestra.username}\n` +
             `• Password: ${palestra.password}\n` +
             `• Link: ${APP_URL}\n\n` +
-            `📋 OFFERTA ATTIVA: ${offerta.nome}\n` +
-            ` Prezzo: €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n` +
-            ` Scadenza prova: ${scadenza}\n\n` +
-            ` ACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\n` +
+            `📋 *OFFERTA ATTIVA:* ${offerta.nome}\n` +
+            `💰 *Prezzo:* €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n` +
+            `⏰ *Scadenza prova:* ${scadenza}\n\n` +
+            `🚀 ACCEDI ORA E INIZIA A GESTIRE LA TUA PALESTRA!\n\n` +
             `Dopo i 30 giorni di prova, per continuare a utilizzare il servizio dovrai attivare l'abbonamento.\n\n` +
             `Per qualsiasi domanda sono a disposizione su WhatsApp.\n\n` +
             `Buon lavoro! 💪\n\n` +
@@ -816,33 +858,7 @@
         
         const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
         window.open(url, '_blank');
-        showToast('💬 WhatsApp aperto con le credenziali!');
-    }
-    
-    // ============================================================
-    // INVIO SOLLECITO PAGAMENTO (DOPO 30 GIORNI)
-    // ============================================================
-    function inviaSollecitoPagamento(palestraId) {
-        const palestra = palestre.find(p => p.id === palestraId);
-        if (!palestra) return;
-        
-        const offerta = offerte.find(o => o.id === palestra.offertaId);
-        
-        const messaggio = `Ciao ${palestra.referente || palestra.nome}! 👋\n\n` +
-            `Ti informiamo che i tuoi ${TRIAL_DAYS} giorni di prova gratuita di AppCenterStudioGYM sono terminati.\n\n` +
-            `⚠️ Il tuo account è stato temporaneamente bloccato.\n\n` +
-            `📋 PER RIATTIVARE IL SERVIZIO:\n` +
-            `• Offerta: ${offerta.nome}\n` +
-            `• Prezzo: €${offerta.prezzo} ${offerta.durata.toLowerCase()}\n\n` +
-            `💳 LINK PER IL PAGAMENTO:\n` +
-            `${offerta.paypal}\n\n` +
-            `Appena ricevuto il pagamento, riattiveremo immediatamente il tuo account.\n\n` +
-            `Grazie per aver scelto AppCenterStudioGYM! 💪\n\n` +
-            `— Il Team AppCenterStudioGYM`;
-        
-        const url = `https://wa.me/${palestra.telefono}?text=${encodeURIComponent(messaggio)}`;
-        window.open(url, '_blank');
-        showToast('💬 WhatsApp sollecito aperto!');
+        showToast('💬 WhatsApp credenziali aperto!');
     }
     
     // ============================================================
@@ -875,17 +891,13 @@
         const container = document.getElementById('palestreList');
         const oggi = new Date();
         
-        // Verifica scadenze
         palestre.forEach(palestra => {
             if (palestra.stato === 'prova') {
                 const scadenza = new Date(palestra.dataScadenza);
                 const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-                
                 if (giorniRimanenti < 0) {
                     palestra.stato = 'scaduta';
                     savePalestre();
-                } else if (giorniRimanenti <= 3) {
-                    // Mostra avviso per scadenza imminente
                 }
             }
         });
@@ -893,7 +905,7 @@
         if (palestre.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
-                    <div class="icon">️</div>
+                    <div class="icon">🏋️</div>
                     <div class="text">Nessuna palestra registrata. Clicca su "Nuova Palestra" per iniziare.</div>
                 </div>
             `;
@@ -951,10 +963,11 @@
                         </div>
                     </td>
                     <td style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})">👁️</button>
-                        <button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))">💬</button>
-                        ${palestra.stato === 'scaduta' ? `<button class="btn btn-sm btn-warning" onclick="inviaSollecitoPagamento(${palestra.id})">💰</button>` : ''}
-                        <button class="btn btn-sm btn-primary" onclick="attivaPalestra(${palestra.id})">✓</button>
+                        <button class="btn btn-sm btn-secondary" onclick="vediDettagli(${palestra.id})" title="Dettagli">👁️</button>
+                        <button class="btn btn-sm btn-info" onclick="inviaOffertaWhatsApp(${palestra.id})" title="Invia Offerta con Link Pagamento">📩 Offerta</button>
+                        <button class="btn btn-sm btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id})" title="Invia Richiesta Rinnovo">🔄 Rinnovo</button>
+                        <button class="btn btn-sm btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id}))" title="Invia Credenziali">🔑</button>
+                        <button class="btn btn-sm ${palestra.stato === 'attiva' ? 'btn-secondary' : 'btn-primary'}" onclick="attivaPalestra(${palestra.id})" title="Attiva/Disattiva">${palestra.stato === 'attiva' ? '⏸️' : '✓'}</button>
                     </td>
                 </tr>
             `;
@@ -988,7 +1001,7 @@
                         ${(offerta.servizi || []).map(s => `<li>${s}</li>`).join('')}
                     </ul>
                     <div style="font-size:11px; color:var(--tortora); margin-bottom:10px;">
-                        PayPal: <a href="${offerta.paypal}" target="_blank" style="color:var(--blu)">Link</a>
+                        PayPal: <a href="${offerta.paypal}" target="_blank" style="color:var(--blu)">Link Pagamento</a>
                     </div>
                     <div class="actions">
                         <button class="btn btn-sm btn-secondary" onclick="modificaOfferta(${offerta.id})">✏️ Modifica</button>
@@ -1083,7 +1096,7 @@
         
         if (palestra.stato === 'attiva') {
             palestra.stato = 'prova';
-            showToast('️ Palestra impostata in prova');
+            showToast('⏸️ Palestra impostata in prova');
         } else {
             palestra.stato = 'attiva';
             showToast('✅ Palestra attivata!');
@@ -1115,7 +1128,7 @@
             <div style="margin-bottom:20px;">
                 <div style="font-size:14px; color:var(--tortora); margin-bottom:4px;">Contatti</div>
                 <div style="font-size:14px;">📞 ${palestra.telefono}</div>
-                <div style="font-size:14px;">️ ${palestra.email || '-'}</div>
+                <div style="font-size:14px;">📧 ${palestra.email || '-'}</div>
                 <div style="font-size:14px;">📍 ${palestra.citta || '-'}</div>
             </div>
             <div style="margin-bottom:20px;">
@@ -1143,9 +1156,10 @@
                     </span>
                 </div>
             </div>
-            <div style="display:flex; gap:10px; margin-top:25px;">
-                <button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">💬 Invia Credenziali</button>
-                ${palestra.stato === 'scaduta' ? `<button class="btn btn-warning" onclick="inviaSollecitoPagamento(${palestra.id}); closeModal('modalPalestra')">💰 Invia Sollecito</button>` : ''}
+            <div style="display:flex; gap:10px; margin-top:25px; flex-wrap:wrap;">
+                <button class="btn btn-info" onclick="inviaOffertaWhatsApp(${palestra.id}); closeModal('modalPalestra')">📩 Invia Offerta</button>
+                <button class="btn btn-warning" onclick="inviaRinnovoWhatsApp(${palestra.id}); closeModal('modalPalestra')">🔄 Invia Rinnovo</button>
+                <button class="btn btn-success" onclick="inviaCredenzialiWhatsApp(palestre.find(p=>p.id===${palestra.id})); closeModal('modalPalestra')">🔑 Invia Credenziali</button>
                 <button class="btn btn-secondary" onclick="closeModal('modalPalestra')">Chiudi</button>
             </div>
         `;
@@ -1179,14 +1193,12 @@
         localStorage.setItem('offerte', JSON.stringify(offerte));
     }
     
-    // Chiudi modal cliccando fuori
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) this.classList.remove('active');
         });
     });
     
-    // Avvia l'app
     init();
     </script>
 </body>

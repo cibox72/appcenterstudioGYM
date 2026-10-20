@@ -79,6 +79,60 @@
             color: var(--tortora-scuro);
             letter-spacing: 0.5px;
         }
+
+        /* GUIDA ALLA LETTURA */
+        .legend-section {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            padding: 22px 28px;
+            box-shadow: var(--ombra);
+        }
+        .legend-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--tortora-chiaro);
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--tortora);
+        }
+        .legend-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .legend-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .legend-text strong {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--nero);
+        }
+        .legend-text span {
+            font-size: 11px;
+            color: var(--tortora-scuro);
+            line-height: 1.3;
+        }
         
         /* OBIETTIVO GIORNALIERO */
         .daily-goal-bar {
@@ -514,7 +568,7 @@
         @media print {
             @page { size: A4; margin: 12mm; }
             body { background: var(--bianco); padding: 0; }
-            .action-bar, .btn, .toast, .daily-goal-bar { display: none !important; }
+            .action-bar, .btn, .toast, .daily-goal-bar, .legend-section { display: none !important; }
             .main-header { box-shadow: none; border: 2px solid var(--tortora); page-break-inside: avoid; }
             .day-card { 
                 box-shadow: none; 
@@ -562,6 +616,10 @@
             .summary-total { grid-template-columns: repeat(2, 1fr); }
             .action-bar { flex-direction: column; }
             .btn { width: 100%; justify-content: center; }
+            .legend-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .legend-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -577,6 +635,41 @@
             <div class="nome">Marco Rossi</div>
             <div class="dettagli">Obiettivo: Definizione • 75 kg • 180 cm</div>
             <div class="settimana">📅 Settimana 20-26 Ottobre 2026</div>
+        </div>
+    </div>
+
+    <!-- GUIDA ALLA LETTURA -->
+    <div class="legend-section">
+        <div class="legend-title">📘 Guida alla lettura</div>
+        <div class="legend-grid">
+            <div class="legend-item">
+                <span class="legend-icon">🔥</span>
+                <div class="legend-text">
+                    <strong>kcal</strong>
+                    <span>Chilocalorie: l'energia che il cibo fornisce al corpo</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🥩</span>
+                <div class="legend-text">
+                    <strong>P = Proteine</strong>
+                    <span>Costruiscono e riparano i muscoli</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">⚡</span>
+                <div class="legend-text">
+                    <strong>C = Carboidrati</strong>
+                    <span>Forniscono energia immediata per l'allenamento</span>
+                </div>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🥑</span>
+                <div class="legend-text">
+                    <strong>G = Grassi</strong>
+                    <span>Importanti per gli ormoni e l'assorbimento delle vitamine</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -624,7 +717,7 @@
 
     <!-- PULSANTI -->
     <div class="action-bar">
-        <button class="btn btn-print" onclick="window.print()">️ Stampa / Salva PDF</button>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
         <button class="btn btn-whatsapp" onclick="inviaWhatsApp()">💬 Invia su WhatsApp</button>
         <button class="btn btn-save" onclick="salvaPiano()">💾 Salva Piano</button>
     </div>
@@ -634,11 +727,10 @@
 
     <script>
     // ============================================================
-    // DATABASE NUTRIZIONALE - 200+ alimenti italiani (valori per 100g)
+    // DATABASE NUTRIZIONALE - 238 alimenti italiani (valori per 100g)
     // Fonte: CREA (Consiglio per la Ricerca in Agricoltura) / USDA
     // ============================================================
     const FOOD_DATABASE = [
-        // COLAZIONE
         { id: 1, name: "Yogurt greco 0% grassi", category: "colazione", kcal: 59, protein: 10.3, carbs: 3.6, fat: 0.4, fiber: 0, portion: 150, portionName: "1 vasetto" },
         { id: 2, name: "Yogurt bianco intero", category: "colazione", kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, fiber: 0, portion: 125, portionName: "1 vasetto" },
         { id: 3, name: "Fiocchi d'avena", category: "colazione", kcal: 379, protein: 13.5, carbs: 67.7, fat: 6.9, fiber: 10.1, portion: 40, portionName: "4 cucchiai" },
@@ -665,8 +757,6 @@
         { id: 24, name: "Tè verde", category: "colazione", kcal: 1, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
         { id: 25, name: "Succo d'arancia", category: "colazione", kcal: 45, protein: 0.7, carbs: 10.4, fat: 0.2, fiber: 0.2, portion: 200, portionName: "1 bicchiere" },
         { id: 26, name: "Spremuta d'arancia fresca", category: "colazione", kcal: 47, protein: 0.7, carbs: 10.8, fat: 0.2, fiber: 0.3, portion: 200, portionName: "1 bicchiere" },
-        
-        // SPUNTINI
         { id: 27, name: "Mandorle", category: "spuntino", kcal: 579, protein: 21.2, carbs: 21.6, fat: 49.9, fiber: 12.5, portion: 30, portionName: "20 mandorle" },
         { id: 28, name: "Noci", category: "spuntino", kcal: 654, protein: 15.2, carbs: 13.7, fat: 65.2, fiber: 6.7, portion: 30, portionName: "5 noci" },
         { id: 29, name: "Nocciole", category: "spuntino", kcal: 628, protein: 15, carbs: 16.7, fat: 60.8, fiber: 9.7, portion: 30, portionName: "porzione" },
@@ -691,8 +781,6 @@
         { id: 48, name: "Finocchi crudi", category: "spuntino", kcal: 31, protein: 1.2, carbs: 7.3, fat: 0.2, fiber: 3.1, portion: 100, portionName: "1 finocchio" },
         { id: 49, name: "Sedano", category: "spuntino", kcal: 16, protein: 0.7, carbs: 3, fat: 0.2, fiber: 1.6, portion: 100, portionName: "2 coste" },
         { id: 50, name: "Edamame", category: "spuntino", kcal: 121, protein: 11.9, carbs: 8.9, fat: 5.2, fiber: 5.2, portion: 100, portionName: "porzione" },
-        
-        // PRIMI PIATTI
         { id: 51, name: "Pasta al pomodoro", category: "primo", kcal: 158, protein: 5.2, carbs: 28.4, fat: 2.1, fiber: 2.1, portion: 250, portionName: "1 piatto" },
         { id: 52, name: "Spaghetti aglio, olio e peperoncino", category: "primo", kcal: 201, protein: 5.8, carbs: 30.2, fat: 6.5, fiber: 1.8, portion: 200, portionName: "1 piatto" },
         { id: 53, name: "Pasta alla carbonara", category: "primo", kcal: 234, protein: 9.8, carbs: 28.5, fat: 9.2, fiber: 1.5, portion: 250, portionName: "1 piatto" },
@@ -728,8 +816,6 @@
         { id: 83, name: "Linguine", category: "primo", kcal: 158, protein: 5.8, carbs: 30.9, fat: 0.9, fiber: 1.8, portion: 80, portionName: "porzione cruda" },
         { id: 84, name: "Tagliatelle", category: "primo", kcal: 165, protein: 6.2, carbs: 30.5, fat: 1.5, fiber: 1.5, portion: 100, portionName: "porzione cruda" },
         { id: 85, name: "Pappardelle", category: "primo", kcal: 165, protein: 6.2, carbs: 30.5, fat: 1.5, fiber: 1.5, portion: 100, portionName: "porzione cruda" },
-        
-        // SECONDI - CARNE
         { id: 86, name: "Petto di pollo alla griglia", category: "secondo_carne", kcal: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0, portion: 150, portionName: "1 petto" },
         { id: 87, name: "Coscia di pollo", category: "secondo_carne", kcal: 209, protein: 26, carbs: 0, fat: 10.9, fiber: 0, portion: 150, portionName: "1 coscia" },
         { id: 88, name: "Tacchino alla griglia", category: "secondo_carne", kcal: 135, protein: 30.1, carbs: 0, fat: 1, fiber: 0, portion: 150, portionName: "porzione" },
@@ -755,8 +841,6 @@
         { id: 108, name: "Polpette al sugo", category: "secondo_carne", kcal: 215, protein: 16.5, carbs: 8.5, fat: 12.5, fiber: 1.5, portion: 180, portionName: "3 polpette" },
         { id: 109, name: "Involtini di vitello", category: "secondo_carne", kcal: 195, protein: 22.5, carbs: 4.2, fat: 9.5, fiber: 0.8, portion: 150, portionName: "2 involtini" },
         { id: 110, name: "Straccetti di manzo", category: "secondo_carne", kcal: 185, protein: 25.2, carbs: 2.5, fat: 8.2, fiber: 0.5, portion: 150, portionName: "porzione" },
-        
-        // SECONDI - PESCE
         { id: 111, name: "Salmone alla griglia", category: "secondo_pesce", kcal: 208, protein: 20.4, carbs: 0, fat: 13.4, fiber: 0, portion: 150, portionName: "1 trancio" },
         { id: 112, name: "Tonno fresco", category: "secondo_pesce", kcal: 144, protein: 23.3, carbs: 0, fat: 4.9, fiber: 0, portion: 150, portionName: "1 trancio" },
         { id: 113, name: "Merluzzo", category: "secondo_pesce", kcal: 82, protein: 17.8, carbs: 0, fat: 0.7, fiber: 0, portion: 180, portionName: "1 filetto" },
@@ -780,8 +864,6 @@
         { id: 131, name: "Salmone affumicato", category: "secondo_pesce", kcal: 117, protein: 18.3, carbs: 0, fat: 4.3, fiber: 0, portion: 80, portionName: "3 fette" },
         { id: 132, name: "Tonno in scatola al naturale", category: "secondo_pesce", kcal: 116, protein: 25.5, carbs: 0, fat: 0.8, fiber: 0, portion: 80, portionName: "1 scatoletta" },
         { id: 133, name: "Baccalà", category: "secondo_pesce", kcal: 78, protein: 17.8, carbs: 0, fat: 0.6, fiber: 0, portion: 180, portionName: "porzione" },
-        
-        // CONTORNI
         { id: 134, name: "Insalata verde mista", category: "contorno", kcal: 15, protein: 1.4, carbs: 2.9, fat: 0.2, fiber: 1.8, portion: 100, portionName: "1 piatto" },
         { id: 135, name: "Insalata di pomodori", category: "contorno", kcal: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, portion: 150, portionName: "1 piatto" },
         { id: 136, name: "Pomodorini", category: "contorno", kcal: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, portion: 150, portionName: "porzione" },
@@ -812,8 +894,6 @@
         { id: 161, name: "Lattuga", category: "contorno", kcal: 15, protein: 1.4, carbs: 2.9, fat: 0.2, fiber: 1.3, portion: 100, portionName: "porzione" },
         { id: 162, name: "Radicchio", category: "contorno", kcal: 23, protein: 1.4, carbs: 4.5, fat: 0.3, fiber: 0.9, portion: 100, portionName: "porzione" },
         { id: 163, name: "Cicoria", category: "contorno", kcal: 17, protein: 1.7, carbs: 3, fat: 0.3, fiber: 2.4, portion: 150, portionName: "porzione" },
-        
-        // FRUTTA
         { id: 164, name: "Mela", category: "frutta", kcal: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, portion: 180, portionName: "1 mela" },
         { id: 165, name: "Pera", category: "frutta", kcal: 57, protein: 0.4, carbs: 15.2, fat: 0.1, fiber: 3.1, portion: 170, portionName: "1 pera" },
         { id: 166, name: "Banana", category: "frutta", kcal: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, portion: 120, portionName: "1 banana" },
@@ -841,8 +921,6 @@
         { id: 188, name: "Ciliegie", category: "frutta", kcal: 63, protein: 1.1, carbs: 16, fat: 0.2, fiber: 2.1, portion: 100, portionName: "porzione" },
         { id: 189, name: "Cachi", category: "frutta", kcal: 70, protein: 0.6, carbs: 18.6, fat: 0.2, fiber: 3.6, portion: 150, portionName: "1 caco" },
         { id: 190, name: "Melagrana", category: "frutta", kcal: 83, protein: 1.7, carbs: 18.7, fat: 1.2, fiber: 4, portion: 150, portionName: "porzione" },
-        
-        // BEVANDE
         { id: 191, name: "Acqua naturale", category: "bevanda", kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 250, portionName: "1 bicchiere" },
         { id: 192, name: "Acqua frizzante", category: "bevanda", kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 250, portionName: "1 bicchiere" },
         { id: 193, name: "Tè verde", category: "bevanda", kcal: 1, protein: 0, carbs: 0, fat: 0, fiber: 0, portion: 200, portionName: "1 tazza" },
@@ -860,8 +938,6 @@
         { id: 205, name: "Coca Cola", category: "bevanda", kcal: 42, protein: 0, carbs: 10.6, fat: 0, fiber: 0, portion: 330, portionName: "1 lattina" },
         { id: 206, name: "Aranciata", category: "bevanda", kcal: 44, protein: 0, carbs: 11, fat: 0, fiber: 0, portion: 200, portionName: "1 bicchiere" },
         { id: 207, name: "Smoothie di frutta", category: "bevanda", kcal: 65, protein: 0.8, carbs: 15.2, fat: 0.3, fiber: 1.2, portion: 250, portionName: "1 bicchiere" },
-        
-        // ALTRO / CONDIMENTI
         { id: 208, name: "Olio extravergine d'oliva", category: "altro", kcal: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, portion: 10, portionName: "1 cucchiaio" },
         { id: 209, name: "Olio di semi", category: "altro", kcal: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, portion: 10, portionName: "1 cucchiaio" },
         { id: 210, name: "Burro", category: "altro", kcal: 717, protein: 0.9, carbs: 0.1, fat: 81.1, fiber: 0, portion: 10, portionName: "1 noce" },
@@ -896,15 +972,9 @@
     ];
     
     const CATEGORY_LABELS = {
-        colazione: "Colazione",
-        spuntino: "Spuntino",
-        primo: "Primo",
-        secondo_carne: "Secondo (Carne)",
-        secondo_pesce: "Secondo (Pesce)",
-        contorno: "Contorno",
-        frutta: "Frutta",
-        bevanda: "Bevanda",
-        altro: "Altro"
+        colazione: "Colazione", spuntino: "Spuntino", primo: "Primo",
+        secondo_carne: "Secondo (Carne)", secondo_pesce: "Secondo (Pesce)",
+        contorno: "Contorno", frutta: "Frutta", bevanda: "Bevanda", altro: "Altro"
     };
     
     const DAYS = [
@@ -912,7 +982,7 @@
         { name: "Martedì", date: "21/10", icon: "☀️" },
         { name: "Mercoledì", date: "22/10", icon: "🌤️" },
         { name: "Giovedì", date: "23/10", icon: "⛅" },
-        { name: "Venerdì", date: "24/10", icon: "️" },
+        { name: "Venerdì", date: "24/10", icon: "" },
         { name: "Sabato", date: "25/10", icon: "🌞" },
         { name: "Domenica", date: "26/10", icon: "🌻" }
     ];
@@ -925,17 +995,11 @@
     ];
     
     const DAILY_GOAL = 2200;
-    
-    // Stato dell'applicazione
     let appState = {};
     
     function initApp() {
-        // Carica stato da localStorage
         const saved = localStorage.getItem('dietPlanState');
-        if (saved) {
-            try { appState = JSON.parse(saved); } catch(e) { appState = {}; }
-        }
-        
+        if (saved) { try { appState = JSON.parse(saved); } catch(e) { appState = {}; } }
         renderDays();
         renderSummary();
         updateDailyGoal();
@@ -944,11 +1008,9 @@
     function renderDays() {
         const grid = document.getElementById('daysGrid');
         grid.innerHTML = '';
-        
         DAYS.forEach((day, dayIndex) => {
             const dayCard = document.createElement('div');
             dayCard.className = 'day-card';
-            
             let mealsHTML = '';
             MEALS.forEach(meal => {
                 const key = `${dayIndex}_${meal.id}`;
@@ -960,15 +1022,7 @@
                             ${meal.label} <span style="opacity:0.7; font-weight:400; text-transform:none; letter-spacing:0;">• ${meal.subtitle}</span>
                         </div>
                         <div class="autocomplete-wrapper">
-                            <input type="text" 
-                                   class="meal-input" 
-                                   placeholder="Cerca un alimento..." 
-                                   value="${saved.name || ''}"
-                                   data-day="${dayIndex}" 
-                                   data-meal="${meal.id}"
-                                   oninput="handleAutocomplete(this)"
-                                   onkeydown="handleAutocompleteKey(event, this)"
-                                   onblur="hideDropdown(this)">
+                            <input type="text" class="meal-input" placeholder="Cerca un alimento..." value="${saved.name || ''}" data-day="${dayIndex}" data-meal="${meal.id}" oninput="handleAutocomplete(this)" onkeydown="handleAutocompleteKey(event, this)" onblur="hideDropdown(this)">
                             <div class="autocomplete-dropdown"></div>
                         </div>
                         <div class="portion-row">
@@ -977,16 +1031,11 @@
                                 <option value="${saved.portion || 100}" ${saved.portion && saved.portion != 100 ? 'selected' : ''}>Porzione (${saved.portionName || 'standard'})</option>
                                 <option value="custom">Personalizzata</option>
                             </select>
-                            <input type="number" 
-                                   class="portion-custom" 
-                                   placeholder="g" 
-                                   value="${saved.grams || ''}"
-                                   onchange="updateMeal('${key}', this.closest('.meal-block'))"
-                                   style="${saved.portionType === 'custom' ? '' : 'display:none'}">
+                            <input type="number" class="portion-custom" placeholder="g" value="${saved.grams || ''}" onchange="updateMeal('${key}', this.closest('.meal-block'))" style="${saved.portionType === 'custom' ? '' : 'display:none'}">
                             <span class="portion-unit">g</span>
                         </div>
                         <div class="macro-badges">
-                            <span class="macro-badge kcal"><span class="kcal-val">${saved.kcal || 0}</span> kcal</span>
+                            <span class="macro-badge kcal"><span class="kcal-val">${saved.kcal ? saved.kcal.toFixed(0) : 0}</span> kcal</span>
                             <span class="macro-badge">P: <span class="protein-val">${(saved.protein || 0).toFixed(1)}</span>g</span>
                             <span class="macro-badge">C: <span class="carbs-val">${(saved.carbs || 0).toFixed(1)}</span>g</span>
                             <span class="macro-badge">G: <span class="fat-val">${(saved.fat || 0).toFixed(1)}</span>g</span>
@@ -994,17 +1043,13 @@
                     </div>
                 `;
             });
-            
             const dayTotals = calculateDayTotals(dayIndex);
-            
             dayCard.innerHTML = `
                 <div class="day-header">
                     <span class="giorno">${day.icon} ${day.name}</span>
                     <span class="data">${day.date}</span>
                 </div>
-                <div class="meals-container">
-                    ${mealsHTML}
-                </div>
+                <div class="meals-container">${mealsHTML}</div>
                 <div class="day-total">
                     <span>TOTALE GIORNALIERO</span>
                     <div style="display:flex; align-items:center; gap:15px;">
@@ -1017,7 +1062,6 @@
                     </div>
                 </div>
             `;
-            
             grid.appendChild(dayCard);
         });
     }
@@ -1025,48 +1069,27 @@
     function handleAutocomplete(input) {
         const query = input.value.toLowerCase().trim();
         const dropdown = input.nextElementSibling;
-        const dayIndex = input.dataset.day;
-        const mealId = input.dataset.meal;
-        const key = `${dayIndex}_${mealId}`;
-        
-        if (query.length < 2) {
-            dropdown.classList.remove('active');
-            return;
-        }
-        
-        // Ricerca fuzzy: cerca nel nome
-        const matches = FOOD_DATABASE.filter(food => 
-            food.name.toLowerCase().includes(query)
-        ).slice(0, 8);
-        
+        if (query.length < 2) { dropdown.classList.remove('active'); return; }
+        const matches = FOOD_DATABASE.filter(food => food.name.toLowerCase().includes(query)).slice(0, 8);
         if (matches.length === 0) {
             dropdown.innerHTML = '<div class="no-results">Nessun alimento trovato. Scrivi liberamente e aggiungi le calorie a mano.</div>';
-            dropdown.classList.add('active');
-            return;
-        }
-        
-        dropdown.innerHTML = matches.map((food, idx) => `
-            <div class="autocomplete-item" 
-                 data-idx="${idx}" 
-                 onclick="selectFood('${key}', ${food.id}, this.closest('.meal-block'))">
-                <div class="food-name">${food.name}</div>
-                <div class="food-macros">
-                    <span>${food.kcal} kcal</span>
-                    <span>P: ${food.protein}g</span>
-                    <span>C: ${food.carbs}g</span>
-                    <span>G: ${food.fat}g</span>
-                    <span class="food-category">${CATEGORY_LABELS[food.category]}</span>
+        } else {
+            dropdown.innerHTML = matches.map((food, idx) => `
+                <div class="autocomplete-item" data-idx="${idx}" onclick="selectFood('${input.dataset.day}_${input.dataset.meal}', ${food.id}, this.closest('.meal-block'))">
+                    <div class="food-name">${food.name}</div>
+                    <div class="food-macros">
+                        <span>${food.kcal} kcal</span><span>P: ${food.protein}g</span><span>C: ${food.carbs}g</span><span>G: ${food.fat}g</span>
+                        <span class="food-category">${CATEGORY_LABELS[food.category]}</span>
+                    </div>
                 </div>
-            </div>
-        `).join('');
-        
+            `).join('');
+        }
         dropdown.classList.add('active');
     }
     
     function handleAutocompleteKey(event, input) {
         const dropdown = input.nextElementSibling;
         const items = dropdown.querySelectorAll('.autocomplete-item');
-        
         if (event.key === 'ArrowDown') {
             event.preventDefault();
             const current = dropdown.querySelector('.selected');
@@ -1081,10 +1104,7 @@
             if (prev) { prev.classList.add('selected'); prev.scrollIntoView({block: 'nearest'}); }
         } else if (event.key === 'Enter') {
             const selected = dropdown.querySelector('.selected');
-            if (selected) {
-                event.preventDefault();
-                selected.click();
-            }
+            if (selected) { event.preventDefault(); selected.click(); }
         } else if (event.key === 'Escape') {
             dropdown.classList.remove('active');
         }
@@ -1093,37 +1113,21 @@
     function selectFood(key, foodId, mealBlock) {
         const food = FOOD_DATABASE.find(f => f.id === foodId);
         if (!food) return;
-        
         const input = mealBlock.querySelector('.meal-input');
         const portionSelect = mealBlock.querySelector('.portion-select');
         const portionCustom = mealBlock.querySelector('.portion-custom');
-        
         input.value = food.name;
-        
-        // Aggiorna opzione porzione standard
         const standardOption = portionSelect.options[1];
         standardOption.value = food.portion;
         standardOption.textContent = `Porzione (${food.portionName})`;
         standardOption.selected = true;
-        
         portionCustom.value = food.portion;
-        
         appState[key] = {
-            name: food.name,
-            foodId: food.id,
-            grams: food.portion,
-            portionType: 'standard',
-            portionName: food.portionName,
-            kcal: food.kcal * food.portion / 100,
-            protein: food.protein * food.portion / 100,
-            carbs: food.carbs * food.portion / 100,
-            fat: food.fat * food.portion / 100,
-            fiber: food.fiber * food.portion / 100
+            name: food.name, foodId: food.id, grams: food.portion, portionType: 'standard', portionName: food.portionName,
+            kcal: food.kcal * food.portion / 100, protein: food.protein * food.portion / 100,
+            carbs: food.carbs * food.portion / 100, fat: food.fat * food.portion / 100, fiber: food.fiber * food.portion / 100
         };
-        
-        mealBlock.querySelector('.dropdown')?.classList.remove('active');
         input.nextElementSibling.classList.remove('active');
-        
         updateMealBadges(mealBlock);
         updateDayTotal(input.dataset.day);
         updateDailyGoal();
@@ -1136,10 +1140,8 @@
         const portionSelect = mealBlock.querySelector('.portion-select');
         const portionCustom = mealBlock.querySelector('.portion-custom');
         const dayIndex = input.dataset.day;
-        
         const selectedValue = portionSelect.value;
         let grams = 100;
-        
         if (selectedValue === 'custom') {
             grams = parseFloat(portionCustom.value) || 0;
             portionCustom.style.display = 'block';
@@ -1147,34 +1149,16 @@
             grams = parseFloat(selectedValue) || 100;
             portionCustom.style.display = 'none';
         }
-        
         const foodId = appState[key]?.foodId;
         const food = foodId ? FOOD_DATABASE.find(f => f.id === foodId) : null;
-        
         if (food) {
-            appState[key] = {
-                ...appState[key],
-                grams: grams,
-                portionType: selectedValue,
-                kcal: food.kcal * grams / 100,
-                protein: food.protein * grams / 100,
-                carbs: food.carbs * grams / 100,
-                fat: food.fat * grams / 100,
-                fiber: food.fiber * grams / 100
-            };
+            appState[key] = { ...appState[key], grams: grams, portionType: selectedValue, kcal: food.kcal * grams / 100, protein: food.protein * grams / 100, carbs: food.carbs * grams / 100, fat: food.fat * grams / 100, fiber: food.fiber * grams / 100 };
         } else if (input.value.trim()) {
-            // Cibo personalizzato - mantieni i valori se già impostati
             if (!appState[key]) appState[key] = {};
-            appState[key] = {
-                ...appState[key],
-                name: input.value,
-                grams: grams,
-                portionType: selectedValue
-            };
+            appState[key] = { ...appState[key], name: input.value, grams: grams, portionType: selectedValue };
         } else {
             delete appState[key];
         }
-        
         updateMealBadges(mealBlock);
         updateDayTotal(dayIndex);
         updateDailyGoal();
@@ -1183,15 +1167,11 @@
     }
     
     function updateMealBadges(mealBlock) {
-        const key = `${mealBlock.closest('.day-card').querySelector('.meal-input').dataset.day}_${mealBlock.closest('.day-card').querySelectorAll('.meal-block')[Array.from(mealBlock.parentElement.children).indexOf(mealBlock)]?.querySelector('.meal-input')?.dataset.meal}`;
-        
-        // Trova la key corretta
         const input = mealBlock.querySelector('.meal-input');
         const mealId = input.dataset.meal;
         const dayIndex = input.dataset.day;
         const correctKey = `${dayIndex}_${mealId}`;
         const data = appState[correctKey] || {};
-        
         mealBlock.querySelector('.kcal-val').textContent = (data.kcal || 0).toFixed(0);
         mealBlock.querySelector('.protein-val').textContent = (data.protein || 0).toFixed(1);
         mealBlock.querySelector('.carbs-val').textContent = (data.carbs || 0).toFixed(1);
@@ -1215,123 +1195,67 @@
         const cards = document.querySelectorAll('.day-card');
         const card = cards[dayIndex];
         if (!card) return;
-        
         const totals = calculateDayTotals(dayIndex);
         const totalValue = card.querySelector('.total-value');
         const macroMini = card.querySelector('.macro-mini');
-        
         if (totalValue) totalValue.textContent = `${totals.kcal.toFixed(0)} kcal`;
-        if (macroMini) {
-            macroMini.innerHTML = `
-                <span>P: ${totals.protein.toFixed(0)}g</span>
-                <span>C: ${totals.carbs.toFixed(0)}g</span>
-                <span>G: ${totals.fat.toFixed(0)}g</span>
-            `;
-        }
+        if (macroMini) macroMini.innerHTML = `<span>P: ${totals.protein.toFixed(0)}g</span><span>C: ${totals.carbs.toFixed(0)}g</span><span>G: ${totals.fat.toFixed(0)}g</span>`;
     }
     
     function updateDailyGoal() {
-        const today = 0; // Lunedì come esempio
+        const today = 0;
         const totals = calculateDayTotals(today);
         const currentKcal = totals.kcal;
         const percentage = Math.min((currentKcal / DAILY_GOAL) * 100, 100);
-        
         document.getElementById('currentKcal').textContent = currentKcal.toFixed(0);
         const fill = document.getElementById('progressFill');
         fill.style.width = `${percentage}%`;
-        
-        if (currentKcal > DAILY_GOAL) {
-            fill.classList.add('over');
-        } else {
-            fill.classList.remove('over');
-        }
+        fill.classList.toggle('over', currentKcal > DAILY_GOAL);
     }
     
     function renderSummary() {
         const chart = document.getElementById('summaryChart');
         chart.innerHTML = '';
-        
         let weekTotals = { kcal: 0, protein: 0, carbs: 0, fat: 0 };
         const maxKcal = Math.max(...DAYS.map((_, i) => calculateDayTotals(i).kcal), DAILY_GOAL);
-        
         DAYS.forEach((day, i) => {
             const totals = calculateDayTotals(i);
-            weekTotals.kcal += totals.kcal;
-            weekTotals.protein += totals.protein;
-            weekTotals.carbs += totals.carbs;
-            weekTotals.fat += totals.fat;
-            
+            weekTotals.kcal += totals.kcal; weekTotals.protein += totals.protein; weekTotals.carbs += totals.carbs; weekTotals.fat += totals.fat;
             const barHeight = maxKcal > 0 ? (totals.kcal / maxKcal) * 100 : 0;
-            
             chart.innerHTML += `
                 <div class="chart-day">
                     <div class="day-name">${day.name.substring(0, 3)}</div>
-                    <div class="chart-bar-container">
-                        <div class="chart-bar" style="height: ${barHeight}%"></div>
-                    </div>
+                    <div class="chart-bar-container"><div class="chart-bar" style="height: ${barHeight}%"></div></div>
                     <div class="day-kcal">${totals.kcal.toFixed(0)}</div>
                     <div class="day-macro">P:${totals.protein.toFixed(0)} C:${totals.carbs.toFixed(0)}</div>
                 </div>
             `;
         });
-        
         document.getElementById('weekKcal').textContent = weekTotals.kcal.toFixed(0);
         document.getElementById('weekProtein').textContent = weekTotals.protein.toFixed(0);
         document.getElementById('weekCarbs').textContent = weekTotals.carbs.toFixed(0);
         document.getElementById('weekFat').textContent = weekTotals.fat.toFixed(0);
     }
     
-    function hideDropdown(input) {
-        setTimeout(() => {
-            input.nextElementSibling.classList.remove('active');
-        }, 200);
-    }
-    
-    function saveState() {
-        localStorage.setItem('dietPlanState', JSON.stringify(appState));
-    }
-    
-    function salvaPiano() {
-        saveState();
-        showToast('✅ Piano salvato con successo!');
-    }
-    
+    function hideDropdown(input) { setTimeout(() => { input.nextElementSibling.classList.remove('active'); }, 200); }
+    function saveState() { localStorage.setItem('dietPlanState', JSON.stringify(appState)); }
+    function salvaPiano() { saveState(); showToast('✅ Piano salvato con successo!'); }
     function showToast(message) {
         const toast = document.getElementById('toast');
         toast.textContent = message;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
-    
     function inviaWhatsApp() {
         const telefono = "393331234567";
         const totals = calculateDayTotals(0);
         const weekKcal = Array.from({length: 7}, (_, i) => calculateDayTotals(i).kcal).reduce((a, b) => a + b, 0);
-        
-        const messaggio = encodeURIComponent(
-            `Ciao Marco! 🏋️‍♂️\n\n` +
-            `La tua nuova dieta settimanale è pronta.\n\n` +
-            `📅 Settimana 20-26 Ottobre 2026\n` +
-            ` Obiettivo: Definizione\n` +
-            `⚖️ Peso: 75 kg\n\n` +
-            `📊 Riepilogo:\n` +
-            `• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n` +
-            `• Proteine: ${totals.protein.toFixed(0)}g\n` +
-            `• Carboidrati: ${totals.carbs.toFixed(0)}g\n` +
-            `• Grassi: ${totals.fat.toFixed(0)}g\n\n` +
-            `Puoi visualizzare e stampare il piano completo qui:\n` +
-            `https://appcenterstudiogym.pages.dev/gestione-dieta.html\n\n` +
-            `Buon allenamento! 💪\n\n` +
-            `- AppCenterStudioGYM`
-        );
-        
+        const messaggio = encodeURIComponent(`Ciao Marco! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n🎯 Obiettivo: Definizione\n⚖️ Peso: 75 kg\n\n📊 Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM`);
         window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
         showToast('💬 WhatsApp aperto!');
     }
     
-    // Avvia l'app
     initApp();
     </script>
-
 </body>
 </html>

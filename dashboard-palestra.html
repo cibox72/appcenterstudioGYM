@@ -30,32 +30,139 @@
             background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
             color: var(--nero);
             min-height: 100vh;
-            padding: 30px 20px;
+            padding: 20px;
         }
         
-        /* HEADER */
+        /* ============================================================
+           HEADER UNIVERSALE CON 4 PULSANTI + SYNC
+           ============================================================ */
         .main-header {
             max-width: 1400px;
-            margin: 0 auto 30px;
+            margin: 0 auto 25px;
             background: var(--bianco);
             border: 2px solid var(--tortora);
             border-radius: var(--radius);
-            padding: 25px 40px;
+            padding: 15px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: var(--ombra);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-        .logo-section { display: flex; align-items: center; gap: 20px; }
-        .logo-section img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid var(--tortora-chiaro); }
-        .logo-placeholder { width: 60px; height: 60px; background: var(--tortora-chiarissimo); border: 2px dashed var(--tortora); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--tortora); }
-        .logo-section h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-        .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-        .header-actions { display: flex; gap: 15px; align-items: center; }
-        .status-badge {
-            padding: 8px 16px;
-            border-radius: 20px;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .header-logo-container img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--tortora-chiaro);
+        }
+        .logo-placeholder {
+            width: 45px;
+            height: 45px;
+            background: var(--tortora-chiarissimo);
+            border: 2px dashed var(--tortora);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .header-title h1 { font-size: 18px; font-weight: 700; color: var(--nero); }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        
+        /* NAVIGAZIONE - 4 PULSANTI */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
             font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: 1.5px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-btn-home { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn-home:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-back { background: var(--bianco); color: var(--nero); border-color: var(--nero); }
+        .nav-btn-back:hover { background: var(--nero); color: var(--bianco); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        
+        /* SYNC STATUS */
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1.5px solid;
+        }
+        .sync-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .sync-dot::after {
+            content: 'S';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 7px;
+            font-weight: 900;
+            color: var(--bianco);
+        }
+        .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
+        .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
+        .sync-warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
+        .sync-warning .sync-dot { background: var(--arancione); animation: pulse-arancione 1.5s infinite; }
+        .sync-offline { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
+        .sync-offline .sync-dot { background: var(--rosso); animation: pulse-rosso 1s infinite; }
+        
+        @keyframes pulse-verde {
+            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        }
+        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
+        /* STATUS BADGE */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -63,21 +170,8 @@
         .status-attiva { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
         .status-prova { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
         .status-scaduta { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
-        .btn-logout {
-            padding: 10px 20px;
-            background: var(--bianco);
-            color: var(--rosso);
-            border: 1.5px solid var(--rosso);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .btn-logout:hover { background: var(--rosso); color: var(--bianco); }
         
-        /* ALERT BANNER */
+        /* ALERT */
         .alert-banner {
             max-width: 1400px;
             margin: 0 auto 20px;
@@ -94,67 +188,22 @@
         .alert-ok { background: var(--verde-chiaro); border: 2px solid var(--verde); color: #1E8449; }
         
         /* STATS */
-        .stats-grid {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-        .stat-card {
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            padding: 22px;
-            box-shadow: var(--ombra);
-            transition: transform 0.2s;
-        }
+        .stats-grid { max-width: 1400px; margin: 0 auto 25px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        .stat-card { background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
         .stat-card .label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .stat-card .value { font-size: 32px; font-weight: 700; color: var(--nero); }
         .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
         
         /* TABS */
-        .tabs-container {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            padding: 14px 24px;
-            background: var(--bianco);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--tortora-scuro);
-            transition: all 0.2s;
-            font-family: inherit;
-        }
+        .tabs-container { max-width: 1400px; margin: 0 auto 25px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .tab-btn { padding: 14px 24px; background: var(--bianco); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--tortora-scuro); transition: all 0.2s; font-family: inherit; }
         .tab-btn:hover { border-color: var(--tortora); color: var(--nero); }
         .tab-btn.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         
-        /* SEZIONE */
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--ombra);
-        }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
+        /* SEZIONI */
+        .section-container { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px; box-shadow: var(--ombra); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
         .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
         
         /* FORM */
@@ -162,57 +211,44 @@
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full { grid-column: 1 / -1; }
         .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 12px 14px;
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            transition: border-color 0.2s;
-        }
+        .form-group input, .form-group select, .form-group textarea { padding: 12px 14px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bianco); color: var(--nero); transition: border-color 0.2s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
         .form-group textarea { resize: vertical; min-height: 80px; }
         .form-hint { font-size: 11px; color: var(--tortora); font-style: italic; }
         
-        /* LOGO UPLOAD */
-        .logo-upload-area {
+        /* UPLOAD FILE (Logo e Certificato) */
+        .file-upload-area {
             border: 2px dashed var(--tortora);
             border-radius: var(--radius);
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
             background: var(--tortora-chiarissimo);
         }
-        .logo-upload-area:hover { border-color: var(--tortora-scuro); background: var(--bianco); }
-        .logo-upload-area .icon { font-size: 48px; margin-bottom: 10px; }
-        .logo-upload-area .text { font-size: 14px; color: var(--tortora-scuro); font-weight: 600; }
-        .logo-upload-area .hint { font-size: 12px; color: var(--tortora); margin-top: 5px; }
-        .logo-preview {
-            max-width: 200px;
-            max-height: 200px;
-            margin: 15px auto;
+        .file-upload-area:hover { border-color: var(--tortora-scuro); background: var(--bianco); }
+        .file-upload-area .icon { font-size: 42px; margin-bottom: 8px; }
+        .file-upload-area .text { font-size: 14px; color: var(--tortora-scuro); font-weight: 600; }
+        .file-upload-area .hint { font-size: 11px; color: var(--tortora); margin-top: 5px; }
+        .file-preview { max-width: 200px; max-height: 200px; margin: 12px auto; border-radius: var(--radius-sm); border: 2px solid var(--tortora-chiaro); display: block; }
+        .file-info {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: var(--verde-chiaro);
+            border: 1px solid var(--verde);
             border-radius: var(--radius-sm);
-            border: 2px solid var(--tortora-chiaro);
+            font-size: 12px;
+            color: #1E8449;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
         }
+        .file-info .filename { font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .file-info .btn-remove { background: var(--rosso); color: var(--bianco); border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; }
         
         /* BOTTONI */
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
+        .btn { padding: 12px 24px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; font-family: inherit; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
         .btn-success { background: var(--verde); color: var(--bianco); }
@@ -227,112 +263,40 @@
         .btn-whatsapp:hover { background: #128C7E; }
         .btn-sm { padding: 8px 14px; font-size: 12px; }
         
-        /* TABELLA ATLETI */
+        /* TABELLA */
         .atleti-table { width: 100%; border-collapse: collapse; }
-        .atleti-table th {
-            background: var(--tortora-chiarissimo);
-            color: var(--tortora-scuro);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 14px 12px;
-            text-align: left;
-            border-bottom: 2px solid var(--tortora);
-        }
+        .atleti-table th { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 12px; text-align: left; border-bottom: 2px solid var(--tortora); }
         .atleti-table td { padding: 16px 12px; border-bottom: 1px solid var(--tortora-chiaro); font-size: 14px; vertical-align: middle; }
         .atleti-table tr:hover td { background: var(--tortora-chiarissimo); }
         
-        /* BADGE */
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .badge-attivo { background: var(--verde-chiaro); color: #1E8449; }
         .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; }
         .badge-in-scadenza { background: var(--arancione-chiaro); color: #9C640C; }
+        .badge-certificato { background: #D1ECF1; color: #0C5460; }
         
-        /* EMPTY STATE */
         .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); }
         .empty-state .icon { font-size: 48px; margin-bottom: 15px; }
         .empty-state .text { font-size: 15px; }
         
-        /* TAB CONTENT */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--nero);
-            color: var(--bianco);
-            padding: 16px 24px;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--ombra-forte);
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 2000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s;
-        }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
         .toast.show { opacity: 1; transform: translateY(0); }
         
-        /* MODAL ONBOARDING */
-        .onboarding-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(26, 26, 26, 0.85);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
+        /* ONBOARDING */
+        .onboarding-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 26, 26, 0.85); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .onboarding-overlay.hidden { display: none; }
-        .onboarding-modal {
-            background: var(--bianco);
-            border-radius: var(--radius);
-            max-width: 700px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--ombra-forte);
-        }
-        .onboarding-welcome {
-            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
-            color: var(--bianco);
-            padding: 40px;
-            text-align: center;
-            border-radius: var(--radius) var(--radius) 0 0;
-        }
+        .onboarding-modal { background: var(--bianco); border-radius: var(--radius); max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--ombra-forte); }
+        .onboarding-welcome { background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%); color: var(--bianco); padding: 40px; text-align: center; border-radius: var(--radius) var(--radius) 0 0; }
         .onboarding-welcome .icon { font-size: 64px; margin-bottom: 15px; }
         .onboarding-welcome h2 { font-size: 28px; margin-bottom: 10px; font-weight: 700; }
         .onboarding-welcome p { font-size: 15px; opacity: 0.95; line-height: 1.6; }
-        .onboarding-welcome .trial-badge {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
+        .onboarding-welcome .trial-badge { display: inline-block; margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
         .onboarding-form { padding: 30px 40px; }
-        .onboarding-form h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--nero);
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
-        .onboarding-actions {
-            padding: 20px 40px 30px;
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
+        .onboarding-form h3 { font-size: 18px; margin-bottom: 20px; color: var(--nero); padding-bottom: 10px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .onboarding-actions { padding: 20px 40px 30px; display: flex; gap: 12px; justify-content: flex-end; }
         
         /* RESPONSIVE */
         @media (max-width: 900px) {
@@ -340,19 +304,20 @@
             .form-grid { grid-template-columns: 1fr; }
             .atleti-table { font-size: 12px; }
             .atleti-table th, .atleti-table td { padding: 10px 6px; }
+            .main-header { flex-direction: column; align-items: stretch; }
+            .header-nav { justify-content: center; }
         }
         @media (max-width: 600px) {
             .stats-grid { grid-template-columns: 1fr; }
-            .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
-            .logo-section { flex-direction: column; }
             .section-container { padding: 20px; }
             .onboarding-form, .onboarding-actions { padding: 20px; }
+            .nav-btn { padding: 7px 10px; font-size: 11px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ONBOARDING MODAL (primo accesso) -->
+    <!-- ONBOARDING MODAL -->
     <div class="onboarding-overlay" id="onboardingOverlay">
         <div class="onboarding-modal">
             <div class="onboarding-welcome">
@@ -363,113 +328,66 @@
                 Per iniziare, completa il profilo della tua palestra.</p>
                 <div class="trial-badge">🎁 PROVA GRATUITA 30 GIORNI</div>
             </div>
-            
             <div class="onboarding-form">
-                <h3>📋 Dati della Palestra</h3>
+                <h3> Dati della Palestra</h3>
                 <div class="form-grid">
                     <div class="form-group full">
                         <label>Logo della Palestra</label>
-                        <div class="logo-upload-area" onclick="document.getElementById('obLogo').click()">
+                        <div class="file-upload-area" onclick="document.getElementById('obLogo').click()">
                             <div class="icon">📷</div>
                             <div class="text">Clicca per caricare il logo</div>
                             <div class="hint">Formati: JPG, PNG, SVG (max 2MB)</div>
-                            <img id="obLogoPreview" class="logo-preview" style="display:none;">
+                            <img id="obLogoPreview" class="file-preview" style="display:none;">
                         </div>
-                        <input type="file" id="obLogo" accept="image/*" style="display:none" onchange="previewLogo(this, 'obLogoPreview')">
+                        <input type="file" id="obLogo" accept="image/*" style="display:none" onchange="previewFile(this, 'obLogoPreview', 'logo')">
                     </div>
-                    <div class="form-group">
-                        <label>Nome Commerciale *</label>
-                        <input type="text" id="obNome" required placeholder="Es. Fitness Center Roma">
-                    </div>
-                    <div class="form-group">
-                        <label>Ragione Sociale</label>
-                        <input type="text" id="obRagioneSociale" placeholder="Es. Fitness Center S.r.l.">
-                    </div>
-                    <div class="form-group">
-                        <label>Partita IVA / CF *</label>
-                        <input type="text" id="obPiva" required placeholder="Es. 12345678901">
-                    </div>
-                    <div class="form-group">
-                        <label>Codice SDI / PEC</label>
-                        <input type="text" id="obSdi" placeholder="Per fatturazione elettronica">
-                    </div>
-                    <div class="form-group full">
-                        <label>Indirizzo Completo *</label>
-                        <input type="text" id="obIndirizzo" required placeholder="Via, numero civico">
-                    </div>
-                    <div class="form-group">
-                        <label>Città *</label>
-                        <input type="text" id="obCitta" required placeholder="Es. Roma">
-                    </div>
-                    <div class="form-group">
-                        <label>CAP *</label>
-                        <input type="text" id="obCap" required placeholder="Es. 00100">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono / WhatsApp *</label>
-                        <input type="tel" id="obTelefono" required placeholder="Es. 3331234567">
-                    </div>
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" id="obEmail" required placeholder="info@palestra.it">
-                    </div>
-                    <div class="form-group">
-                        <label>Sito Web</label>
-                        <input type="url" id="obSito" placeholder="https://www.palestra.it">
-                    </div>
-                    <div class="form-group">
-                        <label>Instagram</label>
-                        <input type="text" id="obInstagram" placeholder="@nomepalestra">
-                    </div>
-                    <div class="form-group">
-                        <label>Facebook</label>
-                        <input type="text" id="obFacebook" placeholder="facebook.com/nomepalestra">
-                    </div>
+                    <div class="form-group"><label>Nome Commerciale *</label><input type="text" id="obNome" required placeholder="Es. Fitness Center Roma"></div>
+                    <div class="form-group"><label>Ragione Sociale</label><input type="text" id="obRagioneSociale" placeholder="Es. Fitness Center S.r.l."></div>
+                    <div class="form-group"><label>Partita IVA / CF *</label><input type="text" id="obPiva" required placeholder="Es. 12345678901"></div>
+                    <div class="form-group"><label>Codice SDI / PEC</label><input type="text" id="obSdi" placeholder="Per fatturazione elettronica"></div>
+                    <div class="form-group full"><label>Indirizzo Completo *</label><input type="text" id="obIndirizzo" required placeholder="Via, numero civico"></div>
+                    <div class="form-group"><label>Città *</label><input type="text" id="obCitta" required placeholder="Es. Roma"></div>
+                    <div class="form-group"><label>CAP *</label><input type="text" id="obCap" required placeholder="Es. 00100"></div>
+                    <div class="form-group"><label>Telefono / WhatsApp *</label><input type="tel" id="obTelefono" required placeholder="Es. 3331234567"></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="obEmail" required placeholder="info@palestra.it"></div>
+                    <div class="form-group"><label>Sito Web</label><input type="url" id="obSito" placeholder="https://www.palestra.it"></div>
+                    <div class="form-group"><label>Instagram</label><input type="text" id="obInstagram" placeholder="@nomepalestra"></div>
+                    <div class="form-group"><label>Facebook</label><input type="text" id="obFacebook" placeholder="facebook.com/nomepalestra"></div>
                 </div>
-                
                 <h3 style="margin-top:30px;">💳 Link di Pagamento Personale</h3>
-                <p style="font-size:13px; color:var(--tortora); margin-bottom:15px;">
-                    Inserisci il tuo link di pagamento per ricevere le mensilità dai tuoi atleti. 
-                    Questo link verrà usato nei messaggi di rinnovo e sulle fatture.
-                </p>
                 <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Link PayPal.me *</label>
-                        <input type="url" id="obPaypal" required placeholder="https://paypal.me/tuonomepalestra">
-                        <span class="form-hint">Il link che gli atleti useranno per pagarti</span>
-                    </div>
-                    <div class="form-group">
-                        <label>IBAN (opzionale)</label>
-                        <input type="text" id="obIban" placeholder="IT00 X000 0000 0000 0000 0000 000">
-                    </div>
-                    <div class="form-group">
-                        <label>Intestatario Conto</label>
-                        <input type="text" id="obIntestatario" placeholder="Nome e cognome">
-                    </div>
+                    <div class="form-group full"><label>Link PayPal.me *</label><input type="url" id="obPaypal" required placeholder="https://paypal.me/tuonomepalestra"><span class="form-hint">Il link che gli atleti useranno per pagarti</span></div>
+                    <div class="form-group"><label>IBAN (opzionale)</label><input type="text" id="obIban" placeholder="IT00 X000 0000 0000 0000 0000 000"></div>
+                    <div class="form-group"><label>Intestatario Conto</label><input type="text" id="obIntestatario" placeholder="Nome e cognome"></div>
                 </div>
             </div>
-            
             <div class="onboarding-actions">
-                <button class="btn btn-secondary" onclick="saltaOnboarding()">️ Completa dopo</button>
-                <button class="btn btn-success" onclick="completaOnboarding()">✅ Salva e Accedi alla Dashboard</button>
+                <button class="btn btn-secondary" onclick="saltaOnboarding()">⏭️ Completa dopo</button>
+                <button class="btn btn-success" onclick="completaOnboarding()">✅ Salva e Accedi</button>
             </div>
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER UNIVERSALE CON 4 PULSANTI + SYNC -->
     <div class="main-header">
-        <div class="logo-section">
-            <div id="headerLogoContainer">
+        <div class="header-left">
+            <div class="header-logo-container" id="headerLogoContainer">
                 <div class="logo-placeholder">🏋️</div>
             </div>
-            <div>
+            <div class="header-title">
                 <h1 id="headerNomePalestra">La Tua Palestra</h1>
                 <p>Dashboard Gestione Atleti</p>
             </div>
         </div>
-        <div class="header-actions">
+        <div class="header-nav">
             <span class="status-badge status-prova" id="headerStatus">In Prova</span>
-            <a href="index.html" class="btn-logout">Esci</a>
+            <a href="index.html" class="nav-btn nav-btn-home" title="Torna alla Home"> Home</a>
+            <button class="nav-btn nav-btn-back" onclick="tornaIndietro()" title="Torna Indietro">← Indietro</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()" title="Esci dall'app">🚪 Esci</button>
+            <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()" title="Stato sincronizzazione">
+                <span class="sync-dot"></span>
+                <span class="sync-label" id="syncLabel">Sync OK</span>
+            </div>
         </div>
     </div>
 
@@ -478,33 +396,17 @@
 
     <!-- STATS -->
     <div class="stats-grid">
-        <div class="stat-card">
-            <div class="label">Atleti Totali</div>
-            <div class="value" id="statAtleti">0</div>
-            <div class="sub">registrati</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Abbonamenti Attivi</div>
-            <div class="value" id="statAttivi">0</div>
-            <div class="sub">in corso</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">In Scadenza</div>
-            <div class="value" id="statScadenza">0</div>
-            <div class="sub">entro 30 giorni</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Scaduti</div>
-            <div class="value" id="statScaduti">0</div>
-            <div class="sub">da rinnovare</div>
-        </div>
+        <div class="stat-card"><div class="label">Atleti Totali</div><div class="value" id="statAtleti">0</div><div class="sub">registrati</div></div>
+        <div class="stat-card"><div class="label">Abbonamenti Attivi</div><div class="value" id="statAttivi">0</div><div class="sub">in corso</div></div>
+        <div class="stat-card"><div class="label">In Scadenza</div><div class="value" id="statScadenza">0</div><div class="sub">entro 30 giorni</div></div>
+        <div class="stat-card"><div class="label">Scaduti</div><div class="value" id="statScaduti">0</div><div class="sub">da rinnovare</div></div>
     </div>
 
     <!-- TABS -->
     <div class="tabs-container">
         <button class="tab-btn active" onclick="showTab('atleti')">👥 Atleti</button>
         <button class="tab-btn" onclick="showTab('nuovo-atleta')">➕ Nuovo Atleta</button>
-        <button class="tab-btn" onclick="showTab('impostazioni')">️ Impostazioni</button>
+        <button class="tab-btn" onclick="showTab('impostazioni')">⚙️ Impostazioni</button>
     </div>
 
     <!-- TAB: LISTA ATLETI -->
@@ -512,47 +414,28 @@
         <div class="section-container">
             <div class="section-header">
                 <div class="section-title">👥 Lista Atleti</div>
-                <button class="btn btn-primary btn-sm" onclick="showTab('nuovo-atleta')">➕ Aggiungi Atleta</button>
+                <button class="btn btn-primary btn-sm" onclick="showTab('nuovo-atleta')"> Aggiungi Atleta</button>
             </div>
             <div id="atletiList"></div>
         </div>
     </div>
 
-    <!-- TAB: NUOVO ATLETA -->
+    <!-- TAB: NUOVO ATLETA (con certificato medico) -->
     <div class="tab-content" id="tab-nuovo-atleta">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title"> Registra Nuovo Atleta</div>
+                <div class="section-title">📝 Registra Nuovo Atleta</div>
             </div>
             <form id="formAtleta" onsubmit="registraAtleta(event)">
                 <input type="hidden" id="aId">
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nome *</label>
-                        <input type="text" id="aNome" required placeholder="Es. Mario Rossi">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono</label>
-                        <input type="tel" id="aTelefono" placeholder="Es. 3331234567">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="aEmail" placeholder="Es. mario@email.it">
-                    </div>
-                    <div class="form-group">
-                        <label>Data di Nascita</label>
-                        <input type="date" id="aDataNascita">
-                    </div>
-                    <div class="form-group">
-                        <label>Peso (kg)</label>
-                        <input type="number" id="aPeso" step="0.1" placeholder="Es. 75">
-                    </div>
-                    <div class="form-group">
-                        <label>Altezza (cm)</label>
-                        <input type="number" id="aAltezza" placeholder="Es. 180">
-                    </div>
-                    <div class="form-group">
-                        <label>Obiettivo</label>
+                    <div class="form-group"><label>Nome *</label><input type="text" id="aNome" required placeholder="Es. Mario Rossi"></div>
+                    <div class="form-group"><label>Telefono</label><input type="tel" id="aTelefono" placeholder="Es. 3331234567"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="aEmail" placeholder="Es. mario@email.it"></div>
+                    <div class="form-group"><label>Data di Nascita</label><input type="date" id="aDataNascita"></div>
+                    <div class="form-group"><label>Peso (kg)</label><input type="number" id="aPeso" step="0.1" placeholder="Es. 75"></div>
+                    <div class="form-group"><label>Altezza (cm)</label><input type="number" id="aAltezza" placeholder="Es. 180"></div>
+                    <div class="form-group"><label>Obiettivo</label>
                         <select id="aObiettivo">
                             <option value="Mantenimento">Mantenimento</option>
                             <option value="Dimagrimento">Dimagrimento</option>
@@ -561,12 +444,8 @@
                             <option value="Performance">Performance</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Data Inizio Abbonamento</label>
-                        <input type="date" id="aDataInizio">
-                    </div>
-                    <div class="form-group">
-                        <label>Durata Abbonamento</label>
+                    <div class="form-group"><label>Data Inizio Abbonamento</label><input type="date" id="aDataInizio"></div>
+                    <div class="form-group"><label>Durata Abbonamento</label>
                         <select id="aDurata">
                             <option value="30">1 Mese</option>
                             <option value="90">3 Mesi</option>
@@ -574,10 +453,20 @@
                             <option value="365">12 Mesi</option>
                         </select>
                     </div>
+                    
+                    <!-- CERTIFICATO MEDICO SPORTIVO -->
                     <div class="form-group full">
-                        <label>Note</label>
-                        <textarea id="aNote" placeholder="Es. Infortunio al ginocchio, allergie alimentari..."></textarea>
+                        <label>📄 Certificato Medico Sportivo</label>
+                        <div class="file-upload-area" onclick="document.getElementById('aCertificato').click()">
+                            <div class="icon"></div>
+                            <div class="text">Clicca per caricare il certificato medico</div>
+                            <div class="hint">Formati: JPG, PNG, PDF, PSD, DOC, DOCX (max 5MB)</div>
+                        </div>
+                        <input type="file" id="aCertificato" accept=".jpg,.jpeg,.png,.pdf,.psd,.doc,.docx,image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="previewCertificato(this)">
+                        <div id="certificatoInfo"></div>
                     </div>
+                    
+                    <div class="form-group full"><label>Note</label><textarea id="aNote" placeholder="Es. Infortunio al ginocchio, allergie alimentari..."></textarea></div>
                 </div>
                 <div style="display:flex; gap:12px; margin-top:25px;">
                     <button type="submit" class="btn btn-primary">💾 Salva Atleta</button>
@@ -587,98 +476,44 @@
         </div>
     </div>
 
-    <!-- TAB: IMPOSTAZIONI PALESTRA -->
+    <!-- TAB: IMPOSTAZIONI -->
     <div class="tab-content" id="tab-impostazioni">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title">️ Impostazioni Palestra</div>
+                <div class="section-title">⚙️ Impostazioni Palestra</div>
                 <button class="btn btn-whatsapp btn-sm" onclick="inviaDatiFornitore()">📩 Invio Dati al Fornitore</button>
             </div>
-            <p style="font-size:13px; color:var(--tortora); margin-bottom:20px;">
-                Modifica i dati della tua palestra. Ogni salvataggio aggiornerà automaticamente anche il pannello del fornitore (AppCenterStudioGYM).
-            </p>
             <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
                 <div class="form-grid">
                     <div class="form-group full">
                         <label>Logo della Palestra</label>
-                        <div class="logo-upload-area" onclick="document.getElementById('impLogo').click()">
+                        <div class="file-upload-area" onclick="document.getElementById('impLogo').click()">
                             <div class="icon">📷</div>
                             <div class="text">Clicca per cambiare il logo</div>
                             <div class="hint">Formati: JPG, PNG, SVG (max 2MB)</div>
-                            <img id="impLogoPreview" class="logo-preview" style="display:none;">
+                            <img id="impLogoPreview" class="file-preview" style="display:none;">
                         </div>
-                        <input type="file" id="impLogo" accept="image/*" style="display:none" onchange="previewLogo(this, 'impLogoPreview')">
+                        <input type="file" id="impLogo" accept="image/*" style="display:none" onchange="previewFile(this, 'impLogoPreview', 'logo')">
                     </div>
-                    <div class="form-group">
-                        <label>Nome Commerciale *</label>
-                        <input type="text" id="impNome" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Ragione Sociale</label>
-                        <input type="text" id="impRagioneSociale">
-                    </div>
-                    <div class="form-group">
-                        <label>Partita IVA / CF *</label>
-                        <input type="text" id="impPiva" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Codice SDI / PEC</label>
-                        <input type="text" id="impSdi">
-                    </div>
-                    <div class="form-group full">
-                        <label>Indirizzo Completo *</label>
-                        <input type="text" id="impIndirizzo" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Città *</label>
-                        <input type="text" id="impCitta" required>
-                    </div>
-                    <div class="form-group">
-                        <label>CAP *</label>
-                        <input type="text" id="impCap" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono / WhatsApp *</label>
-                        <input type="tel" id="impTelefono" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" id="impEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Sito Web</label>
-                        <input type="url" id="impSito">
-                    </div>
-                    <div class="form-group">
-                        <label>Instagram</label>
-                        <input type="text" id="impInstagram">
-                    </div>
-                    <div class="form-group">
-                        <label>Facebook</label>
-                        <input type="text" id="impFacebook">
-                    </div>
+                    <div class="form-group"><label>Nome Commerciale *</label><input type="text" id="impNome" required></div>
+                    <div class="form-group"><label>Ragione Sociale</label><input type="text" id="impRagioneSociale"></div>
+                    <div class="form-group"><label>Partita IVA / CF *</label><input type="text" id="impPiva" required></div>
+                    <div class="form-group"><label>Codice SDI / PEC</label><input type="text" id="impSdi"></div>
+                    <div class="form-group full"><label>Indirizzo Completo *</label><input type="text" id="impIndirizzo" required></div>
+                    <div class="form-group"><label>Città *</label><input type="text" id="impCitta" required></div>
+                    <div class="form-group"><label>CAP *</label><input type="text" id="impCap" required></div>
+                    <div class="form-group"><label>Telefono / WhatsApp *</label><input type="tel" id="impTelefono" required></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="impEmail" required></div>
+                    <div class="form-group"><label>Sito Web</label><input type="url" id="impSito"></div>
+                    <div class="form-group"><label>Instagram</label><input type="text" id="impInstagram"></div>
+                    <div class="form-group"><label>Facebook</label><input type="text" id="impFacebook"></div>
                 </div>
-                
                 <h3 style="margin-top:30px; font-size:18px; color:var(--nero); padding-bottom:10px; border-bottom:2px solid var(--tortora-chiaro);">💳 Link di Pagamento Personale</h3>
-                <p style="font-size:13px; color:var(--tortora); margin:10px 0 20px;">
-                    Questi dati verranno usati per ricevere i pagamenti dagli atleti.
-                </p>
                 <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Link PayPal.me *</label>
-                        <input type="url" id="impPaypal" required placeholder="https://paypal.me/tuonomepalestra">
-                        <span class="form-hint">Il link che gli atleti useranno per pagarti</span>
-                    </div>
-                    <div class="form-group">
-                        <label>IBAN (opzionale)</label>
-                        <input type="text" id="impIban" placeholder="IT00 X000 0000 0000 0000 0000 000">
-                    </div>
-                    <div class="form-group">
-                        <label>Intestatario Conto</label>
-                        <input type="text" id="impIntestatario">
-                    </div>
+                    <div class="form-group full"><label>Link PayPal.me *</label><input type="url" id="impPaypal" required placeholder="https://paypal.me/tuonomepalestra"><span class="form-hint">Il link che gli atleti useranno per pagarti</span></div>
+                    <div class="form-group"><label>IBAN (opzionale)</label><input type="text" id="impIban" placeholder="IT00 X000 0000 0000 0000 0000 000"></div>
+                    <div class="form-group"><label>Intestatario Conto</label><input type="text" id="impIntestatario"></div>
                 </div>
-                
                 <div style="display:flex; gap:12px; margin-top:25px; flex-wrap:wrap;">
                     <button type="submit" class="btn btn-success">💾 Salva Impostazioni</button>
                     <button type="button" class="btn btn-whatsapp" onclick="inviaDatiFornitore()">📩 Invia Aggiornamento al Fornitore</button>
@@ -695,58 +530,170 @@
     // CONFIGURAZIONE
     // ============================================================
     const APP_URL = 'https://appcenterstudiogym.pages.dev';
-    const FORNITORE_PHONE = '3447507656'; // Numero del fornitore (Luigi)
+    const FORNITORE_PHONE = '3447507656';
     const ALERT_DAYS = 30;
-    const PALESTRA_ID = 'palestra_demo_001'; // ID univoco della palestra (in produzione dal login)
+    const PALESTRA_ID = 'palestra_demo_001';
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     
     // ============================================================
     // DATI
     // ============================================================
     let atleti = JSON.parse(localStorage.getItem('atleti') || '[]');
     let profiloPalestra = JSON.parse(localStorage.getItem(`profilo_${PALESTRA_ID}`) || 'null');
-    
-    // Simula stato abbonamento palestra
-    const statoAbbonamento = {
-        stato: 'prova', // prova | attiva | scaduta
-        dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString()
-    };
+    let statoAbbonamento = { stato: 'prova', dataScadenza: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString() };
+    let syncState = 'online'; // online | warning | offline
+    let hasUnsavedChanges = false;
+    let tempCertificato = null;
     
     // ============================================================
-    // INIZIALIZZAZIONE
+    // NAVIGAZIONE - 4 PULSANTI
+    // ============================================================
+    function esci() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
+        if (confirm('Sei sicuro di voler uscire dall\'applicazione?')) {
+            window.location.href = 'index.html';
+        }
+    }
+    
+    function tornaIndietro() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    
+    function vaiHome() {
+        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare alla home comunque?')) return;
+        window.location.href = 'dashboard-palestra.html';
+    }
+    
+    // ============================================================
+    // SINCRONIZZAZIONE
+    // ============================================================
+    function aggiornaSyncStatus(stato, messaggio) {
+        const syncEl = document.getElementById('syncStatus');
+        const syncLabel = document.getElementById('syncLabel');
+        
+        syncEl.className = 'sync-status';
+        if (stato === 'online') {
+            syncEl.classList.add('sync-online');
+            syncLabel.textContent = messaggio || 'Sync OK';
+        } else if (stato === 'warning') {
+            syncEl.classList.add('sync-warning');
+            syncLabel.textContent = messaggio || 'Modifiche non salvate';
+        } else if (stato === 'offline') {
+            syncEl.classList.add('sync-offline');
+            syncLabel.textContent = messaggio || 'Errore sync';
+        }
+        syncState = stato;
+    }
+    
+    function forzaSync() {
+        if (syncState === 'online') {
+            showToast('✅ Dati già sincronizzati');
+            return;
+        }
+        try {
+            localStorage.setItem('atleti', JSON.stringify(atleti));
+            if (profiloPalestra) {
+                localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
+                sincronizzaConFornitore();
+            }
+            aggiornaSyncStatus('online', 'Sync OK');
+            hasUnsavedChanges = false;
+            showToast('✅ Sincronizzazione completata!');
+        } catch (e) {
+            aggiornaSyncStatus('offline', 'Errore sync');
+            showToast(' Errore durante la sincronizzazione');
+        }
+    }
+    
+    function marcaModifiche() {
+        hasUnsavedChanges = true;
+        aggiornaSyncStatus('warning', 'Modifiche non salvate');
+    }
+    
+    // Controlla connessione
+    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
+    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
+    
+    // ============================================================
+    // UPLOAD FILE UNIVERSALE
+    // ============================================================
+    function previewFile(input, previewId, tipo) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > MAX_FILE_SIZE) {
+            showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`);
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById(previewId);
+            if (tipo === 'logo') {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            marcaModifiche();
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function previewCertificato(input) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > MAX_FILE_SIZE) {
+            showToast(`⚠️ File troppo grande (max ${MAX_FILE_SIZE/1024/1024}MB)`);
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            tempCertificato = {
+                nome: file.name,
+                tipo: file.type,
+                size: file.size,
+                data: e.target.result,
+                dataCaricamento: new Date().toISOString()
+            };
+            const infoDiv = document.getElementById('certificatoInfo');
+            const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+            infoDiv.innerHTML = `
+                <div class="file-info">
+                    <span>📄</span>
+                    <span class="filename">${file.name} (${sizeMB} MB)</span>
+                    <button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button>
+                </div>
+            `;
+            marcaModifiche();
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function rimuoviCertificato() {
+        tempCertificato = null;
+        document.getElementById('aCertificato').value = '';
+        document.getElementById('certificatoInfo').innerHTML = '';
+        marcaModifiche();
+    }
+    
+    // ============================================================
+    // ONBOARDING
     // ============================================================
     function init() {
-        // Mostra onboarding se è il primo accesso
         if (!profiloPalestra) {
             document.getElementById('onboardingOverlay').classList.remove('hidden');
         } else {
             document.getElementById('onboardingOverlay').classList.add('hidden');
             caricaProfilo();
         }
-        
         aggiornaStatiAtleti();
         renderHeader();
         renderAlert();
         renderStats();
         renderAtleti();
-    }
-    
-    // ============================================================
-    // ONBOARDING
-    // ============================================================
-    function previewLogo(input, previewId) {
-        const file = input.files[0];
-        if (!file) return;
-        if (file.size > 2 * 1024 * 1024) {
-            showToast('⚠️ Il file è troppo grande (max 2MB)');
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const preview = document.getElementById(previewId);
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+        aggiornaSyncStatus('online', 'Sync OK');
     }
     
     function completaOnboarding() {
@@ -768,34 +715,24 @@
         const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : '';
         
         profiloPalestra = {
-            id: PALESTRA_ID,
-            nome: nome,
-            ragioneSociale: document.getElementById('obRagioneSociale').value.trim(),
-            piva: piva,
-            sdi: document.getElementById('obSdi').value.trim(),
-            indirizzo: indirizzo,
-            citta: citta,
-            cap: cap,
-            telefono: telefono,
-            email: email,
-            sito: document.getElementById('obSito').value.trim(),
+            id: PALESTRA_ID, nome, ragioneSociale: document.getElementById('obRagioneSociale').value.trim(),
+            piva, sdi: document.getElementById('obSdi').value.trim(), indirizzo, citta, cap,
+            telefono, email, sito: document.getElementById('obSito').value.trim(),
             instagram: document.getElementById('obInstagram').value.trim(),
             facebook: document.getElementById('obFacebook').value.trim(),
-            paypal: paypal,
-            iban: document.getElementById('obIban').value.trim(),
+            paypal, iban: document.getElementById('obIban').value.trim(),
             intestatario: document.getElementById('obIntestatario').value.trim(),
-            logo: logoData,
-            dataCreazione: new Date().toISOString(),
+            logo: logoData, dataCreazione: new Date().toISOString(),
             ultimoAggiornamento: new Date().toISOString()
         };
         
         localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
         sincronizzaConFornitore();
-        
         document.getElementById('onboardingOverlay').classList.add('hidden');
         showToast('✅ Profilo salvato! Benvenuto nella dashboard.');
         caricaProfilo();
         renderHeader();
+        aggiornaSyncStatus('online', 'Sync OK');
     }
     
     function saltaOnboarding() {
@@ -805,8 +742,6 @@
     
     function caricaProfilo() {
         if (!profiloPalestra) return;
-        
-        // Carica dati nel form impostazioni
         document.getElementById('impNome').value = profiloPalestra.nome || '';
         document.getElementById('impRagioneSociale').value = profiloPalestra.ragioneSociale || '';
         document.getElementById('impPiva').value = profiloPalestra.piva || '';
@@ -822,7 +757,6 @@
         document.getElementById('impPaypal').value = profiloPalestra.paypal || '';
         document.getElementById('impIban').value = profiloPalestra.iban || '';
         document.getElementById('impIntestatario').value = profiloPalestra.intestatario || '';
-        
         if (profiloPalestra.logo) {
             const preview = document.getElementById('impLogoPreview');
             preview.src = profiloPalestra.logo;
@@ -830,18 +764,13 @@
         }
     }
     
-    // ============================================================
-    // SALVA IMPOSTAZIONI
-    // ============================================================
     function salvaImpostazioni(e) {
         e.preventDefault();
-        
         const logoPreview = document.getElementById('impLogoPreview');
         const logoData = logoPreview.style.display !== 'none' ? logoPreview.src : (profiloPalestra?.logo || '');
         
         profiloPalestra = {
-            ...profiloPalestra,
-            id: PALESTRA_ID,
+            ...profiloPalestra, id: PALESTRA_ID,
             nome: document.getElementById('impNome').value.trim(),
             ragioneSociale: document.getElementById('impRagioneSociale').value.trim(),
             piva: document.getElementById('impPiva').value.trim(),
@@ -863,69 +792,45 @@
         
         localStorage.setItem(`profilo_${PALESTRA_ID}`, JSON.stringify(profiloPalestra));
         sincronizzaConFornitore();
-        
         showToast('✅ Impostazioni salvate e sincronizzate con il fornitore!');
         renderHeader();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
     }
     
-    // ============================================================
-    // SINCRONIZZAZIONE CON FORNITORE
-    // ============================================================
     function sincronizzaConFornitore() {
         if (!profiloPalestra) return;
-        
-        // Salva in localStorage condiviso (stesso browser)
         const palestreFornitore = JSON.parse(localStorage.getItem('palestre') || '[]');
         const index = palestreFornitore.findIndex(p => p.id.toString() === PALESTRA_ID || p.username === PALESTRA_ID);
-        
         if (index !== -1) {
             palestreFornitore[index].profilo = profiloPalestra;
             palestreFornitore[index].ultimoAggiornamentoProfilo = new Date().toISOString();
         } else {
             palestreFornitore.push({
-                id: Date.now(),
-                username: PALESTRA_ID,
-                nome: profiloPalestra.nome,
-                telefono: profiloPalestra.telefono,
-                email: profiloPalestra.email,
-                citta: profiloPalestra.citta,
-                piva: profiloPalestra.piva,
-                profilo: profiloPalestra,
-                stato: 'prova',
+                id: Date.now(), username: PALESTRA_ID, nome: profiloPalestra.nome,
+                telefono: profiloPalestra.telefono, email: profiloPalestra.email,
+                citta: profiloPalestra.citta, piva: profiloPalestra.piva,
+                profilo: profiloPalestra, stato: 'prova',
                 dataScadenza: statoAbbonamento.dataScadenza,
                 dataRegistrazione: profiloPalestra.dataCreazione
             });
         }
-        
         localStorage.setItem('palestre', JSON.stringify(palestreFornitore));
     }
     
-    // ============================================================
-    // INVIO DATI AL FORNITORE VIA WHATSAPP
-    // ============================================================
     function inviaDatiFornitore() {
-        if (!profiloPalestra) {
-            showToast('⚠️ Completa prima il profilo');
-            return;
-        }
-        
+        if (!profiloPalestra) { showToast('⚠️ Completa prima il profilo'); return; }
         const messaggio = `📋 AGGIORNAMENTO DATI PALESTRA\n\n` +
-            `🏋️ *Nome:* ${profiloPalestra.nome}\n` +
-            `🏢 *Ragione Sociale:* ${profiloPalestra.ragioneSociale || '-'}\n` +
-            `🔢 *P.IVA:* ${profiloPalestra.piva}\n` +
-            `📍 *Indirizzo:* ${profiloPalestra.indirizzo}, ${profiloPalestra.cap} ${profiloPalestra.citta}\n` +
-            `📞 *Telefono:* ${profiloPalestra.telefono}\n` +
-            `📧 *Email:* ${profiloPalestra.email}\n` +
-            ` *Sito:* ${profiloPalestra.sito || '-'}\n` +
-            `📱 *Instagram:* ${profiloPalestra.instagram || '-'}\n` +
+            `️ *Nome:* ${profiloPalestra.nome}\n🏢 *Ragione Sociale:* ${profiloPalestra.ragioneSociale || '-'}\n` +
+            `🔢 *P.IVA:* ${profiloPalestra.piva}\n📍 *Indirizzo:* ${profiloPalestra.indirizzo}, ${profiloPalestra.cap} ${profiloPalestra.citta}\n` +
+            `📞 *Telefono:* ${profiloPalestra.telefono}\n📧 *Email:* ${profiloPalestra.email}\n` +
+            `🌐 *Sito:* ${profiloPalestra.sito || '-'}\n📱 *Instagram:* ${profiloPalestra.instagram || '-'}\n` +
             `📘 *Facebook:* ${profiloPalestra.facebook || '-'}\n\n` +
             `💳 *LINK PAGAMENTO:* ${profiloPalestra.paypal}\n` +
             (profiloPalestra.iban ? `🏦 *IBAN:* ${profiloPalestra.iban}\n` : '') +
             (profiloPalestra.intestatario ? `👤 *Intestatario:* ${profiloPalestra.intestatario}\n` : '') +
             `\n📅 Aggiornato il: ${new Date().toLocaleString('it-IT')}`;
-        
-        const url = `https://wa.me/${FORNITORE_PHONE}?text=${encodeURIComponent(messaggio)}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${FORNITORE_PHONE}?text=${encodeURIComponent(messaggio)}`, '_blank');
         showToast('📩 WhatsApp aperto per inviare i dati al fornitore');
     }
     
@@ -936,85 +841,51 @@
         const badge = document.getElementById('headerStatus');
         const nomeEl = document.getElementById('headerNomePalestra');
         const logoContainer = document.getElementById('headerLogoContainer');
-        
         if (profiloPalestra) {
             nomeEl.textContent = profiloPalestra.nome;
             if (profiloPalestra.logo) {
                 logoContainer.innerHTML = `<img src="${profiloPalestra.logo}" alt="Logo">`;
             }
         }
-        
         const oggi = new Date();
         const scadenza = new Date(statoAbbonamento.dataScadenza);
         const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-        
-        if (statoAbbonamento.stato === 'attiva') {
-            badge.className = 'status-badge status-attiva';
-            badge.textContent = 'Attiva';
-        } else if (statoAbbonamento.stato === 'scaduta') {
-            badge.className = 'status-badge status-scaduta';
-            badge.textContent = 'Scaduta';
-        } else {
-            badge.className = 'status-badge status-prova';
-            badge.textContent = `Prova (${giorniRimanenti}gg)`;
-        }
+        if (statoAbbonamento.stato === 'attiva') { badge.className = 'status-badge status-attiva'; badge.textContent = 'Attiva'; }
+        else if (statoAbbonamento.stato === 'scaduta') { badge.className = 'status-badge status-scaduta'; badge.textContent = 'Scaduta'; }
+        else { badge.className = 'status-badge status-prova'; badge.textContent = `Prova (${giorniRimanenti}gg)`; }
     }
     
-    // ============================================================
-    // ALERT BANNER
-    // ============================================================
     function renderAlert() {
         const container = document.getElementById('alertBanner');
         const oggi = new Date();
         const scadenza = new Date(statoAbbonamento.dataScadenza);
         const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-        
         let html = '';
-        
-        if (statoAbbonamento.stato === 'scaduta') {
-            html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Abbonamento SCADUTO!</strong> Contatta il fornitore per rinnovare.</span></div>`;
-        } else if (giorniRimanenti <= ALERT_DAYS && statoAbbonamento.stato === 'prova') {
-            html = `<div class="alert-banner alert-prova"><span>⚠️</span><span><strong>Attenzione!</strong> La prova gratuita scade tra ${giorniRimanenti} giorni. Contatta il fornitore per attivare l'abbonamento.</span></div>`;
-        } else if (statoAbbonamento.stato === 'attiva') {
-            html = `<div class="alert-banner alert-ok"><span>✅</span><span><strong>Abbonamento Attivo!</strong> Il tuo servizio è attivo e funzionante.</span></div>`;
-        }
-        
+        if (statoAbbonamento.stato === 'scaduta') html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Abbonamento SCADUTO!</strong> Contatta il fornitore.</span></div>`;
+        else if (giorniRimanenti <= ALERT_DAYS && statoAbbonamento.stato === 'prova') html = `<div class="alert-banner alert-prova"><span>⚠️</span><span><strong>Attenzione!</strong> La prova scade tra ${giorniRimanenti} giorni.</span></div>`;
+        else if (statoAbbonamento.stato === 'attiva') html = `<div class="alert-banner alert-ok"><span>✅</span><span><strong>Abbonamento Attivo!</strong></span></div>`;
         container.innerHTML = html;
     }
     
-    // ============================================================
-    // STATS
-    // ============================================================
     function renderStats() {
         const oggi = new Date();
         const attivi = atleti.filter(a => a.stato === 'attivo' && new Date(a.dataScadenza) > oggi).length;
-        const inScadenza = atleti.filter(a => {
-            const scadenza = new Date(a.dataScadenza);
-            const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            return a.stato === 'attivo' && giorni <= ALERT_DAYS && giorni >= 0;
-        }).length;
+        const inScadenza = atleti.filter(a => { const s = new Date(a.dataScadenza); const g = Math.ceil((s - oggi) / (1000 * 60 * 60 * 24)); return a.stato === 'attivo' && g <= ALERT_DAYS && g >= 0; }).length;
         const scaduti = atleti.filter(a => a.stato === 'scaduto').length;
-        
         document.getElementById('statAtleti').textContent = atleti.length;
         document.getElementById('statAttivi').textContent = attivi;
         document.getElementById('statScadenza').textContent = inScadenza;
         document.getElementById('statScaduti').textContent = scaduti;
     }
     
-    // ============================================================
-    // RENDER ATLETI
-    // ============================================================
     function renderAtleti() {
         const container = document.getElementById('atletiList');
         const oggi = new Date();
-        
         if (atleti.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="text">Nessun atleta registrato. Clicca su "Nuovo Atleta" per iniziare.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="text">Nessun atleta registrato.</div></div>`;
             return;
         }
-        
-        let html = `<table class="atleti-table"><thead><tr><th>Nome</th><th>Telefono</th><th>Obiettivo</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
-        
+        let html = `<table class="atleti-table"><thead><tr><th>Nome</th><th>Telefono</th><th>Obiettivo</th><th>Certificato</th><th>Stato</th><th>Scadenza</th><th>Azioni</th></tr></thead><tbody>`;
         atleti.forEach(atleta => {
             const scadenza = new Date(atleta.dataScadenza);
             const giorniRimanenti = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
@@ -1022,26 +893,28 @@
             if (atleta.stato === 'scaduto') { badgeClass = 'badge-scaduto'; badgeText = 'Scaduto'; }
             else if (giorniRimanenti <= ALERT_DAYS && giorniRimanenti >= 0) { badgeClass = 'badge-in-scadenza'; badgeText = 'In Scadenza'; }
             
+            const certBadge = atleta.certificato 
+                ? `<span class="badge badge-certificato" title="${atleta.certificato.nome}">📄 ${atleta.certificato.nome.substring(0, 15)}${atleta.certificato.nome.length > 15 ? '...' : ''}</span>` 
+                : '<span style="color:var(--tortora); font-size:11px;">Non caricato</span>';
+            
             html += `<tr>
                 <td><strong>${atleta.nome}</strong><br><small style="color:var(--tortora)">${atleta.email || ''}</small></td>
                 <td>${atleta.telefono || '-'}</td>
                 <td>${atleta.obiettivo || '-'}</td>
+                <td>${certBadge}</td>
                 <td><span class="badge ${badgeClass}">${badgeText}</span></td>
                 <td>${scadenza.toLocaleDateString('it-IT')}<br><small style="color:var(--tortora)">${giorniRimanenti > 0 ? `${giorniRimanenti} giorni` : 'Scaduto'}</small></td>
                 <td style="display:flex; gap:6px; flex-wrap:wrap;">
                     <button class="btn btn-sm btn-info" onclick="modificaAtleta(${atleta.id})">✏️</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">🗑️</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${atleta.id})">️</button>
+                    ${atleta.certificato ? `<button class="btn btn-sm btn-success" onclick="scaricaCertificato(${atleta.id})" title="Scarica certificato">📄</button>` : ''}
                 </td>
             </tr>`;
         });
-        
         html += '</tbody></table>';
         container.innerHTML = html;
     }
     
-    // ============================================================
-    // GESTIONE ATLETI
-    // ============================================================
     function registraAtleta(e) {
         e.preventDefault();
         const id = document.getElementById('aId').value;
@@ -1063,18 +936,15 @@
             obiettivo: document.getElementById('aObiettivo').value,
             dataInizio: dataInizioObj.toISOString(),
             dataScadenza: dataScadenza.toISOString(),
-            durata: durata,
-            note: document.getElementById('aNote').value.trim(),
-            stato: 'attivo',
-            dataRegistrazione: oggi.toISOString()
+            durata, note: document.getElementById('aNote').value.trim(),
+            certificato: tempCertificato,
+            stato: 'attivo', dataRegistrazione: oggi.toISOString()
         };
         
         if (id) {
             const index = atleti.findIndex(a => a.id === parseInt(id));
             if (index !== -1) atleti[index] = atleta;
-        } else {
-            atleti.push(atleta);
-        }
+        } else { atleti.push(atleta); }
         
         saveAtleti();
         showToast('✅ Atleta salvato con successo!');
@@ -1082,6 +952,8 @@
         aggiornaStatiAtleti();
         renderStats();
         renderAtleti();
+        aggiornaSyncStatus('online', 'Sync OK');
+        hasUnsavedChanges = false;
         
         setTimeout(() => {
             showTab('atleti');
@@ -1104,6 +976,22 @@
         document.getElementById('aDataInizio').value = new Date(atleta.dataInizio).toISOString().split('T')[0];
         document.getElementById('aDurata').value = atleta.durata || 30;
         document.getElementById('aNote').value = atleta.note || '';
+        
+        if (atleta.certificato) {
+            tempCertificato = atleta.certificato;
+            const sizeMB = (atleta.certificato.size / 1024 / 1024).toFixed(2);
+            document.getElementById('certificatoInfo').innerHTML = `
+                <div class="file-info">
+                    <span>📄</span>
+                    <span class="filename">${atleta.certificato.nome} (${sizeMB} MB)</span>
+                    <button type="button" class="btn-remove" onclick="rimuoviCertificato()">✕ Rimuovi</button>
+                </div>
+            `;
+        } else {
+            tempCertificato = null;
+            document.getElementById('certificatoInfo').innerHTML = '';
+        }
+        
         showTab('nuovo-atleta');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
@@ -1115,12 +1003,27 @@
         saveAtleti();
         renderStats();
         renderAtleti();
+        marcaModifiche();
         showToast('🗑️ Atleta eliminato');
+    }
+    
+    function scaricaCertificato(id) {
+        const atleta = atleti.find(a => a.id === id);
+        if (!atleta || !atleta.certificato) { showToast('️ Nessun certificato'); return; }
+        const link = document.createElement('a');
+        link.href = atleta.certificato.data;
+        link.download = `Certificato_${atleta.nome.replace(/\s+/g, '_')}_${atleta.certificato.nome}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('📄 Certificato scaricato!');
     }
     
     function resetFormAtleta() {
         document.getElementById('formAtleta').reset();
         document.getElementById('aId').value = '';
+        tempCertificato = null;
+        document.getElementById('certificatoInfo').innerHTML = '';
     }
     
     function aggiornaStatiAtleti() {
@@ -1151,7 +1054,6 @@
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
     
-    // Avvia
     init();
     </script>
 </body>

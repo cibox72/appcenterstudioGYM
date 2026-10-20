@@ -172,6 +172,8 @@
         .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 2px solid var(--rosso); }
         .status-details { font-size: 14px; color: var(--tortora-scuro); }
         .status-details strong { color: var(--nero); }
+        
+        /* PULSANTE PAGAMENTO - STILE DINAMICO */
         .btn-paga {
             padding: 14px 28px;
             background: var(--verde);
@@ -189,6 +191,57 @@
             font-family: inherit;
         }
         .btn-paga:hover { background: #1E8449; transform: translateY(-2px); }
+        .btn-paga.paypal { background: #003087; }
+        .btn-paga.paypal:hover { background: #001f5c; }
+        .btn-paga.stripe { background: #635BFF; }
+        .btn-paga.stripe:hover { background: #4a42d9; }
+        .btn-paga.bonifico { background: var(--tortora); }
+        .btn-paga.bonifico:hover { background: var(--tortora-scuro); }
+        
+        /* METODI PAGAMENTO BOX */
+        .pagamento-box {
+            max-width: 1400px;
+            margin: 0 auto 25px;
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: var(--radius);
+            padding: 25px 30px;
+            box-shadow: var(--ombra);
+            display: none;
+        }
+        .pagamento-box.visible { display: block; }
+        .pagamento-box h3 {
+            font-size: 18px;
+            color: var(--nero);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .metodo-pagamento {
+            background: var(--tortora-chiarissimo);
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: var(--radius-sm);
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .metodo-pagamento .icon { font-size: 28px; }
+        .metodo-pagamento .info { flex: 1; }
+        .metodo-pagamento .nome { font-size: 14px; font-weight: 700; color: var(--nero); }
+        .metodo-pagamento .dettaglio { font-size: 13px; color: var(--tortora-scuro); margin-top: 3px; word-break: break-all; }
+        .metodo-pagamento .btn-copia {
+            padding: 6px 12px;
+            background: var(--bianco);
+            border: 1px solid var(--tortora);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--tortora-scuro);
+        }
+        .metodo-pagamento .btn-copia:hover { background: var(--tortora); color: var(--bianco); }
         
         /* TABS */
         .tabs-container {
@@ -412,7 +465,7 @@
             </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn nav-btn-home">🏠 Home</a>
+            <a href="index.html" class="nav-btn nav-btn-home"> Home</a>
             <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
             <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
@@ -447,12 +500,21 @@
                 <div id="giorniRimanenti">-- giorni rimanenti</div>
             </div>
         </div>
-        <a href="#" class="btn-paga" id="btnPaga" style="display:none;">💳 Rinnova Abbonamento</a>
+        <button class="btn-paga" id="btnPaga" style="display:none;" onclick="mostraPagamento()">💳 Rinnova Abbonamento</button>
+    </div>
+
+    <!-- BOX METODI DI PAGAMENTO (si apre al click su Rinnova) -->
+    <div class="pagamento-box" id="pagamentoBox">
+        <h3>💳 Metodi di Pagamento - <span id="palestraPagamentoNome">La Tua Palestra</span></h3>
+        <p style="font-size:13px; color:var(--tortora); margin-bottom:20px;">
+            Scegli il metodo di pagamento preferito per rinnovare il tuo abbonamento. I dati sono forniti direttamente dalla tua palestra.
+        </p>
+        <div id="metodiPagamentoLista"></div>
     </div>
 
     <!-- TABS -->
     <div class="tabs-container">
-        <button class="tab-btn active" onclick="showTab('profilo')"> Il Mio Profilo</button>
+        <button class="tab-btn active" onclick="showTab('profilo')">👤 Il Mio Profilo</button>
         <button class="tab-btn" onclick="showTab('scheda')">🏋️ Scheda Allenamento</button>
         <button class="tab-btn" onclick="showTab('dieta')">🥗 Piano Nutrizionale</button>
         <button class="tab-btn" onclick="showTab('certificato')"> Certificato Medico</button>
@@ -519,7 +581,7 @@
     <div class="tab-content" id="tab-dieta">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title"> Il Mio Piano Nutrizionale</div>
+                <div class="section-title">🥗 Il Mio Piano Nutrizionale</div>
                 <button class="btn-download" onclick="stampaDieta()">🖨️ Stampa / PDF</button>
             </div>
             <div id="dietaContent"></div>
@@ -548,7 +610,7 @@
     let hasUnsavedChanges = false;
     
     // ============================================================
-    // DATI SIMULATI ATLETA (in produzione arrivano dal login)
+    // DATI ATLETA (in produzione arrivano dal login/database)
     // ============================================================
     const atletaCorrente = {
         id: 1,
@@ -565,13 +627,38 @@
         stato: 'attivo'
     };
     
-    // Dati della palestra (in produzione dal profilo salvato)
+    // ============================================================
+    // DATI PALESTRA - IL GESTORE INSERISCE I SUOI METODI DI PAGAMENTO
+    // Questi dati vengono dalle "Impostazioni" della dashboard palestra
+    // ============================================================
     const palestraDati = {
         nome: 'Fitness Center Roma',
         logo: '',
         telefono: '0612345678',
         email: 'info@fitnesscenterroma.it',
-        paypal: 'https://www.paypal.biz/volleymanagerpro'
+        
+        // ⚠️ QUESTI SONO I METODI DI PAGAMENTO DEL GESTORE (NON DEL FORNITORE!)
+        // Il gestore li inserisce nella sua sezione "Impostazioni"
+        metodiPagamento: [
+            {
+                tipo: 'paypal',
+                nome: 'PayPal',
+                valore: 'https://paypal.me/fitnesscenterroma',  // ← Link PayPal del GESTORE
+                icona: '💳'
+            },
+            {
+                tipo: 'bonifico',
+                nome: 'Bonifico Bancario',
+                valore: 'IT00 X000 0000 0000 0000 0000 000 - Intestato a: Fitness Center S.r.l.',
+                icona: '🏦'
+            },
+            {
+                tipo: 'stripe',
+                nome: 'Stripe (Carta di credito)',
+                valore: 'https://checkout.stripe.com/fitnesscenterroma',  // ← Link Stripe del GESTORE
+                icona: '💳'
+            }
+        ]
     };
     
     // Scheda allenamento di esempio
@@ -712,6 +799,49 @@
     window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
     
     // ============================================================
+    // PAGAMENTO - MOSTRA I METODI DEL GESTORE
+    // ============================================================
+    function mostraPagamento() {
+        const box = document.getElementById('pagamentoBox');
+        const lista = document.getElementById('metodiPagamentoLista');
+        document.getElementById('palestraPagamentoNome').textContent = palestraDati.nome;
+        
+        if (!palestraDati.metodiPagamento || palestraDati.metodiPagamento.length === 0) {
+            lista.innerHTML = `<div style="text-align:center; padding:20px; color:var(--tortora);">
+                <div style="font-size:40px; margin-bottom:10px;">⚠️</div>
+                <div style="font-weight:600;">Nessun metodo di pagamento configurato</div>
+                <div style="font-size:13px; margin-top:8px;">Contatta la palestra per informazioni sul rinnovo.</div>
+            </div>`;
+        } else {
+            lista.innerHTML = palestraDati.metodiPagamento.map(m => {
+                const isLink = m.valore.startsWith('http');
+                return `
+                    <div class="metodo-pagamento">
+                        <div class="icon">${m.icona}</div>
+                        <div class="info">
+                            <div class="nome">${m.nome}</div>
+                            <div class="dettaglio">${m.valore}</div>
+                        </div>
+                        ${isLink ? `<a href="${m.valore}" target="_blank" class="btn-paga ${m.tipo}" style="padding:8px 16px; font-size:12px;">Paga ora →</a>` : `<button class="btn-copia" onclick="copiaTesto('${m.valore.replace(/'/g, "\\'")}')">📋 Copia</button>`}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        box.classList.add('visible');
+        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('💳 Scegli il metodo di pagamento preferito');
+    }
+    
+    function copiaTesto(testo) {
+        navigator.clipboard.writeText(testo).then(() => {
+            showToast('✅ Copiato negli appunti!');
+        }).catch(() => {
+            showToast('⚠️ Impossibile copiare');
+        });
+    }
+    
+    // ============================================================
     // INIZIALIZZAZIONE
     // ============================================================
     function init() {
@@ -727,7 +857,7 @@
     function renderProfilo() {
         document.getElementById('atletaNome').textContent = atletaCorrente.nome.split(' ')[0];
         document.getElementById('palestraNome').textContent = palestraDati.nome;
-        document.getElementById('palestraContatti').textContent = `📞 ${palestraDati.telefono} • 📧 ${palestraDati.email}`;
+        document.getElementById('palestraContatti').textContent = ` ${palestraDati.telefono} • 📧 ${palestraDati.email}`;
         
         if (palestraDati.logo) {
             const img = document.getElementById('palestraLogo');
@@ -760,13 +890,11 @@
             badge.className = 'status-badge badge-scaduto';
             badge.textContent = 'Scaduto';
             btnPaga.style.display = 'inline-flex';
-            btnPaga.href = palestraDati.paypal;
             btnPaga.innerHTML = ' Paga e Rinnova Ora';
         } else if (giorniRimanenti <= ALERT_DAYS) {
             badge.className = 'status-badge badge-scadenza';
             badge.textContent = `Scade tra ${giorniRimanenti}gg`;
             btnPaga.style.display = 'inline-flex';
-            btnPaga.href = palestraDati.paypal;
             btnPaga.innerHTML = '💳 Rinnova Ora';
         } else {
             badge.className = 'status-badge badge-attivo';
@@ -783,7 +911,7 @@
         
         let html = '';
         if (giorniRimanenti < 0) {
-            html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Il tuo abbonamento è SCADUTO!</strong> Rinnova ora per continuare ad accedere ai tuoi piani.</span></div>`;
+            html = `<div class="alert-banner alert-scaduta"><span></span><span><strong>Il tuo abbonamento è SCADUTO!</strong> Rinnova ora per continuare ad accedere ai tuoi piani.</span></div>`;
         } else if (giorniRimanenti <= 7) {
             html = `<div class="alert-banner alert-scadenza"><span>⚠️</span><span><strong>Attenzione!</strong> Il tuo abbonamento scade tra ${giorniRimanenti} giorni. Rinnova per non perdere l'accesso.</span></div>`;
         } else if (giorniRimanenti <= ALERT_DAYS) {
@@ -799,7 +927,7 @@
         const giorni = Object.keys(schedaAllenamento);
         
         if (giorni.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">️</div><div class="title">Nessuna scheda assegnata</div><div class="text">Il tuo gestore non ha ancora creato la tua scheda di allenamento. Contatta la palestra per maggiori informazioni.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="title">Nessuna scheda assegnata</div><div class="text">Il tuo gestore non ha ancora creato la tua scheda di allenamento. Contatta la palestra per maggiori informazioni.</div></div>`;
             return;
         }
         
@@ -885,7 +1013,6 @@
     
     function downloadCertificato() {
         showToast('📥 Download certificato avviato!');
-        // In produzione: link al file reale su Cloudflare R2
     }
     
     function stampaDieta() {
@@ -907,7 +1034,6 @@
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
     
-    // Avvia
     init();
     </script>
 </body>

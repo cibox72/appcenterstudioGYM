@@ -12,20 +12,14 @@
         .top-header h1 { font-size: 18px; font-weight: 700; }
         .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        
-        /* TABS PRINCIPALI */
         .main-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .main-tab { padding: 12px 20px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); cursor: pointer; font-weight: 600; font-size: 14px; color: var(--tortora-scuro); white-space: nowrap; transition: all 0.2s; flex: 1; text-align: center; min-width: 120px; }
         .main-tab.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
-        .main-tab:hover { border-color: var(--tortora); }
-        
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .section-header h2 { font-size: 22px; }
         .section-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
-        
         .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: all 0.2s; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
@@ -34,8 +28,7 @@
         .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
         .btn-info { background: var(--blu); color: var(--bianco); }
         .btn-sm { padding: 7px 12px; font-size: 12px; }
-        
-        /* GRIGLIE */
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
         .card { background: var(--bianco); border-radius: var(--radius); padding: 18px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; transition: all 0.2s; }
         .card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
@@ -43,35 +36,25 @@
         .card .info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 4px; }
         .card .info strong { color: var(--nero); }
         .card .actions { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 6px; flex-wrap: wrap; }
-        
         .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
-        
-        /* SELECT CLIENTE */
         .cliente-selector { background: var(--bianco); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--ombra); }
         .cliente-selector label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px; }
         .cliente-selector select { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
         .cliente-selector select:focus { outline: none; border-color: var(--tortora); }
-        
-        /* GIORNI SETTIMANA */
         .days-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .day-tab { padding: 10px 16px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--tortora-scuro); white-space: nowrap; transition: all 0.2s; }
         .day-tab.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
-        
         .day-content { display: none; }
         .day-content.active { display: block; }
-        
         .exercise-item { background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--tortora); }
-        .exercise-item .ex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .exercise-item .ex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
         .exercise-item .ex-name { font-weight: 700; font-size: 15px; }
         .exercise-item .ex-desc { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 8px; }
         .exercise-item .ex-file { font-size: 12px; color: var(--blu); margin-bottom: 5px; }
         .exercise-item .ex-file a { color: var(--blu); text-decoration: none; }
-        .exercise-item .ex-file a:hover { text-decoration: underline; }
         .exercise-item .ex-video { font-size: 12px; color: var(--rosso); }
         .exercise-item .ex-video a { color: var(--rosso); text-decoration: none; font-weight: 600; }
         .exercise-item .ex-actions { margin-top: 10px; display: flex; gap: 6px; }
-        
-        /* MODAL */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--bianco); border-radius: var(--radius); padding: 25px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
@@ -86,16 +69,12 @@
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
         .form-group textarea { min-height: 80px; resize: vertical; }
         .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        
-        /* FILE UPLOAD */
         .file-upload-area { border: 2px dashed var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--tortora-chiarissimo); }
         .file-upload-area:hover { border-color: var(--tortora); background: var(--bianco); }
         .file-upload-area.has-file { padding: 10px; }
         .file-upload-area img { max-width: 100%; max-height: 150px; border-radius: var(--radius-sm); }
         .file-upload-area .upload-text { color: var(--tortora); font-size: 13px; }
         .file-upload-area .upload-hint { color: var(--tortora); font-size: 11px; margin-top: 4px; }
-        
-        /* SELECT ESERCIZI DA ARCHIVIO */
         .archive-select-list { max-height: 300px; overflow-y: auto; border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 10px; }
         .archive-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-bottom: 1px solid var(--tortora-chiarissimo); cursor: pointer; transition: background 0.15s; }
         .archive-item:last-child { border-bottom: none; }
@@ -104,71 +83,60 @@
         .archive-item label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
         .archive-item .item-type { font-size: 10px; padding: 2px 6px; border-radius: 10px; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); }
         .archive-item .item-type.video { background: #FADBD8; color: var(--rosso); }
-        
         .toast { position: fixed; bottom: 20px; right: 20px; background: var(--nero); color: var(--bianco); padding: 12px 20px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; font-size: 14px; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        
-        @media (max-width: 768px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .container { padding: 15px; }
-            .main-tab { min-width: 100px; font-size: 12px; padding: 10px 12px; }
-        }
+        .loading { text-align: center; padding: 20px; color: var(--tortora); }
+        @media (max-width: 768px) { .cards-grid { grid-template-columns: 1fr; } .container { padding: 15px; } .main-tab { min-width: 100px; font-size: 12px; padding: 10px 12px; } }
     </style>
 </head>
 <body>
     <div class="top-header">
-        <h1> Schede Allenamento</h1>
+        <h1>📋 Schede Allenamento</h1>
         <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
     </div>
 
     <div class="container">
-        <!-- TABS PRINCIPALI (solo per gestore) -->
-        <div class="main-tabs" id="mainTabs">
+        <div class="main-tabs">
             <div class="main-tab active" onclick="cambiaTab('archivio-esercizi', this)">📚 Archivio Esercizi</div>
             <div class="main-tab" onclick="cambiaTab('archivio-video', this)">🎬 Archivio Video</div>
-            <div class="main-tab" onclick="cambiaTab('schede-clienti', this)"> Scheda Cliente</div>
+            <div class="main-tab" onclick="cambiaTab('schede-clienti', this)">👥 Scheda Cliente</div>
         </div>
 
-        <!-- TAB 1: ARCHIVIO ESERCIZI -->
         <div class="tab-content active" id="tab-archivio-esercizi">
             <div class="section-header">
                 <div>
-                    <h2> Archivio Esercizi</h2>
-                    <div class="subtitle">Libreria esercizi con foto e descrizioni</div>
+                    <h2>📚 Archivio Esercizi</h2>
+                    <div class="subtitle">Libreria esercizi con foto e descrizioni (cloud)</div>
                 </div>
                 <button class="btn btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
             </div>
-            <div id="eserciziContainer"></div>
+            <div id="eserciziContainer"><div class="loading">Caricamento...</div></div>
         </div>
 
-        <!-- TAB 2: ARCHIVIO VIDEO -->
         <div class="tab-content" id="tab-archivio-video">
             <div class="section-header">
                 <div>
                     <h2>🎬 Archivio Video</h2>
-                    <div class="subtitle">Video dimostrativi da YouTube o altri link</div>
+                    <div class="subtitle">Video dimostrativi (cloud)</div>
                 </div>
                 <button class="btn btn-primary" onclick="apriModalVideo()">+ Nuovo Video</button>
             </div>
-            <div id="videoContainer"></div>
+            <div id="videoContainer"><div class="loading">Caricamento...</div></div>
         </div>
 
-        <!-- TAB 3: SCHEDA CLIENTE -->
         <div class="tab-content" id="tab-schede-clienti">
             <div class="section-header">
                 <div>
-                    <h2>👥 Scheda Allenamento Cliente</h2>
+                    <h2> Scheda Allenamento Cliente</h2>
                     <div class="subtitle">Crea la settimana di allenamento per ogni atleta</div>
                 </div>
             </div>
-            
             <div class="cliente-selector">
                 <label>Seleziona Atleta</label>
                 <select id="clienteSelect" onchange="onClienteChange()">
                     <option value="">-- Seleziona un atleta --</option>
                 </select>
             </div>
-
             <div id="schedaClienteContent" style="display:none;">
                 <div class="days-tabs" id="daysTabs"></div>
                 <div id="daysContent"></div>
@@ -179,7 +147,6 @@
         </div>
     </div>
 
-    <!-- MODAL ESERCIZIO -->
     <div class="modal-overlay" id="modalEsercizio">
         <div class="modal">
             <div class="modal-header">
@@ -196,20 +163,16 @@
                     <div class="form-group">
                         <label>Gruppo Muscolare</label>
                         <select id="esercizioGruppo">
-                            <option value="Pettorali">Pettorali</option>
-                            <option value="Schiena">Schiena</option>
-                            <option value="Gambe">Gambe</option>
-                            <option value="Spalle">Spalle</option>
-                            <option value="Bicipiti">Bicipiti</option>
-                            <option value="Tricipiti">Tricipiti</option>
-                            <option value="Addome">Addome</option>
-                            <option value="Cardio">Cardio</option>
+                            <option value="Pettorali">Pettorali</option><option value="Schiena">Schiena</option>
+                            <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
+                            <option value="Bicipiti">Bicipiti</option><option value="Tricipiti">Tricipiti</option>
+                            <option value="Addome">Addome</option><option value="Cardio">Cardio</option>
                             <option value="Full Body">Full Body</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Descrizione *</label>
-                        <textarea id="esercizioDesc" required placeholder="Descrizione dell'esercizio, esecuzione corretta, errori da evitare..."></textarea>
+                        <textarea id="esercizioDesc" required placeholder="Descrizione dell'esercizio..."></textarea>
                     </div>
                     <div class="form-group">
                         <label>Serie x Ripetizioni</label>
@@ -220,12 +183,12 @@
                         <input type="text" id="esercizioRecupero" placeholder="Es. 90 secondi">
                     </div>
                     <div class="form-group">
-                        <label>Foto/Diagramma (JPEG, PNG, PDF)</label>
+                        <label>Foto/Diagramma (JPEG, PNG, PDF - Max 500KB)</label>
                         <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('fileInput').click()">
                             <div id="filePreview">
                                 <div style="font-size: 32px; opacity: 0.3;">📷</div>
                                 <div class="upload-text">Clicca per caricare un file</div>
-                                <div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>
+                                <div class="upload-hint">JPEG, PNG o PDF - Max 500KB</div>
                             </div>
                         </div>
                         <input type="file" id="fileInput" accept="image/jpeg,image/png,application/pdf" style="display:none;" onchange="gestisciFileUpload(event)">
@@ -233,13 +196,12 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalEsercizio')">Annulla</button>
-                    <button type="submit" class="btn btn-success">Salva Esercizio</button>
+                    <button type="submit" class="btn btn-success" id="btnSalvaEsercizio">Salva Esercizio</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL VIDEO -->
     <div class="modal-overlay" id="modalVideo">
         <div class="modal">
             <div class="modal-header">
@@ -256,20 +218,16 @@
                     <div class="form-group">
                         <label>Gruppo Muscolare</label>
                         <select id="videoGruppo">
-                            <option value="Pettorali">Pettorali</option>
-                            <option value="Schiena">Schiena</option>
-                            <option value="Gambe">Gambe</option>
-                            <option value="Spalle">Spalle</option>
-                            <option value="Bicipiti">Bicipiti</option>
-                            <option value="Tricipiti">Tricipiti</option>
-                            <option value="Addome">Addome</option>
-                            <option value="Cardio">Cardio</option>
+                            <option value="Pettorali">Pettorali</option><option value="Schiena">Schiena</option>
+                            <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
+                            <option value="Bicipiti">Bicipiti</option><option value="Tricipiti">Tricipiti</option>
+                            <option value="Addome">Addome</option><option value="Cardio">Cardio</option>
                             <option value="Full Body">Full Body</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Descrizione</label>
-                        <textarea id="videoDesc" placeholder="Descrizione del video, note tecniche..."></textarea>
+                        <textarea id="videoDesc" placeholder="Descrizione del video..."></textarea>
                     </div>
                     <div class="form-group">
                         <label>Link Video (YouTube o altro) *</label>
@@ -284,7 +242,6 @@
         </div>
     </div>
 
-    <!-- MODAL AGGIUNGI ESERCIZIO ALLA GIORNATA -->
     <div class="modal-overlay" id="modalAggiungiEsercizio">
         <div class="modal modal-large">
             <div class="modal-header">
@@ -313,6 +270,7 @@
     let editingEsercizioId = null, editingVideoId = null;
     let clienteSelezionato = null, giornoSelezionato = 0;
     let fileBase64 = null, fileNome = null, fileType = null;
+    let loading = false;
 
     function init() {
         const userStr = localStorage.getItem('currentUser');
@@ -322,35 +280,32 @@
     }
 
     async function loadData() {
+        loading = true;
         try {
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
             
-            if (palestraData) {
-                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
-                atleti = await atletiRes.json();
-                popolaSelectClienti();
-            }
+            if (!palestraData) { showToast(' Palestra non trovata'); return; }
             
-            // Carica da localStorage
-            const chiave = `schede_gym_${palestraData?.id || 'default'}`;
-            const saved = localStorage.getItem(chiave);
-            if (saved) {
-                const data = JSON.parse(saved);
-                esercizi = data.esercizi || [];
-                videoArchivio = data.video || [];
-                schedeClienti = data.schedeClienti || {};
-            }
+            // Carica atleti
+            const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
+            atleti = await atletiRes.json();
+            popolaSelectClienti();
             
+            // Carica esercizi da cloud
+            const eserciziRes = await fetch(`${API_URL}/api/esercizi?palestra_id=${palestraData.id}`);
+            esercizi = await eserciziRes.json();
             renderEsercizi();
+            
+            // Carica video da cloud
+            const videoRes = await fetch(`${API_URL}/api/video?palestra_id=${palestraData.id}`);
+            videoArchivio = await videoRes.json();
             renderVideo();
-        } catch (error) { console.error('Errore:', error); }
-    }
-
-    function salvaDatiLocali() {
-        const chiave = `schede_gym_${palestraData?.id || 'default'}`;
-        localStorage.setItem(chiave, JSON.stringify({ esercizi, video: videoArchivio, schedeClienti }));
+        } catch (error) { 
+            console.error('Errore:', error); 
+            showToast('❌ Errore di connessione'); 
+        } finally { loading = false; }
     }
 
     function popolaSelectClienti() {
@@ -364,7 +319,7 @@
         });
     }
 
-    function onClienteChange() {
+    async function onClienteChange() {
         const id = document.getElementById('clienteSelect').value;
         if (!id) {
             document.getElementById('schedaClienteContent').style.display = 'none';
@@ -372,7 +327,22 @@
         }
         clienteSelezionato = atleti.find(a => a.id == id);
         document.getElementById('schedaClienteContent').style.display = 'block';
-        renderGiorniTabs();
+        
+        // Carica scheda cliente da cloud
+        try {
+            const res = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}`);
+            const items = await res.json();
+            schedeClienti = {};
+            items.forEach(item => {
+                const chiave = `${item.atleta_id}_${item.giorno}`;
+                if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
+                schedeClienti[chiave].push({ tipo: item.tipo, id: item.elemento_id, dbId: item.id, ordine: item.ordine });
+            });
+            renderGiorniTabs();
+        } catch (error) {
+            console.error('Errore caricamento scheda:', error);
+            showToast('❌ Errore caricamento scheda');
+        }
     }
 
     function renderGiorniTabs() {
@@ -406,7 +376,7 @@
 
     function renderGiorno(idx) {
         const container = document.getElementById(`day-content-${idx}`);
-        if (!container) return;
+        if (!container || !clienteSelezionato) return;
         
         const chiave = `${clienteSelezionato.id}_${idx}`;
         const eserciziGiorno = schedeClienti[chiave] || [];
@@ -420,27 +390,32 @@
             html += '<div class="empty-state" style="padding: 30px;"><div style="font-size: 32px; margin-bottom: 10px;">💪</div><div>Nessun esercizio per questo giorno</div></div>';
         } else {
             eserciziGiorno.forEach((ex, exIdx) => {
-                const tipo = ex.tipo; // 'esercizio' o 'video'
+                const tipo = ex.tipo;
                 const data = tipo === 'esercizio' 
                     ? esercizi.find(e => e.id === ex.id)
                     : videoArchivio.find(v => v.id === ex.id);
                 
-                if (!data) return;
+                if (!data) {
+                    html += `<div class="exercise-item" style="opacity: 0.5;"><div class="ex-name">️ Elemento non trovato</div><div class="ex-actions"><button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">🗑️ Rimuovi</button></div></div>`;
+                    return;
+                }
                 
                 html += `<div class="exercise-item">
                     <div class="ex-header">
-                        <div class="ex-name">${tipo === 'esercizio' ? '📚' : ''} ${data.nome || data.titolo}</div>
+                        <div class="ex-name">${tipo === 'esercizio' ? '📚' : '🎬'} ${data.nome || data.titolo}</div>
                         <span style="font-size: 11px; padding: 3px 8px; background: ${tipo === 'esercizio' ? 'var(--verde-chiaro)' : '#FADBD8'}; color: ${tipo === 'esercizio' ? '#1E8449' : 'var(--rosso)'}; border-radius: 10px; font-weight: 600;">${data.gruppo || ''}</span>
                     </div>
                     <div class="ex-desc">${data.descrizione || 'Nessuna descrizione'}</div>`;
                 
                 if (tipo === 'esercizio') {
                     if (data.serie) html += `<div class="ex-desc"><strong>Serie:</strong> ${data.serie}${data.recupero ? ` • <strong>Recupero:</strong> ${data.recupero}` : ''}</div>`;
-                    if (data.fileBase64) {
-                        if (data.fileType && data.fileType.includes('pdf')) {
-                            html += `<div class="ex-file">📄 <a href="${data.fileBase64}" target="_blank">Apri PDF</a></div>`;
+                    if (data.file_base64 || data.fileBase64) {
+                        const fileData = data.file_base64 || data.fileBase64;
+                        const fileType = data.file_type || data.fileType;
+                        if (fileType && fileType.includes('pdf')) {
+                            html += `<div class="ex-file">📄 <a href="${fileData}" target="_blank">Apri PDF</a></div>`;
                         } else {
-                            html += `<div class="ex-file">️ <a href="${data.fileBase64}" target="_blank">Vedi immagine</a></div>`;
+                            html += `<div class="ex-file">🖼️ <a href="${fileData}" target="_blank">Vedi immagine</a></div>`;
                         }
                     }
                 } else {
@@ -448,7 +423,7 @@
                 }
                 
                 html += `<div class="ex-actions">
-                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx})">️ Rimuovi</button>
+                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">🗑️ Rimuovi</button>
                 </div></div>`;
             });
         }
@@ -469,62 +444,77 @@
             html += `<div class="archive-item">
                 <input type="checkbox" id="arch_ex_${e.id}" value="esercizio_${e.id}">
                 <label for="arch_ex_${e.id}">📚 ${e.nome}</label>
-                <span class="item-type">${e.gruppo}</span>
+                <span class="item-type">${e.gruppo || ''}</span>
             </div>`;
         });
         
         videoArchivio.forEach(v => {
             html += `<div class="archive-item">
                 <input type="checkbox" id="arch_vid_${v.id}" value="video_${v.id}">
-                <label for="arch_vid_${v.id}">🎬 ${v.titolo}</label>
-                <span class="item-type video">${v.gruppo}</span>
+                <label for="arch_vid_${v.id}"> ${v.titolo}</label>
+                <span class="item-type video">${v.gruppo || ''}</span>
             </div>`;
         });
         
         if (esercizi.length === 0 && videoArchivio.length === 0) {
-            html = '<div style="text-align: center; padding: 20px; color: var(--tortora);">Archivi vuoti. C prima esercizi o video!</div>';
+            html = '<div style="text-align: center; padding: 20px; color: var(--tortora);">Archivi vuoti. Crea prima esercizi o video!</div>';
         }
         
         list.innerHTML = html;
         document.getElementById('modalAggiungiEsercizio').classList.add('active');
     }
 
-    function confermaAggiuntaEsercizi() {
+    async function confermaAggiuntaEsercizi() {
         const checkboxes = document.querySelectorAll('#archiveSelectList input:checked');
-        const chiave = `${clienteSelezionato.id}_${giornoSelezionato}`;
-        if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
+        if (checkboxes.length === 0) { showToast('️ Seleziona almeno un elemento'); return; }
         
+        const elementi = [];
         checkboxes.forEach(cb => {
             const [tipo, idStr] = cb.value.split('_');
-            const id = parseInt(idStr);
-            // Evita duplicati
-            const exists = schedeClienti[chiave].some(e => e.tipo === tipo && e.id === id);
-            if (!exists) {
-                schedeClienti[chiave].push({ tipo, id });
-            }
+            elementi.push({ tipo, elemento_id: parseInt(idStr) });
         });
         
-        salvaDatiLocali();
-        chiudiModal('modalAggiungiEsercizio');
-        renderGiorno(giornoSelezionato);
-        showToast(`✅ Aggiunti ${checkboxes.length} elementi`);
-    }
-
-    function rimuoviEsercizioDaGiorno(giornoIdx, exIdx) {
-        if (!confirm('Rimuovere questo elemento dalla giornata?')) return;
-        const chiave = `${clienteSelezionato.id}_${giornoIdx}`;
-        if (schedeClienti[chiave]) {
-            schedeClienti[chiave].splice(exIdx, 1);
-            salvaDatiLocali();
-            renderGiorno(giornoIdx);
-            showToast('Elemento rimosso');
+        try {
+            const res = await fetch(`${API_URL}/api/schede-clienti/batch`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    palestra_id: palestraData.id,
+                    atleta_id: clienteSelezionato.id,
+                    giorno: giornoSelezionato,
+                    elementi: elementi
+                })
+            });
+            const result = await res.json();
+            if (result.success) {
+                showToast(`✅ Aggiunti ${elementi.length} elementi`);
+                chiudiModal('modalAggiungiEsercizio');
+                await onClienteChange();
+            } else {
+                showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
+            }
+        } catch (error) {
+            showToast('❌ Errore di connessione');
         }
     }
 
-    function salvaSettimana() {
+    async function rimuoviEsercizioDaGiorno(giornoIdx, exIdx, dbId) {
+        if (!confirm('Rimuovere questo elemento dalla giornata?')) return;
+        try {
+            const res = await fetch(`${API_URL}/api/schede-clienti/${dbId}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+                showToast('Elemento rimosso');
+                await onClienteChange();
+            }
+        } catch (error) {
+            showToast('❌ Errore');
+        }
+    }
+
+    async function salvaSettimana() {
         if (!clienteSelezionato) return;
-        salvaDatiLocali();
-        showToast('✅ Settimana salvata con successo!');
+        showToast('✅ Settimana salvata!');
     }
 
     // ============ ARCHIVIO ESERCIZI ============
@@ -538,11 +528,11 @@
         esercizi.forEach(e => {
             html += `<div class="card">
                 <h3>${e.nome}</h3>
-                <div class="info"><strong>Gruppo:</strong> ${e.gruppo}</div>
+                <div class="info"><strong>Gruppo:</strong> ${e.gruppo || '-'}</div>
                 <div class="info"><strong>Serie:</strong> ${e.serie || '-'}</div>
                 <div class="info"><strong>Recupero:</strong> ${e.recupero || '-'}</div>
                 <div class="info" style="margin-top: 8px; font-size: 12px;">${(e.descrizione || '').substring(0, 80)}${(e.descrizione || '').length > 80 ? '...' : ''}</div>
-                ${e.fileBase64 ? '<div class="info" style="color: var(--blu); font-size: 12px;"> File allegato</div>' : ''}
+                ${e.file_name ? '<div class="info" style="color: var(--blu); font-size: 12px;">📎 File allegato</div>' : ''}
                 <div class="actions">
                     <button class="btn btn-sm btn-secondary" onclick="modificaEsercizio(${e.id})">Modifica</button>
                     <button class="btn btn-sm btn-danger" onclick="eliminaEsercizio(${e.id})">Elimina</button>
@@ -559,12 +549,12 @@
         document.getElementById('formEsercizio').reset();
         document.getElementById('esercizioId').value = '';
         fileBase64 = null; fileNome = null; fileType = null;
-        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;"></div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>';
+        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;">📷</div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 500KB</div>';
         document.getElementById('fileUploadArea').classList.remove('has-file');
         document.getElementById('modalEsercizio').classList.add('active');
     }
 
-    function modificaEsercizio(id) {
+    async function modificaEsercizio(id) {
         const e = esercizi.find(x => x.id === id);
         if (!e) return;
         editingEsercizioId = id;
@@ -575,18 +565,24 @@
         document.getElementById('esercizioDesc').value = e.descrizione || '';
         document.getElementById('esercizioSerie').value = e.serie || '';
         document.getElementById('esercizioRecupero').value = e.recupero || '';
-        fileBase64 = e.fileBase64 || null;
-        fileNome = e.fileName || null;
-        fileType = e.fileType || null;
         
-        if (fileBase64) {
-            document.getElementById('fileUploadArea').classList.add('has-file');
-            if (fileType && fileType.includes('pdf')) {
-                document.getElementById('filePreview').innerHTML = `<div style="font-size: 32px;">📄</div><div style="font-size: 12px; color: var(--tortora);">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
-            } else {
-                document.getElementById('filePreview').innerHTML = `<img src="${fileBase64}" alt="Preview"><div style="font-size: 12px; color: var(--tortora); margin-top: 5px;">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+        // Carica il file base64 dal server
+        try {
+            const res = await fetch(`${API_URL}/api/esercizi?palestra_id=${palestraData.id}`);
+            const allEsercizi = await res.json();
+            const full = allEsercizi.find(x => x.id === id);
+            if (full && full.file_base64) {
+                fileBase64 = full.file_base64;
+                fileNome = full.file_name;
+                fileType = full.file_type;
+                document.getElementById('fileUploadArea').classList.add('has-file');
+                if (fileType && fileType.includes('pdf')) {
+                    document.getElementById('filePreview').innerHTML = `<div style="font-size: 32px;">📄</div><div style="font-size: 12px; color: var(--tortora);">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+                } else {
+                    document.getElementById('filePreview').innerHTML = `<img src="${fileBase64}" alt="Preview"><div style="font-size: 12px; color: var(--tortora); margin-top: 5px;">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+                }
             }
-        }
+        } catch (error) { console.error('Errore caricamento file:', error); }
         
         document.getElementById('modalEsercizio').classList.add('active');
     }
@@ -594,7 +590,7 @@
     function gestisciFileUpload(event) {
         const file = event.target.files[0];
         if (!file) return;
-        if (file.size > 2 * 1024 * 1024) { showToast(' File troppo grande! Max 2MB'); return; }
+        if (file.size > 500 * 1024) { showToast('❌ File troppo grande! Max 500KB'); return; }
         const tipi = ['image/jpeg', 'image/png', 'application/pdf'];
         if (!tipi.includes(file.type)) { showToast('❌ Formato non supportato'); return; }
         
@@ -618,62 +614,74 @@
         fileBase64 = null; fileNome = null; fileType = null;
         document.getElementById('fileInput').value = '';
         document.getElementById('fileUploadArea').classList.remove('has-file');
-        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;">📷</div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>';
+        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;">📷</div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 500KB</div>';
     }
 
-    function salvaEsercizio(e) {
+    async function salvaEsercizio(e) {
         e.preventDefault();
+        const btn = document.getElementById('btnSalvaEsercizio');
+        btn.disabled = true; btn.textContent = 'Salvataggio...';
+        
         const data = {
-            id: editingEsercizioId || Date.now(),
+            palestra_id: palestraData.id,
             nome: document.getElementById('esercizioNome').value.trim(),
             gruppo: document.getElementById('esercizioGruppo').value,
             descrizione: document.getElementById('esercizioDesc').value.trim(),
             serie: document.getElementById('esercizioSerie').value.trim(),
             recupero: document.getElementById('esercizioRecupero').value.trim(),
-            fileBase64: fileBase64,
-            fileName: fileNome,
-            fileType: fileType
+            file_base64: fileBase64,
+            file_name: fileNome,
+            file_type: fileType
         };
         
-        if (editingEsercizioId) {
-            const idx = esercizi.findIndex(x => x.id === editingEsercizioId);
-            if (idx >= 0) esercizi[idx] = data;
-            showToast('Esercizio aggiornato!');
-        } else {
-            esercizi.push(data);
-            showToast('Esercizio creato!');
+        try {
+            let url = `${API_URL}/api/esercizi`;
+            let method = 'POST';
+            if (editingEsercizioId) {
+                url = `${API_URL}/api/esercizi/${editingEsercizioId}`;
+                method = 'PUT';
+            }
+            const res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const result = await res.json();
+            if (result.success) {
+                showToast(editingEsercizioId ? 'Esercizio aggiornato!' : 'Esercizio creato!');
+                chiudiModal('modalEsercizio');
+                await loadData();
+            } else {
+                showToast(' Errore: ' + (result.error || 'sconosciuto'));
+            }
+        } catch (error) {
+            showToast('❌ Errore di connessione');
+        } finally {
+            btn.disabled = false; btn.textContent = 'Salva Esercizio';
         }
-        
-        salvaDatiLocali();
-        chiudiModal('modalEsercizio');
-        renderEsercizi();
     }
 
-    function eliminaEsercizio(id) {
+    async function eliminaEsercizio(id) {
         if (!confirm('Eliminare questo esercizio?')) return;
-        esercizi = esercizi.filter(e => e.id !== id);
-        // Rimuovi anche dalle schede clienti
-        Object.keys(schedeClienti).forEach(k => {
-            schedeClienti[k] = schedeClienti[k].filter(e => !(e.tipo === 'esercizio' && e.id === id));
-        });
-        salvaDatiLocali();
-        renderEsercizi();
-        showToast('Esercizio eliminato');
+        try {
+            const res = await fetch(`${API_URL}/api/esercizi/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+                showToast('Esercizio eliminato');
+                await loadData();
+            }
+        } catch (error) { showToast('❌ Errore'); }
     }
 
     // ============ ARCHIVIO VIDEO ============
     function renderVideo() {
         const container = document.getElementById('videoContainer');
         if (videoArchivio.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">🎬</div><div style="font-size: 15px; margin-bottom: 20px;">Nessun video in archivio</div><button class="btn btn-primary" onclick="apriModalVideo()">+ Aggiungi il primo video</button></div>';
+            container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></div><div style="font-size: 15px; margin-bottom: 20px;">Nessun video in archivio</div><button class="btn btn-primary" onclick="apriModalVideo()">+ Aggiungi il primo video</button></div>';
             return;
         }
         let html = '<div class="cards-grid">';
         videoArchivio.forEach(v => {
             html += `<div class="card">
                 <h3>🎬 ${v.titolo}</h3>
-                <div class="info"><strong>Gruppo:</strong> ${v.gruppo}</div>
-                <div class="info" style="font-size: 12px; color: var(--blu); word-break: break-all;"> ${v.link}</div>
+                <div class="info"><strong>Gruppo:</strong> ${v.gruppo || '-'}</div>
+                <div class="info" style="font-size: 12px; color: var(--blu); word-break: break-all;">🔗 ${v.link}</div>
                 <div class="info" style="margin-top: 8px; font-size: 12px;">${(v.descrizione || '').substring(0, 80)}${(v.descrizione || '').length > 80 ? '...' : ''}</div>
                 <div class="actions">
                     <a href="${v.link}" target="_blank" class="btn btn-sm btn-info">▶️ Guarda</a>
@@ -707,39 +715,45 @@
         document.getElementById('modalVideo').classList.add('active');
     }
 
-    function salvaVideo(e) {
+    async function salvaVideo(e) {
         e.preventDefault();
         const data = {
-            id: editingVideoId || Date.now(),
+            palestra_id: palestraData.id,
             titolo: document.getElementById('videoTitolo').value.trim(),
             gruppo: document.getElementById('videoGruppo').value,
             descrizione: document.getElementById('videoDesc').value.trim(),
             link: document.getElementById('videoLink').value.trim()
         };
         
-        if (editingVideoId) {
-            const idx = videoArchivio.findIndex(x => x.id === editingVideoId);
-            if (idx >= 0) videoArchivio[idx] = data;
-            showToast('Video aggiornato!');
-        } else {
-            videoArchivio.push(data);
-            showToast('Video aggiunto!');
-        }
-        
-        salvaDatiLocali();
-        chiudiModal('modalVideo');
-        renderVideo();
+        try {
+            let url = `${API_URL}/api/video`;
+            let method = 'POST';
+            if (editingVideoId) {
+                url = `${API_URL}/api/video/${editingVideoId}`;
+                method = 'PUT';
+            }
+            const res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const result = await res.json();
+            if (result.success) {
+                showToast(editingVideoId ? 'Video aggiornato!' : 'Video aggiunto!');
+                chiudiModal('modalVideo');
+                await loadData();
+            } else {
+                showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
+            }
+        } catch (error) { showToast('❌ Errore di connessione'); }
     }
 
-    function eliminaVideo(id) {
+    async function eliminaVideo(id) {
         if (!confirm('Eliminare questo video?')) return;
-        videoArchivio = videoArchivio.filter(v => v.id !== id);
-        Object.keys(schedeClienti).forEach(k => {
-            schedeClienti[k] = schedeClienti[k].filter(e => !(e.tipo === 'video' && e.id === id));
-        });
-        salvaDatiLocali();
-        renderVideo();
-        showToast('Video eliminato');
+        try {
+            const res = await fetch(`${API_URL}/api/video/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+                showToast('Video eliminato');
+                await loadData();
+            }
+        } catch (error) { showToast('❌ Errore'); }
     }
 
     // ============ UTILS ============

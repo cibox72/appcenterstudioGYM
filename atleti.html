@@ -79,14 +79,12 @@
         .toggle-password:hover { color: var(--nero); }
         .toggle-password svg { width: 20px; height: 20px; fill: currentColor; }
         .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        /* RICEVUTE TABLE */
         .pagamenti-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .pagamenti-table th, .pagamenti-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--tortora-chiaro); font-size: 13px; }
         .pagamenti-table th { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
         .pagamenti-table tr:hover { background: var(--tortora-chiarissimo); }
         .totale-box { background: var(--tortora-chiarissimo); padding: 15px; border-radius: var(--radius-sm); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; }
         .totale-box .amount { color: var(--verde); font-size: 22px; }
-        /* STAMPA RICEVUTA */
         .ricevuta-print { padding: 30px; background: var(--bianco); border: 2px solid var(--nero); border-radius: var(--radius); }
         .ricevuta-header { text-align: center; border-bottom: 2px solid var(--tortora); padding-bottom: 15px; margin-bottom: 20px; }
         .ricevuta-header h2 { font-size: 22px; color: var(--nero); }
@@ -254,7 +252,7 @@
     <div class="modal-overlay" id="modalPagamento">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title">Nuova Ricevuta di Pagamento</div>
+                <div class="modal-title" id="modalTitlePagamento">Nuova Ricevuta di Pagamento</div>
                 <button class="modal-close" onclick="chiudiModal('modalPagamento')">×</button>
             </div>
             <form id="formPagamento" onsubmit="salvaPagamento(event)">
@@ -297,7 +295,7 @@
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalPagamento')">Annulla</button>
-                    <button type="submit" class="btn btn-success">Salva Ricevuta</button>
+                    <button type="submit" class="btn btn-success" id="btnSalvaPagamento">Salva Ricevuta</button>
                 </div>
             </form>
         </div>
@@ -310,7 +308,7 @@
 
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    let currentUser = null, palestraData = null, atleti = [], pagamentiAtleta = [], atletaCorrente = null;
+    let currentUser = null, palestraData = null, atleti = [], pagamentiAtleta = [], atletaCorrente = null, editingId = null;
 
     function init() {
         const userStr = localStorage.getItem('currentUser');
@@ -387,7 +385,6 @@
         container.innerHTML = html;
     }
 
-    let editingId = null;
     function apriModalNuovo() {
         editingId = null;
         document.getElementById('modalTitle').textContent = 'Nuovo Atleta';
@@ -510,7 +507,8 @@
                 <td>${p.metodo || '-'}</td>
                 <td style="font-weight:700; color:var(--verde);">€ ${parseFloat(p.importo).toFixed(2)}</td>
                 <td class="no-print">
-                    <button class="btn btn-sm btn-info" onclick="stampaRicevuta(${p.id})">️ Stampa</button>
+                    <button class="btn btn-sm btn-info" onclick="stampaRicevuta(${p.id})">🖨️ Stampa</button>
+                    <button class="btn btn-sm btn-secondary" onclick="modificaPagamento(${p.id})">Modifica</button>
                     <button class="btn btn-sm btn-danger" onclick="eliminaPagamento(${p.id})">Elimina</button>
                 </td>
             </tr>`;
@@ -523,22 +521,41 @@
     function apriModalNuovoPagamento() {
         document.getElementById('formPagamento').reset();
         document.getElementById('pagData').value = new Date().toISOString().split('T')[0];
-        // Auto-compila periodo
         if (atletaCorrente) {
             const oggi = new Date();
             const fine = new Date(oggi); fine.setDate(fine.getDate() + 30);
             document.getElementById('pagPeriodoDa').value = oggi.toISOString().split('T')[0];
             document.getElementById('pagPeriodoA').value = fine.toISOString().split('T')[0];
-            // Numero ricevuta auto
             const anno = oggi.getFullYear();
             const num = String(pagamentiAtleta.length + 1).padStart(3, '0');
             document.getElementById('pagNumero').value = `${anno}-${num}`;
         }
+        document.getElementById('modalTitlePagamento').textContent = 'Nuova Ricevuta di Pagamento';
+        document.getElementById('btnSalvaPagamento').textContent = 'Salva Ricevuta';
+        delete document.getElementById('btnSalvaPagamento').dataset.editId;
+        document.getElementById('modalPagamento').classList.add('active');
+    }
+
+    function modificaPagamento(id) {
+        const p = pagamentiAtleta.find(x => x.id === id);
+        if (!p) return;
+        document.getElementById('pagAtletaId').value = p.atleta_id;
+        document.getElementById('pagData').value = p.data_pagamento;
+        document.getElementById('pagImporto').value = p.importo;
+        document.getElementById('pagMetodo').value = p.metodo || 'Contanti';
+        document.getElementById('pagNumero').value = p.numero_ricevuta || '';
+        document.getElementById('pagPeriodoDa').value = p.periodo_da || '';
+        document.getElementById('pagPeriodoA').value = p.periodo_a || '';
+        document.getElementById('pagNote').value = p.note || '';
+        document.getElementById('modalTitlePagamento').textContent = 'Modifica Ricevuta N° ' + (p.numero_ricevuta || id);
+        document.getElementById('btnSalvaPagamento').textContent = 'Aggiorna Ricevuta';
+        document.getElementById('btnSalvaPagamento').dataset.editId = id;
         document.getElementById('modalPagamento').classList.add('active');
     }
 
     async function salvaPagamento(e) {
         e.preventDefault();
+        const editId = document.getElementById('btnSalvaPagamento').dataset.editId;
         const data = {
             atleta_id: parseInt(document.getElementById('pagAtletaId').value),
             data_pagamento: document.getElementById('pagData').value,
@@ -550,14 +567,25 @@
             note: document.getElementById('pagNote').value.trim()
         };
         try {
-            const res = await fetch(`${API_URL}/api/pagamenti`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            let url = `${API_URL}/api/pagamenti`;
+            let method = 'POST';
+            if (editId) {
+                url = `${API_URL}/api/pagamenti/${editId}`;
+                method = 'PUT';
+            }
+            const res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             const result = await res.json();
             if (result.success) {
-                showToast('Ricevuta salvata!');
+                showToast(editId ? 'Ricevuta aggiornata!' : 'Ricevuta salvata!');
                 chiudiModal('modalPagamento');
                 await caricaPagamenti(data.atleta_id);
             } else showToast('Errore: ' + (result.error || 'sconosciuto'));
         } catch (err) { showToast('Errore di connessione'); }
+        finally {
+            delete document.getElementById('btnSalvaPagamento').dataset.editId;
+            document.getElementById('btnSalvaPagamento').textContent = 'Salva Ricevuta';
+            document.getElementById('modalTitlePagamento').textContent = 'Nuova Ricevuta di Pagamento';
+        }
     }
 
     async function eliminaPagamento(id) {

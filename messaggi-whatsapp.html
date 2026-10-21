@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaggi WhatsApp - AppCenterStudioGYM</title>
+    <style>
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #25D366; --verde-scuro: #128C7E; --ombra: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px; --radius-sm: 8px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
+        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
+        .top-header h1 { font-size: 20px; font-weight: 700; }
+        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+        .page-header { margin-bottom: 25px; }
+        .page-header h2 { font-size: 22px; }
+        .page-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
+        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-whatsapp { background: var(--verde); color: var(--bianco); }
+        .btn-whatsapp:hover { background: var(--verde-scuro); }
+        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-sm { padding: 7px 12px; font-size: 12px; }
+        .templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .template-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; cursor: pointer; transition: all 0.2s; }
+        .template-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); border-color: var(--verde); }
+        .template-card .icon { font-size: 32px; margin-bottom: 10px; }
+        .template-card h3 { font-size: 16px; margin-bottom: 8px; }
+        .template-card p { font-size: 13px; color: var(--tortora-scuro); line-height: 1.4; }
+        .composer { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; margin-top: 20px; }
+        .composer h3 { font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--tortora-chiaro); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .atleti-list { max-height: 200px; overflow-y: auto; border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 10px; }
+        .atleta-check { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--tortora-chiarissimo); }
+        .atleta-check:last-child { border-bottom: none; }
+        .atleta-check input { width: auto; }
+        .atleta-check label { margin: 0; font-size: 13px; text-transform: none; letter-spacing: 0; color: var(--nero); cursor: pointer; }
+        .char-counter { text-align: right; font-size: 12px; color: var(--tortora); margin-top: 5px; }
+        .preview-box { background: #DCF8C6; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 14px; white-space: pre-wrap; border: 1px solid #B8E0A0; }
+        .actions-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 14px 22px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) { .templates-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <h1>AppCenterStudioGYM - Messaggi WhatsApp</h1>
+        <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Invia Messaggi WhatsApp</h2>
+            <div class="subtitle">Comunica con i tuoi atleti tramite WhatsApp</div>
+        </div>
+
+        <h3 style="margin-bottom: 15px; font-size: 16px;">📋 Template Rapidi</h3>
+        <div class="templates-grid">
+            <div class="template-card" onclick="usaTemplate('promemoria')">
+                <div class="icon">⏰</div>
+                <h3>Promemoria Allenamento</h3>
+                <p>Ricorda all'atleta il prossimo appuntamento o allenamento.</p>
+            </div>
+            <div class="template-card" onclick="usaTemplate('scadenza')">
+                <div class="icon">️</div>
+                <h3>Avviso Scadenza</h3>
+                <p>Avvisa l'atleta che il suo abbonamento sta per scadere.</p>
+            </div>
+            <div class="template-card" onclick="usaTemplate('dieta')">
+                <div class="icon">🥗</div>
+                <h3>Nuova Dieta Pronta</h3>
+                <p>Comunica all'atleta che la sua dieta è stata preparata.</p>
+            </div>
+            <div class="template-card" onclick="usaTemplate('appuntamento')">
+                <div class="icon">📅</div>
+                <h3>Conferma Appuntamento</h3>
+                <p>Conferma un appuntamento per valutazione o visita.</p>
+            </div>
+            <div class="template-card" onclick="usaTemplate('auguri')">
+                <div class="icon">🎉</div>
+                <h3>Auguri / Festività</h3>
+                <p>Messaggio di auguri per compleanno o festività.</p>
+            </div>
+            <div class="template-card" onclick="usaTemplate('personalizzato')">
+                <div class="icon">✏️</div>
+                <h3>Messaggio Personalizzato</h3>
+                <p>Scrivi un messaggio completamente personalizzato.</p>
+            </div>
+        </div>
+
+        <div class="composer">
+            <h3>✍️ Compositore Messaggio</h3>
+            <div class="form-group">
+                <label>Destinatari</label>
+                <div style="margin-bottom: 8px;">
+                    <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px;">
+                        <input type="checkbox" id="selectAll" onchange="toggleAllAtleti()"> Seleziona tutti
+                    </label>
+                </div>
+                <div class="atleti-list" id="atletiList">
+                    <div style="text-align: center; padding: 20px; color: var(--tortora);">Caricamento atleti...</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Messaggio</label>
+                <textarea id="messaggioText" placeholder="Scrivi il tuo messaggio qui..." oninput="aggiornaContatore()"></textarea>
+                <div class="char-counter"><span id="charCount">0</span> / 1000 caratteri</div>
+            </div>
+            <div class="form-group">
+                <label>Anteprima</label>
+                <div class="preview-box" id="previewBox">L'anteprima apparirà qui...</div>
+            </div>
+            <div class="actions-row">
+                <button class="btn btn-whatsapp" onclick="inviaWhatsApp()"> Invia via WhatsApp</button>
+                <button class="btn btn-secondary" onclick="copiaMessaggio()">📋 Copia Testo</button>
+                <button class="btn btn-secondary" onclick="resetComposer()">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    let currentUser = null, palestraData = null, atleti = [];
+
+    const TEMPLATES = {
+        promemoria: "Ciao {nome}! 👋\n\nTi ricordiamo il tuo allenamento di {giorno} alle {ora}.\n\nNon dimenticare l'abbigliamento adatto e l'asciugamano.\n\nCi vediamo in palestra! 💪\n\n- {palestra}",
+        scadenza: "Ciao {nome}! ⚠️\n\nIl tuo abbonamento scade il {data_scadenza}.\n\nPer evitare interruzioni, ti invitiamo a rinnovare prima della scadenza.\n\nPer informazioni: {telefono_palestra}\n\n- {palestra}",
+        dieta: "Ciao {nome}! 🥗\n\nLa tua nuova dieta personalizzata è pronta!\n\nPuoi visualizzarla e stamparla accedendo alla tua area personale.\n\nBuon allenamento! \n\n- {palestra}",
+        appuntamento: "Ciao {nome}! 📅\n\nTi confermiamo l'appuntamento per {tipo} il {data} alle {ora}.\n\nTi aspettiamo!\n\n- {palestra}",
+        auguri: "Ciao {nome}! 🎉\n\n{Testo_auguri}\n\nUn abbraccio da tutto lo staff!\n\n- {palestra}",
+        personalizzato: ""
+    };
+
+    function init() {
+        const userStr = localStorage.getItem('currentUser');
+        if (!userStr) { window.location.href = 'index.html'; return; }
+        currentUser = JSON.parse(userStr);
+        loadData();
+    }
+
+    async function loadData() {
+        try {
+            const palestreRes = await fetch(`${API_URL}/api/palestre`);
+            const palestre = await palestreRes.json();
+            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            if (palestraData) {
+                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
+                atleti = await atletiRes.json();
+                renderAtletiList();
+            }
+        } catch (error) { console.error('Errore:', error); }
+    }
+
+    function renderAtletiList() {
+        const container = document.getElementById('atletiList');
+        if (atleti.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--tortora);">Nessun atleta registrato</div>';
+            return;
+        }
+        container.innerHTML = atleti.map(a => `
+            <div class="atleta-check">
+                <input type="checkbox" id="atleta_${a.id}" value="${a.id}" data-telefono="${a.telefono || ''}" data-nome="${a.nome}">
+                <label for="atleta_${a.id}">${a.nome} ${a.telefono ? '(' + a.telefono + ')' : ''}</label>
+            </div>
+        `).join('');
+    }
+
+    function toggleAllAtleti() {
+        const checked = document.getElementById('selectAll').checked;
+        document.querySelectorAll('.atleta-check input').forEach(cb => cb.checked = checked);
+    }
+
+    function usaTemplate(tipo) {
+        const template = TEMPLATES[tipo] || '';
+        document.getElementById('messaggioText').value = template;
+        aggiornaContatore();
+        document.querySelector('.composer').scrollIntoView({ behavior: 'smooth' });
+        showToast('Template caricato! Personalizza e invia.');
+    }
+
+    function aggiornaContatore() {
+        const testo = document.getElementById('messaggioText').value;
+        document.getElementById('charCount').textContent = testo.length;
+        document.getElementById('previewBox').textContent = testo || 'L\'anteprima apparirà qui...';
+    }
+
+    function inviaWhatsApp() {
+        const messaggio = document.getElementById('messaggioText').value.trim();
+        if (!messaggio) { showToast('⚠️ Scrivi un messaggio!'); return; }
+        
+        const selezionati = Array.from(document.querySelectorAll('.atleta-check input:checked'));
+        if (selezionati.length === 0) { showToast('⚠️ Seleziona almeno un atleta!'); return; }
+
+        const palestraNome = palestraData?.nome || 'La tua palestra';
+        const palestraTel = palestraData?.telefono || '';
+
+        selezionati.forEach((cb, idx) => {
+            const telefono = cb.dataset.telefono;
+            const nome = cb.dataset.nome;
+            if (!telefono) return;
+
+            let msg = messaggio
+                .replace(/{nome}/g, nome)
+                .replace(/{palestra}/g, palestraNome)
+                .replace(/{telefono_palestra}/g, palestraTel)
+                .replace(/{giorno}/g, 'oggi')
+                .replace(/{ora}/g, '18:00')
+                .replace(/{data_scadenza}/g, 'tra 7 giorni')
+                .replace(/{data}/g, 'domani')
+                .replace(/{tipo}/g, 'valutazione')
+                .replace(/{Testo_auguri}/g, 'Tanti auguri di buon compleanno! ');
+
+            const telPulito = telefono.replace(/\D/g, '');
+            const telCompleto = telPulito.startsWith('39') ? telPulito : '39' + telPulito;
+            
+            setTimeout(() => {
+                window.open(`https://wa.me/${telCompleto}?text=${encodeURIComponent(msg)}`, '_blank');
+            }, idx * 500);
+        });
+
+        showToast(` Apertura WhatsApp per ${selezionati.length} atleti`);
+    }
+
+    function copiaMessaggio() {
+        const testo = document.getElementById('messaggioText').value;
+        if (!testo) { showToast('⚠️ Nessun messaggio da copiare'); return; }
+        navigator.clipboard.writeText(testo).then(() => showToast(' Messaggio copiato!'));
+    }
+
+    function resetComposer() {
+        document.getElementById('messaggioText').value = '';
+        document.getElementById('selectAll').checked = false;
+        document.querySelectorAll('.atleta-check input').forEach(cb => cb.checked = false);
+        aggiornaContatore();
+    }
+
+    function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+
+    init();
+    </script>
+</body>
+</html>

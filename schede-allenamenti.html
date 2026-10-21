@@ -29,7 +29,6 @@
         .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
         .btn-info { background: var(--blu); color: var(--bianco); }
         .btn-sm { padding: 7px 12px; font-size: 12px; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .cliente-selector { background: var(--bianco); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--ombra); }
         .cliente-selector label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px; }
         .cliente-selector select { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
@@ -93,7 +92,7 @@
         <div class="section-header">
             <div>
                 <h2>👥 Scheda Allenamento Cliente</h2>
-                <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale</div>
+                <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale del fornitore</div>
             </div>
         </div>
 
@@ -117,7 +116,7 @@
     <div class="modal-overlay" id="modalAggiungi">
         <div class="modal modal-large">
             <div class="modal-header">
-                <div class="modal-title">📚 Scegli dall'Archivio Globale</div>
+                <div class="modal-title"> Scegli dall'Archivio Globale</div>
                 <button class="modal-close" onclick="chiudiModal('modalAggiungi')">×</button>
             </div>
             <div>
@@ -169,7 +168,6 @@
             atleti = await atletiRes.json();
             popolaSelectClienti();
             
-            // Carica archivio globale
             const eserciziRes = await fetch(`${API_URL}/api/esercizi-globali`);
             eserciziGlobali = await eserciziRes.json();
             
@@ -215,7 +213,7 @@
             renderGiorniTabs();
         } catch (error) {
             console.error('Errore caricamento scheda:', error);
-            showToast(' Errore caricamento scheda');
+            showToast('❌ Errore caricamento scheda');
         }
     }
 
@@ -276,7 +274,7 @@
                 
                 html += `<div class="exercise-item">
                     <div class="ex-header">
-                        <div class="ex-name">${tipo === 'esercizio' ? '📚' : '🎬'} ${data.nome || data.titolo}</div>
+                        <div class="ex-name">${tipo === 'esercizio' ? '' : '🎬'} ${data.nome || data.titolo}</div>
                         <span style="font-size: 11px; padding: 3px 8px; background: ${tipo === 'esercizio' ? 'var(--verde-chiaro)' : '#FADBD8'}; color: ${tipo === 'esercizio' ? '#1E8449' : 'var(--rosso)'}; border-radius: 10px; font-weight: 600;">${data.gruppo || ''}</span>
                     </div>
                     <div class="ex-desc">${data.descrizione || 'Nessuna descrizione'}</div>`;
@@ -292,7 +290,7 @@
                 
                 html += `<div class="ex-actions">
                     <button class="btn btn-sm btn-info" onclick="visualizzaElemento(${ex.id}, '${tipo}')">👁️ Visualizza</button>
-                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">🗑️ Rimuovi</button>
+                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">️ Rimuovi</button>
                 </div></div>`;
             });
         }
@@ -329,7 +327,7 @@
             if (videoId) {
                 content += `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
             } else {
-                content += `<p style="padding: 20px; background: var(--tortora-chiarissimo); border-radius: 8px;">Video non disponibile per l'anteprima. <a href="${data.link}" target="_blank">Apri in nuova scheda</a></p>`;
+                content += `<p style="padding: 20px; background: var(--tortora-chiarissimo); border-radius: 8px;">Video non disponibile. <a href="${data.link}" target="_blank">Apri in nuova scheda</a></p>`;
             }
             content += `<div class="preview-details">
                 <h4>${data.titolo}</h4>
@@ -353,7 +351,6 @@
         const list = document.getElementById('archiveSelectList');
         let html = '';
         
-        // Sezione Esercizi
         if (eserciziGlobali.length > 0) {
             html += '<div class="archive-section-title">📚 Esercizi (' + eserciziGlobali.length + ')</div>';
             eserciziGlobali.forEach(e => {
@@ -369,9 +366,8 @@
             });
         }
         
-        // Sezione Video
         if (videoGlobali.length > 0) {
-            html += '<div class="archive-section-title" style="margin-top: 15px;"> Video (' + videoGlobali.length + ')</div>';
+            html += '<div class="archive-section-title" style="margin-top: 15px;">🎬 Video (' + videoGlobali.length + ')</div>';
             videoGlobali.forEach(v => {
                 html += `<div class="archive-item">
                     <input type="checkbox" id="arch_vid_${v.id}" value="video_${v.id}">
@@ -392,7 +388,7 @@
 
     async function confermaAggiunta() {
         const checkboxes = document.querySelectorAll('#archiveSelectList input:checked');
-        if (checkboxes.length === 0) { showToast('⚠️ Seleziona almeno un elemento'); return; }
+        if (checkboxes.length === 0) { showToast('️ Seleziona almeno un elemento'); return; }
         
         const elementi = [];
         checkboxes.forEach(cb => {
@@ -420,7 +416,7 @@
                 showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
             }
         } catch (error) {
-            showToast(' Errore di connessione');
+            showToast('❌ Errore di connessione');
         }
     }
 

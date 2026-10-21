@@ -9,7 +9,8 @@
             --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
             --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3;
             --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8;
-            --blu: #3498DB; --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --blu: #3498DB; --viola: #8E44AD;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
             --radius: 12px; --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,14 +51,16 @@
         .btn-primary:hover { background: var(--nero); }
         .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
-        .btn-success { padding: 8px 14px; background: var(--verde); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+        .btn-view { padding: 8px 14px; background: var(--viola); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-view:hover { background: #6C3483; }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
-        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 15px; background: var(--tortora-chiarissimo); display: flex; align-items: center; justify-content: center; color: var(--tortora); font-size: 40px; overflow: hidden; }
+        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 15px; background: var(--tortora-chiarissimo); display: flex; align-items: center; justify-content: center; color: var(--tortora); font-size: 14px; overflow: hidden; cursor: pointer; border: 1px solid var(--tortora-chiaro); }
         .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img-placeholder { color: var(--tortora); font-size: 13px; text-align: center; padding: 10px; }
         .card h4 { font-size: 16px; margin-bottom: 8px; color: var(--nero); }
         .card p { font-size: 13px; color: var(--tortora); margin-bottom: 4px; }
         .card-actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
@@ -77,14 +80,15 @@
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
         .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
         .modal-header h3 { font-size: 18px; }
-        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
+        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--tortora); line-height: 1; }
+        .modal-close:hover { color: var(--nero); }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 5px; text-transform: uppercase; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; }
         .form-group textarea { min-height: 80px; resize: vertical; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -92,6 +96,14 @@
         .file-upload:hover { border-color: var(--tortora); background: var(--bianco); }
         .file-upload img { max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: var(--radius-sm); display: none; }
         .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        
+        /* MODAL VISUALIZZA IMMAGINE */
+        .modal-view-img { max-width: 900px; background: transparent; padding: 0; }
+        .modal-view-img .view-content { background: var(--bianco); border-radius: var(--radius); padding: 20px; text-align: center; position: relative; }
+        .modal-view-img .view-content img { max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: var(--radius-sm); }
+        .modal-view-img .view-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; color: var(--nero); }
+        .modal-view-img .view-close { position: absolute; top: -15px; right: -15px; background: var(--bianco); border: 2px solid var(--tortora); width: 40px; height: 40px; border-radius: 50%; font-size: 24px; cursor: pointer; box-shadow: var(--ombra-forte); z-index: 1001; display: flex; align-items: center; justify-content: center; }
+        .modal-view-img .view-close:hover { background: var(--tortora); color: var(--bianco); }
         
         .credential-box { background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); padding: 15px; margin-top: 15px; }
         .credential-box h4 { color: #1E8449; margin-bottom: 10px; font-size: 14px; }
@@ -121,17 +133,17 @@
             <p>Dashboard Fornitore</p>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn">🏠 Home</a>
-            <a href="offerte.html" class="nav-btn">💰 Offerte</a>
-            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="offerte.html" class="nav-btn">Offerte</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
     
     <div class="container">
         <div class="main-tabs">
-            <button class="tab-btn active" onclick="showTab('palestre')">🏢 Gestione Palestre</button>
-            <button class="tab-btn" onclick="showTab('esercizi')">📚 Archivio Esercizi (Globale)</button>
-            <button class="tab-btn" onclick="showTab('video')">🎬 Archivio Video (Globale)</button>
+            <button class="tab-btn active" onclick="showTab('palestre')">Gestione Palestre</button>
+            <button class="tab-btn" onclick="showTab('esercizi')">Archivio Esercizi (Globale)</button>
+            <button class="tab-btn" onclick="showTab('video')">Archivio Video (Globale)</button>
         </div>
 
         <!-- TAB PALESTRE -->
@@ -149,18 +161,18 @@
             </div>
             
             <div class="section-header">
-                <h3 class="section-title">🏋️ Stato Palestre</h3>
+                <h3 class="section-title">Stato Palestre</h3>
                 <button class="btn-primary" onclick="apriModalNuovaPalestra()">+ Nuova Palestra</button>
             </div>
             <div class="palestre-list" id="palestreList">
-                <div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">🏋️</div><div>Nessuna palestra registrata</div></div>
+                <div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; color: var(--tortora);">--</div><div>Nessuna palestra registrata</div></div>
             </div>
         </div>
 
         <!-- TAB ESERCIZI GLOBALI -->
         <div id="tab-esercizi" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title"> Archivio Esercizi Globale</h3>
+                <h3 class="section-title">Archivio Esercizi Globale</h3>
                 <button class="btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
             </div>
             <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Questi esercizi saranno disponibili per TUTTE le palestre. Carica le immagini per ogni esercizio.</p>
@@ -172,7 +184,7 @@
         <!-- TAB VIDEO GLOBALI -->
         <div id="tab-video" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">🎬 Archivio Video Globale</h3>
+                <h3 class="section-title">Archivio Video Globale</h3>
                 <button class="btn-primary" onclick="apriModalVideo()">+ Nuovo Video</button>
             </div>
             <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Questi video saranno disponibili per TUTTE le palestre.</p>
@@ -186,8 +198,8 @@
     <div class="modal-overlay" id="modalNuovaPalestra">
         <div class="modal">
             <div class="modal-header">
-                <h3>➕ Nuova Palestra</h3>
-                <button class="modal-close" onclick="chiudiModal('modalNuovaPalestra')">×</button>
+                <h3>Nuova Palestra</h3>
+                <button class="modal-close" onclick="chiudiModal('modalNuovaPalestra')">&times;</button>
             </div>
             <form id="formNuovaPalestra" onsubmit="creaPalestra(event)">
                 <div class="form-group">
@@ -196,7 +208,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Città</label>
+                        <label>Citta</label>
                         <input type="text" id="palestraCitta" placeholder="Es. Roma">
                     </div>
                     <div class="form-group">
@@ -229,7 +241,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 id="modalEsercizioTitle">Nuovo Esercizio</h3>
-                <button class="modal-close" onclick="chiudiModal('modalEsercizio')">×</button>
+                <button class="modal-close" onclick="chiudiModal('modalEsercizio')">&times;</button>
             </div>
             <form id="formEsercizio" onsubmit="salvaEsercizio(event)">
                 <input type="hidden" id="esercizioId">
@@ -244,7 +256,8 @@
                         <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
                         <option value="Bicipiti">Bicipiti</option><option value="Tricipiti">Tricipiti</option>
                         <option value="Addome">Addome</option><option value="Cardio">Cardio</option>
-                        <option value="Full Body">Full Body</option>
+                        <option value="Full Body">Full Body</option><option value="Avambracci">Avambracci</option>
+                        <option value="Polpacci">Polpacci</option><option value="Glutei">Glutei</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -264,7 +277,7 @@
                 <div class="form-group">
                     <label>Immagine Esercizio (opzionale)</label>
                     <div class="file-upload" onclick="document.getElementById('exFile').click()">
-                        <div id="fileUploadText">📷 Clicca per caricare un'immagine (JPG, PNG - max 2MB)</div>
+                        <div id="fileUploadText">Clicca per caricare un'immagine (JPG, PNG - max 2MB)</div>
                         <img id="previewImg" alt="Preview">
                         <input type="file" id="exFile" accept="image/jpeg,image/png" style="display: none;" onchange="handleImageUpload(event)">
                     </div>
@@ -282,7 +295,7 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 id="modalVideoTitle">Nuovo Video</h3>
-                <button class="modal-close" onclick="chiudiModal('modalVideo')">×</button>
+                <button class="modal-close" onclick="chiudiModal('modalVideo')">&times;</button>
             </div>
             <form id="formVideo" onsubmit="salvaVideo(event)">
                 <input type="hidden" id="videoId">
@@ -316,6 +329,17 @@
         </div>
     </div>
 
+    <!-- MODAL VISUALIZZA IMMAGINE -->
+    <div class="modal-overlay" id="modalViewImg" onclick="if(event.target===this)chiudiModal('modalViewImg')">
+        <div class="modal modal-view-img">
+            <div class="view-content">
+                <button class="view-close" onclick="chiudiModal('modalViewImg')">&times;</button>
+                <div class="view-title" id="viewImgTitle"></div>
+                <img id="viewImgSrc" src="" alt="">
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -328,16 +352,13 @@
     let editingExId = null;
     let editingVidId = null;
 
-    function init() {
-        loadData();
-    }
+    function init() { loadData(); }
 
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('tab-' + tabName).classList.add('active');
         event.target.classList.add('active');
-        
         if (tabName === 'esercizi') loadEserciziGlobali();
         if (tabName === 'video') loadVideoGlobali();
     }
@@ -350,12 +371,8 @@
             aggiornaStati();
             renderStats();
             renderPalestre();
-        } catch (error) {
-            console.error('Errore:', error);
-            showToast('Errore di connessione al cloud');
-        } finally {
-            document.getElementById('loadingOverlay').classList.add('hidden');
-        }
+        } catch (error) { console.error('Errore:', error); showToast('Errore di connessione al cloud'); }
+        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
     }
 
     // --- PALESTRE ---
@@ -379,7 +396,7 @@
     function renderPalestre() {
         const container = document.getElementById('palestreList');
         if (palestre.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">🏋️</div><div>Nessuna palestra registrata. Clicca "+ Nuova Palestra" per iniziare.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; color: var(--tortora);">--</div><div>Nessuna palestra registrata. Clicca "+ Nuova Palestra" per iniziare.</div></div>`;
             return;
         }
         let html = '';
@@ -392,13 +409,13 @@
             html += `<div class="palestra-item">
                 <div class="palestra-info" style="flex: 1;">
                     <div class="name">${p.nome}</div>
-                    <div class="details">${p.citta || 'Città N/D'} • ${p.email || 'Email N/D'} • Tel: ${p.telefono || 'N/D'}</div>
+                    <div class="details">${p.citta || 'Citta N/D'} - ${p.email || 'Email N/D'} - Tel: ${p.telefono || 'N/D'}</div>
                     <div class="details">Scadenza: ${new Date(p.data_scadenza).toLocaleDateString('it-IT')} (${p.giorniRimanenti} giorni)</div>
-                    <div class="credentials">🔑 ID: <strong>${p.username || '-'}</strong> | 🔒 Password: <strong>${p.password || '-'}</strong></div>
+                    <div class="credentials">ID: <strong>${p.username || '-'}</strong> | Password: <strong>${p.password || '-'}</strong></div>
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
                 <div class="palestra-actions">
-                    <a href="offerte.html?id=${p.id}" class="btn-info">💰 Offerte</a>
+                    <a href="offerte.html?id=${p.id}" class="btn-info">Offerte</a>
                     <button class="btn-secondary" onclick="togglePalestra(${p.id})">${p.stato === 'attiva' ? 'Disattiva' : 'Attiva'}</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
@@ -422,34 +439,24 @@
             email: document.getElementById('palestraEmail').value.trim(),
             stato: document.getElementById('palestraStato').value
         };
-        
         try {
-            const res = await fetch(`${API_URL}/api/palestre`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+            const res = await fetch(`${API_URL}/api/palestre`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             const result = await res.json();
-            
             if (result.success) {
                 const credBox = document.getElementById('credentialBox');
                 credBox.style.display = 'block';
                 credBox.innerHTML = `
                     <div class="credential-box">
-                        <h4>✅ Palestra creata con successo!</h4>
+                        <h4>Palestra creata con successo</h4>
                         <div class="cred-row"><span class="cred-label">ID Univoco:</span><span class="cred-value">${result.id_univoco}</span></div>
                         <div class="cred-row"><span class="cred-label">Password:</span><span class="cred-value">${result.password}</span></div>
-                        <p style="font-size: 12px; color: #1E8449; margin-top: 10px;">⚠️ Salva queste credenziali! Comunicalle al gestore della palestra.</p>
+                        <p style="font-size: 12px; color: #1E8449; margin-top: 10px;">Salva queste credenziali. Comunicalle al gestore della palestra.</p>
                     </div>
                 `;
-                showToast('Palestra creata!');
+                showToast('Palestra creata');
                 loadData();
-            } else {
-                showToast('Errore: ' + (result.message || 'sconosciuto'));
-            }
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
+            } else { showToast('Errore: ' + (result.message || 'sconosciuto')); }
+        } catch (error) { showToast('Errore di connessione'); }
     }
 
     async function togglePalestra(id) {
@@ -462,7 +469,7 @@
     }
 
     async function eliminaPalestra(id) {
-        if (!confirm('Eliminare questa palestra? L\'operazione è irreversibile.')) return;
+        if (!confirm('Eliminare questa palestra? L\'operazione e irreversibile.')) return;
         await fetch(`${API_URL}/api/palestre/${id}`, { method: 'DELETE' });
         loadData();
         showToast('Palestra eliminata');
@@ -476,39 +483,43 @@
             const res = await fetch(`${API_URL}/api/esercizi-globali`);
             eserciziGlobali = await res.json();
             renderEsercizi();
-        } catch (e) {
-            grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>';
-        }
+        } catch (e) { grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>'; }
     }
 
     function renderEsercizi() {
         const grid = document.getElementById('eserciziGrid');
-        if (eserciziGlobali.length === 0) {
-            grid.innerHTML = '<div class="empty-state">Nessun esercizio. Aggiungine uno!</div>';
-            return;
-        }
+        if (eserciziGlobali.length === 0) { grid.innerHTML = '<div class="empty-state">Nessun esercizio. Aggiungine uno!</div>'; return; }
         let html = '';
         eserciziGlobali.forEach(ex => {
-            const imgHtml = ex.file_base64 ? `<div class="card-img"><img src="${ex.file_base64}" alt="${ex.nome}"></div>` : `<div class="card-img">📷</div>`;
+            const imgHtml = ex.file_base64 
+                ? `<div class="card-img" onclick="visualizzaImmagine(${ex.id}, 'esercizio')"><img src="${ex.file_base64}" alt="${ex.nome}"></div>`
+                : `<div class="card-img card-img-placeholder" style="cursor: default;">Nessuna immagine</div>`;
             html += `<div class="card">
                 ${imgHtml}
                 <h4>${ex.nome}</h4>
                 <p><strong>Gruppo:</strong> ${ex.gruppo || '-'}</p>
-                <p><strong>Serie:</strong> ${ex.serie || '-'} • <strong>Recupero:</strong> ${ex.recupero || '-'}</p>
+                <p><strong>Serie:</strong> ${ex.serie || '-'} - <strong>Recupero:</strong> ${ex.recupero || '-'}</p>
                 <p style="font-size: 12px; margin-top: 8px;">${(ex.descrizione || '').substring(0, 80)}${(ex.descrizione || '').length > 80 ? '...' : ''}</p>
                 <div class="card-actions">
-                    <button class="btn-secondary" onclick="modificaEsercizio(${ex.id})">✏️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">🗑️ Elimina</button>
+                    ${ex.file_base64 ? `<button class="btn-view" onclick="visualizzaImmagine(${ex.id}, 'esercizio')">Visualizza</button>` : ''}
+                    <button class="btn-secondary" onclick="modificaEsercizio(${ex.id})">Modifica</button>
+                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">Elimina</button>
                 </div>
             </div>`;
         });
         grid.innerHTML = html;
     }
 
+    function visualizzaImmagine(id, tipo) {
+        const data = tipo === 'esercizio' ? eserciziGlobali.find(e => e.id === id) : videoGlobali.find(v => v.id === id);
+        if (!data || !data.file_base64) { showToast('Nessuna immagine disponibile'); return; }
+        document.getElementById('viewImgTitle').textContent = data.nome || data.titolo;
+        document.getElementById('viewImgSrc').src = data.file_base64;
+        document.getElementById('modalViewImg').classList.add('active');
+    }
+
     function apriModalEsercizio() {
-        editingExId = null;
-        currentImageBase64 = null;
-        currentImageName = null;
+        editingExId = null; currentImageBase64 = null; currentImageName = null;
         document.getElementById('modalEsercizioTitle').textContent = 'Nuovo Esercizio';
         document.getElementById('formEsercizio').reset();
         document.getElementById('esercizioId').value = '';
@@ -528,7 +539,6 @@
         document.getElementById('exDesc').value = ex.descrizione || '';
         document.getElementById('exSerie').value = ex.serie || '';
         document.getElementById('exRecupero').value = ex.recupero || '';
-        
         currentImageBase64 = ex.file_base64 || null;
         currentImageName = ex.file_name || null;
         if (currentImageBase64) {
@@ -569,18 +579,14 @@
             file_name: currentImageName,
             file_type: currentImageBase64 ? 'image/jpeg' : null
         };
-        
         const url = editingExId ? `${API_URL}/api/esercizi-globali/${editingExId}` : `${API_URL}/api/esercizi-globali`;
         const method = editingExId ? 'PUT' : 'POST';
-        
         try {
             await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             chiudiModal('modalEsercizio');
             loadEserciziGlobali();
-            showToast(editingExId ? 'Esercizio aggiornato!' : 'Esercizio creato!');
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
+            showToast(editingExId ? 'Esercizio aggiornato' : 'Esercizio creato');
+        } catch (error) { showToast('Errore di connessione'); }
     }
 
     async function eliminaEsercizio(id) {
@@ -598,33 +604,50 @@
             const res = await fetch(`${API_URL}/api/video-globali`);
             videoGlobali = await res.json();
             renderVideo();
-        } catch (e) {
-            grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>';
-        }
+        } catch (e) { grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>'; }
     }
 
     function renderVideo() {
         const grid = document.getElementById('videoGrid');
-        if (videoGlobali.length === 0) {
-            grid.innerHTML = '<div class="empty-state">Nessun video. Aggiungine uno!</div>';
-            return;
-        }
+        if (videoGlobali.length === 0) { grid.innerHTML = '<div class="empty-state">Nessun video. Aggiungine uno!</div>'; return; }
         let html = '';
         videoGlobali.forEach(vid => {
+            const thumbUrl = `https://img.youtube.com/vi/${extractVideoId(vid.link) || ''}/mqdefault.jpg`;
             html += `<div class="card">
-                <div class="card-img" style="background: #fce4ec; color: #e91e63;">▶️</div>
+                <div class="card-img" style="background: #fce4ec; cursor: pointer;" onclick="visualizzaVideo(${vid.id})">
+                    ${vid.link ? `<img src="${thumbUrl}" alt="${vid.titolo}" onerror="this.style.display='none';this.parentElement.textContent='Video'">` : 'Video'}
+                </div>
                 <h4>${vid.titolo}</h4>
                 <p><strong>Gruppo:</strong> ${vid.gruppo || '-'}</p>
-                <p style="font-size: 11px; color: var(--blu); word-break: break-all;">🔗 ${vid.link}</p>
+                <p style="font-size: 11px; color: var(--blu); word-break: break-all;">${vid.link}</p>
                 <p style="font-size: 12px; margin-top: 8px;">${(vid.descrizione || '').substring(0, 80)}${(vid.descrizione || '').length > 80 ? '...' : ''}</p>
                 <div class="card-actions">
-                    <a href="${vid.link}" target="_blank" class="btn-info">▶️ Guarda</a>
-                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">✏️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaVideo(${vid.id})">🗑️ Elimina</button>
+                    <a href="${vid.link}" target="_blank" class="btn-info">Guarda</a>
+                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">Modifica</button>
+                    <button class="btn-danger" onclick="eliminaVideo(${vid.id})">Elimina</button>
                 </div>
             </div>`;
         });
         grid.innerHTML = html;
+    }
+
+    function visualizzaVideo(id) {
+        const vid = videoGlobali.find(v => v.id === id);
+        if (!vid) return;
+        const videoId = extractVideoId(vid.link);
+        if (videoId) {
+            document.getElementById('viewImgTitle').textContent = vid.titolo;
+            document.getElementById('viewImgSrc').src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            document.getElementById('modalViewImg').classList.add('active');
+        } else {
+            window.open(vid.link, '_blank');
+        }
+    }
+
+    function extractVideoId(url) {
+        if (!url) return null;
+        const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        return match ? match[1] : null;
     }
 
     function apriModalVideo() {
@@ -658,15 +681,12 @@
         };
         const url = editingVidId ? `${API_URL}/api/video-globali/${editingVidId}` : `${API_URL}/api/video-globali`;
         const method = editingVidId ? 'PUT' : 'POST';
-        
         try {
             await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             chiudiModal('modalVideo');
             loadVideoGlobali();
-            showToast(editingVidId ? 'Video aggiornato!' : 'Video creato!');
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
+            showToast(editingVidId ? 'Video aggiornato' : 'Video creato');
+        } catch (error) { showToast('Errore di connessione'); }
     }
 
     async function eliminaVideo(id) {

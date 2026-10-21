@@ -77,11 +77,9 @@
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
         .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         
-        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
-        .modal-large { max-width: 800px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
         .modal-header h3 { font-size: 18px; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
@@ -133,7 +131,7 @@
         <div class="main-tabs">
             <button class="tab-btn active" onclick="showTab('palestre')">🏢 Gestione Palestre</button>
             <button class="tab-btn" onclick="showTab('esercizi')">📚 Archivio Esercizi (Globale)</button>
-            <button class="tab-btn" onclick="showTab('video')"> Archivio Video (Globale)</button>
+            <button class="tab-btn" onclick="showTab('video')">🎬 Archivio Video (Globale)</button>
         </div>
 
         <!-- TAB PALESTRE -->
@@ -151,7 +149,7 @@
             </div>
             
             <div class="section-header">
-                <h3 class="section-title">️ Stato Palestre</h3>
+                <h3 class="section-title">🏋️ Stato Palestre</h3>
                 <button class="btn-primary" onclick="apriModalNuovaPalestra()">+ Nuova Palestra</button>
             </div>
             <div class="palestre-list" id="palestreList">
@@ -162,7 +160,7 @@
         <!-- TAB ESERCIZI GLOBALI -->
         <div id="tab-esercizi" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">📚 Archivio Esercizi Globale</h3>
+                <h3 class="section-title"> Archivio Esercizi Globale</h3>
                 <button class="btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
             </div>
             <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Questi esercizi saranno disponibili per TUTTE le palestre. Carica le immagini per ogni esercizio.</p>
@@ -434,7 +432,6 @@
             const result = await res.json();
             
             if (result.success) {
-                // Mostra credenziali
                 const credBox = document.getElementById('credentialBox');
                 credBox.style.display = 'block';
                 credBox.innerHTML = `
@@ -492,7 +489,7 @@
         }
         let html = '';
         eserciziGlobali.forEach(ex => {
-            const imgHtml = ex.file_base64 ? `<div class="card-img"><img src="${ex.file_base64}" alt="${ex.nome}"></div>` : `<div class="card-img"></div>`;
+            const imgHtml = ex.file_base64 ? `<div class="card-img"><img src="${ex.file_base64}" alt="${ex.nome}"></div>` : `<div class="card-img">📷</div>`;
             html += `<div class="card">
                 ${imgHtml}
                 <h4>${ex.nome}</h4>
@@ -501,7 +498,7 @@
                 <p style="font-size: 12px; margin-top: 8px;">${(ex.descrizione || '').substring(0, 80)}${(ex.descrizione || '').length > 80 ? '...' : ''}</p>
                 <div class="card-actions">
                     <button class="btn-secondary" onclick="modificaEsercizio(${ex.id})">✏️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">️ Elimina</button>
+                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">🗑️ Elimina</button>
                 </div>
             </div>`;
         });
@@ -618,11 +615,11 @@
                 <div class="card-img" style="background: #fce4ec; color: #e91e63;">▶️</div>
                 <h4>${vid.titolo}</h4>
                 <p><strong>Gruppo:</strong> ${vid.gruppo || '-'}</p>
-                <p style="font-size: 11px; color: var(--blu); word-break: break-all;"> ${vid.link}</p>
+                <p style="font-size: 11px; color: var(--blu); word-break: break-all;">🔗 ${vid.link}</p>
                 <p style="font-size: 12px; margin-top: 8px;">${(vid.descrizione || '').substring(0, 80)}${(vid.descrizione || '').length > 80 ? '...' : ''}</p>
                 <div class="card-actions">
                     <a href="${vid.link}" target="_blank" class="btn-info">▶️ Guarda</a>
-                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">️ Modifica</button>
+                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">✏️ Modifica</button>
                     <button class="btn-danger" onclick="eliminaVideo(${vid.id})">🗑️ Elimina</button>
                 </div>
             </div>`;

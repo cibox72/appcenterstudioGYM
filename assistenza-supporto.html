@@ -21,8 +21,6 @@
         .contact-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
         .contact-card.whatsapp { border-left-color: var(--verde); }
         .contact-card.anydesk { border-left-color: var(--rosso); }
-        .contact-card.email { border-left-color: var(--blu); }
-        .contact-card.phone { border-left-color: var(--tortora); }
         .contact-icon { font-size: 42px; flex-shrink: 0; }
         .contact-info { flex: 1; }
         .contact-info h3 { font-size: 17px; margin-bottom: 5px; }
@@ -33,10 +31,6 @@
         .btn-whatsapp:hover { background: var(--verde-scuro); }
         .btn-anydesk { background: var(--rosso); color: var(--bianco); }
         .btn-anydesk:hover { opacity: 0.9; }
-        .btn-email { background: var(--blu); color: var(--bianco); }
-        .btn-email:hover { opacity: 0.9; }
-        .btn-phone { background: var(--tortora); color: var(--bianco); }
-        .btn-phone:hover { background: var(--nero); }
         .info-box { background: #E3F2FD; border: 1px solid var(--blu); border-radius: var(--radius); padding: 20px 25px; margin-bottom: 25px; font-size: 14px; color: #1565C0; }
         .info-box strong { display: block; margin-bottom: 8px; font-size: 15px; }
         .faq-section { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); margin-bottom: 25px; }
@@ -67,6 +61,7 @@
         </div>
 
         <div class="contact-grid">
+            <!-- CARD WHATSAPP -->
             <div class="contact-card whatsapp">
                 <div class="contact-icon">💬</div>
                 <div class="contact-info">
@@ -77,6 +72,7 @@
                 <a href="https://wa.me/393447507656?text=Ciao!%20Ho%20bisogno%20di%20assistenza%20per%20AppCenterStudioGYM" target="_blank" class="btn-contact btn-whatsapp">💬 Contatta ora</a>
             </div>
 
+            <!-- CARD ANYDESK -->
             <div class="contact-card anydesk">
                 <div class="contact-icon">🖥️</div>
                 <div class="contact-info">
@@ -86,30 +82,10 @@
                 </div>
                 <a href="https://anydesk.com/it/downloads" target="_blank" class="btn-contact btn-anydesk">⬇️ Scarica AnyDesk</a>
             </div>
-
-            <div class="contact-card phone">
-                <div class="contact-icon">📞</div>
-                <div class="contact-info">
-                    <h3>Numero diretto</h3>
-                    <p>Chiama il nostro supporto tecnico per assistenza immediata.</p>
-                    <div class="detail">+39 344 750 7656<br><small style="color: var(--tortora); font-weight: 400;">Lun - Ven: 9:00 - 18:00</small></div>
-                </div>
-                <a href="tel:+393447507656" class="btn-contact btn-phone">📞 Chiama</a>
-            </div>
-
-            <div class="contact-card email">
-                <div class="contact-icon">✉️</div>
-                <div class="contact-info">
-                    <h3>Email di supporto</h3>
-                    <p>Invia una email per richieste non urgenti. Risposta entro 24 ore.</p>
-                    <div class="detail">support@appcenterstudiogym.it</div>
-                </div>
-                <a href="mailto:support@appcenterstudiogym.it?subject=Richiesta%20assistenza%20AppCenterStudioGYM" class="btn-contact btn-email">✉️ Invia email</a>
-            </div>
         </div>
 
         <div class="faq-section">
-            <h3> Domande Frequenti</h3>
+            <h3>❓ Domande Frequenti</h3>
             <div class="faq-item">
                 <div class="question">Come resetto la password del mio account?</div>
                 <div class="answer">Contatta il supporto via WhatsApp fornendo il tuo ID univoco. Il tecnico resetterà la password e te ne comunicherà una nuova.</div>

@@ -37,8 +37,10 @@
         
         /* CONTENUTO */
         .main-header-content { max-width: 1400px; margin: 0 auto 30px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); }
-        .logo-section h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
-        .logo-section p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+        .logo-section { display: flex; align-items: center; gap: 20px; }
+        .palestra-logo-img { max-height: 80px; max-width: 150px; object-fit: contain; }
+        .logo-text h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; }
+        .logo-text p { font-size: 12px; color: var(--tortora); margin-top: 4px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
         .atleta-badge { text-align: right; }
         .atleta-badge .nome { font-size: 20px; font-weight: 700; color: var(--nero); }
         .atleta-badge .dettagli { font-size: 13px; color: var(--tortora); margin-top: 4px; }
@@ -125,20 +127,36 @@
         /* STAMPA FRONTESCALE OTTIMIZZATA */
         /* ============================ */
         @media print {
-            @page { size: A4 portrait; margin: 10mm; }
-            body { background: var(--bianco); padding: 0; }
-            .action-bar, .btn, .toast, .daily-goal-bar, .legend-section, .main-header { display: none !important; }
-            .main-header-content { box-shadow: none; border: 2px solid var(--tortora); page-break-inside: avoid; padding: 20px; }
-            .weekly-summary { box-shadow: none; break-inside: avoid; page-break-before: always; }
+            @page { size: A4 portrait; margin: 8mm; }
+            body { background: white !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            /* NASCONDI ELEMENTI NON NECESSARI */
+            .action-bar, .btn, .toast, .daily-goal-bar, .legend-section, .main-header, .swipe-hint, .swipe-indicator { display: none !important; }
+            
+            /* HEADER STAMPA COMPATTO */
+            .main-header-content { 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 10px 0 !important; 
+                margin-bottom: 15px !important;
+                page-break-inside: avoid !important;
+            }
+            .palestra-logo-img { max-height: 50px !important; }
+            .logo-text h1 { font-size: 18px !important; }
+            .logo-text p { font-size: 10px !important; }
+            .atleta-badge .nome { font-size: 16px !important; }
+            .atleta-badge .dettagli { font-size: 11px !important; }
+            .atleta-badge .settimana { font-size: 10px !important; padding: 4px 10px !important; }
             
             /* GRIGLIA FRONTALE: Lun-Mar sopra, Mer-Gio sotto */
             .days-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 grid-template-rows: auto auto !important;
-                gap: 12px !important;
+                gap: 10px !important;
                 max-width: 100% !important;
-                page-break-after: always;
+                margin: 0 !important;
+                page-break-after: always !important;
             }
             .day-card:nth-child(1) { grid-column: 1; grid-row: 1; }
             .day-card:nth-child(2) { grid-column: 2; grid-row: 1; }
@@ -146,57 +164,78 @@
             .day-card:nth-child(4) { grid-column: 2; grid-row: 2; }
             
             /* RETRO: Ven-Sab-Dom in una riga */
-            .day-card:nth-child(5) { grid-column: 1; grid-row: 3; page-break-before: always; }
+            .day-card:nth-child(5) { grid-column: 1; grid-row: 3; page-break-before: always !important; }
             .day-card:nth-child(6) { grid-column: 2; grid-row: 3; }
             .day-card:nth-child(7) { grid-column: 3; grid-row: 3; }
             
+            /* CARD GIORNO COMPATTE PER STAMPA */
             .day-card {
                 box-shadow: none !important;
-                border: 1.5px solid var(--tortora-chiaro) !important;
-                break-inside: avoid;
-                margin-bottom: 0 !important;
+                border: 1px solid #ccc !important;
+                break-inside: avoid !important;
+                margin: 0 !important;
                 transform: none !important;
-                font-size: 11px;
+                font-size: 10px !important;
+                overflow: visible !important;
             }
-            .day-card:hover { transform: none !important; }
             .day-header { 
                 background: var(--tortora) !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
-                padding: 10px 14px;
+                color: white !important;
+                padding: 8px 12px !important;
             }
-            .day-header .giorno { font-size: 14px; }
-            .meals-container { padding: 10px; }
+            .day-header .giorno { font-size: 12px !important; }
+            .day-header .data { font-size: 10px !important; }
+            .meals-container { padding: 8px !important; }
             .meal-block { 
-                background: var(--tortora-chiarissimo) !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
-                padding: 8px 10px;
-                margin-bottom: 8px;
-                border-left: 3px solid var(--tortora);
+                background: #f9f9f9 !important; 
+                padding: 6px 8px !important;
+                margin-bottom: 6px !important;
+                border-left: 2px solid var(--tortora) !important;
             }
-            .meal-label { font-size: 9px; margin-bottom: 6px; }
+            .meal-label { font-size: 8px !important; margin-bottom: 4px !important; }
             .meal-input, .portion-select, .portion-custom { 
-                border: none; background: transparent; padding: 0; 
-                font-size: 11px;
+                border: none !important; 
+                background: transparent !important; 
+                padding: 0 !important; 
+                font-size: 10px !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
             }
             .autocomplete-dropdown { display: none !important; }
-            .portion-row { margin-bottom: 4px; }
-            .macro-badges { gap: 4px; }
-            .macro-badge { font-size: 8px; padding: 2px 5px; }
+            .portion-row { margin-bottom: 2px !important; gap: 4px !important; }
+            .portion-unit { font-size: 9px !important; }
+            .macro-badges { gap: 3px !important; }
+            .macro-badge { font-size: 7px !important; padding: 2px 4px !important; }
             .day-total { 
                 background: var(--nero) !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
-                padding: 8px 14px;
-                font-size: 10px;
+                color: white !important;
+                padding: 6px 12px !important;
+                font-size: 9px !important;
             }
-            .day-total .total-value { font-size: 13px; }
-            .day-total .macro-mini { font-size: 9px; gap: 8px; }
-            .chart-bar { background: var(--tortora) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .summary-chart { grid-template-columns: repeat(7, 1fr); gap: 8px; }
-            .summary-total { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-            .total-block .value { font-size: 20px; }
+            .day-total .total-value { font-size: 11px !important; }
+            .day-total .macro-mini { font-size: 8px !important; gap: 6px !important; }
+            
+            /* RIEPILOGO SETTIMANALE */
+            .weekly-summary { 
+                box-shadow: none !important; 
+                break-inside: avoid !important; 
+                page-break-before: always !important;
+                padding: 15px !important;
+                margin-top: 15px !important;
+            }
+            .summary-title { font-size: 14px !important; margin-bottom: 10px !important; }
+            .summary-chart { grid-template-columns: repeat(7, 1fr) !important; gap: 6px !important; }
+            .chart-day { padding: 8px 4px !important; }
+            .chart-day .day-name { font-size: 9px !important; }
+            .chart-bar-container { height: 40px !important; }
+            .chart-day .day-kcal { font-size: 12px !important; }
+            .chart-day .day-macro { font-size: 8px !important; }
+            .summary-total { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; }
+            .total-block { padding: 8px !important; }
+            .total-block .label { font-size: 9px !important; }
+            .total-block .value { font-size: 16px !important; }
+            .total-block .unit { font-size: 10px !important; }
+            .chart-bar { background: var(--tortora) !important; }
         }
 
         /* ============================ */
@@ -294,22 +333,25 @@
         </div>
     </div>
 
-    <!-- HEADER CONTENUTO -->
+    <!-- HEADER CONTENUTO CON LOGO PALESTRA -->
     <div class="main-header-content">
         <div class="logo-section">
-            <h1>AppCenterStudioGYM</h1>
-            <p>Piano Nutrizionale Settimanale</p>
+            <img src="" alt="Logo Palestra" class="palestra-logo-img" id="palestraLogoImg" style="display:none;">
+            <div class="logo-text">
+                <h1 id="palestraNomeHeader">AppCenterStudioGYM</h1>
+                <p>Piano Nutrizionale Settimanale</p>
+            </div>
         </div>
         <div class="atleta-badge">
-            <div class="nome">Marco Rossi</div>
-            <div class="dettagli">Obiettivo: Definizione • 75 kg • 180 cm</div>
-            <div class="settimana"> Settimana 20-26 Ottobre 2026</div>
+            <div class="nome" id="atletaNomeBadge">Marco Rossi</div>
+            <div class="dettagli" id="atletaDettagliBadge">Obiettivo: Definizione • 75 kg • 180 cm</div>
+            <div class="settimana" id="atletaSettimanaBadge">📅 Settimana 20-26 Ottobre 2026</div>
         </div>
     </div>
 
     <!-- GUIDA ALLA LETTURA -->
     <div class="legend-section">
-        <div class="legend-title">📘 Guida alla lettura</div>
+        <div class="legend-title"> Guida alla lettura</div>
         <div class="legend-grid">
             <div class="legend-item"><span class="legend-icon">🔥</span><div class="legend-text"><strong>kcal</strong><span>Chilocalorie: l'energia che il cibo fornisce al corpo</span></div></div>
             <div class="legend-item"><span class="legend-icon">💪</span><div class="legend-text"><strong>P = Proteine</strong><span>Costruiscono e riparano i muscoli</span></div></div>
@@ -351,7 +393,7 @@
     <!-- PULSANTI -->
     <div class="action-bar">
         <button class="btn btn-print" onclick="window.print()">️ Stampa / Salva PDF</button>
-        <button class="btn btn-whatsapp" onclick="inviaWhatsApp()">💬 Invia su WhatsApp</button>
+        <button class="btn btn-whatsapp" onclick="inviaWhatsApp()"> Invia su WhatsApp</button>
         <button class="btn btn-save" onclick="salvaPiano()">💾 Salva Piano</button>
     </div>
 
@@ -359,6 +401,8 @@
     <div class="toast" id="toast"></div>
 
     <script>
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    
     const FOOD_DATABASE = [
         { id: 1, name: "Yogurt greco 0% grassi", category: "colazione", kcal: 59, protein: 10.3, carbs: 3.6, fat: 0.4, fiber: 0, portion: 150, portionName: "1 vasetto" },
         { id: 2, name: "Yogurt bianco intero", category: "colazione", kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, fiber: 0, portion: 125, portionName: "1 vasetto" },
@@ -607,8 +651,19 @@
     let appState = {};
     let syncState = 'online';
     let hasUnsavedChanges = false;
+    let currentUser = null;
+    let atletaData = null;
+    let palestraData = null;
     
-    function initApp() {
+    async function initApp() {
+        // Verifica login
+        const userStr = localStorage.getItem('currentUser');
+        if (!userStr) { window.location.href = 'index.html'; return; }
+        currentUser = JSON.parse(userStr);
+        
+        // Carica dati atleta e palestra
+        await caricaDatiAtleta();
+        
         const saved = localStorage.getItem('dietPlanState');
         if (saved) { try { appState = JSON.parse(saved); } catch(e) { appState = {}; } }
         renderDays();
@@ -618,15 +673,53 @@
         initSwipeIndicator();
     }
     
+    async function caricaDatiAtleta() {
+        try {
+            // Trova l'atleta loggato
+            const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${currentUser.riferimento_id}`);
+            const atleti = await atletiRes.json();
+            atletaData = atleti.find(a => a.username === currentUser.id_univoco || a.id === currentUser.riferimento_id);
+            
+            // Trova la palestra
+            const palestreRes = await fetch(`${API_URL}/api/palestre`);
+            const palestre = await palestreRes.json();
+            palestraData = palestre.find(p => p.id === currentUser.riferimento_id);
+            
+            if (atletaData) {
+                document.getElementById('atletaNomeBadge').textContent = atletaData.nome;
+                const dettagli = [];
+                if (atletaData.obiettivo) dettagli.push(`Obiettivo: ${atletaData.obiettivo}`);
+                if (atletaData.peso) dettagli.push(`${atletaData.peso} kg`);
+                if (atletaData.altezza) dettagli.push(`${atletaData.altezza} cm`);
+                document.getElementById('atletaDettagliBadge').textContent = dettagli.join(' • ');
+            }
+            
+            if (palestraData) {
+                document.getElementById('palestraNomeHeader').textContent = palestraData.nome || 'AppCenterStudioGYM';
+                // Mostra logo palestra se esiste
+                if (palestraData.logo_url) {
+                    const logoImg = document.getElementById('palestraLogoImg');
+                    logoImg.src = palestraData.logo_url;
+                    logoImg.style.display = 'block';
+                }
+            }
+        } catch (error) {
+            console.error('Errore caricamento dati:', error);
+        }
+    }
+    
     function esci() {
         if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
-        if (confirm('Sei sicuro di voler uscire?')) window.location.href = 'index.html';
+        if (confirm('Sei sicuro di voler uscire?')) {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
     }
     
     function tornaIndietro() {
         if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
         if (window.history.length > 1) window.history.back();
-        else window.location.href = 'index.html';
+        else window.location.href = 'dashboard-atleta.html';
     }
     
     function aggiornaSyncStatus(stato, messaggio) {
@@ -831,7 +924,8 @@
         const telefono = "393331234567";
         const totals = calculateDayTotals(0);
         const weekKcal = Array.from({length: 7}, (_, i) => calculateDayTotals(i).kcal).reduce((a, b) => a + b, 0);
-        const messaggio = encodeURIComponent(`Ciao Marco! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n📅 Settimana 20-26 Ottobre 2026\n Obiettivo: Definizione\n⚖️ Peso: 75 kg\n\n📊 Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- AppCenterStudioGYM`);
+        const nomeAtleta = atletaData?.nome || 'Atleta';
+        const messaggio = encodeURIComponent(`Ciao ${nomeAtleta}! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- ${palestraData?.nome || 'AppCenterStudioGYM'}`);
         window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
         showToast('💬 WhatsApp aperto!');
     }

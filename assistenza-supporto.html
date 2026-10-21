@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistenza & Supporto - AppCenterStudioGYM</title>
+    <style>
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #25D366; --verde-scuro: #128C7E; --blu: #3498DB; --rosso: #E74C3C; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
+        .top-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); }
+        .top-header h1 { font-size: 20px; font-weight: 700; }
+        .btn-logout { background: var(--bianco); color: var(--rosso); border: 1px solid var(--rosso); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .hero-card { background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 35px; margin-bottom: 25px; box-shadow: var(--ombra); text-align: center; }
+        .hero-card h2 { font-size: 26px; margin-bottom: 10px; }
+        .hero-card p { color: var(--tortora-scuro); font-size: 15px; }
+        .hero-card .badge-247 { display: inline-block; margin-top: 15px; padding: 8px 20px; background: var(--verde); color: var(--bianco); border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+        .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 25px; }
+        .contact-card { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); border-left: 4px solid var(--tortora); display: flex; align-items: center; gap: 20px; transition: all 0.2s; }
+        .contact-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
+        .contact-card.whatsapp { border-left-color: var(--verde); }
+        .contact-card.anydesk { border-left-color: var(--rosso); }
+        .contact-card.email { border-left-color: var(--blu); }
+        .contact-card.phone { border-left-color: var(--tortora); }
+        .contact-icon { font-size: 42px; flex-shrink: 0; }
+        .contact-info { flex: 1; }
+        .contact-info h3 { font-size: 17px; margin-bottom: 5px; }
+        .contact-info p { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 3px; }
+        .contact-info .detail { font-size: 14px; font-weight: 600; color: var(--nero); margin-top: 5px; }
+        .btn-contact { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: all 0.2s; white-space: nowrap; }
+        .btn-whatsapp { background: var(--verde); color: var(--bianco); }
+        .btn-whatsapp:hover { background: var(--verde-scuro); }
+        .btn-anydesk { background: var(--rosso); color: var(--bianco); }
+        .btn-anydesk:hover { opacity: 0.9; }
+        .btn-email { background: var(--blu); color: var(--bianco); }
+        .btn-email:hover { opacity: 0.9; }
+        .btn-phone { background: var(--tortora); color: var(--bianco); }
+        .btn-phone:hover { background: var(--nero); }
+        .info-box { background: #E3F2FD; border: 1px solid var(--blu); border-radius: var(--radius); padding: 20px 25px; margin-bottom: 25px; font-size: 14px; color: #1565C0; }
+        .info-box strong { display: block; margin-bottom: 8px; font-size: 15px; }
+        .faq-section { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); margin-bottom: 25px; }
+        .faq-section h3 { font-size: 18px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .faq-item { padding: 15px 0; border-bottom: 1px solid var(--tortora-chiarissimo); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item .question { font-weight: 700; color: var(--nero); margin-bottom: 6px; font-size: 14px; }
+        .faq-item .answer { color: var(--tortora-scuro); font-size: 13px; line-height: 1.5; }
+        @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } .contact-card { flex-direction: column; text-align: center; } }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <h1>AppCenterStudioGYM - Assistenza & Supporto</h1>
+        <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="hero-card">
+            <h2>🎧 Centro Assistenza AppCenterStudioGYM</h2>
+            <p>Supporto tecnico e assistenza remota per la tua palestra</p>
+            <div class="badge-247">ATTIVO 24/7</div>
+        </div>
+
+        <div class="info-box">
+            <strong>ℹ️ Come funziona l'assistenza remota:</strong>
+            Scarica AnyDesk dal link sotto, avvialo e comunica il tuo codice ID al tecnico via WhatsApp. Il tecnico si connetterà al tuo computer per risolvere il problema in pochi minuti.
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card whatsapp">
+                <div class="contact-icon">💬</div>
+                <div class="contact-info">
+                    <h3>Assistenza via WhatsApp</h3>
+                    <p>Contatta direttamente il supporto tecnico per qualsiasi problema o domanda. Risposta rapida garantita.</p>
+                    <div class="detail">+39 344 750 7656</div>
+                </div>
+                <a href="https://wa.me/393447507656?text=Ciao!%20Ho%20bisogno%20di%20assistenza%20per%20AppCenterStudioGYM" target="_blank" class="btn-contact btn-whatsapp">💬 Contatta ora</a>
+            </div>
+
+            <div class="contact-card anydesk">
+                <div class="contact-icon">🖥️</div>
+                <div class="contact-info">
+                    <h3>Assistenza Remota con AnyDesk</h3>
+                    <p>Scarica AnyDesk e permetti al nostro tecnico di connettersi al tuo computer per risolvere il problema in tempo reale.</p>
+                    <div class="detail">Download gratuito</div>
+                </div>
+                <a href="https://anydesk.com/it/downloads" target="_blank" class="btn-contact btn-anydesk">⬇️ Scarica AnyDesk</a>
+            </div>
+
+            <div class="contact-card phone">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info">
+                    <h3>Numero diretto</h3>
+                    <p>Chiama il nostro supporto tecnico per assistenza immediata.</p>
+                    <div class="detail">+39 344 750 7656<br><small style="color: var(--tortora); font-weight: 400;">Lun - Ven: 9:00 - 18:00</small></div>
+                </div>
+                <a href="tel:+393447507656" class="btn-contact btn-phone">📞 Chiama</a>
+            </div>
+
+            <div class="contact-card email">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-info">
+                    <h3>Email di supporto</h3>
+                    <p>Invia una email per richieste non urgenti. Risposta entro 24 ore.</p>
+                    <div class="detail">support@appcenterstudiogym.it</div>
+                </div>
+                <a href="mailto:support@appcenterstudiogym.it?subject=Richiesta%20assistenza%20AppCenterStudioGYM" class="btn-contact btn-email">✉️ Invia email</a>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h3> Domande Frequenti</h3>
+            <div class="faq-item">
+                <div class="question">Come resetto la password del mio account?</div>
+                <div class="answer">Contatta il supporto via WhatsApp fornendo il tuo ID univoco. Il tecnico resetterà la password e te ne comunicherà una nuova.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Come carico il logo della mia palestra?</div>
+                <div class="answer">Vai su Dashboard → Impostazioni Palestra → sezione Logo. Clicca sull'area di upload e seleziona il file (JPG, PNG o GIF, max 2MB).</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Come stampo le ricevute dei pagamenti?</div>
+                <div class="answer">Vai su Gestione Atleti → clicca "🧾 Ricevute" sull'atleta → clicca "🖨️ Stampa" sulla ricevuta desiderata. Si aprirà la finestra di stampa del browser.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Come creo una dieta per un atleta?</div>
+                <div class="answer">Dalla Dashboard, clicca su "Piani Nutrizionali". Seleziona l'atleta e compila i pasti per ogni giorno della settimana. I macro vengono calcolati automaticamente.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">I miei dati sono al sicuro?</div>
+                <div class="answer">Sì! Tutti i dati sono salvati su cloud sicuro (Cloudflare D1) con crittografia. Effettuiamo backup regolari.</div>
+            </div>
+            <div class="faq-item">
+                <div class="question">Come rinnovo l'abbonamento della palestra?</div>
+                <div class="answer">Contatta il fornitore (AppCenterStudioGYM) via WhatsApp o email prima della scadenza. Il rinnovo viene gestito manualmente dal fornitore.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Verifica login
+    const userStr = localStorage.getItem('currentUser');
+    if (!userStr) { window.location.href = 'index.html'; }
+    </script>
+</body>
+</html>

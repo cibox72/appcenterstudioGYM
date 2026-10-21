@@ -90,6 +90,13 @@
         .tip-box .tip-icon { font-size: 18px; flex-shrink: 0; }
         .tip-box a { color: #9C640C; font-weight: 700; text-decoration: underline; }
         .tip-box a:hover { color: var(--nero); }
+        .preview-modal { max-width: 800px; }
+        .preview-content { text-align: center; }
+        .preview-content img { max-width: 100%; max-height: 500px; border-radius: var(--radius-sm); margin-bottom: 15px; }
+        .preview-content .ex-details { text-align: left; background: var(--tortora-chiarissimo); padding: 15px; border-radius: var(--radius-sm); margin-top: 15px; }
+        .preview-content .ex-details h4 { margin-bottom: 10px; color: var(--nero); }
+        .preview-content .ex-details p { margin-bottom: 8px; font-size: 14px; }
+        .preview-content .ex-details strong { color: var(--tortora-scuro); }
         @media (max-width: 768px) { .cards-grid { grid-template-columns: 1fr; } .container { padding: 15px; } .main-tab { min-width: 100px; font-size: 12px; padding: 10px 12px; } }
     </style>
 </head>
@@ -109,7 +116,7 @@
         <div class="tab-content active" id="tab-archivio-esercizi">
             <div class="section-header">
                 <div>
-                    <h2> Archivio Esercizi</h2>
+                    <h2>📚 Archivio Esercizi</h2>
                     <div class="subtitle">Libreria esercizi con foto e descrizioni (cloud)</div>
                 </div>
                 <button class="btn btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
@@ -189,9 +196,9 @@
                     <div class="form-group">
                         <label>Foto/Diagramma (JPEG, PNG, PDF)</label>
                         <div class="tip-box">
-                            <span class="tip-icon">💡</span>
+                            <span class="tip-icon"></span>
                             <div>
-                                <strong>Cerchi foto esercizi?</strong> Vai su <a href="https://www.pinterest.it/search/?q=esercizi%20palestra" target="_blank">Pinterest - Esercizi Palestra</a> per trovare immagini professionali da scaricare e caricare qui.
+                                <strong>Cerchi foto esercizi?</strong> Vai su <a href="https://www.pinterest.it/search/?q=esercizi%20palestra" target="_blank">Pinterest - Esercizi Palestra</a> per trovare immagini professionali.
                             </div>
                         </div>
                         <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('fileInput').click()">
@@ -244,7 +251,7 @@
                         <div class="tip-box">
                             <span class="tip-icon">💡</span>
                             <div>
-                                <strong>Cerchi video esercizi?</strong> Vai su <a href="https://www.youtube.com/results?search_query=esercizi+palestra+tutorial" target="_blank">YouTube - Tutorial Esercizi</a> o <a href="https://www.instagram.com/explore/tags/workout/" target="_blank">Instagram #workout</a> per trovare video da copiare e incollare qui.
+                                <strong>Cerchi video?</strong> Vai su <a href="https://www.youtube.com/results?search_query=esercizi+palestra+tutorial" target="_blank">YouTube - Tutorial Esercizi</a> o <a href="https://www.instagram.com/explore/tags/workout/" target="_blank">Instagram #workout</a>.
                             </div>
                         </div>
                         <input type="url" id="videoLink" required placeholder="https://youtube.com/watch?v=...">
@@ -272,6 +279,16 @@
                     <button class="btn btn-success" onclick="confermaAggiuntaEsercizi()">✅ Aggiungi Selezionati</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalPreview">
+        <div class="modal preview-modal">
+            <div class="modal-header">
+                <div class="modal-title" id="previewTitle">Anteprima</div>
+                <button class="modal-close" onclick="chiudiModal('modalPreview')">×</button>
+            </div>
+            <div class="preview-content" id="previewContent"></div>
         </div>
     </div>
 
@@ -315,7 +332,7 @@
             renderVideo();
         } catch (error) { 
             console.error('Errore:', error); 
-            showToast(' Errore di connessione'); 
+            showToast('❌ Errore di connessione'); 
         }
     }
 
@@ -425,7 +442,7 @@
                         if (fileType && fileType.includes('pdf')) {
                             html += `<div class="ex-file">📄 <a href="${fileData}" target="_blank">Apri PDF</a></div>`;
                         } else {
-                            html += `<div class="ex-file">🖼️ <a href="${fileData}" target="_blank">Vedi immagine</a></div>`;
+                            html += `<div class="ex-file">🖼️ <a href="#" onclick="event.preventDefault(); visualizzaImmagine('${data.nome || data.titolo}', '${fileData}')">Vedi immagine</a></div>`;
                         }
                     }
                 } else {
@@ -433,7 +450,8 @@
                 }
                 
                 html += `<div class="ex-actions">
-                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">🗑️ Rimuovi</button>
+                    <button class="btn btn-sm btn-info" onclick="visualizzaEsercizio(${ex.id}, '${tipo}')">👁️ Visualizza</button>
+                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">️ Rimuovi</button>
                 </div></div>`;
             });
         }
@@ -443,6 +461,59 @@
         </div>`;
         
         container.innerHTML = html;
+    }
+
+    function visualizzaEsercizio(id, tipo) {
+        const data = tipo === 'esercizio' ? esercizi.find(e => e.id === id) : videoArchivio.find(v => v.id === id);
+        if (!data) return;
+        
+        document.getElementById('previewTitle').textContent = data.nome || data.titolo;
+        let content = '';
+        
+        if (tipo === 'esercizio') {
+            if (data.file_base64) {
+                const fileType = data.file_type || 'image/jpeg';
+                if (fileType.includes('pdf')) {
+                    content += `<iframe src="${data.file_base64}" style="width:100%; height:400px; border:none; border-radius:8px;"></iframe>`;
+                } else {
+                    content += `<img src="${data.file_base64}" alt="${data.nome}">`;
+                }
+            }
+            content += `<div class="ex-details">
+                <h4>${data.nome}</h4>
+                <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
+                <p><strong>Serie:</strong> ${data.serie || '-'}</p>
+                <p><strong>Recupero:</strong> ${data.recupero || '-'}</p>
+                <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
+            </div>`;
+        } else {
+            const videoId = extractVideoId(data.link);
+            if (videoId) {
+                content += `<iframe width="100%" height="400" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>`;
+            } else {
+                content += `<p style="padding: 20px; background: var(--tortora-chiarissimo); border-radius: 8px;">Video non disponibile per l'anteprima. <a href="${data.link}" target="_blank">Apri in nuova scheda</a></p>`;
+            }
+            content += `<div class="ex-details">
+                <h4>${data.titolo}</h4>
+                <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
+                <p><strong>Link:</strong> <a href="${data.link}" target="_blank">${data.link}</a></p>
+                <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
+            </div>`;
+        }
+        
+        document.getElementById('previewContent').innerHTML = content;
+        document.getElementById('modalPreview').classList.add('active');
+    }
+
+    function visualizzaImmagine(nome, src) {
+        document.getElementById('previewTitle').textContent = nome;
+        document.getElementById('previewContent').innerHTML = `<img src="${src}" alt="${nome}" style="max-width: 100%; max-height: 500px; border-radius: 8px;">`;
+        document.getElementById('modalPreview').classList.add('active');
+    }
+
+    function extractVideoId(url) {
+        const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        return match ? match[1] : null;
     }
 
     function apriAggiungiEsercizio(giornoIdx) {
@@ -501,7 +572,7 @@
                 chiudiModal('modalAggiungiEsercizio');
                 await onClienteChange();
             } else {
-                showToast(' Errore: ' + (result.error || 'sconosciuto'));
+                showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
             }
         } catch (error) {
             showToast('❌ Errore di connessione');
@@ -527,7 +598,6 @@
         showToast('✅ Settimana salvata!');
     }
 
-    // ============ ARCHIVIO ESERCIZI ============
     function renderEsercizi() {
         const container = document.getElementById('eserciziContainer');
         if (esercizi.length === 0) {
@@ -542,8 +612,9 @@
                 <div class="info"><strong>Serie:</strong> ${e.serie || '-'}</div>
                 <div class="info"><strong>Recupero:</strong> ${e.recupero || '-'}</div>
                 <div class="info" style="margin-top: 8px; font-size: 12px;">${(e.descrizione || '').substring(0, 80)}${(e.descrizione || '').length > 80 ? '...' : ''}</div>
-                ${e.file_name ? '<div class="info" style="color: var(--blu); font-size: 12px;"> File allegato</div>' : ''}
+                ${e.file_name ? '<div class="info" style="color: var(--blu); font-size: 12px;">📎 File allegato</div>' : ''}
                 <div class="actions">
+                    <button class="btn btn-sm btn-info" onclick="visualizzaEsercizio(${e.id}, 'esercizio')">️ Visualizza</button>
                     <button class="btn btn-sm btn-secondary" onclick="modificaEsercizio(${e.id})">Modifica</button>
                     <button class="btn btn-sm btn-danger" onclick="eliminaEsercizio(${e.id})">Elimina</button>
                 </div>
@@ -603,7 +674,6 @@
         const tipi = ['image/jpeg', 'image/png', 'application/pdf'];
         if (!tipi.includes(file.type)) { showToast('❌ Formato non supportato. Usa JPEG, PNG o PDF'); return; }
         
-        // Se è PDF, non ridimensionare
         if (file.type === 'application/pdf') {
             if (file.size > 2 * 1024 * 1024) { showToast('❌ PDF troppo grande! Max 2MB'); return; }
             const reader = new FileReader();
@@ -618,7 +688,6 @@
             return;
         }
         
-        // Per le immagini: ridimensionamento automatico
         showToast('⏳ Ridimensionamento immagine...');
         
         const reader = new FileReader();
@@ -679,7 +748,7 @@
         fileBase64 = null; fileNome = null; fileType = null;
         document.getElementById('fileInput').value = '';
         document.getElementById('fileUploadArea').classList.remove('has-file');
-        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;">📷</div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 10MB (auto-ridimensionato)</div>';
+        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;"></div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 10MB (auto-ridimensionato)</div>';
     }
 
     async function salvaEsercizio(e) {
@@ -734,7 +803,6 @@
         } catch (error) { showToast('❌ Errore'); }
     }
 
-    // ============ ARCHIVIO VIDEO ============
     function renderVideo() {
         const container = document.getElementById('videoContainer');
         if (videoArchivio.length === 0) {
@@ -749,7 +817,8 @@
                 <div class="info" style="font-size: 12px; color: var(--blu); word-break: break-all;">🔗 ${v.link}</div>
                 <div class="info" style="margin-top: 8px; font-size: 12px;">${(v.descrizione || '').substring(0, 80)}${(v.descrizione || '').length > 80 ? '...' : ''}</div>
                 <div class="actions">
-                    <a href="${v.link}" target="_blank" class="btn btn-sm btn-info">▶️ Guarda</a>
+                    <button class="btn btn-sm btn-info" onclick="visualizzaEsercizio(${v.id}, 'video')">👁️ Visualizza</button>
+                    <a href="${v.link}" target="_blank" class="btn btn-sm btn-secondary">▶️ Guarda</a>
                     <button class="btn btn-sm btn-secondary" onclick="modificaVideo(${v.id})">Modifica</button>
                     <button class="btn btn-sm btn-danger" onclick="eliminaVideo(${v.id})">Elimina</button>
                 </div>
@@ -806,7 +875,7 @@
             } else {
                 showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
             }
-        } catch (error) { showToast(' Errore di connessione'); }
+        } catch (error) { showToast('❌ Errore di connessione'); }
     }
 
     async function eliminaVideo(id) {
@@ -818,10 +887,9 @@
                 showToast('Video eliminato');
                 await loadData();
             }
-        } catch (error) { showToast(' Errore'); }
+        } catch (error) { showToast('❌ Errore'); }
     }
 
-    // ============ UTILS ============
     function cambiaTab(tabId, el) {
         document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));

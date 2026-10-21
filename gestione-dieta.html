@@ -163,7 +163,7 @@
             .day-card:nth-child(3) { grid-column: 1; grid-row: 2; }
             .day-card:nth-child(4) { grid-column: 2; grid-row: 2; }
             
-            /* RETRO: Ven-Sab-Dom in una riga */
+            /* RETRO: Ven-Sab-Dom in una riga + Riepilogo nella stessa pagina */
             .day-card:nth-child(5) { grid-column: 1; grid-row: 3; page-break-before: always !important; }
             .day-card:nth-child(6) { grid-column: 2; grid-row: 3; }
             .day-card:nth-child(7) { grid-column: 3; grid-row: 3; }
@@ -215,27 +215,58 @@
             .day-total .total-value { font-size: 11px !important; }
             .day-total .macro-mini { font-size: 8px !important; gap: 6px !important; }
             
-            /* RIEPILOGO SETTIMANALE */
+            /* RIEPILOGO SETTIMANALE COMPATTO NELLA STESSA PAGINA DEL RETRO */
             .weekly-summary { 
                 box-shadow: none !important; 
                 break-inside: avoid !important; 
-                page-break-before: always !important;
-                padding: 15px !important;
-                margin-top: 15px !important;
+                page-break-before: auto !important; /* NON FORZARE NUOVA PAGINA */
+                page-break-after: auto !important;
+                padding: 10px !important;
+                margin-top: 10px !important;
+                margin-bottom: 0 !important;
+                border: 1px solid #ccc !important;
             }
-            .summary-title { font-size: 14px !important; margin-bottom: 10px !important; }
-            .summary-chart { grid-template-columns: repeat(7, 1fr) !important; gap: 6px !important; }
-            .chart-day { padding: 8px 4px !important; }
-            .chart-day .day-name { font-size: 9px !important; }
-            .chart-bar-container { height: 40px !important; }
-            .chart-day .day-kcal { font-size: 12px !important; }
-            .chart-day .day-macro { font-size: 8px !important; }
-            .summary-total { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; }
-            .total-block { padding: 8px !important; }
-            .total-block .label { font-size: 9px !important; }
-            .total-block .value { font-size: 16px !important; }
-            .total-block .unit { font-size: 10px !important; }
+            .summary-title { font-size: 12px !important; margin-bottom: 8px !important; padding-bottom: 6px !important; }
+            .summary-chart { grid-template-columns: repeat(7, 1fr) !important; gap: 4px !important; margin-bottom: 8px !important; }
+            .chart-day { padding: 6px 3px !important; }
+            .chart-day .day-name { font-size: 8px !important; }
+            .chart-bar-container { height: 30px !important; }
+            .chart-day .day-kcal { font-size: 10px !important; }
+            .chart-day .day-macro { font-size: 7px !important; display: none !important; } /* NASCONDI MACRO PER RISPARMIARE SPAZIO */
+            .summary-total { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; padding-top: 10px !important; }
+            .total-block { padding: 6px !important; }
+            .total-block .label { font-size: 8px !important; }
+            .total-block .value { font-size: 14px !important; }
+            .total-block .unit { font-size: 9px !important; }
             .chart-bar { background: var(--tortora) !important; }
+            
+            /* Compatta ulteriormente le card Ven-Sab-Dom sul retro per far spazio al riepilogo */
+            .day-card:nth-child(5),
+            .day-card:nth-child(6),
+            .day-card:nth-child(7) {
+                font-size: 9px !important;
+            }
+            .day-card:nth-child(5) .day-header,
+            .day-card:nth-child(6) .day-header,
+            .day-card:nth-child(7) .day-header {
+                padding: 6px 10px !important;
+            }
+            .day-card:nth-child(5) .meals-container,
+            .day-card:nth-child(6) .meals-container,
+            .day-card:nth-child(7) .meals-container {
+                padding: 6px !important;
+            }
+            .day-card:nth-child(5) .meal-block,
+            .day-card:nth-child(6) .meal-block,
+            .day-card:nth-child(7) .meal-block {
+                padding: 4px 6px !important;
+                margin-bottom: 4px !important;
+            }
+            .day-card:nth-child(5) .day-total,
+            .day-card:nth-child(6) .day-total,
+            .day-card:nth-child(7) .day-total {
+                padding: 4px 10px !important;
+            }
         }
 
         /* ============================ */
@@ -353,7 +384,7 @@
     <div class="legend-section">
         <div class="legend-title"> Guida alla lettura</div>
         <div class="legend-grid">
-            <div class="legend-item"><span class="legend-icon">🔥</span><div class="legend-text"><strong>kcal</strong><span>Chilocalorie: l'energia che il cibo fornisce al corpo</span></div></div>
+            <div class="legend-item"><span class="legend-icon"></span><div class="legend-text"><strong>kcal</strong><span>Chilocalorie: l'energia che il cibo fornisce al corpo</span></div></div>
             <div class="legend-item"><span class="legend-icon">💪</span><div class="legend-text"><strong>P = Proteine</strong><span>Costruiscono e riparano i muscoli</span></div></div>
             <div class="legend-item"><span class="legend-icon">⚡</span><div class="legend-text"><strong>C = Carboidrati</strong><span>Forniscono energia immediata per l'allenamento</span></div></div>
             <div class="legend-item"><span class="legend-icon">🧈</span><div class="legend-text"><strong>G = Grassi</strong><span>Importanti per gli ormoni e l'assorbimento delle vitamine</span></div></div>

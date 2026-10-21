@@ -32,7 +32,6 @@
             min-height: 100vh;
         }
         
-        /* HEADER */
         .top-header {
             background: var(--tortora);
             color: var(--bianco);
@@ -60,13 +59,12 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            text-decoration: none;
         }
         .btn-logout:hover { background: rgba(255,255,255,0.3); }
         
-        /* MAIN */
         .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
         
-        /* WELCOME */
         .welcome-card {
             background: var(--bianco);
             border-radius: var(--radius);
@@ -88,7 +86,6 @@
             margin-left: 8px;
         }
         
-        /* ALERT */
         .alert-banner {
             background: var(--arancione-chiaro);
             border: 1px solid var(--arancione);
@@ -103,8 +100,8 @@
             color: #9C640C;
         }
         .alert-banner.hidden { display: none; }
+        .alert-banner.danger { background: var(--rosso-chiaro); border-color: var(--rosso); color: #922B21; }
         
-        /* STATS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -125,7 +122,6 @@
         .stat-card.arancione { border-left-color: var(--arancione); }
         .stat-card.rosso { border-left-color: var(--rosso); }
         
-        /* CARDS GRID */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -143,6 +139,8 @@
             min-height: 140px;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
         }
         .module-card:hover {
             transform: translateY(-3px);
@@ -165,9 +163,11 @@
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-        .module-card .icon {
-            font-size: 32px;
+        .module-card .card-icon {
+            width: 40px;
+            height: 40px;
             margin-bottom: 12px;
+            fill: var(--tortora);
         }
         .module-card h3 {
             font-size: 16px;
@@ -197,9 +197,7 @@
         }
         .module-card .status-badge.active { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
         .module-card .status-badge.warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
-        .module-card .status-badge.danger { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
         
-        /* LOADING */
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -229,7 +227,7 @@
                 <span class="sync-dot"></span>
                 <span>Cloud Sync: OK</span>
             </div>
-            <button class="btn-logout" onclick="esci()">Logout</button>
+            <a href="index.html" class="btn-logout" onclick="localStorage.removeItem('currentUser')">Logout</a>
         </div>
     </div>
 
@@ -241,7 +239,7 @@
         </div>
 
         <div class="alert-banner hidden" id="alertBanner">
-            ️ <span id="alertText">La tua prova sta per scadere!</span>
+            <span id="alertText">La tua prova sta per scadere!</span>
         </div>
 
         <div class="stats-grid">
@@ -267,74 +265,74 @@
             </div>
         </div>
 
-        <div class="cards-grid" id="cardsGrid">
+        <div class="cards-grid">
             <!-- Card 1: Atleti -->
-            <div class="module-card" onclick="apriSezione('atleti')">
+            <a href="atleti.html" class="module-card">
                 <div class="badge">AT</div>
-                <div class="icon">👥</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <h3>Gestione Atleti</h3>
                 <p>Registra nuovi atleti, gestisci anagrafiche, abbonamenti e certificati medici.</p>
                 <div class="status-badge active" id="badgeAtleti">0 ATLETI</div>
-            </div>
+            </a>
 
             <!-- Card 2: Diete -->
-            <div class="module-card" onclick="apriSezione('diete')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">DI</div>
-                <div class="icon">🥗</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.65 1.44 1.98 1.13 5.26-.91 7.19-1.28 1.21-3.21 1.65-4.92 1.23l-.71 2.23c2.68.84 5.66.29 7.79-1.72 2.67-2.52 3.14-6.86.78-9.72-1.47-1.78-3.62-2.88-5.91-3.2L17.31 4h4.33l-1.44 16.17c-.02.18-.17.32-.35.32h-1.79l.3 2.5zM1 12.77V21c0 .55.45 1 1 1h1.5c.55 0 1-.45 1-1v-1.5c0-.55-.45-1-1-1H2v-5.23l4.39-4.39c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0L1 12.77z"/></svg>
                 <h3>Piani Nutrizionali</h3>
                 <p>Crea e assegna diete personalizzate agli atleti con calcolo macro automatico.</p>
-                <div class="status-badge">PRESTO DISPONIBILE</div>
+                <div class="status-badge warning">PRESTO DISPONIBILE</div>
             </div>
 
             <!-- Card 3: Schede -->
-            <div class="module-card" onclick="apriSezione('schede')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">SC</div>
-                <div class="icon">💪</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
                 <h3>Schede Allenamento</h3>
                 <p>Programma workout personalizzati con esercizi, serie, recuperi e progressioni.</p>
-                <div class="status-badge">PRESTO DISPONIBILE</div>
+                <div class="status-badge warning">PRESTO DISPONIBILE</div>
             </div>
 
             <!-- Card 4: Agenda -->
-            <div class="module-card" onclick="apriSezione('agenda')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">AG</div>
-                <div class="icon">📅</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
                 <h3>Agenda Appuntamenti</h3>
                 <p>Calendario visite, valutazioni fisiche e appuntamenti con gli atleti.</p>
-                <div class="status-badge">PRESTO DISPONIBILE</div>
+                <div class="status-badge warning">PRESTO DISPONIBILE</div>
             </div>
 
             <!-- Card 5: Contabilità -->
-            <div class="module-card" onclick="apriSezione('contabilita')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">CO</div>
-                <div class="icon">💰</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                 <h3>Contabilità</h3>
                 <p>Registra incassi, pagamenti, abbonamenti e genera report finanziari.</p>
-                <div class="status-badge">PRESTO DISPONIBILE</div>
+                <div class="status-badge warning">PRESTO DISPONIBILE</div>
             </div>
 
             <!-- Card 6: WhatsApp -->
-            <div class="module-card" onclick="apriSezione('whatsapp')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">WA</div>
-                <div class="icon">💬</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
                 <h3>Messaggi WhatsApp</h3>
                 <p>Invia comunicazioni di massa, promemoria e offerte agli atleti via WhatsApp.</p>
-                <div class="status-badge">PRESTO DISPONIBILE</div>
+                <div class="status-badge warning">PRESTO DISPONIBILE</div>
             </div>
 
             <!-- Card 7: Impostazioni -->
-            <div class="module-card" onclick="apriSezione('impostazioni')">
+            <div class="module-card" onclick="alert('Sezione in arrivo nella prossima versione!')">
                 <div class="badge">IM</div>
-                <div class="icon">⚙️</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                 <h3>Impostazioni Palestra</h3>
                 <p>Modifica dati palestra, logo, orari, servizi offerti e preferenze.</p>
                 <div class="status-badge active">ATTIVO</div>
             </div>
 
             <!-- Card 8: Assistenza -->
-            <div class="module-card" onclick="apriSezione('assistenza')">
+            <div class="module-card" onclick="alert('Assistenza AppCenterStudioGYM\n\nWhatsApp: +39 344 750 7656\nEmail: support@appcenterstudiogym.it\n\nOrari: Lun-Ven 9:00-18:00')">
                 <div class="badge">AS</div>
-                <div class="icon">🎧</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>
                 <h3>Assistenza & Supporto</h3>
                 <p>Contatta il supporto tecnico via WhatsApp, AnyDesk o email. Attivo 24/7.</p>
                 <div class="status-badge active">ATTIVO 24/7</div>
@@ -391,9 +389,7 @@
         
         if (giorni < 0) {
             banner.classList.remove('hidden');
-            banner.style.background = 'var(--rosso-chiaro)';
-            banner.style.borderColor = 'var(--rosso)';
-            banner.style.color = '#922B21';
+            banner.classList.add('danger');
             alertText.textContent = `Attenzione! Il tuo abbonamento è SCADUTO da ${Math.abs(giorni)} giorni. Contatta il supporto per il rinnovo.`;
         } else if (giorni <= 10) {
             banner.classList.remove('hidden');
@@ -417,18 +413,6 @@
         document.getElementById('statScaduti').textContent = scaduti;
         document.getElementById('statTotale').textContent = atleti.length;
         document.getElementById('badgeAtleti').textContent = `${atleti.length} ATLETI`;
-    }
-
-    function apriSezione(sezione) {
-        if (sezione === 'atleti') {
-            alert(' Sezione Atleti in costruzione!\n\nSarà disponibile nella prossima versione per:\n- Registrare nuovi atleti\n- Gestire abbonamenti\n- Upload certificati medici');
-        } else if (sezione === 'impostazioni') {
-            alert('⚙️ Impostazioni Palestra\n\nID: ' + (currentUser.id_univoco || currentUser.username) + '\nNome: ' + (palestraData?.nome || '-') + '\n\nFunzionalità in arrivo!');
-        } else if (sezione === 'assistenza') {
-            alert(' Assistenza AppCenterStudioGYM\n\n WhatsApp: +39 344 750 7656\n Email: support@appcenterstudiogym.it\n\nOrari: Lun-Ven 9:00-18:00');
-        } else {
-            alert('🚧 Sezione in costruzione!\n\nQuesta funzionalità sarà disponibile a breve.');
-        }
     }
 
     function esci() {

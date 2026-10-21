@@ -2,121 +2,303 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Schede Allenamento - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --blu: #3498DB; --rosso: #E74C3C; --ombra: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px; --radius-sm: 8px; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
-        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
-        .top-header h1 { font-size: 20px; font-weight: 700; }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-        .page-header h2 { font-size: 22px; }
-        .page-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
-        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --rosso: #E74C3C; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; padding-bottom: 30px; }
+        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
+        .top-header h1 { font-size: 18px; font-weight: 700; }
+        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        /* TABS PRINCIPALI */
+        .main-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .main-tab { padding: 12px 20px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); cursor: pointer; font-weight: 600; font-size: 14px; color: var(--tortora-scuro); white-space: nowrap; transition: all 0.2s; flex: 1; text-align: center; min-width: 120px; }
+        .main-tab.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .main-tab:hover { border-color: var(--tortora); }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .section-header h2 { font-size: 22px; }
+        .section-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
+        
+        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: all 0.2s; }
         .btn-primary { background: var(--tortora); color: var(--bianco); }
         .btn-primary:hover { background: var(--nero); }
         .btn-success { background: var(--verde); color: var(--bianco); }
         .btn-danger { background: var(--rosso); color: var(--bianco); }
         .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-info { background: var(--blu); color: var(--bianco); }
         .btn-sm { padding: 7px 12px; font-size: 12px; }
-        .schede-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-        .scheda-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; }
-        .scheda-card h3 { font-size: 18px; margin-bottom: 6px; }
-        .scheda-card .info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 4px; }
-        .scheda-card .info strong { color: var(--nero); }
-        .scheda-card .actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 6px; flex-wrap: wrap; }
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        
+        /* GRIGLIE */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: var(--bianco); border-radius: var(--radius); padding: 18px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; transition: all 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
+        .card h3 { font-size: 16px; margin-bottom: 6px; }
+        .card .info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 4px; }
+        .card .info strong { color: var(--nero); }
+        .card .actions { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 6px; flex-wrap: wrap; }
+        
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
+        
+        /* SELECT CLIENTE */
+        .cliente-selector { background: var(--bianco); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--ombra); }
+        .cliente-selector label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px; }
+        .cliente-selector select { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
+        .cliente-selector select:focus { outline: none; border-color: var(--tortora); }
+        
+        /* GIORNI SETTIMANA */
+        .days-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .day-tab { padding: 10px 16px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--tortora-scuro); white-space: nowrap; transition: all 0.2s; }
+        .day-tab.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        
+        .day-content { display: none; }
+        .day-content.active { display: block; }
+        
+        .exercise-item { background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--tortora); }
+        .exercise-item .ex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .exercise-item .ex-name { font-weight: 700; font-size: 15px; }
+        .exercise-item .ex-desc { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 8px; }
+        .exercise-item .ex-file { font-size: 12px; color: var(--blu); margin-bottom: 5px; }
+        .exercise-item .ex-file a { color: var(--blu); text-decoration: none; }
+        .exercise-item .ex-file a:hover { text-decoration: underline; }
+        .exercise-item .ex-video { font-size: 12px; color: var(--rosso); }
+        .exercise-item .ex-video a { color: var(--rosso); text-decoration: none; font-weight: 600; }
+        .exercise-item .ex-actions { margin-top: 10px; display: flex; gap: 6px; }
+        
+        /* MODAL */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
         .modal-overlay.active { display: flex; }
-        .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
-        .modal-title { font-size: 20px; font-weight: 700; }
+        .modal { background: var(--bianco); border-radius: var(--radius); padding: 25px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-large { max-width: 900px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .modal-title { font-size: 18px; font-weight: 700; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group.full { grid-column: 1 / -1; }
-        .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
-        .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 14px 22px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        
+        /* FILE UPLOAD */
+        .file-upload-area { border: 2px dashed var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--tortora-chiarissimo); }
+        .file-upload-area:hover { border-color: var(--tortora); background: var(--bianco); }
+        .file-upload-area.has-file { padding: 10px; }
+        .file-upload-area img { max-width: 100%; max-height: 150px; border-radius: var(--radius-sm); }
+        .file-upload-area .upload-text { color: var(--tortora); font-size: 13px; }
+        .file-upload-area .upload-hint { color: var(--tortora); font-size: 11px; margin-top: 4px; }
+        
+        /* SELECT ESERCIZI DA ARCHIVIO */
+        .archive-select-list { max-height: 300px; overflow-y: auto; border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 10px; }
+        .archive-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-bottom: 1px solid var(--tortora-chiarissimo); cursor: pointer; transition: background 0.15s; }
+        .archive-item:last-child { border-bottom: none; }
+        .archive-item:hover { background: var(--tortora-chiarissimo); }
+        .archive-item input { width: auto; }
+        .archive-item label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
+        .archive-item .item-type { font-size: 10px; padding: 2px 6px; border-radius: 10px; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); }
+        .archive-item .item-type.video { background: #FADBD8; color: var(--rosso); }
+        
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--nero); color: var(--bianco); padding: 12px 20px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; font-size: 14px; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .schede-grid { grid-template-columns: 1fr; } }
+        
+        @media (max-width: 768px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .container { padding: 15px; }
+            .main-tab { min-width: 100px; font-size: 12px; padding: 10px 12px; }
+        }
     </style>
 </head>
 <body>
     <div class="top-header">
-        <h1>AppCenterStudioGYM - Schede Allenamento</h1>
+        <h1> Schede Allenamento</h1>
         <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
     </div>
 
     <div class="container">
-        <div class="page-header">
-            <div>
-                <h2>Schede di Allenamento</h2>
-                <div class="subtitle">Crea e gestisci schede personalizzate per i tuoi atleti</div>
-            </div>
-            <button class="btn btn-primary" onclick="apriModalNuova()">+ Nuova Scheda</button>
+        <!-- TABS PRINCIPALI (solo per gestore) -->
+        <div class="main-tabs" id="mainTabs">
+            <div class="main-tab active" onclick="cambiaTab('archivio-esercizi', this)">📚 Archivio Esercizi</div>
+            <div class="main-tab" onclick="cambiaTab('archivio-video', this)">🎬 Archivio Video</div>
+            <div class="main-tab" onclick="cambiaTab('schede-clienti', this)"> Scheda Cliente</div>
         </div>
-        <div id="schedeContainer"></div>
+
+        <!-- TAB 1: ARCHIVIO ESERCIZI -->
+        <div class="tab-content active" id="tab-archivio-esercizi">
+            <div class="section-header">
+                <div>
+                    <h2> Archivio Esercizi</h2>
+                    <div class="subtitle">Libreria esercizi con foto e descrizioni</div>
+                </div>
+                <button class="btn btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
+            </div>
+            <div id="eserciziContainer"></div>
+        </div>
+
+        <!-- TAB 2: ARCHIVIO VIDEO -->
+        <div class="tab-content" id="tab-archivio-video">
+            <div class="section-header">
+                <div>
+                    <h2>🎬 Archivio Video</h2>
+                    <div class="subtitle">Video dimostrativi da YouTube o altri link</div>
+                </div>
+                <button class="btn btn-primary" onclick="apriModalVideo()">+ Nuovo Video</button>
+            </div>
+            <div id="videoContainer"></div>
+        </div>
+
+        <!-- TAB 3: SCHEDA CLIENTE -->
+        <div class="tab-content" id="tab-schede-clienti">
+            <div class="section-header">
+                <div>
+                    <h2>👥 Scheda Allenamento Cliente</h2>
+                    <div class="subtitle">Crea la settimana di allenamento per ogni atleta</div>
+                </div>
+            </div>
+            
+            <div class="cliente-selector">
+                <label>Seleziona Atleta</label>
+                <select id="clienteSelect" onchange="onClienteChange()">
+                    <option value="">-- Seleziona un atleta --</option>
+                </select>
+            </div>
+
+            <div id="schedaClienteContent" style="display:none;">
+                <div class="days-tabs" id="daysTabs"></div>
+                <div id="daysContent"></div>
+                <div style="margin-top: 20px; text-align: right;">
+                    <button class="btn btn-success" onclick="salvaSettimana()">💾 Salva Settimana Completa</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="modal-overlay" id="modalScheda">
+    <!-- MODAL ESERCIZIO -->
+    <div class="modal-overlay" id="modalEsercizio">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Nuova Scheda</div>
-                <button class="modal-close" onclick="chiudiModal()">×</button>
+                <div class="modal-title" id="modalEsercizioTitle">Nuovo Esercizio</div>
+                <button class="modal-close" onclick="chiudiModal('modalEsercizio')">×</button>
             </div>
-            <form id="formScheda" onsubmit="salvaScheda(event)">
-                <input type="hidden" id="schedaId">
+            <form id="formEsercizio" onsubmit="salvaEsercizio(event)">
+                <input type="hidden" id="esercizioId">
                 <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Nome Scheda *</label>
-                        <input type="text" id="schedaNome" required placeholder="Es. Scheda Ipertrofia 4 settimane">
-                    </div>
                     <div class="form-group">
-                        <label>Atleta</label>
-                        <select id="schedaAtleta"><option value="">-- Generica --</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Durata (settimane)</label>
-                        <input type="number" id="schedaDurata" value="4" min="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Giorno</label>
-                        <select id="schedaGiorno">
-                            <option value="Lunedì">Lunedì</option><option value="Martedì">Martedì</option>
-                            <option value="Mercoledì">Mercoledì</option><option value="Giovedì">Giovedì</option>
-                            <option value="Venerdì">Venerdì</option><option value="Sabato">Sabato</option>
-                            <option value="Domenica">Domenica</option>
-                        </select>
+                        <label>Nome Esercizio *</label>
+                        <input type="text" id="esercizioNome" required placeholder="Es. Panca Piana">
                     </div>
                     <div class="form-group">
                         <label>Gruppo Muscolare</label>
-                        <select id="schedaGruppo">
-                            <option value="Petto">Petto</option><option value="Schiena">Schiena</option>
-                            <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
-                            <option value="Braccia">Braccia</option><option value="Addome">Addome</option>
-                            <option value="Full Body">Full Body</option><option value="Cardio">Cardio</option>
+                        <select id="esercizioGruppo">
+                            <option value="Pettorali">Pettorali</option>
+                            <option value="Schiena">Schiena</option>
+                            <option value="Gambe">Gambe</option>
+                            <option value="Spalle">Spalle</option>
+                            <option value="Bicipiti">Bicipiti</option>
+                            <option value="Tricipiti">Tricipiti</option>
+                            <option value="Addome">Addome</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
                         </select>
                     </div>
-                    <div class="form-group full">
-                        <label>Esercizi (uno per riga: Esercizio | Serie x Ripetizioni | Recupero)</label>
-                        <textarea id="schedaEsercizi" rows="8" placeholder="Panca piana | 4x10 | 90s&#10;Croci ai cavi | 3x12 | 60s&#10;Dip | 3xMAX | 90s"></textarea>
+                    <div class="form-group">
+                        <label>Descrizione *</label>
+                        <textarea id="esercizioDesc" required placeholder="Descrizione dell'esercizio, esecuzione corretta, errori da evitare..."></textarea>
                     </div>
-                    <div class="form-group full">
-                        <label>Note</label>
-                        <textarea id="schedaNote" rows="3" placeholder="Note aggiuntive..."></textarea>
+                    <div class="form-group">
+                        <label>Serie x Ripetizioni</label>
+                        <input type="text" id="esercizioSerie" placeholder="Es. 4x10">
+                    </div>
+                    <div class="form-group">
+                        <label>Recupero</label>
+                        <input type="text" id="esercizioRecupero" placeholder="Es. 90 secondi">
+                    </div>
+                    <div class="form-group">
+                        <label>Foto/Diagramma (JPEG, PNG, PDF)</label>
+                        <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('fileInput').click()">
+                            <div id="filePreview">
+                                <div style="font-size: 32px; opacity: 0.3;">📷</div>
+                                <div class="upload-text">Clicca per caricare un file</div>
+                                <div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>
+                            </div>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/jpeg,image/png,application/pdf" style="display:none;" onchange="gestisciFileUpload(event)">
                     </div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="chiudiModal()">Annulla</button>
-                    <button type="submit" class="btn btn-success">Salva Scheda</button>
+                    <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalEsercizio')">Annulla</button>
+                    <button type="submit" class="btn btn-success">Salva Esercizio</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- MODAL VIDEO -->
+    <div class="modal-overlay" id="modalVideo">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalVideoTitle">Nuovo Video</div>
+                <button class="modal-close" onclick="chiudiModal('modalVideo')">×</button>
+            </div>
+            <form id="formVideo" onsubmit="salvaVideo(event)">
+                <input type="hidden" id="videoId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titolo Video *</label>
+                        <input type="text" id="videoTitolo" required placeholder="Es. Panca Piana - Esecuzione corretta">
+                    </div>
+                    <div class="form-group">
+                        <label>Gruppo Muscolare</label>
+                        <select id="videoGruppo">
+                            <option value="Pettorali">Pettorali</option>
+                            <option value="Schiena">Schiena</option>
+                            <option value="Gambe">Gambe</option>
+                            <option value="Spalle">Spalle</option>
+                            <option value="Bicipiti">Bicipiti</option>
+                            <option value="Tricipiti">Tricipiti</option>
+                            <option value="Addome">Addome</option>
+                            <option value="Cardio">Cardio</option>
+                            <option value="Full Body">Full Body</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrizione</label>
+                        <textarea id="videoDesc" placeholder="Descrizione del video, note tecniche..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Link Video (YouTube o altro) *</label>
+                        <input type="url" id="videoLink" required placeholder="https://youtube.com/watch?v=...">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalVideo')">Annulla</button>
+                    <button type="submit" class="btn btn-success">Salva Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL AGGIUNGI ESERCIZIO ALLA GIORNATA -->
+    <div class="modal-overlay" id="modalAggiungiEsercizio">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <div class="modal-title">Aggiungi Esercizi/Video al Giorno</div>
+                <button class="modal-close" onclick="chiudiModal('modalAggiungiEsercizio')">×</button>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; font-size: 14px;">📚 Seleziona dagli Archivi:</h4>
+                <div class="archive-select-list" id="archiveSelectList"></div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="chiudiModal('modalAggiungiEsercizio')">Annulla</button>
+                    <button class="btn btn-success" onclick="confermaAggiuntaEsercizi()">✅ Aggiungi Selezionati</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -124,7 +306,13 @@
 
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    let currentUser = null, palestraData = null, atleti = [], schede = [], editingId = null;
+    const GIORNI = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+    
+    let currentUser = null, palestraData = null, atleti = [];
+    let esercizi = [], videoArchivio = [], schedeClienti = {};
+    let editingEsercizioId = null, editingVideoId = null;
+    let clienteSelezionato = null, giornoSelezionato = 0;
+    let fileBase64 = null, fileNome = null, fileType = null;
 
     function init() {
         const userStr = localStorage.getItem('currentUser');
@@ -138,44 +326,226 @@
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            
             if (palestraData) {
                 const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
                 atleti = await atletiRes.json();
-                popolaSelectAtleti();
+                popolaSelectClienti();
             }
-            const saved = localStorage.getItem(`schede_${palestraData?.id || 'default'}`);
-            if (saved) schede = JSON.parse(saved);
-            renderSchede();
+            
+            // Carica da localStorage
+            const chiave = `schede_gym_${palestraData?.id || 'default'}`;
+            const saved = localStorage.getItem(chiave);
+            if (saved) {
+                const data = JSON.parse(saved);
+                esercizi = data.esercizi || [];
+                videoArchivio = data.video || [];
+                schedeClienti = data.schedeClienti || {};
+            }
+            
+            renderEsercizi();
+            renderVideo();
         } catch (error) { console.error('Errore:', error); }
     }
 
-    function popolaSelectAtleti() {
-        const select = document.getElementById('schedaAtleta');
+    function salvaDatiLocali() {
+        const chiave = `schede_gym_${palestraData?.id || 'default'}`;
+        localStorage.setItem(chiave, JSON.stringify({ esercizi, video: videoArchivio, schedeClienti }));
+    }
+
+    function popolaSelectClienti() {
+        const select = document.getElementById('clienteSelect');
+        select.innerHTML = '<option value="">-- Seleziona un atleta --</option>';
         atleti.forEach(a => {
             const opt = document.createElement('option');
-            opt.value = a.id; opt.textContent = `${a.nome} (${a.username || '-'})`;
+            opt.value = a.id;
+            opt.textContent = `${a.nome} (${a.username || '-'})`;
             select.appendChild(opt);
         });
     }
 
-    function renderSchede() {
-        const container = document.getElementById('schedeContainer');
-        if (schede.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div style="font-size:48px; margin-bottom:15px; opacity:0.5;">💪</div><div style="font-size:15px; margin-bottom:20px;">Nessuna scheda creata</div><button class="btn btn-primary" onclick="apriModalNuova()">+ Crea la prima scheda</button></div>';
+    function onClienteChange() {
+        const id = document.getElementById('clienteSelect').value;
+        if (!id) {
+            document.getElementById('schedaClienteContent').style.display = 'none';
             return;
         }
-        let html = '<div class="schede-grid">';
-        schede.forEach(s => {
-            const atleta = atleti.find(a => a.id == s.atleta_id);
-            html += `<div class="scheda-card">
-                <h3>${s.nome}</h3>
-                <div class="info"><strong>Atleta:</strong> ${atleta ? atleta.nome : 'Generica'}</div>
-                <div class="info"><strong>Giorno:</strong> ${s.giorno} • <strong>Gruppo:</strong> ${s.gruppo}</div>
-                <div class="info"><strong>Durata:</strong> ${s.durata} settimane</div>
-                <div class="info"><strong>Esercizi:</strong> ${(s.esercizi || '').split('\n').filter(e => e.trim()).length}</div>
+        clienteSelezionato = atleti.find(a => a.id == id);
+        document.getElementById('schedaClienteContent').style.display = 'block';
+        renderGiorniTabs();
+    }
+
+    function renderGiorniTabs() {
+        const tabsContainer = document.getElementById('daysTabs');
+        const contentContainer = document.getElementById('daysContent');
+        tabsContainer.innerHTML = '';
+        contentContainer.innerHTML = '';
+        
+        GIORNI.forEach((giorno, idx) => {
+            const tab = document.createElement('div');
+            tab.className = 'day-tab' + (idx === 0 ? ' active' : '');
+            tab.textContent = giorno.substring(0, 3);
+            tab.onclick = () => selezionaGiorno(idx);
+            tabsContainer.appendChild(tab);
+            
+            const content = document.createElement('div');
+            content.className = 'day-content' + (idx === 0 ? ' active' : '');
+            content.id = `day-content-${idx}`;
+            contentContainer.appendChild(content);
+        });
+        
+        renderGiorno(0);
+    }
+
+    function selezionaGiorno(idx) {
+        giornoSelezionato = idx;
+        document.querySelectorAll('.day-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+        document.querySelectorAll('.day-content').forEach((c, i) => c.classList.toggle('active', i === idx));
+        renderGiorno(idx);
+    }
+
+    function renderGiorno(idx) {
+        const container = document.getElementById(`day-content-${idx}`);
+        if (!container) return;
+        
+        const chiave = `${clienteSelezionato.id}_${idx}`;
+        const eserciziGiorno = schedeClienti[chiave] || [];
+        
+        let html = `<div style="margin-bottom: 15px;">
+            <h3 style="font-size: 16px; margin-bottom: 5px;">${GIORNI[idx]}</h3>
+            <div style="font-size: 12px; color: var(--tortora);">${eserciziGiorno.length} esercizi programmati</div>
+        </div>`;
+        
+        if (eserciziGiorno.length === 0) {
+            html += '<div class="empty-state" style="padding: 30px;"><div style="font-size: 32px; margin-bottom: 10px;">💪</div><div>Nessun esercizio per questo giorno</div></div>';
+        } else {
+            eserciziGiorno.forEach((ex, exIdx) => {
+                const tipo = ex.tipo; // 'esercizio' o 'video'
+                const data = tipo === 'esercizio' 
+                    ? esercizi.find(e => e.id === ex.id)
+                    : videoArchivio.find(v => v.id === ex.id);
+                
+                if (!data) return;
+                
+                html += `<div class="exercise-item">
+                    <div class="ex-header">
+                        <div class="ex-name">${tipo === 'esercizio' ? '📚' : ''} ${data.nome || data.titolo}</div>
+                        <span style="font-size: 11px; padding: 3px 8px; background: ${tipo === 'esercizio' ? 'var(--verde-chiaro)' : '#FADBD8'}; color: ${tipo === 'esercizio' ? '#1E8449' : 'var(--rosso)'}; border-radius: 10px; font-weight: 600;">${data.gruppo || ''}</span>
+                    </div>
+                    <div class="ex-desc">${data.descrizione || 'Nessuna descrizione'}</div>`;
+                
+                if (tipo === 'esercizio') {
+                    if (data.serie) html += `<div class="ex-desc"><strong>Serie:</strong> ${data.serie}${data.recupero ? ` • <strong>Recupero:</strong> ${data.recupero}` : ''}</div>`;
+                    if (data.fileBase64) {
+                        if (data.fileType && data.fileType.includes('pdf')) {
+                            html += `<div class="ex-file">📄 <a href="${data.fileBase64}" target="_blank">Apri PDF</a></div>`;
+                        } else {
+                            html += `<div class="ex-file">️ <a href="${data.fileBase64}" target="_blank">Vedi immagine</a></div>`;
+                        }
+                    }
+                } else {
+                    if (data.link) html += `<div class="ex-video">▶️ <a href="${data.link}" target="_blank">Guarda Video</a></div>`;
+                }
+                
+                html += `<div class="ex-actions">
+                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx})">️ Rimuovi</button>
+                </div></div>`;
+            });
+        }
+        
+        html += `<div style="margin-top: 15px;">
+            <button class="btn btn-primary" onclick="apriAggiungiEsercizio(${idx})">+ Aggiungi da Archivio</button>
+        </div>`;
+        
+        container.innerHTML = html;
+    }
+
+    function apriAggiungiEsercizio(giornoIdx) {
+        giornoSelezionato = giornoIdx;
+        const list = document.getElementById('archiveSelectList');
+        let html = '';
+        
+        esercizi.forEach(e => {
+            html += `<div class="archive-item">
+                <input type="checkbox" id="arch_ex_${e.id}" value="esercizio_${e.id}">
+                <label for="arch_ex_${e.id}">📚 ${e.nome}</label>
+                <span class="item-type">${e.gruppo}</span>
+            </div>`;
+        });
+        
+        videoArchivio.forEach(v => {
+            html += `<div class="archive-item">
+                <input type="checkbox" id="arch_vid_${v.id}" value="video_${v.id}">
+                <label for="arch_vid_${v.id}">🎬 ${v.titolo}</label>
+                <span class="item-type video">${v.gruppo}</span>
+            </div>`;
+        });
+        
+        if (esercizi.length === 0 && videoArchivio.length === 0) {
+            html = '<div style="text-align: center; padding: 20px; color: var(--tortora);">Archivi vuoti. C prima esercizi o video!</div>';
+        }
+        
+        list.innerHTML = html;
+        document.getElementById('modalAggiungiEsercizio').classList.add('active');
+    }
+
+    function confermaAggiuntaEsercizi() {
+        const checkboxes = document.querySelectorAll('#archiveSelectList input:checked');
+        const chiave = `${clienteSelezionato.id}_${giornoSelezionato}`;
+        if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
+        
+        checkboxes.forEach(cb => {
+            const [tipo, idStr] = cb.value.split('_');
+            const id = parseInt(idStr);
+            // Evita duplicati
+            const exists = schedeClienti[chiave].some(e => e.tipo === tipo && e.id === id);
+            if (!exists) {
+                schedeClienti[chiave].push({ tipo, id });
+            }
+        });
+        
+        salvaDatiLocali();
+        chiudiModal('modalAggiungiEsercizio');
+        renderGiorno(giornoSelezionato);
+        showToast(`✅ Aggiunti ${checkboxes.length} elementi`);
+    }
+
+    function rimuoviEsercizioDaGiorno(giornoIdx, exIdx) {
+        if (!confirm('Rimuovere questo elemento dalla giornata?')) return;
+        const chiave = `${clienteSelezionato.id}_${giornoIdx}`;
+        if (schedeClienti[chiave]) {
+            schedeClienti[chiave].splice(exIdx, 1);
+            salvaDatiLocali();
+            renderGiorno(giornoIdx);
+            showToast('Elemento rimosso');
+        }
+    }
+
+    function salvaSettimana() {
+        if (!clienteSelezionato) return;
+        salvaDatiLocali();
+        showToast('✅ Settimana salvata con successo!');
+    }
+
+    // ============ ARCHIVIO ESERCIZI ============
+    function renderEsercizi() {
+        const container = document.getElementById('eserciziContainer');
+        if (esercizi.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">📚</div><div style="font-size: 15px; margin-bottom: 20px;">Nessun esercizio in archivio</div><button class="btn btn-primary" onclick="apriModalEsercizio()">+ Crea il primo esercizio</button></div>';
+            return;
+        }
+        let html = '<div class="cards-grid">';
+        esercizi.forEach(e => {
+            html += `<div class="card">
+                <h3>${e.nome}</h3>
+                <div class="info"><strong>Gruppo:</strong> ${e.gruppo}</div>
+                <div class="info"><strong>Serie:</strong> ${e.serie || '-'}</div>
+                <div class="info"><strong>Recupero:</strong> ${e.recupero || '-'}</div>
+                <div class="info" style="margin-top: 8px; font-size: 12px;">${(e.descrizione || '').substring(0, 80)}${(e.descrizione || '').length > 80 ? '...' : ''}</div>
+                ${e.fileBase64 ? '<div class="info" style="color: var(--blu); font-size: 12px;"> File allegato</div>' : ''}
                 <div class="actions">
-                    <button class="btn btn-sm btn-secondary" onclick="modificaScheda(${s.id})">Modifica</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminaScheda(${s.id})">Elimina</button>
+                    <button class="btn btn-sm btn-secondary" onclick="modificaEsercizio(${e.id})">Modifica</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaEsercizio(${e.id})">Elimina</button>
                 </div>
             </div>`;
         });
@@ -183,66 +553,211 @@
         container.innerHTML = html;
     }
 
-    function apriModalNuova() {
-        editingId = null;
-        document.getElementById('modalTitle').textContent = 'Nuova Scheda';
-        document.getElementById('formScheda').reset();
-        document.getElementById('schedaId').value = '';
-        document.getElementById('schedaDurata').value = '4';
-        document.getElementById('modalScheda').classList.add('active');
+    function apriModalEsercizio() {
+        editingEsercizioId = null;
+        document.getElementById('modalEsercizioTitle').textContent = 'Nuovo Esercizio';
+        document.getElementById('formEsercizio').reset();
+        document.getElementById('esercizioId').value = '';
+        fileBase64 = null; fileNome = null; fileType = null;
+        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;"></div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>';
+        document.getElementById('fileUploadArea').classList.remove('has-file');
+        document.getElementById('modalEsercizio').classList.add('active');
     }
 
-    function modificaScheda(id) {
-        const s = schede.find(x => x.id === id);
-        if (!s) return;
-        editingId = id;
-        document.getElementById('modalTitle').textContent = 'Modifica Scheda';
-        document.getElementById('schedaId').value = s.id;
-        document.getElementById('schedaNome').value = s.nome || '';
-        document.getElementById('schedaAtleta').value = s.atleta_id || '';
-        document.getElementById('schedaDurata').value = s.durata || 4;
-        document.getElementById('schedaGiorno').value = s.giorno || 'Lunedì';
-        document.getElementById('schedaGruppo').value = s.gruppo || 'Full Body';
-        document.getElementById('schedaEsercizi').value = s.esercizi || '';
-        document.getElementById('schedaNote').value = s.note || '';
-        document.getElementById('modalScheda').classList.add('active');
+    function modificaEsercizio(id) {
+        const e = esercizi.find(x => x.id === id);
+        if (!e) return;
+        editingEsercizioId = id;
+        document.getElementById('modalEsercizioTitle').textContent = 'Modifica Esercizio';
+        document.getElementById('esercizioId').value = e.id;
+        document.getElementById('esercizioNome').value = e.nome || '';
+        document.getElementById('esercizioGruppo').value = e.gruppo || 'Pettorali';
+        document.getElementById('esercizioDesc').value = e.descrizione || '';
+        document.getElementById('esercizioSerie').value = e.serie || '';
+        document.getElementById('esercizioRecupero').value = e.recupero || '';
+        fileBase64 = e.fileBase64 || null;
+        fileNome = e.fileName || null;
+        fileType = e.fileType || null;
+        
+        if (fileBase64) {
+            document.getElementById('fileUploadArea').classList.add('has-file');
+            if (fileType && fileType.includes('pdf')) {
+                document.getElementById('filePreview').innerHTML = `<div style="font-size: 32px;">📄</div><div style="font-size: 12px; color: var(--tortora);">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+            } else {
+                document.getElementById('filePreview').innerHTML = `<img src="${fileBase64}" alt="Preview"><div style="font-size: 12px; color: var(--tortora); margin-top: 5px;">${fileNome}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+            }
+        }
+        
+        document.getElementById('modalEsercizio').classList.add('active');
     }
 
-    function salvaScheda(e) {
+    function gestisciFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { showToast(' File troppo grande! Max 2MB'); return; }
+        const tipi = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!tipi.includes(file.type)) { showToast('❌ Formato non supportato'); return; }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            fileBase64 = e.target.result;
+            fileNome = file.name;
+            fileType = file.type;
+            document.getElementById('fileUploadArea').classList.add('has-file');
+            if (file.type.includes('pdf')) {
+                document.getElementById('filePreview').innerHTML = `<div style="font-size: 32px;">📄</div><div style="font-size: 12px; color: var(--tortora);">${file.name}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+            } else {
+                document.getElementById('filePreview').innerHTML = `<img src="${fileBase64}" alt="Preview"><div style="font-size: 12px; color: var(--tortora); margin-top: 5px;">${file.name}</div><button type="button" class="btn btn-sm btn-danger" onclick="rimuoviFile(event)" style="margin-top: 8px;">Rimuovi</button>`;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function rimuoviFile(event) {
+        event.stopPropagation();
+        fileBase64 = null; fileNome = null; fileType = null;
+        document.getElementById('fileInput').value = '';
+        document.getElementById('fileUploadArea').classList.remove('has-file');
+        document.getElementById('filePreview').innerHTML = '<div style="font-size: 32px; opacity: 0.3;">📷</div><div class="upload-text">Clicca per caricare un file</div><div class="upload-hint">JPEG, PNG o PDF - Max 2MB</div>';
+    }
+
+    function salvaEsercizio(e) {
         e.preventDefault();
         const data = {
-            id: editingId || Date.now(),
-            nome: document.getElementById('schedaNome').value.trim(),
-            atleta_id: document.getElementById('schedaAtleta').value,
-            durata: parseInt(document.getElementById('schedaDurata').value),
-            giorno: document.getElementById('schedaGiorno').value,
-            gruppo: document.getElementById('schedaGruppo').value,
-            esercizi: document.getElementById('schedaEsercizi').value,
-            note: document.getElementById('schedaNote').value
+            id: editingEsercizioId || Date.now(),
+            nome: document.getElementById('esercizioNome').value.trim(),
+            gruppo: document.getElementById('esercizioGruppo').value,
+            descrizione: document.getElementById('esercizioDesc').value.trim(),
+            serie: document.getElementById('esercizioSerie').value.trim(),
+            recupero: document.getElementById('esercizioRecupero').value.trim(),
+            fileBase64: fileBase64,
+            fileName: fileNome,
+            fileType: fileType
         };
-        if (editingId) {
-            const idx = schede.findIndex(s => s.id === editingId);
-            if (idx >= 0) schede[idx] = data;
-            showToast('Scheda aggiornata!');
+        
+        if (editingEsercizioId) {
+            const idx = esercizi.findIndex(x => x.id === editingEsercizioId);
+            if (idx >= 0) esercizi[idx] = data;
+            showToast('Esercizio aggiornato!');
         } else {
-            schede.push(data);
-            showToast('Scheda creata!');
+            esercizi.push(data);
+            showToast('Esercizio creato!');
         }
-        localStorage.setItem(`schede_${palestraData.id}`, JSON.stringify(schede));
-        chiudiModal();
-        renderSchede();
+        
+        salvaDatiLocali();
+        chiudiModal('modalEsercizio');
+        renderEsercizi();
     }
 
-    function eliminaScheda(id) {
-        if (!confirm('Eliminare questa scheda?')) return;
-        schede = schede.filter(s => s.id !== id);
-        localStorage.setItem(`schede_${palestraData.id}`, JSON.stringify(schede));
-        showToast('Scheda eliminata');
-        renderSchede();
+    function eliminaEsercizio(id) {
+        if (!confirm('Eliminare questo esercizio?')) return;
+        esercizi = esercizi.filter(e => e.id !== id);
+        // Rimuovi anche dalle schede clienti
+        Object.keys(schedeClienti).forEach(k => {
+            schedeClienti[k] = schedeClienti[k].filter(e => !(e.tipo === 'esercizio' && e.id === id));
+        });
+        salvaDatiLocali();
+        renderEsercizi();
+        showToast('Esercizio eliminato');
     }
 
-    function chiudiModal() { document.getElementById('modalScheda').classList.remove('active'); }
-    function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    // ============ ARCHIVIO VIDEO ============
+    function renderVideo() {
+        const container = document.getElementById('videoContainer');
+        if (videoArchivio.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">🎬</div><div style="font-size: 15px; margin-bottom: 20px;">Nessun video in archivio</div><button class="btn btn-primary" onclick="apriModalVideo()">+ Aggiungi il primo video</button></div>';
+            return;
+        }
+        let html = '<div class="cards-grid">';
+        videoArchivio.forEach(v => {
+            html += `<div class="card">
+                <h3>🎬 ${v.titolo}</h3>
+                <div class="info"><strong>Gruppo:</strong> ${v.gruppo}</div>
+                <div class="info" style="font-size: 12px; color: var(--blu); word-break: break-all;"> ${v.link}</div>
+                <div class="info" style="margin-top: 8px; font-size: 12px;">${(v.descrizione || '').substring(0, 80)}${(v.descrizione || '').length > 80 ? '...' : ''}</div>
+                <div class="actions">
+                    <a href="${v.link}" target="_blank" class="btn btn-sm btn-info">▶️ Guarda</a>
+                    <button class="btn btn-sm btn-secondary" onclick="modificaVideo(${v.id})">Modifica</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaVideo(${v.id})">Elimina</button>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function apriModalVideo() {
+        editingVideoId = null;
+        document.getElementById('modalVideoTitle').textContent = 'Nuovo Video';
+        document.getElementById('formVideo').reset();
+        document.getElementById('videoId').value = '';
+        document.getElementById('modalVideo').classList.add('active');
+    }
+
+    function modificaVideo(id) {
+        const v = videoArchivio.find(x => x.id === id);
+        if (!v) return;
+        editingVideoId = id;
+        document.getElementById('modalVideoTitle').textContent = 'Modifica Video';
+        document.getElementById('videoId').value = v.id;
+        document.getElementById('videoTitolo').value = v.titolo || '';
+        document.getElementById('videoGruppo').value = v.gruppo || 'Pettorali';
+        document.getElementById('videoDesc').value = v.descrizione || '';
+        document.getElementById('videoLink').value = v.link || '';
+        document.getElementById('modalVideo').classList.add('active');
+    }
+
+    function salvaVideo(e) {
+        e.preventDefault();
+        const data = {
+            id: editingVideoId || Date.now(),
+            titolo: document.getElementById('videoTitolo').value.trim(),
+            gruppo: document.getElementById('videoGruppo').value,
+            descrizione: document.getElementById('videoDesc').value.trim(),
+            link: document.getElementById('videoLink').value.trim()
+        };
+        
+        if (editingVideoId) {
+            const idx = videoArchivio.findIndex(x => x.id === editingVideoId);
+            if (idx >= 0) videoArchivio[idx] = data;
+            showToast('Video aggiornato!');
+        } else {
+            videoArchivio.push(data);
+            showToast('Video aggiunto!');
+        }
+        
+        salvaDatiLocali();
+        chiudiModal('modalVideo');
+        renderVideo();
+    }
+
+    function eliminaVideo(id) {
+        if (!confirm('Eliminare questo video?')) return;
+        videoArchivio = videoArchivio.filter(v => v.id !== id);
+        Object.keys(schedeClienti).forEach(k => {
+            schedeClienti[k] = schedeClienti[k].filter(e => !(e.tipo === 'video' && e.id === id));
+        });
+        salvaDatiLocali();
+        renderVideo();
+        showToast('Video eliminato');
+    }
+
+    // ============ UTILS ============
+    function cambiaTab(tabId, el) {
+        document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }
+    
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
 
     document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('active'); }));
 

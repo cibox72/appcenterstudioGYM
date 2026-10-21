@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schede Allenamento - AppCenterStudioGYM</title>
+    <style>
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --blu: #3498DB; --rosso: #E74C3C; --ombra: 0 2px 12px rgba(0,0,0,0.08); --radius: 12px; --radius-sm: 8px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
+        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
+        .top-header h1 { font-size: 20px; font-weight: 700; }
+        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .page-header h2 { font-size: 22px; }
+        .page-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
+        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-success { background: var(--verde); color: var(--bianco); }
+        .btn-danger { background: var(--rosso); color: var(--bianco); }
+        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-sm { padding: 7px 12px; font-size: 12px; }
+        .schede-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+        .scheda-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; }
+        .scheda-card h3 { font-size: 18px; margin-bottom: 6px; }
+        .scheda-card .info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 4px; }
+        .scheda-card .info strong { color: var(--nero); }
+        .scheda-card .actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 6px; flex-wrap: wrap; }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .modal-title { font-size: 20px; font-weight: 700; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 14px 22px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .schede-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <h1>AppCenterStudioGYM - Schede Allenamento</h1>
+        <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <div>
+                <h2>Schede di Allenamento</h2>
+                <div class="subtitle">Crea e gestisci schede personalizzate per i tuoi atleti</div>
+            </div>
+            <button class="btn btn-primary" onclick="apriModalNuova()">+ Nuova Scheda</button>
+        </div>
+        <div id="schedeContainer"></div>
+    </div>
+
+    <div class="modal-overlay" id="modalScheda">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Nuova Scheda</div>
+                <button class="modal-close" onclick="chiudiModal()">×</button>
+            </div>
+            <form id="formScheda" onsubmit="salvaScheda(event)">
+                <input type="hidden" id="schedaId">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Nome Scheda *</label>
+                        <input type="text" id="schedaNome" required placeholder="Es. Scheda Ipertrofia 4 settimane">
+                    </div>
+                    <div class="form-group">
+                        <label>Atleta</label>
+                        <select id="schedaAtleta"><option value="">-- Generica --</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Durata (settimane)</label>
+                        <input type="number" id="schedaDurata" value="4" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Giorno</label>
+                        <select id="schedaGiorno">
+                            <option value="Lunedì">Lunedì</option><option value="Martedì">Martedì</option>
+                            <option value="Mercoledì">Mercoledì</option><option value="Giovedì">Giovedì</option>
+                            <option value="Venerdì">Venerdì</option><option value="Sabato">Sabato</option>
+                            <option value="Domenica">Domenica</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gruppo Muscolare</label>
+                        <select id="schedaGruppo">
+                            <option value="Petto">Petto</option><option value="Schiena">Schiena</option>
+                            <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
+                            <option value="Braccia">Braccia</option><option value="Addome">Addome</option>
+                            <option value="Full Body">Full Body</option><option value="Cardio">Cardio</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>Esercizi (uno per riga: Esercizio | Serie x Ripetizioni | Recupero)</label>
+                        <textarea id="schedaEsercizi" rows="8" placeholder="Panca piana | 4x10 | 90s&#10;Croci ai cavi | 3x12 | 60s&#10;Dip | 3xMAX | 90s"></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label>Note</label>
+                        <textarea id="schedaNote" rows="3" placeholder="Note aggiuntive..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="chiudiModal()">Annulla</button>
+                    <button type="submit" class="btn btn-success">Salva Scheda</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    let currentUser = null, palestraData = null, atleti = [], schede = [], editingId = null;
+
+    function init() {
+        const userStr = localStorage.getItem('currentUser');
+        if (!userStr) { window.location.href = 'index.html'; return; }
+        currentUser = JSON.parse(userStr);
+        loadData();
+    }
+
+    async function loadData() {
+        try {
+            const palestreRes = await fetch(`${API_URL}/api/palestre`);
+            const palestre = await palestreRes.json();
+            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            if (palestraData) {
+                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
+                atleti = await atletiRes.json();
+                popolaSelectAtleti();
+            }
+            const saved = localStorage.getItem(`schede_${palestraData?.id || 'default'}`);
+            if (saved) schede = JSON.parse(saved);
+            renderSchede();
+        } catch (error) { console.error('Errore:', error); }
+    }
+
+    function popolaSelectAtleti() {
+        const select = document.getElementById('schedaAtleta');
+        atleti.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.id; opt.textContent = `${a.nome} (${a.username || '-'})`;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderSchede() {
+        const container = document.getElementById('schedeContainer');
+        if (schede.length === 0) {
+            container.innerHTML = '<div class="empty-state"><div style="font-size:48px; margin-bottom:15px; opacity:0.5;">💪</div><div style="font-size:15px; margin-bottom:20px;">Nessuna scheda creata</div><button class="btn btn-primary" onclick="apriModalNuova()">+ Crea la prima scheda</button></div>';
+            return;
+        }
+        let html = '<div class="schede-grid">';
+        schede.forEach(s => {
+            const atleta = atleti.find(a => a.id == s.atleta_id);
+            html += `<div class="scheda-card">
+                <h3>${s.nome}</h3>
+                <div class="info"><strong>Atleta:</strong> ${atleta ? atleta.nome : 'Generica'}</div>
+                <div class="info"><strong>Giorno:</strong> ${s.giorno} • <strong>Gruppo:</strong> ${s.gruppo}</div>
+                <div class="info"><strong>Durata:</strong> ${s.durata} settimane</div>
+                <div class="info"><strong>Esercizi:</strong> ${(s.esercizi || '').split('\n').filter(e => e.trim()).length}</div>
+                <div class="actions">
+                    <button class="btn btn-sm btn-secondary" onclick="modificaScheda(${s.id})">Modifica</button>
+                    <button class="btn btn-sm btn-danger" onclick="eliminaScheda(${s.id})">Elimina</button>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function apriModalNuova() {
+        editingId = null;
+        document.getElementById('modalTitle').textContent = 'Nuova Scheda';
+        document.getElementById('formScheda').reset();
+        document.getElementById('schedaId').value = '';
+        document.getElementById('schedaDurata').value = '4';
+        document.getElementById('modalScheda').classList.add('active');
+    }
+
+    function modificaScheda(id) {
+        const s = schede.find(x => x.id === id);
+        if (!s) return;
+        editingId = id;
+        document.getElementById('modalTitle').textContent = 'Modifica Scheda';
+        document.getElementById('schedaId').value = s.id;
+        document.getElementById('schedaNome').value = s.nome || '';
+        document.getElementById('schedaAtleta').value = s.atleta_id || '';
+        document.getElementById('schedaDurata').value = s.durata || 4;
+        document.getElementById('schedaGiorno').value = s.giorno || 'Lunedì';
+        document.getElementById('schedaGruppo').value = s.gruppo || 'Full Body';
+        document.getElementById('schedaEsercizi').value = s.esercizi || '';
+        document.getElementById('schedaNote').value = s.note || '';
+        document.getElementById('modalScheda').classList.add('active');
+    }
+
+    function salvaScheda(e) {
+        e.preventDefault();
+        const data = {
+            id: editingId || Date.now(),
+            nome: document.getElementById('schedaNome').value.trim(),
+            atleta_id: document.getElementById('schedaAtleta').value,
+            durata: parseInt(document.getElementById('schedaDurata').value),
+            giorno: document.getElementById('schedaGiorno').value,
+            gruppo: document.getElementById('schedaGruppo').value,
+            esercizi: document.getElementById('schedaEsercizi').value,
+            note: document.getElementById('schedaNote').value
+        };
+        if (editingId) {
+            const idx = schede.findIndex(s => s.id === editingId);
+            if (idx >= 0) schede[idx] = data;
+            showToast('Scheda aggiornata!');
+        } else {
+            schede.push(data);
+            showToast('Scheda creata!');
+        }
+        localStorage.setItem(`schede_${palestraData.id}`, JSON.stringify(schede));
+        chiudiModal();
+        renderSchede();
+    }
+
+    function eliminaScheda(id) {
+        if (!confirm('Eliminare questa scheda?')) return;
+        schede = schede.filter(s => s.id !== id);
+        localStorage.setItem(`schede_${palestraData.id}`, JSON.stringify(schede));
+        showToast('Scheda eliminata');
+        renderSchede();
+    }
+
+    function chiudiModal() { document.getElementById('modalScheda').classList.remove('active'); }
+    function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+
+    document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('active'); }));
+
+    init();
+    </script>
+</body>
+</html>

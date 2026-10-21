@@ -6,29 +6,21 @@
     <title>Accedi - AppCenterStudioGYM</title>
     <style>
         :root {
-            --nero: #1A1A1A;
-            --tortora: #9C928A;
-            --tortora-scuro: #7A716A;
-            --tortora-chiaro: #E8E3DE;
-            --tortora-chiarissimo: #F5F2EF;
-            --bianco: #FFFFFF;
-            --rosso: #E74C3C;
-            --ombra: 0 4px 20px rgba(156, 146, 138, 0.15);
-            --radius: 12px;
-            --radius-sm: 8px;
+            --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --rosso: #E74C3C;
+            --blu: #3498DB; --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px; --radius-sm: 8px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
-            color: var(--nero);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        
         .login-container {
             background: var(--bianco);
             border: 2px solid var(--tortora);
@@ -36,252 +28,104 @@
             padding: 40px;
             width: 100%;
             max-width: 420px;
-            box-shadow: var(--ombra);
+            box-shadow: var(--ombra-forte);
         }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
-        
-        .login-header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--nero);
-            letter-spacing: 0.5px;
-            margin-bottom: 5px;
-        }
-        
-        .login-header p {
-            font-size: 11px;
-            color: var(--tortora);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        
-        .password-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 14px 50px 14px 16px;
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            transition: border-color 0.2s;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--tortora);
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            color: var(--tortora);
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-        }
-        
-        .toggle-password:hover {
-            color: var(--nero);
-        }
-        
-        .toggle-password svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-        
-        .btn-login {
-            width: 100%;
-            padding: 16px;
-            background: var(--tortora);
-            color: var(--bianco);
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-top: 10px;
-        }
-        
-        .btn-login:hover {
-            background: var(--nero);
-        }
-        
-        .btn-login:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .error-message {
-            background: #FADBD8;
-            color: #922B21;
-            border: 1px solid var(--rosso);
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: none;
-            text-align: center;
-        }
-        
-        .error-message.show {
-            display: block;
-        }
-        
-        .footer-text {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 11px;
-            color: var(--tortora);
-        }
+        .login-header { text-align: center; margin-bottom: 30px; }
+        .login-header h1 { font-size: 24px; color: var(--nero); margin-bottom: 5px; }
+        .login-header p { font-size: 11px; color: var(--tortora); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus { outline: none; border-color: var(--tortora); }
+        .btn-login { width: 100%; padding: 14px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-family: inherit; }
+        .btn-login:hover { background: var(--nero); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+        .error-message { background: var(--rosso); color: var(--bianco); padding: 12px; border-radius: var(--radius-sm); font-size: 13px; text-align: center; margin-bottom: 20px; display: none; }
+        .error-message.show { display: block; }
+        .footer-text { text-align: center; margin-top: 20px; font-size: 12px; color: var(--tortora); }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: none; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        .loading-overlay.show { display: flex; }
     </style>
 </head>
 <body>
-
+    <div class="loading-overlay" id="loadingOverlay">Accesso in corso...</div>
+    
     <div class="login-container">
         <div class="login-header">
             <h1>AppCenterStudioGYM</h1>
             <p>Accesso Riservato</p>
         </div>
-
-        <div class="error-message" id="errorMessage">
-            Username o password non corretti.
-        </div>
-
-        <form id="loginForm">
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autocomplete="username" placeholder="Inserisci il tuo username">
+                <label>Username</label>
+                <input type="text" id="username" required placeholder="Inserisci il tuo username">
             </div>
-            
             <div class="form-group">
-                <label for="password">Password</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Inserisci la tua password">
-                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostra password">
-                        <svg id="eyeOpen" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                        </svg>
-                        <svg id="eyeClosed" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-                            <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
-                        </svg>
-                    </button>
-                </div>
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="Inserisci la tua password">
             </div>
-            
             <button type="submit" class="btn-login" id="btnLogin">Accedi</button>
         </form>
-
-        <div class="footer-text">
-            Sistema di gestione professionale per palestre
-        </div>
+        
+        <div class="footer-text">Sistema di gestione professionale per palestre</div>
     </div>
 
     <script>
-        const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
 
-        // Toggle mostra/nascondi password
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const eyeOpen = document.getElementById('eyeOpen');
-        const eyeClosed = document.getElementById('eyeClosed');
-
-        togglePassword.addEventListener('click', function() {
-            const isPassword = passwordInput.type === 'password';
-            passwordInput.type = isPassword ? 'text' : 'password';
-            eyeOpen.style.display = isPassword ? 'none' : 'block';
-            eyeClosed.style.display = isPassword ? 'block' : 'none';
-            this.setAttribute('aria-label', isPassword ? 'Nascondi password' : 'Mostra password');
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    async function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const btn = document.getElementById('btnLogin');
+        const errorEl = document.getElementById('errorMessage');
+        const loadingEl = document.getElementById('loadingOverlay');
+        
+        errorEl.classList.remove('show');
+        btn.disabled = true;
+        btn.textContent = 'Accesso in corso...';
+        loadingEl.classList.add('show');
+        
+        try {
+            const res = await fetch(`${API_URL}/api/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
             
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('btnLogin');
-            const errorMsg = document.getElementById('errorMessage');
-            
-            errorMsg.classList.remove('show');
-            btn.disabled = true;
-            btn.textContent = 'Verifica in corso...';
-            
-            try {
-                const response = await fetch(`${API_URL}/api/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
+            if (data.success) {
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
                 
-                const data = await response.json();
-                
-                if (data.success) {
-                    localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    
-                    // Redirect in base al ruolo
-                    if (data.user.ruolo === 'fornitore') {
-                        window.location.href = 'offerte.html';
-                    } else if (data.user.ruolo === 'palestra') {
-                        window.location.href = 'dashboard-palestra.html';
-                    } else if (data.user.ruolo === 'atleta') {
-                        window.location.href = 'dashboard-atleta.html';
-                    } else {
-                        window.location.href = 'offerte.html';
-                    }
+                // Reindirizzamento in base al ruolo
+                if (data.user.ruolo === 'fornitore') {
+                    window.location.href = 'dashboard-fornitore.html';
+                } else if (data.user.ruolo === 'palestra') {
+                    window.location.href = 'dashboard-palestra.html';
+                } else if (data.user.ruolo === 'atleta') {
+                    window.location.href = 'dashboard-atleta.html';
                 } else {
-                    errorMsg.textContent = data.message || 'Credenziali non valide.';
-                    errorMsg.classList.add('show');
-                    btn.disabled = false;
-                    btn.textContent = 'Accedi';
+                    // Default: dashboard fornitore
+                    window.location.href = 'dashboard-fornitore.html';
                 }
-            } catch (error) {
-                console.error('Errore di connessione:', error);
-                errorMsg.textContent = 'Errore di connessione al server. Riprova.';
-                errorMsg.classList.add('show');
+            } else {
+                errorEl.textContent = data.message || 'Credenziali non valide';
+                errorEl.classList.add('show');
                 btn.disabled = false;
                 btn.textContent = 'Accedi';
+                loadingEl.classList.remove('show');
             }
-        });
+        } catch (error) {
+            errorEl.textContent = 'Errore di connessione al server';
+            errorEl.classList.add('show');
+            btn.disabled = false;
+            btn.textContent = 'Accedi';
+            loadingEl.classList.remove('show');
+        }
+    }
     </script>
 </body>
 </html>

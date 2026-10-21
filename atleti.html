@@ -87,7 +87,7 @@
         .totale-box .amount { color: var(--verde); font-size: 22px; }
         .ricevuta-print { padding: 30px; background: var(--bianco); border: 2px solid var(--nero); border-radius: var(--radius); }
         .ricevuta-header { text-align: center; border-bottom: 2px solid var(--tortora); padding-bottom: 15px; margin-bottom: 20px; }
-        .ricevuta-header h2 { font-size: 22px; color: var(--nero); }
+        .ricevuta-header h2 { font-size: 22px; color: var(--nero); margin-top: 10px; }
         .ricevuta-header p { color: var(--tortora); font-size: 13px; }
         .ricevuta-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .ricevuta-section h4 { font-size: 12px; text-transform: uppercase; color: var(--tortora); letter-spacing: 1px; margin-bottom: 8px; }
@@ -604,6 +604,7 @@
         const html = `
         <div class="ricevuta-print">
             <div class="ricevuta-header">
+                ${palestra.logo_url ? `<img src="${palestra.logo_url}" alt="Logo Palestra" style="max-height: 80px; margin-bottom: 10px;"><br>` : ''}
                 <h2>${palestra.nome || 'AppCenterStudioGYM'}</h2>
                 <p>${palestra.indirizzo || ''} ${palestra.citta || ''} - Tel: ${palestra.telefono || ''}</p>
                 <p>Email: ${palestra.email || ''} - P.IVA: ${palestra.piva || ''}</p>

@@ -504,11 +504,19 @@
     async function loadData() {
         document.getElementById('loadingOverlay').classList.remove('hidden');
         try {
-            const res = await fetch(`${API_URL}/api/palestre`);
+            // Cache-buster per forzare il download dei dati freschi dal cloud D1
+            const res = await fetch(`${API_URL}/api/palestre?t=${Date.now()}`);
             palestre = await res.json();
-            aggiornaStati(); renderStats(); renderPalestre();
-        } catch (error) { console.error('Errore:', error); showToast('Errore di connessione al cloud'); }
-        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+            aggiornaStati(); 
+            renderStats(); 
+            renderPalestre();
+        } catch (error) { 
+            console.error('Errore:', error); 
+            showToast('Errore di connessione al cloud'); 
+        }
+        finally { 
+            document.getElementById('loadingOverlay').classList.add('hidden'); 
+        }
     }
 
     function aggiornaStati() {
@@ -632,25 +640,29 @@
         scadenza.setHours(23, 59, 59, 999);
         const nuovoStato = scadenza >= oggi ? 'attiva' : 'scaduta';
 
+        // Invia l'oggetto completo con i campi aggiornati per evitare che il worker sovrascriva con null
+        const payload = {
+            ...p,
+            stato: nuovoStato,
+            data_scadenza: scadenza.toISOString()
+        };
+
         try {
             const res = await fetch(`${API_URL}/api/palestre/${palestraScadenzaId}`, { 
                 method: 'PUT', 
                 headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ 
-                    ...p, 
-                    data_scadenza: scadenza.toISOString(),
-                    stato: nuovoStato
-                }) 
+                body: JSON.stringify(payload)
             });
             const result = await res.json();
-            if (result.success !== false) {
+            if (result.success) {
                 showToast('Scadenza aggiornata con successo');
                 chiudiModal('modalModificaScadenza');
-                loadData();
+                loadData(); // Ricarica i dati dal cloud
             } else {
                 showToast('Errore: ' + (result.message || 'sconosciuto'));
             }
         } catch (error) {
+            console.error(error);
             showToast('Errore di connessione');
         }
     }

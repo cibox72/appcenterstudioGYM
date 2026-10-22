@@ -103,22 +103,10 @@
         </div>
 
         <div class="stats-bar">
-            <div class="stat-mini verde">
-                <div class="number" id="statRegolari">0</div>
-                <div class="label">Regolari</div>
-            </div>
-            <div class="stat-mini arancione">
-                <div class="number" id="statInScadenza">0</div>
-                <div class="label">In Scadenza</div>
-            </div>
-            <div class="stat-mini rosso">
-                <div class="number" id="statScaduti">0</div>
-                <div class="label">Scaduti</div>
-            </div>
-            <div class="stat-mini">
-                <div class="number" id="statTotale">0</div>
-                <div class="label">Totale</div>
-            </div>
+            <div class="stat-mini verde"><div class="number" id="statRegolari">0</div><div class="label">Regolari</div></div>
+            <div class="stat-mini arancione"><div class="number" id="statInScadenza">0</div><div class="label">In Scadenza</div></div>
+            <div class="stat-mini rosso"><div class="number" id="statScaduti">0</div><div class="label">Scaduti</div></div>
+            <div class="stat-mini"><div class="number" id="statTotale">0</div><div class="label">Totale</div></div>
         </div>
 
         <div class="search-box">
@@ -156,7 +144,6 @@
 
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    const PAYMENT_LINK = 'https://www.paypal.biz/volleymanagerpro';
     
     let atleti = [];
     let palestraData = null;
@@ -180,7 +167,6 @@
                 const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
                 atleti = await atletiRes.json();
                 
-                // Ordina per stato: scaduti prima, poi in scadenza, poi regolari
                 atleti.sort((a, b) => {
                     const giorniA = calcolaGiorniScadenza(a.data_scadenza);
                     const giorniB = calcolaGiorniScadenza(b.data_scadenza);
@@ -221,12 +207,68 @@
         document.getElementById('statTotale').textContent = atleti.length;
     }
 
+    // ============================================
+    // COSTRUISCE INFO PAGAMENTO DINAMICHE
+    // Legge i metodi attivi dalle impostazioni palestra
+    // ============================================
+    function costruisciInfoPagamento() {
+        const metodi = palestraData.metodi_pagamento || {};
+        const parti = [];
+        
+        if (metodi.paypal && metodi.paypal.attivo) {
+            const link = metodi.paypal.link || '';
+            const email = metodi.paypal.email || '';
+            if (link) parti.push(`PayPal: ${link}`);
+            else if (email) parti.push(`PayPal: ${email}`);
+        }
+        
+        if (metodi.stripe && metodi.stripe.attivo) {
+            if (metodi.stripe.link) parti.push(`Stripe: ${metodi.stripe.link}`);
+        }
+        
+        if (metodi.satispay && metodi.satispay.attivo) {
+            const nome = metodi.satispay.nome || 'Satispay';
+            if (metodi.satispay.link) parti.push(`Satispay: ${metodi.satispay.link}`);
+            else parti.push(`Satispay: ${nome}`);
+        }
+        
+        if (metodi.bonifico && metodi.bonifico.attivo) {
+            let bonifico = 'Bonifico Bancario';
+            if (metodi.bonifico.iban) bonifico += `\nIBAN: ${metodi.bonifico.iban}`;
+            if (metodi.bonifico.intestatario) bonifico += `\nIntestatario: ${metodi.bonifico.intestatario}`;
+            if (metodi.bonifico.banca) bonifico += ` (${metodi.bonifico.banca})`;
+            if (metodi.bonifico.causale) bonifico += `\nCausale: ${metodi.bonifico.causale}`;
+            parti.push(bonifico);
+        }
+        
+        if (metodi.contanti && metodi.contanti.attivo) {
+            let txt = 'Contanti: pagamento in sede';
+            if (metodi.contanti.note) txt += ` (${metodi.contanti.note})`;
+            parti.push(txt);
+        }
+        
+        if (metodi.pos && metodi.pos.attivo) {
+            let txt = 'POS: pagamento con carta in sede';
+            if (metodi.pos.note) txt += ` (${metodi.pos.note})`;
+            parti.push(txt);
+        }
+        
+        if (parti.length === 0) {
+            return '⚠️ Nessun metodo di pagamento configurato. Configurali in Impostazioni Palestra.';
+        }
+        
+        return parti.join('\n\n');
+    }
+
     function renderTabella(lista = atleti) {
         const tbody = document.getElementById('clientiTableBody');
         if (lista.length === 0) {
             tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nessun cliente trovato.</td></tr>';
             return;
         }
+        
+        const infoPagamento = costruisciInfoPagamento();
+        const quota = palestraData.quota_mensile || 50;
         
         let html = '';
         lista.forEach(a => {
@@ -247,14 +289,14 @@
             let numeroWhatsapp = (a.telefono || '').replace(/\D/g, '');
             if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) numeroWhatsapp = '39' + numeroWhatsapp;
             
-            // Costruisci messaggio WhatsApp personalizzato
+            // MESSAGGIO WHATSAPP DINAMICO
             let messaggioWa = '';
             if (giorniScadenza < 0) {
-                messaggioWa = `Ciao ${a.nome}! Il tuo abbonamento presso ${palestraData.nome} è SCADUTO da ${Math.abs(giorniScadenza)} giorni. Ti invitiamo a regolarizzare il pagamento per continuare ad allenarti con noi.\n\nLink per il pagamento: ${PAYMENT_LINK}\n\nGrazie,\n${palestraData.nome}`;
+                messaggioWa = `Ciao ${a.nome}!\n\nIl tuo abbonamento presso ${palestraData.nome} è SCADUTO da ${Math.abs(giorniScadenza)} giorni.\n\nTi invitiamo a regolarizzare il pagamento di ${quota.toFixed(2)} EUR per continuare ad allenarti con noi.\n\n💳 COME PAGARE:\n${infoPagamento}\n\nGrazie,\n${palestraData.nome}\nTel: ${palestraData.telefono || palestraData.cellulare || 'N/D'}`;
             } else if (giorniScadenza <= 30) {
-                messaggioWa = `Ciao ${a.nome}! Ti ricordiamo che il tuo abbonamento presso ${palestraData.nome} scadrà tra ${giorniScadenza} giorni. Per evitare interruzioni, puoi rinnovare comodamente online.\n\nLink per il rinnovo: ${PAYMENT_LINK}\n\nGrazie,\n${palestraData.nome}`;
+                messaggioWa = `Ciao ${a.nome}!\n\nTi ricordiamo che il tuo abbonamento presso ${palestraData.nome} scadrà tra ${giorniScadenza} giorni.\n\nPer evitare interruzioni, puoi rinnovare la quota di ${quota.toFixed(2)} EUR con uno dei seguenti metodi:\n\n💳 COME PAGARE:\n${infoPagamento}\n\nGrazie,\n${palestraData.nome}\nTel: ${palestraData.telefono || palestraData.cellulare || 'N/D'}`;
             } else {
-                messaggioWa = `Ciao ${a.nome}! Questo è un messaggio informativo dalla palestra ${palestraData.nome}. Il tuo abbonamento è attivo e scadrà tra ${giorniScadenza} giorni.\n\nPer qualsiasi necessità, siamo a tua disposizione!\n\n${palestraData.nome}`;
+                messaggioWa = `Ciao ${a.nome}!\n\nMessaggio informativo da ${palestraData.nome}.\n\nIl tuo abbonamento è attivo e scadrà tra ${giorniScadenza} giorni.\n\nPer qualsiasi necessità, siamo a tua disposizione!\n\n${palestraData.nome}\nTel: ${palestraData.telefono || palestraData.cellulare || 'N/D'}`;
             }
             
             const linkWa = numeroWhatsapp ? `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(messaggioWa)}` : '#';
@@ -284,13 +326,11 @@
         const stato = document.getElementById('filterStato').value;
         
         const filtrati = atleti.filter(a => {
-            // Filtro ricerca testo
             const matchTesto = !query || 
                 (a.nome && a.nome.toLowerCase().includes(query)) || 
                 (a.cognome && a.cognome.toLowerCase().includes(query)) ||
                 (a.username && a.username.toLowerCase().includes(query));
             
-            // Filtro stato
             let matchStato = true;
             if (stato !== 'tutti') {
                 const giorni = calcolaGiorniScadenza(a.data_scadenza);

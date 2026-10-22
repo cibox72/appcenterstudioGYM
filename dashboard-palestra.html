@@ -31,7 +31,10 @@
         .stat-card.verde { border-left-color: var(--verde); }
         .stat-card.arancione { border-left-color: var(--arancione); }
         .stat-card.rosso { border-left-color: var(--rosso); }
-        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-flow: column; grid-template-rows: auto auto auto; gap: 20px; }
+        
+        /* MODIFICA: grid 5 colonne per ospitare Assistenza da sola */
+        .cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-flow: column; grid-template-rows: auto auto; gap: 20px; }
+        
         .module-card { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); cursor: pointer; transition: all 0.2s; position: relative; border: 1px solid #e0e0e0; min-height: 140px; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
         .module-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
         .module-card .badge { position: absolute; top: 12px; right: 12px; background: var(--tortora); color: var(--bianco); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
@@ -43,9 +46,20 @@
         .module-card .status-badge.warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
-        @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(3, 1fr); grid-auto-flow: row; grid-template-rows: auto; } }
-        @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); grid-auto-flow: row; grid-template-rows: auto; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: auto; } .stats-grid { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
+        
+        /* Responsive: sotto i 1200px torna a flusso normale per righe */
+        @media (max-width: 1200px) { 
+            .cards-grid { grid-template-columns: repeat(3, 1fr); grid-auto-flow: row; grid-template-rows: auto; } 
+        }
+        @media (max-width: 900px) { 
+            .cards-grid { grid-template-columns: repeat(2, 1fr); grid-auto-flow: row; grid-template-rows: auto; } 
+            .stats-grid { grid-template-columns: repeat(2, 1fr); } 
+        }
+        @media (max-width: 600px) { 
+            .cards-grid { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: auto; } 
+            .stats-grid { grid-template-columns: 1fr; } 
+            .top-header { flex-direction: column; gap: 10px; } 
+        }
     </style>
 </head>
 <body>
@@ -76,7 +90,7 @@
         </div>
 
         <div class="cards-grid">
-            <!-- COLONNA 1 -->
+            <!-- COLONNA 1: Impostazioni + Gestione Atleti -->
             <a href="impostazioni-palestra.html" class="module-card">
                 <div class="badge">IM</div>
                 <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
@@ -93,15 +107,7 @@
                 <div class="status-badge active" id="badgeAtleti">0 ATLETI</div>
             </a>
 
-            <a href="mensilita-clienti.html" class="module-card">
-                <div class="badge">MC</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-                <h3>Mensilità Clienti</h3>
-                <p>Gestisci abbonamenti, scadenze e pagamenti mensili di tutti i clienti.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <!-- COLONNA 2 -->
+            <!-- COLONNA 2: Schede Allenamento + Piani Nutrizionali -->
             <a href="schede-allenamenti.html" class="module-card">
                 <div class="badge">SC</div>
                 <svg class="card-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
@@ -118,20 +124,12 @@
                 <div class="status-badge active">DISPONIBILE</div>
             </a>
 
-            <a href="assistenza-supporto.html" class="module-card">
-                <div class="badge">AS</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>
-                <h3>Assistenza & Supporto</h3>
-                <p>Contatta il supporto tecnico via WhatsApp, AnyDesk o email. Attivo 24/7.</p>
-                <div class="status-badge active">ATTIVO 24/7</div>
-            </a>
-
-            <!-- COLONNA 3 -->
-            <a href="agenda.html" class="module-card">
-                <div class="badge">AG</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-                <h3>Agenda Appuntamenti</h3>
-                <p>Calendario visite, valutazioni fisiche e appuntamenti con gli atleti.</p>
+            <!-- COLONNA 3: Mensilità + Messaggi -->
+            <a href="mensilita-clienti.html" class="module-card">
+                <div class="badge">MC</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+                <h3>Mensilità Clienti</h3>
+                <p>Gestisci abbonamenti, scadenze e pagamenti mensili di tutti i clienti.</p>
                 <div class="status-badge active">DISPONIBILE</div>
             </a>
 
@@ -143,13 +141,30 @@
                 <div class="status-badge active">DISPONIBILE</div>
             </a>
 
-            <!-- COLONNA 4 -->
+            <!-- COLONNA 4: Agenda + Contabilità -->
+            <a href="agenda.html" class="module-card">
+                <div class="badge">AG</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
+                <h3>Agenda Appuntamenti</h3>
+                <p>Calendario visite, valutazioni fisiche e appuntamenti con gli atleti.</p>
+                <div class="status-badge active">DISPONIBILE</div>
+            </a>
+
             <a href="contabilita.html" class="module-card">
                 <div class="badge">CO</div>
                 <svg class="card-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                 <h3>Contabilità</h3>
                 <p>Registra incassi, pagamenti, abbonamenti e genera report finanziari.</p>
                 <div class="status-badge active">DISPONIBILE</div>
+            </a>
+
+            <!-- COLONNA 5: Assistenza (da sola, in alto a destra) -->
+            <a href="assistenza-supporto.html" class="module-card">
+                <div class="badge">AS</div>
+                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>
+                <h3>Assistenza & Supporto</h3>
+                <p>Contatta il supporto tecnico via WhatsApp, AnyDesk o email. Attivo 24/7.</p>
+                <div class="status-badge active">ATTIVO 24/7</div>
             </a>
         </div>
     </div>

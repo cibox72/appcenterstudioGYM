@@ -342,27 +342,27 @@
     const offertePredefinite = [
         {
             id: 1,
-            titolo: "🏋️ Abbonamento Palestra Base",
-            descrizione: "Accesso illimitato alla sala pesi e alle aree comuni. Perfetto per iniziare il tuo percorso di fitness con il supporto dei nostri istruttori.",
-            messaggio: "Ciao! 👋 Spero tu stia bene. Ti invio i dettagli per il tuo rinnovo/nuovo abbonamento Base. Resto a disposizione per qualsiasi domanda!"
+            titolo: " Abbonamento Annuale AppCenterStudioGYM - 50€",
+            descrizione: "Abbonamento annuale completo alla piattaforma AppCenterStudioGYM. Include gestione atleti, schede di allenamento, piani nutrizionali, archivio esercizi e video, contabilità e molto altro. Aggiornamenti e supporto tecnico inclusi per 12 mesi.",
+            messaggio: "Buongiorno! 👋 Le invio la proposta per l'abbonamento annuale alla piattaforma AppCenterStudioGYM. Con soli 50€ avrà accesso completo a tutte le funzionalità per 12 mesi, con aggiornamenti e supporto tecnico inclusi. Resto a disposizione per qualsiasi chiarimento!"
         },
         {
             id: 2,
-            titolo: "💪 Pacchetto Personal Trainer (10 Sessioni)",
-            descrizione: "10 sessioni one-to-one con un nostro trainer certificato. Piano di allenamento personalizzato e monitoraggio costante dei tuoi progressi.",
-            messaggio: "Ciao! 👋 Ecco i dettagli per il pacchetto Personal Trainer. È l'occasione perfetta per raggiungere i tuoi obiettivi in totale sicurezza e con un piano su misura per te. Fammi sapere cosa ne pensi!"
+            titolo: " Rinnovo Anticipato - 35€ (risparmi 15€)",
+            descrizione: "Rinnovo anticipato dell'abbonamento annuale se effettuato almeno 1 mese prima della scadenza. Stesso servizio completo dell'abbonamento annuale, ma con uno sconto del 30%. Ideale per chi vuole continuare senza interruzioni risparmiando.",
+            messaggio: "Buongiorno!  Volevo ricordarle che il suo abbonamento ad AppCenterStudioGYM è in scadenza. Rinnovando con almeno 1 mese di anticipo, può approfittare dell'offerta speciale a soli 35€ invece di 50€, risparmiando 15€. Resto a disposizione per qualsiasi chiarimento!"
         },
         {
             id: 3,
-            titolo: "🌟 Abbonamento Premium Full Experience",
-            descrizione: "Accesso totale: sala pesi, corsi di gruppo illimitati, sauna e 1 valutazione fisica iniziale con bioimpedenziometria inclusa.",
-            messaggio: "Ciao! 👋 Ti mando i dettagli della nostra offerta Premium. Include tutto ciò di cui hai bisogno per un percorso completo e senza pensieri. Fammi sapere se vuoi bloccare il prezzo promozionale!"
+            titolo: "🎯 Abbonamento Semestrale - 30€",
+            descrizione: "Abbonamento semestrale (6 mesi) alla piattaforma AppCenterStudioGYM. Perfetto per chi vuole provare il servizio per un periodo più breve. Include tutte le funzionalità: gestione atleti, schede, piani nutrizionali, archivio esercizi e video, contabilità e supporto tecnico.",
+            messaggio: "Buongiorno! 👋 Le propongo l'abbonamento semestrale ad AppCenterStudioGYM a soli 30€. È la soluzione ideale per provare la piattaforma con un impegno di 6 mesi, avendo comunque accesso a tutte le funzionalità e al supporto tecnico. Resto a disposizione!"
         },
         {
             id: 4,
-            titolo: "🎯 Pacchetto Trimestrale Risparmio",
-            descrizione: "Abbonamento di 3 mesi con uno sconto del 15% rispetto al mensile. Ideale per chi vuole impegnarsi con costanza e risparmiare.",
-            messaggio: "Ciao! 👋 Volevo segnalarti questa offerta speciale trimestrale. È il modo migliore per allenarti con costanza risparmiando il 15%. Il link per attivare l'offerta è qui sotto, resto a disposizione!"
+            titolo: "🚀 Pacchetto Start-Up - 20€ (primo mese)",
+            descrizione: "Primo mese di prova della piattaforma AppCenterStudioGYM a prezzo agevolato. Include tutte le funzionalità complete per 30 giorni. Ideale per valutare il servizio prima di scegliere l'abbonamento annuale o semestrale. Supporto tecnico dedicato incluso.",
+            messaggio: "Buongiorno! 👋 Le propongo di provare AppCenterStudioGYM con il nostro pacchetto Start-Up a soli 20€ per il primo mese. Avrà accesso completo a tutte le funzionalità per 30 giorni, così potrà valutare concretamente i vantaggi per la sua palestra. Resto a disposizione per qualsiasi domanda!"
         }
     ];
 
@@ -785,7 +785,7 @@
         const off = offertePredefinite.find(o => o.id === id);
         if (!off) return;
         
-        const testoCompleto = `${off.messaggio}\n\n🏋️ *${off.titolo}*\n${off.descrizione}\n\n💳 *Link per il pagamento:* ${PAYMENT_LINK}\n\nResto a tua completa disposizione!`;
+        const testoCompleto = `${off.messaggio}\n\n🏋️ *${off.titolo}*\n${off.descrizione}\n\n💳 *Link per il pagamento:* ${PAYMENT_LINK}\n\nResto a sua completa disposizione!`;
         const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testoCompleto)}`;
         window.open(link, '_blank');
         showToast('WhatsApp aperto con il messaggio precompilato!');

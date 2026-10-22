@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda Palestra - AppCenterStudioGYM</title>
+    <style>
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
+        
+        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
+        .top-header h1 { font-size: 20px; font-weight: 700; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .btn-back { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .btn-back:hover { background: rgba(255,255,255,0.3); }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+        
+        .page-header { background: var(--bianco); border-radius: var(--radius); padding: 25px 30px; margin-bottom: 25px; box-shadow: var(--ombra); display: flex; align-items: center; gap: 25px; }
+        .logo-container { width: 100px; height: 100px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid var(--tortora-chiaro); flex-shrink: 0; }
+        .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .logo-placeholder { color: var(--tortora); font-size: 12px; text-align: center; }
+        .header-info h2 { font-size: 24px; margin-bottom: 8px; color: var(--nero); }
+        .header-info .subtitle { color: var(--tortora-scuro); font-size: 14px; }
+        .header-info .id-badge { display: inline-block; background: var(--tortora-chiarissimo); padding: 4px 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: 700; font-size: 11px; letter-spacing: 1px; margin-top: 8px; }
+        
+        .status-banner { background: var(--bianco); border-radius: var(--radius); padding: 20px 30px; margin-bottom: 25px; box-shadow: var(--ombra); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .status-item { display: flex; align-items: center; gap: 12px; }
+        .status-label { font-size: 12px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.5px; }
+        .status-value { font-size: 16px; font-weight: 700; }
+        .status-badge { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+        .status-badge.attiva { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
+        .status-badge.prova { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
+        .status-badge.scaduta { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
+        
+        .credentials-box { background: var(--blu); color: var(--bianco); border-radius: var(--radius); padding: 20px 30px; margin-bottom: 25px; box-shadow: var(--ombra); }
+        .credentials-box h3 { font-size: 16px; margin-bottom: 15px; font-weight: 700; }
+        .cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .cred-item { background: rgba(255,255,255,0.15); padding: 12px 16px; border-radius: var(--radius-sm); }
+        .cred-label { font-size: 11px; opacity: 0.9; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cred-value { font-family: 'Courier New', monospace; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+        
+        .section-card { background: var(--bianco); border-radius: var(--radius); padding: 30px; margin-bottom: 25px; box-shadow: var(--ombra); }
+        .section-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--tortora-chiaro); color: var(--nero); }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-item { margin-bottom: 15px; }
+        .info-label { font-size: 11px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .info-value { font-size: 15px; color: var(--nero); font-weight: 500; }
+        .info-value.empty { color: var(--tortora); font-style: italic; }
+        
+        .payment-methods { display: grid; gap: 12px; }
+        .payment-item { background: var(--tortora-chiarissimo); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 15px 20px; }
+        .payment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .payment-name { font-weight: 700; font-size: 14px; color: var(--nero); }
+        .payment-badge { background: var(--verde-chiaro); color: #1E8449; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .payment-details { font-size: 13px; color: var(--tortora-scuro); line-height: 1.6; }
+        .payment-details strong { color: var(--nero); }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        .loading-overlay.hidden { display: none; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; text-align: center; }
+            .info-grid, .cred-grid { grid-template-columns: 1fr; }
+            .status-banner { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">Caricamento scheda...</div>
+    
+    <div class="top-header">
+        <h1>Scheda Palestra</h1>
+        <div class="header-right">
+            <a href="dashboard-fornitore.html" class="btn-back">Torna alla Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- HEADER CON LOGO E NOME -->
+        <div class="page-header">
+            <div class="logo-container" id="logoContainer">
+                <span class="logo-placeholder">Nessun logo</span>
+            </div>
+            <div class="header-info">
+                <h2 id="palestraNome">-</h2>
+                <div class="subtitle" id="palestraIndirizzo">-</div>
+                <div class="id-badge" id="palestraIdBadge">ID: -</div>
+            </div>
+        </div>
+        
+        <!-- STATUS ABBONAMENTO -->
+        <div class="status-banner">
+            <div class="status-item">
+                <div>
+                    <div class="status-label">Stato Abbonamento</div>
+                    <div class="status-value"><span id="statusBadge" class="status-badge">-</span></div>
+                </div>
+            </div>
+            <div class="status-item">
+                <div>
+                    <div class="status-label">Data Scadenza</div>
+                    <div class="status-value" id="dataScadenza">-</div>
+                </div>
+            </div>
+            <div class="status-item">
+                <div>
+                    <div class="status-label">Giorni Rimanenti</div>
+                    <div class="status-value" id="giorniRimanenti">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CREDENZIALI DI ACCESSO -->
+        <div class="credentials-box">
+            <h3>Credenziali di Accesso Assegnate</h3>
+            <div class="cred-grid">
+                <div class="cred-item">
+                    <div class="cred-label">Username / ID Univoco</div>
+                    <div class="cred-value" id="credUsername">-</div>
+                </div>
+                <div class="cred-item">
+                    <div class="cred-label">Password</div>
+                    <div class="cred-value" id="credPassword">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- DATI GENERALI -->
+        <div class="section-card">
+            <h3>Dati Anagrafici e Contatti</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Ragione Sociale</div>
+                    <div class="info-value" id="ragioneSociale">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Partita IVA</div>
+                    <div class="info-value" id="partitaIva">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Codice Fiscale</div>
+                    <div class="info-value" id="codiceFiscale">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Codice SDI</div>
+                    <div class="info-value" id="codiceSdi">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">PEC</div>
+                    <div class="info-value" id="pec">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Indirizzo</div>
+                    <div class="info-value" id="indirizzo">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">CAP</div>
+                    <div class="info-value" id="cap">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Città</div>
+                    <div class="info-value" id="citta">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Provincia</div>
+                    <div class="info-value" id="provincia">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Telefono</div>
+                    <div class="info-value" id="telefono">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Cellulare</div>
+                    <div class="info-value" id="cellulare">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value" id="email">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Sito Web / Social</div>
+                    <div class="info-value" id="sitoWeb">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- METODI DI PAGAMENTO -->
+        <div class="section-card">
+            <h3>Metodi di Pagamento Configurati</h3>
+            <div class="payment-methods" id="paymentMethods">
+                <div class="info-value empty">Nessun metodo di pagamento configurato</div>
+            </div>
+        </div>
+        
+        <!-- QUOTA MENSILE -->
+        <div class="section-card">
+            <h3>Quota Mensile Standard</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Importo Mensile</div>
+                    <div class="info-value" id="quotaMensile">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Giorni Preavviso Scadenza</div>
+                    <div class="info-value" id="giorniPreavviso">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+
+    <script>
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    let palestraData = null;
+
+    function init() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const palestraId = urlParams.get('id');
+        
+        if (!palestraId) {
+            showToast('ID palestra non specificato');
+            setTimeout(() => window.location.href = 'dashboard-fornitore.html', 2000);
+            return;
+        }
+        
+        loadData(palestraId);
+    }
+
+    async function loadData(id) {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
+        
+        try {
+            const res = await fetch(`${API_URL}/api/palestre`);
+            const palestre = await res.json();
+            palestraData = palestre.find(p => p.id == id);
+            
+            if (!palestraData) {
+                showToast('Palestra non trovata');
+                setTimeout(() => window.location.href = 'dashboard-fornitore.html', 2000);
+                return;
+            }
+            
+            caricaDati();
+        } catch (error) {
+            console.error('Errore:', error);
+            showToast('Errore di caricamento dati');
+        } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+    }
+
+    function caricaDati() {
+        // LOGO
+        if (palestraData.logo_base64 || palestraData.logo_url) {
+            const logoSrc = palestraData.logo_base64 || palestraData.logo_url;
+            document.getElementById('logoContainer').innerHTML = `<img src="${logoSrc}" alt="Logo">`;
+        }
+        
+        // HEADER
+        document.getElementById('palestraNome').textContent = palestraData.nome || 'Nome non impostato';
+        document.getElementById('palestraIndirizzo').textContent = [palestraData.indirizzo, palestraData.citta].filter(Boolean).join(', ') || 'Indirizzo non impostato';
+        document.getElementById('palestraIdBadge').textContent = `ID: ${palestraData.id_univoco || palestraData.username || '-'}`;
+        
+        // STATUS
+        const stato = palestraData.stato || 'prova';
+        const statusBadge = document.getElementById('statusBadge');
+        statusBadge.textContent = stato === 'attiva' ? 'ATTIVA' : stato === 'scaduta' ? 'SCADUTA' : 'IN PROVA';
+        statusBadge.className = 'status-badge ' + (stato === 'attiva' ? 'attiva' : stato === 'scaduta' ? 'scaduta' : 'prova');
+        
+        const scadenza = palestraData.data_scadenza ? new Date(palestraData.data_scadenza).toLocaleDateString('it-IT') : 'Non impostata';
+        document.getElementById('dataScadenza').textContent = scadenza;
+        
+        if (palestraData.data_scadenza) {
+            const oggi = new Date();
+            const dataScad = new Date(palestraData.data_scadenza);
+            const giorni = Math.ceil((dataScad - oggi) / (1000 * 60 * 60 * 24));
+            document.getElementById('giorniRimanenti').textContent = giorni >= 0 ? `${giorni} giorni` : `Scaduta da ${Math.abs(giorni)} giorni`;
+        } else {
+            document.getElementById('giorniRimanenti').textContent = '-';
+        }
+        
+        // CREDENZIALI
+        document.getElementById('credUsername').textContent = palestraData.username || palestraData.id_univoco || '-';
+        document.getElementById('credPassword').textContent = palestraData.password || '-';
+        
+        // DATI GENERALI E FISCALI
+        document.getElementById('ragioneSociale').textContent = palestraData.ragione_sociale || 'Non impostata';
+        document.getElementById('partitaIva').textContent = palestraData.partita_iva || 'Non impostata';
+        document.getElementById('codiceFiscale').textContent = palestraData.codice_fiscale || 'Non impostato';
+        document.getElementById('codiceSdi').textContent = palestraData.codice_sdi || 'Non impostato';
+        document.getElementById('pec').textContent = palestraData.pec || 'Non impostata';
+        document.getElementById('indirizzo').textContent = palestraData.indirizzo || 'Non impostato';
+        document.getElementById('cap').textContent = palestraData.cap || 'Non impostato';
+        document.getElementById('citta').textContent = palestraData.citta || 'Non impostata';
+        document.getElementById('provincia').textContent = palestraData.provincia || 'Non impostata';
+        document.getElementById('telefono').textContent = palestraData.telefono || 'Non impostato';
+        document.getElementById('cellulare').textContent = palestraData.cellulare || 'Non impostato';
+        document.getElementById('email').textContent = palestraData.email || 'Non impostata';
+        document.getElementById('sitoWeb').textContent = palestraData.sito_web || 'Non impostato';
+        
+        // QUOTA MENSILE
+        document.getElementById('quotaMensile').textContent = palestraData.quota_mensile ? `EUR ${parseFloat(palestraData.quota_mensile).toFixed(2)}` : 'Non impostata';
+        document.getElementById('giorniPreavviso').textContent = palestraData.giorni_preavviso ? `${palestraData.giorni_preavviso} giorni` : 'Non impostato';
+        
+        // METODI DI PAGAMENTO
+        renderMetodiPagamento();
+    }
+
+    function renderMetodiPagamento() {
+        const container = document.getElementById('paymentMethods');
+        const pagamenti = palestraData.metodi_pagamento || {};
+        const metodiAttivi = Object.keys(pagamenti).filter(m => pagamenti[m].attivo);
+        
+        if (metodiAttivi.length === 0) {
+            container.innerHTML = '<div class="info-value empty">Nessun metodo di pagamento configurato</div>';
+            return;
+        }
+        
+        let html = '';
+        metodiAttivi.forEach(metodo => {
+            const data = pagamenti[metodo];
+            let nomeMetodo = '';
+            let dettagli = '';
+            
+            switch(metodo) {
+                case 'paypal':
+                    nomeMetodo = 'PayPal';
+                    dettagli = data.email ? `<strong>Email:</strong> ${data.email}<br>` : '';
+                    if (data.link) dettagli += `<strong>Link:</strong> <a href="${data.link}" target="_blank">${data.link}</a>`;
+                    break;
+                case 'stripe':
+                    nomeMetodo = 'Stripe';
+                    if (data.link) dettagli = `<strong>Link pagamento:</strong> <a href="${data.link}" target="_blank">${data.link}</a>`;
+                    break;
+                case 'bonifico':
+                    nomeMetodo = 'Bonifico Bancario';
+                    dettagli = data.intestatario ? `<strong>Intestatario:</strong> ${data.intestatario}<br>` : '';
+                    dettagli += data.iban ? `<strong>IBAN:</strong> ${data.iban}<br>` : '';
+                    dettagli += data.banca ? `<strong>Banca:</strong> ${data.banca}` : '';
+                    break;
+                case 'satispay':
+                    nomeMetodo = 'Satispay';
+                    dettagli = data.nome ? `<strong>Negozio:</strong> ${data.nome}<br>` : '';
+                    if (data.link) dettagli += `<strong>Link:</strong> <a href="${data.link}" target="_blank">${data.link}</a>`;
+                    break;
+                case 'contanti':
+                    nomeMetodo = 'Contanti';
+                    dettagli = data.note || 'Pagamento in sede';
+                    break;
+                case 'pos':
+                    nomeMetodo = 'POS (Carta in sede)';
+                    dettagli = data.note || 'Pagamento con carta in palestra';
+                    break;
+            }
+            
+            html += `
+                <div class="payment-item">
+                    <div class="payment-header">
+                        <div class="payment-name">${nomeMetodo}</div>
+                        <div class="payment-badge">Attivo</div>
+                    </div>
+                    <div class="payment-details">${dettagli || 'Nessun dettaglio aggiuntivo'}</div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    init();
+    </script>
+</body>
+</html>

@@ -75,6 +75,7 @@
         .form-group textarea { min-height: 80px; resize: vertical; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        .form-hint { font-size: 11px; color: var(--tortora); margin-top: 4px; display: block; }
         
         .credential-box { background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); padding: 15px; margin-top: 15px; }
         .credential-box h4 { color: #1E8449; margin-bottom: 10px; font-size: 14px; }
@@ -169,6 +170,11 @@
                 <div class="form-group">
                     <label>Cognome *</label>
                     <input type="text" id="atletaCognome" required placeholder="Es. Rossi">
+                </div>
+                <div class="form-group">
+                    <label>Password Accesso Dashboard Cliente</label>
+                    <input type="text" id="atletaPassword" placeholder="Password per il login del cliente">
+                    <span class="form-hint">In creazione: lascia vuoto per generarla automaticamente, oppure scrivi quella che preferisci. In modifica: qui vedi la password attuale e puoi cambiarla.</span>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -445,6 +451,7 @@
         document.getElementById('modalAtletaTitle').textContent = 'Nuovo Atleta';
         document.getElementById('formAtleta').reset();
         document.getElementById('atletaId').value = '';
+        document.getElementById('atletaPassword').value = '';
         document.getElementById('credentialBox').style.display = 'none';
         document.getElementById('modalAtleta').classList.add('active');
     }
@@ -457,6 +464,7 @@
         document.getElementById('atletaId').value = a.id;
         document.getElementById('atletaNome').value = a.nome || '';
         document.getElementById('atletaCognome').value = a.cognome || '';
+        document.getElementById('atletaPassword').value = a.password || '';
         document.getElementById('atletaNascita').value = a.data_nascita || '';
         document.getElementById('atletaSesso').value = a.sesso || 'M';
         document.getElementById('atletaIndirizzo').value = a.indirizzo || '';
@@ -474,6 +482,8 @@
 
     async function salvaAtleta(e) {
         e.preventDefault();
+        const passwordScelta = document.getElementById('atletaPassword').value.trim();
+        
         const data = {
             palestra_id: palestraData.id,
             nome: document.getElementById('atletaNome').value.trim(),
@@ -491,6 +501,11 @@
             data_inizio: document.getElementById('atletaDataInizio').value,
             data_scadenza: document.getElementById('atletaDataScadenza').value
         };
+        
+        // Se il gestore ha scritto una password, la inviamo al server
+        if (passwordScelta) {
+            data.password = passwordScelta;
+        }
 
         try {
             const url = editingAtletaId ? `${API_URL}/api/atleti/${editingAtletaId}` : `${API_URL}/api/atleti`;
@@ -558,7 +573,7 @@
     }
 
     // ============================================
-    // AGGIUNTO: FUNZIONE CENTRALE PER INTESTAZIONE PDF
+    // FUNZIONE CENTRALE PER INTESTAZIONE PDF
     // Legge logo, nome, indirizzo, telefono, P.IVA dalla palestra
     // ============================================
     function costruisciIntestazionePDF() {
@@ -613,7 +628,7 @@
         const numeroRicevuta = (a.ricevute?.length || 0) + 1;
         document.getElementById('ricevutaNumero').textContent = `N. ${String(numeroRicevuta).padStart(4, '0')}/${oggi.getFullYear()}`;
         
-        // MODIFICA: usa quota_mensile dalla palestra come default
+        // Usa quota_mensile dalla palestra come default
         const quotaDefault = palestraData.quota_mensile || '15.00';
         
         // Reset form
@@ -719,7 +734,6 @@
         generaPDFRicevuta(a, ricevutaTemp);
     }
 
-    // MODIFICA: usa costruisciIntestazionePDF() per logo + dati completi palestra
     function generaPDFRicevuta(atleta, ricevuta) {
         const intestazione = costruisciIntestazionePDF();
         const indirizzoCliente = [atleta.indirizzo, atleta.cap, atleta.citta].filter(x => x).join(' ');
@@ -773,7 +787,6 @@
         setTimeout(() => { document.getElementById('printArea').style.display = 'none'; }, 1000);
     }
 
-    // MODIFICA: usa costruisciIntestazionePDF() per logo + dati completi palestra
     function stampaCronologiaCompleta() {
         const a = atleti.find(x => x.id === currentRicevutaAtletaId);
         if (!a) return;

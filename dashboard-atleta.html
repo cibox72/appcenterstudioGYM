@@ -19,6 +19,7 @@
             --rosso: #E74C3C;
             --rosso-chiaro: #FADBD8;
             --blu: #3498DB;
+            --viola: #8E44AD;
             --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
             --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
             --radius: 12px;
@@ -33,7 +34,7 @@
             padding: 20px;
         }
         
-        /* HEADER UNIVERSALE */
+        /* HEADER */
         .main-header {
             max-width: 1400px;
             margin: 0 auto 25px;
@@ -91,13 +92,7 @@
         .sync-dot::after { content: 'S'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; font-weight: 900; color: var(--bianco); }
         .sync-online { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
         .sync-online .sync-dot { background: var(--verde); animation: pulse-verde 2s infinite; }
-        .sync-warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
-        .sync-warning .sync-dot { background: var(--arancione); animation: pulse-arancione 1.5s infinite; }
-        .sync-offline { background: var(--rosso-chiaro); color: #922B21; border-color: var(--rosso); }
-        .sync-offline .sync-dot { background: var(--rosso); animation: pulse-rosso 1s infinite; }
         @keyframes pulse-verde { 0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(39, 174, 96, 0); } 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); } }
-        @keyframes pulse-arancione { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @keyframes pulse-rosso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
         
         /* BENVENUTO */
         .welcome-banner {
@@ -172,8 +167,6 @@
         .badge-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 2px solid var(--rosso); }
         .status-details { font-size: 14px; color: var(--tortora-scuro); }
         .status-details strong { color: var(--nero); }
-        
-        /* PULSANTE PAGAMENTO - STILE DINAMICO */
         .btn-paga {
             padding: 14px 28px;
             background: var(--verde);
@@ -191,57 +184,6 @@
             font-family: inherit;
         }
         .btn-paga:hover { background: #1E8449; transform: translateY(-2px); }
-        .btn-paga.paypal { background: #003087; }
-        .btn-paga.paypal:hover { background: #001f5c; }
-        .btn-paga.stripe { background: #635BFF; }
-        .btn-paga.stripe:hover { background: #4a42d9; }
-        .btn-paga.bonifico { background: var(--tortora); }
-        .btn-paga.bonifico:hover { background: var(--tortora-scuro); }
-        
-        /* METODI PAGAMENTO BOX */
-        .pagamento-box {
-            max-width: 1400px;
-            margin: 0 auto 25px;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 25px 30px;
-            box-shadow: var(--ombra);
-            display: none;
-        }
-        .pagamento-box.visible { display: block; }
-        .pagamento-box h3 {
-            font-size: 18px;
-            color: var(--nero);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--tortora-chiaro);
-        }
-        .metodo-pagamento {
-            background: var(--tortora-chiarissimo);
-            border: 1.5px solid var(--tortora-chiaro);
-            border-radius: var(--radius-sm);
-            padding: 15px 18px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .metodo-pagamento .icon { font-size: 28px; }
-        .metodo-pagamento .info { flex: 1; }
-        .metodo-pagamento .nome { font-size: 14px; font-weight: 700; color: var(--nero); }
-        .metodo-pagamento .dettaglio { font-size: 13px; color: var(--tortora-scuro); margin-top: 3px; word-break: break-all; }
-        .metodo-pagamento .btn-copia {
-            padding: 6px 12px;
-            background: var(--bianco);
-            border: 1px solid var(--tortora);
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--tortora-scuro);
-        }
-        .metodo-pagamento .btn-copia:hover { background: var(--tortora); color: var(--bianco); }
         
         /* TABS */
         .tabs-container {
@@ -286,42 +228,11 @@
         }
         .section-title { font-size: 20px; font-weight: 700; color: var(--nero); display: flex; align-items: center; gap: 10px; }
         
-        /* INFO ATLETA */
-        .atleta-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .info-item {
-            padding: 18px;
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-            border-left: 4px solid var(--tortora);
-        }
-        .info-item .label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .info-item .value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--nero);
-        }
-        .info-item .sub {
-            font-size: 12px;
-            color: var(--tortora);
-            margin-top: 4px;
-        }
-        
-        /* SCHEDA ALLENAMENTO */
+        /* SCHEDA ALLENAMENTO CON IMMAGINI E VIDEO */
         .scheda-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
         .giorno-card {
             background: var(--tortora-chiarissimo);
@@ -342,13 +253,102 @@
         }
         .giorno-body { padding: 18px; }
         .esercizio {
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid var(--tortora-chiaro);
         }
         .esercizio:last-child { border-bottom: none; }
-        .esercizio .nome { font-size: 14px; font-weight: 600; color: var(--nero); margin-bottom: 4px; }
-        .esercizio .dettagli { font-size: 12px; color: var(--tortora-scuro); }
-        .esercizio .serie { font-size: 11px; color: var(--tortora); margin-top: 3px; font-weight: 600; }
+        .esercizio .nome { font-size: 15px; font-weight: 700; color: var(--nero); margin-bottom: 8px; }
+        .esercizio .dettagli { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 6px; }
+        .esercizio .serie { font-size: 12px; color: var(--tortora); margin-bottom: 10px; font-weight: 600; }
+        .esercizio .img-container {
+            width: 100%;
+            height: 180px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 10px;
+            background: var(--tortora-chiaro);
+            border: 1px solid var(--tortora-chiaro);
+        }
+        .esercizio .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .esercizio .btn-video {
+            width: 100%;
+            padding: 10px;
+            background: var(--viola);
+            color: var(--bianco);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .esercizio .btn-video:hover { background: #6C3483; }
+        
+        /* MODAL VIDEO */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-video {
+            background: var(--bianco);
+            border-radius: var(--radius);
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .modal-title { font-size: 18px; font-weight: 700; }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: var(--tortora);
+            line-height: 1;
+        }
+        .modal-close:hover { color: var(--nero); }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
         
         /* DIETA */
         .dieta-grid {
@@ -382,6 +382,32 @@
         .pasto .tipo { font-size: 11px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
         .pasto .cibo { font-size: 14px; color: var(--nero); font-weight: 500; }
         .pasto .kcal { font-size: 12px; color: var(--tortora-scuro); margin-top: 3px; font-weight: 600; }
+        
+        /* INFO ATLETA */
+        .atleta-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .info-item {
+            padding: 18px;
+            background: var(--tortora-chiarissimo);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--tortora);
+        }
+        .info-item .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .info-item .value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--nero);
+        }
         
         /* CERTIFICATO */
         .certificato-box {
@@ -441,7 +467,14 @@
         }
         .toast.show { opacity: 1; transform: translateY(0); }
         
-        /* RESPONSIVE */
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--tortora);
+            font-size: 16px;
+        }
+        
         @media (max-width: 900px) {
             .welcome-banner { flex-direction: column; text-align: center; }
             .welcome-palestra { text-align: center; }
@@ -456,7 +489,7 @@
 </head>
 <body>
 
-    <!-- HEADER UNIVERSALE -->
+    <!-- HEADER -->
     <div class="main-header">
         <div class="header-left">
             <div class="header-title">
@@ -465,9 +498,9 @@
             </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn nav-btn-home"> Home</a>
+            <a href="index.html" class="nav-btn nav-btn-home">Home</a>
             <button class="nav-btn nav-btn-back" onclick="tornaIndietro()">← Indietro</button>
-            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
             <div class="sync-status sync-online" id="syncStatus" onclick="forzaSync()">
                 <span class="sync-dot"></span>
                 <span id="syncLabel">Sync OK</span>
@@ -479,12 +512,12 @@
     <div class="welcome-banner">
         <div class="welcome-text">
             <h2>Ciao, <span id="atletaNome">Marco</span>! 💪</h2>
-            <p>Benvenuto nella tua area personale. Qui trovi il tuo piano di allenamento, la dieta e tutti i dettagli del tuo abbonamento.</p>
+            <p>Benvenuto nella tua area personale. Qui trovi il tuo piano di allenamento con immagini e video tutorial.</p>
         </div>
         <div class="welcome-palestra">
             <img id="palestraLogo" src="" alt="Logo Palestra" style="display:none;">
             <div class="nome" id="palestraNome">La Tua Palestra</div>
-            <div class="contatti" id="palestraContatti">📞 --- • 📧 ---</div>
+            <div class="contatti" id="palestraContatti"> --- • 📧 ---</div>
         </div>
     </div>
 
@@ -503,21 +536,12 @@
         <button class="btn-paga" id="btnPaga" style="display:none;" onclick="mostraPagamento()">💳 Rinnova Abbonamento</button>
     </div>
 
-    <!-- BOX METODI DI PAGAMENTO (si apre al click su Rinnova) -->
-    <div class="pagamento-box" id="pagamentoBox">
-        <h3>💳 Metodi di Pagamento - <span id="palestraPagamentoNome">La Tua Palestra</span></h3>
-        <p style="font-size:13px; color:var(--tortora); margin-bottom:20px;">
-            Scegli il metodo di pagamento preferito per rinnovare il tuo abbonamento. I dati sono forniti direttamente dalla tua palestra.
-        </p>
-        <div id="metodiPagamentoLista"></div>
-    </div>
-
     <!-- TABS -->
     <div class="tabs-container">
         <button class="tab-btn active" onclick="showTab('profilo')">👤 Il Mio Profilo</button>
-        <button class="tab-btn" onclick="showTab('scheda')">🏋️ Scheda Allenamento</button>
+        <button class="tab-btn" onclick="showTab('scheda')">️ Scheda Allenamento</button>
         <button class="tab-btn" onclick="showTab('dieta')">🥗 Piano Nutrizionale</button>
-        <button class="tab-btn" onclick="showTab('certificato')"> Certificato Medico</button>
+        <button class="tab-btn" onclick="showTab('certificato')">📄 Certificato Medico</button>
     </div>
 
     <!-- TAB: PROFILO -->
@@ -538,12 +562,10 @@
                 <div class="info-item">
                     <div class="label">Peso Attuale</div>
                     <div class="value" id="infoPeso">--</div>
-                    <div class="sub">kg</div>
                 </div>
                 <div class="info-item">
                     <div class="label">Altezza</div>
                     <div class="value" id="infoAltezza">--</div>
-                    <div class="sub">cm</div>
                 </div>
                 <div class="info-item">
                     <div class="label">Obiettivo</div>
@@ -551,29 +573,26 @@
                 </div>
                 <div class="info-item">
                     <div class="label">Email</div>
-                    <div class="value" id="infoEmail" style="font-size:14px;">--</div>
+                    <div class="value" id="infoEmail">--</div>
                 </div>
                 <div class="info-item">
                     <div class="label">Telefono</div>
-                    <div class="value" id="infoTelefono" style="font-size:14px;">--</div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Abbonamento</div>
-                    <div class="value" id="infoAbbonamento">--</div>
-                    <div class="sub" id="infoDurata">--</div>
+                    <div class="value" id="infoTelefono">--</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TAB: SCHEDA ALLENAMENTO -->
+    <!-- TAB: SCHEDA ALLENAMENTO (CON IMMAGINI E VIDEO) -->
     <div class="tab-content" id="tab-scheda">
         <div class="section-container">
             <div class="section-header">
                 <div class="section-title">🏋️ La Mia Scheda di Allenamento</div>
-                <span style="font-size:12px; color:var(--tortora);">Settimana in corso</span>
+                <span style="font-size:12px; color:var(--tortora);">Clicca "Guarda Video" per vedere il tutorial</span>
             </div>
-            <div id="schedaContent"></div>
+            <div id="schedaContent">
+                <div class="loading">Caricamento scheda allenamento...</div>
+            </div>
         </div>
     </div>
 
@@ -592,9 +611,20 @@
     <div class="tab-content" id="tab-certificato">
         <div class="section-container">
             <div class="section-header">
-                <div class="section-title"> Certificato Medico Sportivo</div>
+                <div class="section-title">📄 Certificato Medico Sportivo</div>
             </div>
             <div id="certificatoContent"></div>
+        </div>
+    </div>
+
+    <!-- MODAL VIDEO -->
+    <div class="modal-overlay" id="modalVideo" onclick="if(event.target===this)chiudiModalVideo()">
+        <div class="modal-video">
+            <div class="modal-header">
+                <div class="modal-title" id="modalVideoTitle">Video Tutorial</div>
+                <button class="modal-close" onclick="chiudiModalVideo()">&times;</button>
+            </div>
+            <div class="video-container" id="videoContainer"></div>
         </div>
     </div>
 
@@ -603,11 +633,12 @@
 
     <script>
     // ============================================================
-    // CONFIGURAZIONE
+    // CONFIGURAZIONE API
     // ============================================================
-    const ALERT_DAYS = 30;
-    const syncState = { stato: 'online' };
-    let hasUnsavedChanges = false;
+    const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+    let eserciziGlobali = [];
+    let videoGlobali = [];
+    let schedaClienti = {};
     
     // ============================================================
     // DATI ATLETA (in produzione arrivano dal login/database)
@@ -621,152 +652,28 @@
         peso: 75,
         altezza: 180,
         obiettivo: 'Definizione',
-        dataInizio: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
         dataScadenza: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
         durata: 30,
         stato: 'attivo'
     };
     
-    // ============================================================
-    // DATI PALESTRA - IL GESTORE INSERISCE I SUOI METODI DI PAGAMENTO
-    // Questi dati vengono dalle "Impostazioni" della dashboard palestra
-    // ============================================================
     const palestraDati = {
         nome: 'Fitness Center Roma',
         logo: '',
         telefono: '0612345678',
-        email: 'info@fitnesscenterroma.it',
-        
-        // ⚠️ QUESTI SONO I METODI DI PAGAMENTO DEL GESTORE (NON DEL FORNITORE!)
-        // Il gestore li inserisce nella sua sezione "Impostazioni"
-        metodiPagamento: [
-            {
-                tipo: 'paypal',
-                nome: 'PayPal',
-                valore: 'https://paypal.me/fitnesscenterroma',  // ← Link PayPal del GESTORE
-                icona: '💳'
-            },
-            {
-                tipo: 'bonifico',
-                nome: 'Bonifico Bancario',
-                valore: 'IT00 X000 0000 0000 0000 0000 000 - Intestato a: Fitness Center S.r.l.',
-                icona: '🏦'
-            },
-            {
-                tipo: 'stripe',
-                nome: 'Stripe (Carta di credito)',
-                valore: 'https://checkout.stripe.com/fitnesscenterroma',  // ← Link Stripe del GESTORE
-                icona: '💳'
-            }
-        ]
-    };
-    
-    // Scheda allenamento di esempio
-    const schedaAllenamento = {
-        'Lunedì': [
-            { nome: 'Panca piana', serie: '4x8', recupero: '90"', note: 'Carico moderato' },
-            { nome: 'Spalle military press', serie: '3x10', recupero: '75"', note: '' },
-            { nome: 'Croci ai cavi', serie: '3x12', recupero: '60"', note: 'Controllo eccentrico' },
-            { nome: 'Tricipiti pushdown', serie: '3x12', recupero: '60"', note: '' }
-        ],
-        'Martedì': [
-            { nome: 'Squat', serie: '4x8', recupero: '120"', note: 'Tecnica perfetta' },
-            { nome: 'Affondi camminati', serie: '3x10', recupero: '90"', note: 'Per gamba' },
-            { nome: 'Leg press', serie: '3x12', recupero: '90"', note: '' },
-            { nome: 'Polpacci alla macchina', serie: '4x15', recupero: '60"', note: '' }
-        ],
-        'Mercoledì': [
-            { nome: 'Stacco da terra', serie: '4x6', recupero: '150"', note: 'Carico pesante' },
-            { nome: 'Rematore bilanciere', serie: '4x8', recupero: '90"', note: '' },
-            { nome: 'Lat machine', serie: '3x10', recupero: '75"', note: 'Presa larga' },
-            { nome: 'Curl bicipiti', serie: '3x12', recupero: '60"', note: '' }
-        ],
-        'Giovedì': [
-            { nome: 'Riposo attivo', serie: '-', recupero: '-', note: 'Camminata 30-45 min' }
-        ],
-        'Venerdì': [
-            { nome: 'Panca inclinata', serie: '4x8', recupero: '90"', note: '' },
-            { nome: 'Dip alle parallele', serie: '3x10', recupero: '75"', note: '' },
-            { nome: 'Alzate laterali', serie: '4x12', recupero: '60"', note: '' },
-            { nome: 'Face pull', serie: '3x15', recupero: '60"', note: 'Postura' }
-        ],
-        'Sabato': [
-            { nome: 'Front squat', serie: '4x8', recupero: '120"', note: '' },
-            { nome: 'Stacco rumeno', serie: '3x10', recupero: '90"', note: '' },
-            { nome: 'Leg curl', serie: '3x12', recupero: '75"', note: '' },
-            { nome: 'Addominali crunch', serie: '4x20', recupero: '45"', note: '' }
-        ],
-        'Domenica': [
-            { nome: 'Riposo completo', serie: '-', recupero: '-', note: 'Recupero e stretching' }
-        ]
-    };
-    
-    // Piano nutrizionale di esempio
-    const pianoNutrizionale = {
-        'Lunedì': {
-            'Mattina': { cibo: 'Yogurt greco 0% con fiocchi d\'avena e mirtilli', kcal: 320 },
-            'Mezzogiorno': { cibo: 'Mela + 20g mandorle', kcal: 180 },
-            'Pranzo': { cibo: 'Riso integrale 80g, petto di pollo 150g, broccoli', kcal: 520 },
-            'Sera': { cibo: 'Salmone 150g, insalata mista, 1 cucchiaio olio EVO', kcal: 450 }
-        },
-        'Martedì': {
-            'Mattina': { cibo: 'Fette biscottate integrali con ricotta e miele', kcal: 310 },
-            'Mezzogiorno': { cibo: 'Banana + shaker proteine', kcal: 220 },
-            'Pranzo': { cibo: 'Pasta integrale 80g al pomodoro, mozzarella light', kcal: 540 },
-            'Sera': { cibo: 'Tacchino alla griglia 150g, zucchine grigliate', kcal: 380 }
-        },
-        'Mercoledì': {
-            'Mattina': { cibo: 'Porridge d\'avena con banana e cannella', kcal: 340 },
-            'Mezzogiorno': { cibo: 'Yogurt greco + noci', kcal: 200 },
-            'Pranzo': { cibo: 'Quinoa 80g, tonno al naturale, insalata', kcal: 480 },
-            'Sera': { cibo: 'Frittata 2 uova con spinaci, pane integrale', kcal: 420 }
-        },
-        'Giovedì': {
-            'Mattina': { cibo: 'Smoothie: latte di mandorla, banana, burro arachidi', kcal: 350 },
-            'Mezzogiorno': { cibo: 'Frutta fresca di stagione', kcal: 120 },
-            'Pranzo': { cibo: 'Risotto ai funghi porcini, parmigiano', kcal: 560 },
-            'Sera': { cibo: 'Merluzzo al forno 180g, patate dolci', kcal: 440 }
-        },
-        'Venerdì': {
-            'Mattina': { cibo: 'Uova strapazzate 2, pane integrale tostato', kcal: 330 },
-            'Mezzogiorno': { cibo: 'Barretta proteica + arancia', kcal: 240 },
-            'Pranzo': { cibo: 'Pasta al pesto 80g, fagiolini', kcal: 520 },
-            'Sera': { cibo: 'Hamburger di tacchino, insalata di pomodori', kcal: 410 }
-        },
-        'Sabato': {
-            'Mattina': { cibo: 'Pancake proteici con frutti di bosco', kcal: 360 },
-            'Mezzogiorno': { cibo: 'Parmigiano 30g + crackers integrali', kcal: 210 },
-            'Pranzo': { cibo: 'Pizza margherita (pasto libero controllato)', kcal: 650 },
-            'Sera': { cibo: 'Insalatona mista con bresaola e grana', kcal: 380 }
-        },
-        'Domenica': {
-            'Mattina': { cibo: 'Colazione libera moderata', kcal: 400 },
-            'Mezzogiorno': { cibo: 'Frutta fresca', kcal: 100 },
-            'Pranzo': { cibo: 'Lasagne al forno (porzione controllata)', kcal: 620 },
-            'Sera': { cibo: 'Minestrone di verdure + crostini', kcal: 320 }
-        }
-    };
-    
-    // Certificato medico (simulato)
-    const certificatoMedico = {
-        presente: true,
-        nomeFile: 'Certificato_Medico_Marco_Rossi.pdf',
-        dataScadenza: '2027-03-15',
-        dataCaricamento: '2025-10-01'
+        email: 'info@fitnesscenterroma.it'
     };
     
     // ============================================================
     // NAVIGAZIONE
     // ============================================================
     function esci() {
-        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Uscire comunque?')) return;
         if (confirm('Sei sicuro di voler uscire dall\'applicazione?')) {
             window.location.href = 'index.html';
         }
     }
     
     function tornaIndietro() {
-        if (hasUnsavedChanges && !confirm('Hai modifiche non salvate. Tornare indietro comunque?')) return;
         if (window.history.length > 1) window.history.back();
         else window.location.href = 'index.html';
     }
@@ -779,66 +686,163 @@
         const syncLabel = document.getElementById('syncLabel');
         syncEl.className = 'sync-status';
         if (stato === 'online') { syncEl.classList.add('sync-online'); syncLabel.textContent = messaggio || 'Sync OK'; }
-        else if (stato === 'warning') { syncEl.classList.add('sync-warning'); syncLabel.textContent = messaggio || 'Modifiche non salvate'; }
         else if (stato === 'offline') { syncEl.classList.add('sync-offline'); syncLabel.textContent = messaggio || 'Errore sync'; }
     }
     
     function forzaSync() {
-        if (syncState.stato === 'online') { showToast('✅ Dati già sincronizzati'); return; }
+        aggiornaSyncStatus('online', 'Sync OK');
+        showToast('✅ Sincronizzazione completata!');
+    }
+    
+    // ============================================================
+    // MODAL VIDEO
+    // ============================================================
+    function apriModalVideo(titolo, videoId) {
+        document.getElementById('modalVideoTitle').textContent = titolo;
+        document.getElementById('videoContainer').innerHTML = `
+            <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        `;
+        document.getElementById('modalVideo').classList.add('active');
+    }
+    
+    function chiudiModalVideo() {
+        document.getElementById('modalVideo').classList.remove('active');
+        document.getElementById('videoContainer').innerHTML = '';
+    }
+    
+    // ============================================================
+    // CARICAMENTO DATI DALL'ARCHIVIO GLOBALE
+    // ============================================================
+    async function caricaDatiAllenamento() {
         try {
-            aggiornaSyncStatus('online', 'Sync OK');
-            hasUnsavedChanges = false;
-            showToast('✅ Sincronizzazione completata!');
-        } catch (e) {
-            aggiornaSyncStatus('offline', 'Errore sync');
-            showToast('❌ Errore durante la sincronizzazione');
+            // Carica esercizi globali
+            const resEsercizi = await fetch(`${API_URL}/api/esercizi-globali`);
+            eserciziGlobali = await resEsercizi.json();
+            
+            // Carica video globali
+            const resVideo = await fetch(`${API_URL}/api/video-globali`);
+            videoGlobali = await resVideo.json();
+            
+            // Carica scheda cliente (simulata per demo)
+            // In produzione: fetch(`${API_URL}/api/schede-clienti?atleta_id=${atletaCorrente.id}`)
+            renderSchedaConImmaginiEVideo();
+            
+        } catch (error) {
+            console.error('Errore caricamento dati:', error);
+            document.getElementById('schedaContent').innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">⚠️</div>
+                    <div class="title">Errore di caricamento</div>
+                    <div class="text">Impossibile caricare la scheda. Riprova più tardi.</div>
+                </div>
+            `;
         }
     }
     
-    window.addEventListener('online', () => aggiornaSyncStatus('online', 'Online'));
-    window.addEventListener('offline', () => aggiornaSyncStatus('offline', 'Offline'));
-    
     // ============================================================
-    // PAGAMENTO - MOSTRA I METODI DEL GESTORE
+    // RENDER SCHEDA CON IMMAGINI E VIDEO
     // ============================================================
-    function mostraPagamento() {
-        const box = document.getElementById('pagamentoBox');
-        const lista = document.getElementById('metodiPagamentoLista');
-        document.getElementById('palestraPagamentoNome').textContent = palestraDati.nome;
+    function renderSchedaConImmaginiEVideo() {
+        const container = document.getElementById('schedaContent');
         
-        if (!palestraDati.metodiPagamento || palestraDati.metodiPagamento.length === 0) {
-            lista.innerHTML = `<div style="text-align:center; padding:20px; color:var(--tortora);">
-                <div style="font-size:40px; margin-bottom:10px;">⚠️</div>
-                <div style="font-weight:600;">Nessun metodo di pagamento configurato</div>
-                <div style="font-size:13px; margin-top:8px;">Contatta la palestra per informazioni sul rinnovo.</div>
-            </div>`;
-        } else {
-            lista.innerHTML = palestraDati.metodiPagamento.map(m => {
-                const isLink = m.valore.startsWith('http');
-                return `
-                    <div class="metodo-pagamento">
-                        <div class="icon">${m.icona}</div>
-                        <div class="info">
-                            <div class="nome">${m.nome}</div>
-                            <div class="dettaglio">${m.valore}</div>
-                        </div>
-                        ${isLink ? `<a href="${m.valore}" target="_blank" class="btn-paga ${m.tipo}" style="padding:8px 16px; font-size:12px;">Paga ora →</a>` : `<button class="btn-copia" onclick="copiaTesto('${m.valore.replace(/'/g, "\\'")}')">📋 Copia</button>`}
-                    </div>
-                `;
-            }).join('');
+        // Scheda di esempio (in produzione arriva dal database)
+        const schedaDemo = {
+            'Lunedì': [
+                { nome: 'Panca Piana con Bilanciere', serie: '4x8', recupero: '90"', note: 'Carico moderato' },
+                { nome: 'Military Press', serie: '3x10', recupero: '75"', note: '' },
+                { nome: 'Croci ai Cavi', serie: '3x12', recupero: '60"', note: 'Controllo eccentrico' },
+                { nome: 'Pushdown al Cavo', serie: '3x12', recupero: '60"', note: '' }
+            ],
+            'Martedì': [
+                { nome: 'Squat con Bilanciere', serie: '4x8', recupero: '120"', note: 'Tecnica perfetta' },
+                { nome: 'Affondi con Manubri', serie: '3x10', recupero: '90"', note: 'Per gamba' },
+                { nome: 'Leg Press', serie: '3x12', recupero: '90"', note: '' },
+                { nome: 'Calf Raise in Piedi', serie: '4x15', recupero: '60"', note: '' }
+            ],
+            'Mercoledì': [
+                { nome: 'Stacco da Terra', serie: '4x6', recupero: '150"', note: 'Carico pesante' },
+                { nome: 'Rematore con Bilanciere', serie: '4x8', recupero: '90"', note: '' },
+                { nome: 'Lat Machine Avanti', serie: '3x10', recupero: '75"', note: 'Presa larga' },
+                { nome: 'Curl con Bilanciere', serie: '3x12', recupero: '60"', note: '' }
+            ],
+            'Giovedì': [
+                { nome: 'Riposo attivo', serie: '-', recupero: '-', note: 'Camminata 30-45 min' }
+            ],
+            'Venerdì': [
+                { nome: 'Panca Inclinata con Manubri', serie: '4x8', recupero: '90"', note: '' },
+                { nome: 'Dip alle Parallele', serie: '3x10', recupero: '75"', note: '' },
+                { nome: 'Alzate Laterali', serie: '4x12', recupero: '60"', note: '' },
+                { nome: 'Face Pull', serie: '3x15', recupero: '60"', note: 'Postura' }
+            ],
+            'Sabato': [
+                { nome: 'Goblet Squat', serie: '4x8', recupero: '120"', note: '' },
+                { nome: 'Stacco Romeno', serie: '3x10', recupero: '90"', note: '' },
+                { nome: 'Leg Curl', serie: '3x12', recupero: '75"', note: '' },
+                { nome: 'Crunch Classico', serie: '4x20', recupero: '45"', note: '' }
+            ],
+            'Domenica': [
+                { nome: 'Riposo completo', serie: '-', recupero: '-', note: 'Recupero e stretching' }
+            ]
+        };
+        
+        const giorni = Object.keys(schedaDemo);
+        
+        if (giorni.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="title">Nessuna scheda assegnata</div><div class="text">Il tuo gestore non ha ancora creato la tua scheda di allenamento.</div></div>`;
+            return;
         }
         
-        box.classList.add('visible');
-        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        showToast('💳 Scegli il metodo di pagamento preferito');
-    }
-    
-    function copiaTesto(testo) {
-        navigator.clipboard.writeText(testo).then(() => {
-            showToast('✅ Copiato negli appunti!');
-        }).catch(() => {
-            showToast('⚠️ Impossibile copiare');
+        let html = '<div class="scheda-container">';
+        giorni.forEach(giorno => {
+            const esercizi = schedaDemo[giorno];
+            html += `<div class="giorno-card">
+                <div class="giorno-header">${giorno}</div>
+                <div class="giorno-body">`;
+            
+            esercizi.forEach(es => {
+                // Cerca l'esercizio nell'archivio globale
+                const esercizioDB = eserciziGlobali.find(e => e.nome.toLowerCase().includes(es.nome.toLowerCase()));
+                // Cerca il video corrispondente
+                const videoDB = videoGlobali.find(v => v.nome?.toLowerCase().includes(es.nome.toLowerCase()) || v.titolo?.toLowerCase().includes(es.nome.toLowerCase()));
+                
+                html += `<div class="esercizio">
+                    <div class="nome">${es.nome}</div>
+                    <div class="dettagli">${es.note || ''}</div>
+                    <div class="serie">Serie: ${es.serie} • Recupero: ${es.recupero}</div>`;
+                
+                // Mostra immagine se esiste
+                if (esercizioDB && esercizioDB.file_base64) {
+                    html += `<div class="img-container">
+                        <img src="${esercizioDB.file_base64}" alt="${es.nome}">
+                    </div>`;
+                }
+                
+                // Mostra pulsante video se esiste
+                if (videoDB) {
+                    const videoId = extractVideoId(videoDB.link);
+                    if (videoId) {
+                        html += `<button class="btn-video" onclick="apriModalVideo('${videoDB.titolo}', '${videoId}')">
+                            ▶️ Guarda Video Tutorial
+                        </button>`;
+                    }
+                }
+                
+                html += `</div>`;
+            });
+            
+            html += `</div></div>`;
         });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    function extractVideoId(url) {
+        if (!url) return null;
+        const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        return match ? match[1] : null;
     }
     
     // ============================================================
@@ -848,7 +852,7 @@
         renderProfilo();
         renderStatus();
         renderAlert();
-        renderScheda();
+        caricaDatiAllenamento(); // Carica esercizi e video dall'archivio globale
         renderDieta();
         renderCertificato();
         aggiornaSyncStatus('online', 'Sync OK');
@@ -857,7 +861,7 @@
     function renderProfilo() {
         document.getElementById('atletaNome').textContent = atletaCorrente.nome.split(' ')[0];
         document.getElementById('palestraNome').textContent = palestraDati.nome;
-        document.getElementById('palestraContatti').textContent = ` ${palestraDati.telefono} • 📧 ${palestraDati.email}`;
+        document.getElementById('palestraContatti').textContent = `📞 ${palestraDati.telefono} • 📧 ${palestraDati.email}`;
         
         if (palestraDati.logo) {
             const img = document.getElementById('palestraLogo');
@@ -867,13 +871,11 @@
         
         document.getElementById('infoNome').textContent = atletaCorrente.nome;
         document.getElementById('infoNascita').textContent = new Date(atletaCorrente.dataNascita).toLocaleDateString('it-IT');
-        document.getElementById('infoPeso').textContent = atletaCorrente.peso;
-        document.getElementById('infoAltezza').textContent = atletaCorrente.altezza;
+        document.getElementById('infoPeso').textContent = atletaCorrente.peso + ' kg';
+        document.getElementById('infoAltezza').textContent = atletaCorrente.altezza + ' cm';
         document.getElementById('infoObiettivo').textContent = atletaCorrente.obiettivo;
         document.getElementById('infoEmail').textContent = atletaCorrente.email;
         document.getElementById('infoTelefono').textContent = atletaCorrente.telefono;
-        document.getElementById('infoAbbonamento').textContent = 'Mensile';
-        document.getElementById('infoDurata').textContent = `${atletaCorrente.durata} giorni`;
     }
     
     function renderStatus() {
@@ -890,12 +892,10 @@
             badge.className = 'status-badge badge-scaduto';
             badge.textContent = 'Scaduto';
             btnPaga.style.display = 'inline-flex';
-            btnPaga.innerHTML = ' Paga e Rinnova Ora';
-        } else if (giorniRimanenti <= ALERT_DAYS) {
+        } else if (giorniRimanenti <= 30) {
             badge.className = 'status-badge badge-scadenza';
             badge.textContent = `Scade tra ${giorniRimanenti}gg`;
             btnPaga.style.display = 'inline-flex';
-            btnPaga.innerHTML = '💳 Rinnova Ora';
         } else {
             badge.className = 'status-badge badge-attivo';
             badge.textContent = 'Attivo';
@@ -911,51 +911,35 @@
         
         let html = '';
         if (giorniRimanenti < 0) {
-            html = `<div class="alert-banner alert-scaduta"><span></span><span><strong>Il tuo abbonamento è SCADUTO!</strong> Rinnova ora per continuare ad accedere ai tuoi piani.</span></div>`;
+            html = `<div class="alert-banner alert-scaduta"><span>🚨</span><span><strong>Il tuo abbonamento è SCADUTO!</strong> Rinnova ora.</span></div>`;
         } else if (giorniRimanenti <= 7) {
-            html = `<div class="alert-banner alert-scadenza"><span>⚠️</span><span><strong>Attenzione!</strong> Il tuo abbonamento scade tra ${giorniRimanenti} giorni. Rinnova per non perdere l'accesso.</span></div>`;
-        } else if (giorniRimanenti <= ALERT_DAYS) {
-            html = `<div class="alert-banner alert-scadenza"><span>💡</span><span>Il tuo abbonamento scade tra ${giorniRimanenti} giorni. Puoi rinnovare in anticipo.</span></div>`;
+            html = `<div class="alert-banner alert-scadenza"><span>⚠️</span><span><strong>Attenzione!</strong> Il tuo abbonamento scade tra ${giorniRimanenti} giorni.</span></div>`;
+        } else if (giorniRimanenti <= 30) {
+            html = `<div class="alert-banner alert-scadenza"><span>💡</span><span>Il tuo abbonamento scade tra ${giorniRimanenti} giorni.</span></div>`;
         } else {
-            html = `<div class="alert-banner alert-attiva"><span>✅</span><span><strong>Abbonamento attivo!</strong> Hai ${giorniRimanenti} giorni di accesso rimanenti.</span></div>`;
+            html = `<div class="alert-banner alert-attiva"><span>✅</span><span><strong>Abbonamento attivo!</strong> Hai ${giorniRimanenti} giorni di accesso.</span></div>`;
         }
-        container.innerHTML = html;
-    }
-    
-    function renderScheda() {
-        const container = document.getElementById('schedaContent');
-        const giorni = Object.keys(schedaAllenamento);
-        
-        if (giorni.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">🏋️</div><div class="title">Nessuna scheda assegnata</div><div class="text">Il tuo gestore non ha ancora creato la tua scheda di allenamento. Contatta la palestra per maggiori informazioni.</div></div>`;
-            return;
-        }
-        
-        let html = '<div class="scheda-container">';
-        giorni.forEach(giorno => {
-            const esercizi = schedaAllenamento[giorno];
-            html += `<div class="giorno-card">
-                <div class="giorno-header">${giorno}</div>
-                <div class="giorno-body">`;
-            esercizi.forEach(es => {
-                html += `<div class="esercizio">
-                    <div class="nome">${es.nome}</div>
-                    <div class="dettagli">${es.note || ''}</div>
-                    <div class="serie">Serie: ${es.serie} • Recupero: ${es.recupero}</div>
-                </div>`;
-            });
-            html += `</div></div>`;
-        });
-        html += '</div>';
         container.innerHTML = html;
     }
     
     function renderDieta() {
         const container = document.getElementById('dietaContent');
-        const giorni = Object.keys(pianoNutrizionale);
+        const pianoNutrizionale = {
+            'Lunedì': {
+                'Mattina': { cibo: 'Yogurt greco 0% con fiocchi d\'avena e mirtilli', kcal: 320 },
+                'Pranzo': { cibo: 'Riso integrale 80g, petto di pollo 150g, broccoli', kcal: 520 },
+                'Sera': { cibo: 'Salmone 150g, insalata mista, 1 cucchiaio olio EVO', kcal: 450 }
+            },
+            'Martedì': {
+                'Mattina': { cibo: 'Fette biscottate integrali con ricotta e miele', kcal: 310 },
+                'Pranzo': { cibo: 'Pasta integrale 80g al pomodoro, mozzarella light', kcal: 540 },
+                'Sera': { cibo: 'Tacchino alla griglia 150g, zucchine grigliate', kcal: 380 }
+            }
+        };
         
+        const giorni = Object.keys(pianoNutrizionale);
         if (giorni.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">🥗</div><div class="title">Nessun piano nutrizionale assegnato</div><div class="text">Il tuo gestore non ha ancora creato il tuo piano alimentare. Contatta la palestra per maggiori informazioni.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div class="icon"></div><div class="title">Nessun piano nutrizionale</div><div class="text">Contatta la palestra.</div></div>`;
             return;
         }
         
@@ -987,37 +971,20 @@
     
     function renderCertificato() {
         const container = document.getElementById('certificatoContent');
-        
-        if (!certificatoMedico.presente) {
-            container.innerHTML = `<div class="empty-state"><div class="icon">📄</div><div class="title">Nessun certificato caricato</div><div class="text">Il tuo certificato medico non è ancora stato caricato. Contatta la tua palestra per fornirlo.</div></div>`;
-            return;
-        }
-        
-        const scadenzaCert = new Date(certificatoMedico.dataScadenza);
-        const oggi = new Date();
-        const giorniAllaScadenza = Math.ceil((scadenzaCert - oggi) / (1000 * 60 * 60 * 24));
-        
         container.innerHTML = `<div class="certificato-box">
             <div class="icon">📄</div>
             <div class="title">Certificato Medico Sportivo</div>
-            <div class="info">
-                <div><strong>File:</strong> ${certificatoMedico.nomeFile}</div>
-                <div><strong>Caricato il:</strong> ${new Date(certificatoMedico.dataCaricamento).toLocaleDateString('it-IT')}</div>
-                <div><strong>Scadenza:</strong> ${scadenzaCert.toLocaleDateString('it-IT')} (${giorniAllaScadenza > 0 ? `${giorniAllaScadenza} giorni` : 'SCADUTO'})</div>
-            </div>
-            <button class="btn-download" onclick="downloadCertificato()">📥 Scarica Certificato</button>
-            ${giorniAllaScadenza <= 30 && giorniAllaScadenza > 0 ? `<div style="margin-top:15px; color:var(--arancione); font-size:13px; font-weight:600;">⚠️ Il certificato scade tra ${giorniAllaScadenza} giorni. Rinnentalo presso il tuo medico.</div>` : ''}
-            ${giorniAllaScadenza <= 0 ? `<div style="margin-top:15px; color:var(--rosso); font-size:13px; font-weight:600;">🚨 Certificato SCADUTO. Rinnentalo immediatamente.</div>` : ''}
+            <div class="info">Nessun certificato caricato</div>
         </div>`;
     }
     
-    function downloadCertificato() {
-        showToast('📥 Download certificato avviato!');
+    function mostraPagamento() {
+        showToast('💳 Funzione di pagamento in sviluppo');
     }
     
     function stampaDieta() {
         window.print();
-        showToast('🖨️ Preparazione stampa/PDF...');
+        showToast('️ Preparazione stampa/PDF...');
     }
     
     function showTab(tabName) {

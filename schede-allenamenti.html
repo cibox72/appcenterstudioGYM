@@ -2,75 +2,78 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schede Allenamento - AppCenterStudioGYM</title>
     <style>
         :root {
             --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
             --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3;
-            --arancione: #F39C12; --rosso: #E74C3C; --blu: #3498DB;
+            --arancione: #F39C12; --rosso: #E74C3C; --blu: #3498DB; --viola: #8E44AD;
             --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12);
             --radius: 12px; --radius-sm: 8px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; padding-bottom: 30px; }
         .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
         .top-header h1 { font-size: 18px; font-weight: 700; }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; cursor: pointer; }
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .section-header h2 { font-size: 22px; }
-        .section-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
-        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: all 0.2s; }
-        .btn-primary { background: var(--tortora); color: var(--bianco); }
-        .btn-primary:hover { background: var(--nero); }
-        .btn-success { background: var(--verde); color: var(--bianco); }
-        .btn-danger { background: var(--rosso); color: var(--bianco); }
-        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
-        .btn-info { background: var(--blu); color: var(--bianco); }
-        .btn-sm { padding: 7px 12px; font-size: 12px; }
+        .section-header { margin-bottom: 20px; }
+        .section-header h2 { font-size: 22px; margin-bottom: 5px; }
+        .section-header .subtitle { font-size: 13px; color: var(--tortora-scuro); }
         .cliente-selector { background: var(--bianco); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--ombra); }
         .cliente-selector label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px; }
         .cliente-selector select { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; }
         .cliente-selector select:focus { outline: none; border-color: var(--tortora); }
-        .days-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .days-tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; flex-wrap: wrap; }
         .day-tab { padding: 10px 16px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; font-size: 13px; color: var(--tortora-scuro); white-space: nowrap; transition: all 0.2s; }
         .day-tab.active { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
-        .day-content { display: none; }
+        .day-content { display: none; background: var(--bianco); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); min-height: 400px; }
         .day-content.active { display: block; }
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .day-header h3 { font-size: 18px; }
+        .exercise-list { margin-bottom: 20px; }
         .exercise-item { background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--tortora); }
         .exercise-item .ex-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
         .exercise-item .ex-name { font-weight: 700; font-size: 15px; }
+        .exercise-item .ex-badge { font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+        .exercise-item .ex-badge.esercizio { background: var(--verde-chiaro); color: #1E8449; }
+        .exercise-item .ex-badge.video { background: #FADBD8; color: var(--rosso); }
         .exercise-item .ex-desc { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 8px; }
-        .exercise-item .ex-file { font-size: 12px; color: var(--blu); margin-bottom: 5px; }
-        .exercise-item .ex-file a { color: var(--blu); text-decoration: none; }
-        .exercise-item .ex-video { font-size: 12px; color: var(--rosso); }
-        .exercise-item .ex-video a { color: var(--rosso); text-decoration: none; font-weight: 600; }
+        .exercise-item .ex-details { font-size: 12px; color: var(--tortora); margin-bottom: 8px; }
+        .exercise-item img { max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); margin-top: 8px; display: block; }
         .exercise-item .ex-actions { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
-        .exercise-item img { max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); margin-top: 8px; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
+        .btn { padding: 8px 14px; border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; font-family: inherit; transition: all 0.2s; }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-success { background: var(--verde); color: var(--bianco); }
+        .btn-success:hover { background: #1E8449; }
+        .btn-danger { background: var(--rosso); color: var(--bianco); }
+        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
+        .btn-info { background: var(--blu); color: var(--bianco); }
+        .btn-view { background: var(--viola); color: var(--bianco); }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); border: 2px dashed var(--tortora-chiaro); }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; opacity: 0.5; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
         .modal-overlay.active { display: flex; }
-        .modal { background: var(--bianco); border-radius: var(--radius); padding: 25px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
-        .modal-large { max-width: 900px; }
+        .modal { background: var(--bianco); border-radius: var(--radius); padding: 25px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--tortora-chiaro); }
         .modal-title { font-size: 18px; font-weight: 700; }
-        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        .archive-select-list { max-height: 400px; overflow-y: auto; border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 10px; }
-        .archive-section-title { font-size: 13px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 5px 5px; border-bottom: 1px solid var(--tortora-chiaro); margin-bottom: 5px; }
-        .archive-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-bottom: 1px solid var(--tortora-chiarissimo); cursor: pointer; transition: background 0.15s; }
+        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--tortora); line-height: 1; }
+        .modal-close:hover { color: var(--nero); }
+        .archive-select-list { max-height: 500px; overflow-y: auto; border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 10px; }
+        .archive-section-title { font-size: 13px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 5px 5px; border-bottom: 1px solid var(--tortora-chiaro); margin-bottom: 5px; position: sticky; top: 0; background: var(--bianco); }
+        .archive-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-bottom: 1px solid var(--tortora-chiarissimo); cursor: pointer; transition: background 0.15s; }
         .archive-item:last-child { border-bottom: none; }
         .archive-item:hover { background: var(--tortora-chiarissimo); }
-        .archive-item input { width: auto; }
-        .archive-item label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
-        .archive-item .item-type { font-size: 10px; padding: 2px 6px; border-radius: 10px; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); }
-        .archive-item .item-type.video { background: #FADBD8; color: var(--rosso); }
-        .archive-item .item-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; flex-shrink: 0; background: var(--tortora-chiarissimo); }
-        .archive-item .item-thumb-placeholder { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--tortora-chiarissimo); font-size: 20px; flex-shrink: 0; }
-        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--nero); color: var(--bianco); padding: 12px 20px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; font-size: 14px; }
-        .toast.show { opacity: 1; transform: translateY(0); }
-        .loading { text-align: center; padding: 20px; color: var(--tortora); }
-        .empty-state { text-align: center; padding: 30px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
+        .archive-item input { width: auto; margin: 0; }
+        .archive-item label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; font-weight: 500; }
+        .archive-item .item-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-sm); flex-shrink: 0; background: var(--tortora-chiarissimo); border: 1px solid var(--tortora-chiaro); }
+        .archive-item .item-thumb-placeholder { width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--tortora-chiarissimo); font-size: 24px; flex-shrink: 0; border: 1px solid var(--tortora-chiaro); color: var(--tortora); }
+        .archive-item .item-info { flex: 1; }
+        .archive-item .item-name { font-weight: 600; margin-bottom: 3px; }
+        .archive-item .item-meta { font-size: 11px; color: var(--tortora); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; position: sticky; bottom: 0; background: var(--bianco); padding-top: 15px; border-top: 2px solid var(--tortora-chiaro); }
         .preview-modal { max-width: 700px; }
         .preview-content { text-align: center; }
         .preview-content img { max-width: 100%; max-height: 500px; border-radius: var(--radius-sm); margin-bottom: 15px; }
@@ -79,21 +82,21 @@
         .preview-details h4 { margin-bottom: 10px; }
         .preview-details p { margin-bottom: 6px; font-size: 14px; }
         .preview-details strong { color: var(--tortora-scuro); }
-        @media (max-width: 768px) { .container { padding: 15px; } }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--nero); color: var(--bianco); padding: 12px 20px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; font-size: 14px; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) { .container { padding: 15px; } .day-header { flex-direction: column; align-items: flex-start; gap: 10px; } }
     </style>
 </head>
 <body>
     <div class="top-header">
-        <h1>📋 Schede Allenamento</h1>
-        <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
+        <h1>Schede Allenamento</h1>
+        <a href="dashboard-palestra.html" class="btn-logout">Dashboard</a>
     </div>
 
     <div class="container">
         <div class="section-header">
-            <div>
-                <h2>👥 Scheda Allenamento Cliente</h2>
-                <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale del fornitore</div>
-            </div>
+            <h2>Scheda Allenamento Cliente</h2>
+            <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale del fornitore</div>
         </div>
 
         <div class="cliente-selector">
@@ -107,23 +110,23 @@
             <div class="days-tabs" id="daysTabs"></div>
             <div id="daysContent"></div>
             <div style="margin-top: 20px; text-align: right;">
-                <button class="btn btn-success" onclick="salvaSettimana()">💾 Salva Settimana Completa</button>
+                <button class="btn btn-success" onclick="salvaSettimana()">Salva Settimana Completa</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL SELEZIONE DA ARCHIVIO GLOBALE -->
     <div class="modal-overlay" id="modalAggiungi">
-        <div class="modal modal-large">
+        <div class="modal">
             <div class="modal-header">
-                <div class="modal-title"> Scegli dall'Archivio Globale</div>
-                <button class="modal-close" onclick="chiudiModal('modalAggiungi')">×</button>
+                <div class="modal-title">Scegli dall'Archivio Globale</div>
+                <button class="modal-close" onclick="chiudiModal('modalAggiungi')">&times;</button>
             </div>
             <div>
                 <div id="archiveSelectList"></div>
                 <div class="modal-actions">
                     <button class="btn btn-secondary" onclick="chiudiModal('modalAggiungi')">Annulla</button>
-                    <button class="btn btn-success" onclick="confermaAggiunta()">✅ Aggiungi Selezionati</button>
+                    <button class="btn btn-success" onclick="confermaAggiunta()">Aggiungi Selezionati</button>
                 </div>
             </div>
         </div>
@@ -134,7 +137,7 @@
         <div class="modal preview-modal">
             <div class="modal-header">
                 <div class="modal-title" id="previewTitle">Anteprima</div>
-                <button class="modal-close" onclick="chiudiModal('modalPreview')">×</button>
+                <button class="modal-close" onclick="chiudiModal('modalPreview')">&times;</button>
             </div>
             <div class="preview-content" id="previewContent"></div>
         </div>
@@ -159,25 +162,29 @@
 
     async function loadData() {
         try {
+            // Carica dati palestra
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
-            if (!palestraData) { showToast('⚠️ Palestra non trovata'); return; }
+            if (!palestraData) { showToast('Palestra non trovata'); return; }
             
+            // Carica atleti
             const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
             atleti = await atletiRes.json();
             popolaSelectClienti();
             
+            // Carica archivio globale esercizi
             const eserciziRes = await fetch(`${API_URL}/api/esercizi-globali`);
             eserciziGlobali = await eserciziRes.json();
             
+            // Carica archivio globale video
             const videoRes = await fetch(`${API_URL}/api/video-globali`);
             videoGlobali = await videoRes.json();
             
-            showToast(`✅ Archivio caricato: ${eserciziGlobali.length} esercizi, ${videoGlobali.length} video`);
+            showToast(`Archivio caricato: ${eserciziGlobali.length} esercizi, ${videoGlobali.length} video`);
         } catch (error) { 
             console.error('Errore:', error); 
-            showToast(' Errore di connessione'); 
+            showToast('Errore di connessione'); 
         }
     }
 
@@ -202,18 +209,27 @@
         document.getElementById('schedaClienteContent').style.display = 'block';
         
         try {
+            // Carica scheda esistente
             const res = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}`);
             const items = await res.json();
+            
+            // Organizza per giorno
             schedeClienti = {};
             items.forEach(item => {
                 const chiave = `${item.atleta_id}_${item.giorno}`;
                 if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
-                schedeClienti[chiave].push({ tipo: item.tipo, id: item.elemento_id, dbId: item.id, ordine: item.ordine });
+                schedeClienti[chiave].push({ 
+                    tipo: item.tipo, 
+                    id: item.elemento_id, 
+                    dbId: item.id, 
+                    ordine: item.ordine 
+                });
             });
+            
             renderGiorniTabs();
         } catch (error) {
             console.error('Errore caricamento scheda:', error);
-            showToast('❌ Errore caricamento scheda');
+            showToast('Errore caricamento scheda');
         }
     }
 
@@ -253,14 +269,26 @@
         const chiave = `${clienteSelezionato.id}_${idx}`;
         const eserciziGiorno = schedeClienti[chiave] || [];
         
-        let html = `<div style="margin-bottom: 15px;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;">${GIORNI[idx]}</h3>
-            <div style="font-size: 12px; color: var(--tortora);">${eserciziGiorno.length} elementi programmati</div>
-        </div>`;
+        let html = `
+            <div class="day-header">
+                <h3>${GIORNI[idx]}</h3>
+                <button class="btn btn-primary" onclick="apriAggiungi(${idx})">+ Aggiungi da Archivio Globale</button>
+            </div>
+            <div style="font-size: 12px; color: var(--tortora); margin-bottom: 15px;">
+                ${eserciziGiorno.length} elementi programmati
+            </div>
+        `;
         
         if (eserciziGiorno.length === 0) {
-            html += '<div class="empty-state"><div style="font-size: 32px; margin-bottom: 10px;">💪</div><div>Nessun esercizio per questo giorno</div></div>';
+            html += `
+                <div class="empty-state">
+                    <div class="icon"></div>
+                    <div>Nessun esercizio per questo giorno</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Clicca "+ Aggiungi da Archivio Globale" per iniziare</div>
+                </div>
+            `;
         } else {
+            html += '<div class="exercise-list">';
             eserciziGiorno.forEach((ex, exIdx) => {
                 const tipo = ex.tipo;
                 const data = tipo === 'esercizio' 
@@ -268,36 +296,52 @@
                     : videoGlobali.find(v => v.id === ex.id);
                 
                 if (!data) {
-                    html += `<div class="exercise-item" style="opacity: 0.5;"><div class="ex-name">⚠️ Elemento non trovato nell'archivio globale</div><div class="ex-actions"><button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">🗑️ Rimuovi</button></div></div>`;
+                    html += `
+                        <div class="exercise-item" style="opacity: 0.5;">
+                            <div class="ex-header">
+                                <div class="ex-name">Elemento non trovato</div>
+                                <span class="ex-badge ${tipo}">${tipo === 'esercizio' ? 'Esercizio' : 'Video'}</span>
+                            </div>
+                            <div class="ex-actions">
+                                <button class="btn btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">Rimuovi</button>
+                            </div>
+                        </div>
+                    `;
                     return;
                 }
                 
-                html += `<div class="exercise-item">
-                    <div class="ex-header">
-                        <div class="ex-name">${tipo === 'esercizio' ? '' : '🎬'} ${data.nome || data.titolo}</div>
-                        <span style="font-size: 11px; padding: 3px 8px; background: ${tipo === 'esercizio' ? 'var(--verde-chiaro)' : '#FADBD8'}; color: ${tipo === 'esercizio' ? '#1E8449' : 'var(--rosso)'}; border-radius: 10px; font-weight: 600;">${data.gruppo || ''}</span>
-                    </div>
-                    <div class="ex-desc">${data.descrizione || 'Nessuna descrizione'}</div>`;
+                html += `
+                    <div class="exercise-item">
+                        <div class="ex-header">
+                            <div class="ex-name">${data.nome || data.titolo}</div>
+                            <span class="ex-badge ${tipo}">${tipo === 'esercizio' ? 'Esercizio' : 'Video'}</span>
+                        </div>
+                        <div class="ex-desc">${data.descrizione || 'Nessuna descrizione'}</div>
+                `;
                 
                 if (tipo === 'esercizio') {
-                    if (data.serie) html += `<div class="ex-desc"><strong>Serie:</strong> ${data.serie}${data.recupero ? ` • <strong>Recupero:</strong> ${data.recupero}` : ''}</div>`;
+                    if (data.serie || data.recupero) {
+                        html += `<div class="ex-details"><strong>Serie:</strong> ${data.serie || '-'}${data.recupero ? ` • <strong>Recupero:</strong> ${data.recupero}` : ''}</div>`;
+                    }
                     if (data.file_base64) {
-                        html += `<img src="${data.file_base64}" alt="${data.nome}" style="max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 8px;">`;
+                        html += `<img src="${data.file_base64}" alt="${data.nome}">`;
                     }
                 } else {
-                    if (data.link) html += `<div class="ex-video">▶️ <a href="${data.link}" target="_blank">Guarda Video</a></div>`;
+                    if (data.link) {
+                        html += `<div class="ex-details">Link: <a href="${data.link}" target="_blank" style="color: var(--blu);">${data.link}</a></div>`;
+                    }
                 }
                 
-                html += `<div class="ex-actions">
-                    <button class="btn btn-sm btn-info" onclick="visualizzaElemento(${ex.id}, '${tipo}')">👁️ Visualizza</button>
-                    <button class="btn btn-sm btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">️ Rimuovi</button>
-                </div></div>`;
+                html += `
+                        <div class="ex-actions">
+                            <button class="btn btn-view" onclick="visualizzaElemento(${ex.id}, '${tipo}')">Visualizza</button>
+                            <button class="btn btn-danger" onclick="rimuoviEsercizioDaGiorno(${idx}, ${exIdx}, ${ex.dbId})">Rimuovi</button>
+                        </div>
+                    </div>
+                `;
             });
+            html += '</div>';
         }
-        
-        html += `<div style="margin-top: 15px;">
-            <button class="btn btn-primary" onclick="apriAggiungi(${idx})">+ Aggiungi da Archivio Globale</button>
-        </div>`;
         
         container.innerHTML = html;
     }
@@ -315,26 +359,30 @@
             } else {
                 content += `<div style="padding: 40px; background: var(--tortora-chiarissimo); border-radius: 8px; font-size: 48px;">📷</div>`;
             }
-            content += `<div class="preview-details">
-                <h4>${data.nome}</h4>
-                <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
-                <p><strong>Serie:</strong> ${data.serie || '-'}</p>
-                <p><strong>Recupero:</strong> ${data.recupero || '-'}</p>
-                <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
-            </div>`;
+            content += `
+                <div class="preview-details">
+                    <h4>${data.nome}</h4>
+                    <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
+                    <p><strong>Serie:</strong> ${data.serie || '-'}</p>
+                    <p><strong>Recupero:</strong> ${data.recupero || '-'}</p>
+                    <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
+                </div>
+            `;
         } else {
             const videoId = extractVideoId(data.link);
             if (videoId) {
                 content += `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
             } else {
-                content += `<p style="padding: 20px; background: var(--tortora-chiarissimo); border-radius: 8px;">Video non disponibile. <a href="${data.link}" target="_blank">Apri in nuova scheda</a></p>`;
+                content += `<p style="padding: 20px; background: var(--tortora-chiarissimo); border-radius: 8px;">Video non disponibile per l'anteprima. <a href="${data.link}" target="_blank" style="color: var(--blu);">Apri in nuova scheda</a></p>`;
             }
-            content += `<div class="preview-details">
-                <h4>${data.titolo}</h4>
-                <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
-                <p><strong>Link:</strong> <a href="${data.link}" target="_blank">${data.link}</a></p>
-                <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
-            </div>`;
+            content += `
+                <div class="preview-details">
+                    <h4>${data.titolo}</h4>
+                    <p><strong>Gruppo:</strong> ${data.gruppo || '-'}</p>
+                    <p><strong>Link:</strong> <a href="${data.link}" target="_blank" style="color: var(--blu);">${data.link}</a></p>
+                    <p><strong>Descrizione:</strong><br>${data.descrizione || 'Nessuna descrizione'}</p>
+                </div>
+            `;
         }
         
         document.getElementById('previewContent').innerHTML = content;
@@ -342,6 +390,7 @@
     }
 
     function extractVideoId(url) {
+        if (!url) return null;
         const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
         return match ? match[1] : null;
     }
@@ -351,30 +400,46 @@
         const list = document.getElementById('archiveSelectList');
         let html = '';
         
+        // Sezione Esercizi
         if (eserciziGlobali.length > 0) {
-            html += '<div class="archive-section-title">📚 Esercizi (' + eserciziGlobali.length + ')</div>';
+            html += `<div class="archive-section-title">Esercizi (${eserciziGlobali.length})</div>`;
             eserciziGlobali.forEach(e => {
                 const thumbHtml = e.file_base64 
                     ? `<img src="${e.file_base64}" class="item-thumb" alt="${e.nome}">`
-                    : `<div class="item-thumb-placeholder">📚</div>`;
-                html += `<div class="archive-item">
-                    <input type="checkbox" id="arch_ex_${e.id}" value="esercizio_${e.id}">
-                    ${thumbHtml}
-                    <label for="arch_ex_${e.id}"><strong>${e.nome}</strong><br><span style="font-size: 11px; color: var(--tortora);">${e.gruppo || ''} • ${e.serie || ''}</span></label>
-                    <span class="item-type">${e.gruppo || ''}</span>
-                </div>`;
+                    : `<div class="item-thumb-placeholder"></div>`;
+                html += `
+                    <div class="archive-item">
+                        <input type="checkbox" id="arch_ex_${e.id}" value="esercizio_${e.id}">
+                        ${thumbHtml}
+                        <div class="item-info">
+                            <label for="arch_ex_${e.id}">
+                                <div class="item-name">${e.nome}</div>
+                                <div class="item-meta">${e.gruppo || ''}${e.serie ? ` • ${e.serie}` : ''}</div>
+                            </label>
+                        </div>
+                    </div>
+                `;
             });
         }
         
+        // Sezione Video
         if (videoGlobali.length > 0) {
-            html += '<div class="archive-section-title" style="margin-top: 15px;">🎬 Video (' + videoGlobali.length + ')</div>';
+            html += `<div class="archive-section-title" style="margin-top: 15px;">Video (${videoGlobali.length})</div>`;
             videoGlobali.forEach(v => {
-                html += `<div class="archive-item">
-                    <input type="checkbox" id="arch_vid_${v.id}" value="video_${v.id}">
-                    <div class="item-thumb-placeholder" style="background: #FADBD8;">▶️</div>
-                    <label for="arch_vid_${v.id}"><strong>${v.titolo}</strong><br><span style="font-size: 11px; color: var(--tortora);">${v.gruppo || ''}</span></label>
-                    <span class="item-type video">${v.gruppo || ''}</span>
-                </div>`;
+                const videoId = extractVideoId(v.link);
+                const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
+                html += `
+                    <div class="archive-item">
+                        <input type="checkbox" id="arch_vid_${v.id}" value="video_${v.id}">
+                        ${thumbUrl ? `<img src="${thumbUrl}" class="item-thumb" alt="${v.titolo}">` : '<div class="item-thumb-placeholder"></div>'}
+                        <div class="item-info">
+                            <label for="arch_vid_${v.id}">
+                                <div class="item-name">${v.titolo}</div>
+                                <div class="item-meta">${v.gruppo || ''}</div>
+                            </label>
+                        </div>
+                    </div>
+                `;
             });
         }
         
@@ -388,7 +453,7 @@
 
     async function confermaAggiunta() {
         const checkboxes = document.querySelectorAll('#archiveSelectList input:checked');
-        if (checkboxes.length === 0) { showToast('️ Seleziona almeno un elemento'); return; }
+        if (checkboxes.length === 0) { showToast('Seleziona almeno un elemento'); return; }
         
         const elementi = [];
         checkboxes.forEach(cb => {
@@ -409,14 +474,14 @@
             });
             const result = await res.json();
             if (result.success) {
-                showToast(`✅ Aggiunti ${elementi.length} elementi`);
+                showToast(`Aggiunti ${elementi.length} elementi`);
                 chiudiModal('modalAggiungi');
                 await onClienteChange();
             } else {
-                showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
+                showToast('Errore: ' + (result.error || 'sconosciuto'));
             }
         } catch (error) {
-            showToast('❌ Errore di connessione');
+            showToast('Errore di connessione');
         }
     }
 
@@ -430,13 +495,13 @@
                 await onClienteChange();
             }
         } catch (error) {
-            showToast('❌ Errore');
+            showToast('Errore');
         }
     }
 
     async function salvaSettimana() {
         if (!clienteSelezionato) return;
-        showToast('✅ Settimana salvata!');
+        showToast('Settimana salvata con successo!');
     }
 
     function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }

@@ -3,199 +3,554 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Palestra - AppCenterStudioGYM</title>
+    <title>AppCenterStudioGYM - Gestione Palestra</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --verde: #27AE60;
+            --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12;
+            --arancione-chiaro: #FDEBD0;
+            --rosso: #E74C3C;
+            --rosso-chiaro: #FADBD8;
+            --blu: #3498DB;
+            --whatsapp: #25D366;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
+            --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
-        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
-        .top-header h1 { font-size: 20px; font-weight: 700; }
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .sync-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
-        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--verde); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(39,174,96,0.7); } 70% { box-shadow: 0 0 0 6px rgba(39,174,96,0); } 100% { box-shadow: 0 0 0 0 rgba(39,174,96,0); } }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-        .welcome-card { background: var(--bianco); border-radius: var(--radius); padding: 25px 30px; margin-bottom: 30px; box-shadow: var(--ombra); border-left: 5px solid var(--tortora); }
-        .welcome-card h2 { font-size: 24px; margin-bottom: 8px; }
-        .welcome-card p { color: var(--tortora-scuro); font-size: 14px; }
-        .welcome-card .id-badge { display: inline-block; background: var(--tortora-chiarissimo); padding: 4px 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 1px; margin-left: 8px; }
-        .alert-banner { background: var(--arancione-chiaro); border: 1px solid var(--arancione); border-radius: var(--radius-sm); padding: 14px 20px; margin-bottom: 25px; font-size: 14px; font-weight: 600; color: #9C640C; }
-        .alert-banner.hidden { display: none; }
-        .alert-banner.danger { background: var(--rosso-chiaro); border-color: var(--rosso); color: #922B21; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 35px; }
-        .stat-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border-left: 4px solid var(--tortora-chiaro); }
-        .stat-card .label { font-size: 11px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .stat-card .value { font-size: 32px; font-weight: 700; }
-        .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
-        .stat-card.verde { border-left-color: var(--verde); }
-        .stat-card.arancione { border-left-color: var(--arancione); }
-        .stat-card.rosso { border-left-color: var(--rosso); }
-        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .module-card { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); cursor: pointer; transition: all 0.2s; position: relative; border: 1px solid #e0e0e0; min-height: 140px; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .module-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
-        .module-card .badge { position: absolute; top: 12px; right: 12px; background: var(--tortora); color: var(--bianco); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
-        .module-card .card-icon { width: 40px; height: 40px; margin-bottom: 12px; fill: var(--tortora); }
-        .module-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-        .module-card p { font-size: 13px; color: var(--tortora-scuro); line-height: 1.4; flex: 1; }
-        .module-card .status-badge { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border: 1px solid var(--tortora-chiaro); align-self: flex-start; }
-        .module-card .status-badge.active { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
-        .module-card .status-badge.warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
-        .loading-overlay.hidden { display: none; }
-        @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #F5F2EF 0%, #FFFFFF 50%, #F5F2EF 100%);
+            color: var(--nero);
+            min-height: 100vh;
+        }
+        
+        /* HEADER */
+        .main-header {
+            background: linear-gradient(135deg, var(--tortora) 0%, var(--tortora-scuro) 100%);
+            color: var(--bianco);
+            padding: 20px 30px;
+            box-shadow: var(--ombra-forte);
+        }
+        .main-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        /* TAB PRINCIPALI - GRANDI E VISIBILI */
+        .main-tabs-container {
+            max-width: 1400px;
+            margin: 30px auto 0;
+            padding: 0 30px;
+        }
+        .main-tabs {
+            display: flex;
+            gap: 15px;
+            background: var(--tortora-chiarissimo);
+            padding: 15px;
+            border-radius: var(--radius);
+            border: 2px solid var(--tortora-chiaro);
+            box-shadow: var(--ombra);
+        }
+        .main-tab {
+            flex: 1;
+            padding: 20px 30px;
+            border: 3px solid transparent;
+            border-radius: var(--radius);
+            background: var(--bianco);
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .main-tab:hover {
+            background: var(--tortora-chiaro);
+            transform: translateY(-2px);
+            box-shadow: var(--ombra);
+        }
+        .main-tab.active {
+            background: var(--tortora);
+            color: var(--bianco);
+            border-color: var(--tortora-scuro);
+            box-shadow: var(--ombra-forte);
+        }
+        .main-tab .tab-icon {
+            font-size: 24px;
+        }
+        .main-tab .tab-text {
+            font-size: 18px;
+        }
+        
+        /* CONTENUTO */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* SEZIONE ATLETI */
+        .section-header {
+            margin-bottom: 25px;
+        }
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            font-size: 14px;
+            color: var(--tortora-scuro);
+        }
+        
+        /* SEARCH */
+        .search-box {
+            background: var(--bianco);
+            border: 2px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--ombra);
+        }
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--nero);
+        }
+        .search-box input::placeholder { color: var(--tortora); }
+        .search-icon { font-size: 20px; color: var(--tortora); }
+        
+        /* CARD ATLETI */
+        .atleti-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .atleta-card {
+            background: var(--bianco);
+            border: 2px solid var(--tortora-chiaro);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--ombra);
+            transition: all 0.2s;
+            position: relative;
+        }
+        .atleta-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--ombra-forte);
+            border-color: var(--tortora);
+        }
+        .atleta-id {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--tortora);
+            color: var(--bianco);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+        .atleta-nome {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--nero);
+            margin-bottom: 15px;
+            padding-right: 80px;
+        }
+        .atleta-info {
+            margin-bottom: 20px;
+        }
+        .atleta-info .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .atleta-info .info-label {
+            font-weight: 700;
+            color: var(--nero);
+            min-width: 100px;
+        }
+        .atleta-info .info-value {
+            color: var(--tortora-scuro);
+        }
+        .atleta-info .info-value a {
+            color: var(--blu);
+            text-decoration: none;
+        }
+        .atleta-info .info-value a:hover { text-decoration: underline; }
+        
+        /* STATUS BADGE */
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        .status-scaduto {
+            background: var(--rosso-chiaro);
+            color: #922B21;
+            border: 2px solid var(--rosso);
+        }
+        .status-attivo {
+            background: var(--verde-chiaro);
+            color: #1E8449;
+            border: 2px solid var(--verde);
+        }
+        .status-scadenza {
+            background: var(--arancione-chiaro);
+            color: #9C640C;
+            border: 2px solid var(--arancione);
+        }
+        
+        /* AZIONI CARD */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid var(--tortora-chiaro);
+        }
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: var(--bianco);
+        }
+        .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
+        .btn-ricevute {
+            background: var(--blu);
+            color: var(--bianco);
+        }
+        .btn-ricevute:hover { background: #2980B9; }
+        .btn-modifica {
+            background: var(--bianco);
+            color: var(--nero);
+            border: 2px solid var(--nero);
+        }
+        .btn-modifica:hover { background: var(--nero); color: var(--bianco); }
+        .btn-elimina {
+            background: var(--rosso);
+            color: var(--bianco);
+        }
+        .btn-elimina:hover { background: #C0392B; }
+        .btn-scheda {
+            background: var(--viola, #8E44AD);
+            color: var(--bianco);
+        }
+        .btn-scheda:hover { background: #6C3483; }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--tortora);
+            background: var(--bianco);
+            border-radius: var(--radius);
+            border: 2px dashed var(--tortora-chiaro);
+        }
+        .empty-state .icon { font-size: 64px; margin-bottom: 15px; }
+        .empty-state .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--nero); }
+        .empty-state .text { font-size: 14px; }
+        
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--nero);
+            color: var(--bianco);
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ombra-forte);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        @media (max-width: 768px) {
+            .main-tabs { flex-direction: column; }
+            .main-tab { padding: 15px 20px; }
+            .atleti-grid { grid-template-columns: 1fr; }
+            .container { padding: 0 15px; }
+            .main-tabs-container { padding: 0 15px; }
+        }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">Caricamento dati...</div>
 
-    <div class="top-header">
-        <h1>AppCenterStudioGYM</h1>
-        <div class="header-right">
-            <div class="sync-status"><span class="sync-dot"></span><span>Cloud Sync: OK</span></div>
-            <a href="index.html" class="btn-logout" onclick="localStorage.removeItem('currentUser')">Logout</a>
+    <!-- HEADER -->
+    <div class="main-header">
+        <h1>AppCenterStudioGYM - Gestione Palestra</h1>
+    </div>
+
+    <!-- TAB PRINCIPALI GRANDI E VISIBILI -->
+    <div class="main-tabs-container">
+        <div class="main-tabs">
+            <button class="main-tab active" onclick="showMainTab('atleti')">
+                <span class="tab-icon">👥</span>
+                <span class="tab-text">Atleti</span>
+            </button>
+            <button class="main-tab" onclick="showMainTab('impostazioni')">
+                <span class="tab-icon">⚙️</span>
+                <span class="tab-text">Impostazioni Palestra</span>
+            </button>
         </div>
     </div>
 
     <div class="container">
-        <div class="welcome-card">
-            <h2>Benvenuto, <span id="palestraNome">Palestra</span></h2>
-            <p>Gestisci tutte le funzionalità della tua palestra. Dati sincronizzati in tempo reale sul cloud. <br>
-            <strong>ID Palestra:</strong> <span class="id-badge" id="palestraId">-</span></p>
+        <!-- TAB ATLETI -->
+        <div class="tab-content active" id="tab-atleti">
+            <div class="section-header">
+                <h2>I Tuoi Atleti</h2>
+                <p>Gestisci anagrafiche, abbonamenti, pagamenti e credenziali</p>
+            </div>
+
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Cerca atleta per nome, cognome o ID..." oninput="filtraAtleti()">
+            </div>
+
+            <div class="atleti-grid" id="atletiGrid">
+                <!-- Caricati dinamicamente -->
+            </div>
         </div>
 
-        <div class="alert-banner hidden" id="alertBanner"><span id="alertText"></span></div>
-
-        <div class="stats-grid">
-            <div class="stat-card verde"><div class="label">Atleti Attivi</div><div class="value" id="statAttivi">0</div><div class="sub">in corso</div></div>
-            <div class="stat-card arancione"><div class="label">In Scadenza</div><div class="value" id="statScadenza">0</div><div class="sub">entro 30 giorni</div></div>
-            <div class="stat-card rosso"><div class="label">Scaduti</div><div class="value" id="statScaduti">0</div><div class="sub">da rinnovare</div></div>
-            <div class="stat-card"><div class="label">Totale Atleti</div><div class="value" id="statTotale">0</div><div class="sub">registrati</div></div>
-        </div>
-
-        <div class="cards-grid">
-            <a href="atleti.html" class="module-card">
-                <div class="badge">AT</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <h3>Gestione Atleti</h3>
-                <p>Registra nuovi atleti, gestisci anagrafiche, abbonamenti e certificati medici.</p>
-                <div class="status-badge active" id="badgeAtleti">0 ATLETI</div>
-            </a>
-
-            <a href="gestione-dieta.html" class="module-card">
-                <div class="badge">DI</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.65 1.44 1.98 1.13 5.26-.91 7.19-1.28 1.21-3.21 1.65-4.92 1.23l-.71 2.23c2.68.84 5.66.29 7.79-1.72 2.67-2.52 3.14-6.86.78-9.72-1.47-1.78-3.62-2.88-5.91-3.2L17.31 4h4.33l-1.44 16.17c-.02.18-.17.32-.35.32h-1.79l.3 2.5z"/></svg>
-                <h3>Piani Nutrizionali</h3>
-                <p>Crea e assegna diete personalizzate agli atleti con calcolo macro automatico.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="schede-allenamenti.html" class="module-card">
-                <div class="badge">SC</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
-                <h3>Schede Allenamento</h3>
-                <p>Programma workout personalizzati con esercizi, serie, recuperi e progressioni.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="agenda.html" class="module-card">
-                <div class="badge">AG</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-                <h3>Agenda Appuntamenti</h3>
-                <p>Calendario visite, valutazioni fisiche e appuntamenti con gli atleti.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="contabilita.html" class="module-card">
-                <div class="badge">CO</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-                <h3>Contabilità</h3>
-                <p>Registra incassi, pagamenti, abbonamenti e genera report finanziari.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="messaggi-whatsapp.html" class="module-card">
-                <div class="badge">WA</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-                <h3>Messaggi WhatsApp</h3>
-                <p>Invia comunicazioni di massa, promemoria e offerte agli atleti via WhatsApp.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="atleti.html#impostazioni" class="module-card">
-                <div class="badge">IM</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                <h3>Impostazioni Palestra</h3>
-                <p>Modifica dati palestra, logo, orari, servizi offerti e preferenze.</p>
-                <div class="status-badge active">ATTIVO</div>
-            </a>
-
-            <a href="assistenza-supporto.html" class="module-card">
-                <div class="badge">AS</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>
-                <h3>Assistenza & Supporto</h3>
-                <p>Contatta il supporto tecnico via WhatsApp, AnyDesk o email. Attivo 24/7.</p>
-                <div class="status-badge active">ATTIVO 24/7</div>
-            </a>
+        <!-- TAB IMPOSTAZIONI -->
+        <div class="tab-content" id="tab-impostazioni">
+            <div class="section-header">
+                <h2>Impostazioni Palestra</h2>
+                <p>Configura i dati della tua palestra e i metodi di pagamento</p>
+            </div>
+            <div class="empty-state">
+                <div class="icon">⚙️</div>
+                <div class="title">Sezione in sviluppo</div>
+                <div class="text">Qui potrai configurare i metodi di pagamento e i dati della palestra</div>
+            </div>
         </div>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    let currentUser = null, palestraData = null, atleti = [];
+    let atleti = [];
+    let palestraData = null;
+
+    // Dati demo (in produzione arrivano dal database)
+    const atletiDemo = [
+        {
+            id: 1,
+            nome: 'Marco Bianchi',
+            telefono: '3244445567',
+            email: 'marco@test',
+            obiettivo: 'Mantenimento',
+            dataScadenza: '1970-01-01',
+            username: '4M275',
+            stato: 'scaduto'
+        },
+        {
+            id: 2,
+            nome: 'Marco Bianchi',
+            telefono: '3244445567',
+            email: 'marco@test',
+            obiettivo: 'Mantenimento',
+            dataScadenza: '1970-01-01',
+            username: '4M346',
+            stato: 'scaduto'
+        }
+    ];
 
     function init() {
-        const userStr = localStorage.getItem('currentUser');
-        if (!userStr) { window.location.href = 'index.html'; return; }
-        currentUser = JSON.parse(userStr);
-        document.getElementById('palestraId').textContent = currentUser.id_univoco || currentUser.username;
-        loadData();
+        // In produzione: carica da API
+        atleti = atletiDemo;
+        renderAtleti();
     }
 
-    async function loadData() {
-        document.getElementById('loadingOverlay').classList.remove('hidden');
-        try {
-            const palestreRes = await fetch(`${API_URL}/api/palestre`);
-            const palestre = await palestreRes.json();
-            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
-            if (palestraData) {
-                document.getElementById('palestraNome').textContent = palestraData.nome;
-                checkScadenza(palestraData);
-                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
-                atleti = await atletiRes.json();
-                aggiornaStats();
+    function showMainTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function renderAtleti(lista = atleti) {
+        const grid = document.getElementById('atletiGrid');
+        
+        if (lista.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state" style="grid-column: 1/-1;">
+                    <div class="icon"></div>
+                    <div class="title">Nessun atleta trovato</div>
+                    <div class="text">Aggiungi il tuo primo atleta per iniziare</div>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        lista.forEach(atleta => {
+            const giorniScadenza = calcolaGiorniScadenza(atleta.dataScadenza);
+            let statusClass = 'status-attivo';
+            let statusText = 'Attivo';
+            
+            if (giorniScadenza < 0) {
+                statusClass = 'status-scaduto';
+                statusText = `SCADUTO (${Math.abs(giorniScadenza)}GG)`;
+            } else if (giorniScadenza <= 30) {
+                statusClass = 'status-scadenza';
+                statusText = `Scade tra ${giorniScadenza}GG`;
             }
-        } catch (error) { console.error('Errore:', error); }
-        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
-    }
 
-    function checkScadenza(palestra) {
-        if (!palestra.data_scadenza) return;
-        const scadenza = new Date(palestra.data_scadenza);
-        const oggi = new Date();
-        const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-        const banner = document.getElementById('alertBanner');
-        const alertText = document.getElementById('alertText');
-        if (giorni < 0) { banner.classList.remove('hidden'); banner.classList.add('danger'); alertText.textContent = `Il tuo abbonamento è SCADUTO da ${Math.abs(giorni)} giorni.`; }
-        else if (giorni <= 10) { banner.classList.remove('hidden'); alertText.textContent = `La prova scade tra ${giorni} giorni.`; }
-    }
+            // Formatta numero per WhatsApp (aggiungi prefisso Italia se manca)
+            let numeroWhatsapp = atleta.telefono.replace(/\D/g, '');
+            if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) {
+                numeroWhatsapp = '39' + numeroWhatsapp;
+            }
+            const linkWhatsapp = `https://wa.me/${numeroWhatsapp}`;
+            const messaggio = encodeURIComponent(`Ciao ${atleta.nome.split(' ')[0]}! Ti contattiamo dalla palestra.`);
 
-    function aggiornaStats() {
-        const oggi = new Date();
-        let attivi = 0, inScadenza = 0, scaduti = 0;
-        atleti.forEach(a => {
-            if (!a.data_scadenza) return;
-            const scadenza = new Date(a.data_scadenza);
-            const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            if (giorni < 0) scaduti++; else if (giorni <= 30) inScadenza++; else attivi++;
+            html += `
+                <div class="atleta-card">
+                    <div class="atleta-id">${atleta.username}</div>
+                    <div class="atleta-nome">${atleta.nome}</div>
+                    
+                    <div class="atleta-info">
+                        <div class="info-row">
+                            <span class="info-label">Tel:</span>
+                            <span class="info-value"><a href="tel:${atleta.telefono}">${atleta.telefono}</a></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value"><a href="mailto:${atleta.email}">${atleta.email}</a></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Obiettivo:</span>
+                            <span class="info-value">${atleta.obiettivo}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Scadenza:</span>
+                            <span class="info-value">${formatData(atleta.dataScadenza)}</span>
+                        </div>
+                    </div>
+
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+
+                    <div class="card-actions">
+                        <a href="${linkWhatsapp}?text=${messaggio}" target="_blank" class="btn btn-whatsapp">
+                             WhatsApp
+                        </a>
+                        <button class="btn btn-ricevute" onclick="apriRicevute(${atleta.id})">
+                            Ricevute
+                        </button>
+                        <button class="btn btn-modifica" onclick="modificaAtleta(${atleta.id})">
+                            Modifica
+                        </button>
+                        <button class="btn btn-elimina" onclick="eliminaAtleta(${atleta.id})">
+                            Elimina
+                        </button>
+                    </div>
+                </div>
+            `;
         });
-        document.getElementById('statAttivi').textContent = attivi;
-        document.getElementById('statScadenza').textContent = inScadenza;
-        document.getElementById('statScaduti').textContent = scaduti;
-        document.getElementById('statTotale').textContent = atleti.length;
-        document.getElementById('badgeAtleti').textContent = `${atleti.length} ATLETI`;
+
+        grid.innerHTML = html;
+    }
+
+    function calcolaGiorniScadenza(dataScadenza) {
+        const oggi = new Date();
+        const scadenza = new Date(dataScadenza);
+        return Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+    }
+
+    function formatData(dataStr) {
+        if (!dataStr) return '--';
+        const data = new Date(dataStr);
+        return data.toLocaleDateString('it-IT');
+    }
+
+    function filtraAtleti() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        if (!query) {
+            renderAtleti(atleti);
+            return;
+        }
+        const filtrati = atleti.filter(a => 
+            a.nome.toLowerCase().includes(query) || 
+            a.username.toLowerCase().includes(query) ||
+            a.email.toLowerCase().includes(query)
+        );
+        renderAtleti(filtrati);
+    }
+
+    function apriRicevute(id) {
+        showToast('📄 Sezione ricevute in sviluppo');
+    }
+
+    function modificaAtleta(id) {
+        showToast('✏️ Modifica atleta in sviluppo');
+    }
+
+    function eliminaAtleta(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
+        atleti = atleti.filter(a => a.id !== id);
+        renderAtleti();
+        showToast('Atleta eliminato');
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     init();

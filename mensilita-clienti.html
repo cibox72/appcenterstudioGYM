@@ -3,211 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Palestra - AppCenterStudioGYM</title>
+    <title>Mensilità Clienti - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        :root {
+            --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8;
+            --blu: #3498DB; --viola: #8E44AD; --whatsapp: #25D366;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px; --radius-sm: 8px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
-        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
-        .top-header h1 { font-size: 20px; font-weight: 700; }
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .sync-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
-        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--verde); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(39,174,96,0.7); } 70% { box-shadow: 0 0 0 6px rgba(39,174,96,0); } 100% { box-shadow: 0 0 0 0 rgba(39,174,96,0); } }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-        .welcome-card { background: var(--bianco); border-radius: var(--radius); padding: 25px 30px; margin-bottom: 30px; box-shadow: var(--ombra); border-left: 5px solid var(--tortora); }
-        .welcome-card h2 { font-size: 24px; margin-bottom: 8px; }
-        .welcome-card p { color: var(--tortora-scuro); font-size: 14px; }
-        .welcome-card .id-badge { display: inline-block; background: var(--tortora-chiarissimo); padding: 4px 12px; border-radius: 4px; font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 1px; margin-left: 8px; }
-        .alert-banner { background: var(--arancione-chiaro); border: 1px solid var(--arancione); border-radius: var(--radius-sm); padding: 14px 20px; margin-bottom: 25px; font-size: 14px; font-weight: 600; color: #9C640C; }
-        .alert-banner.hidden { display: none; }
-        .alert-banner.danger { background: var(--rosso-chiaro); border-color: var(--rosso); color: #922B21; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 35px; }
-        .stat-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border-left: 4px solid var(--tortora-chiaro); }
-        .stat-card .label { font-size: 11px; font-weight: 700; color: var(--tortora); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .stat-card .value { font-size: 32px; font-weight: 700; }
-        .stat-card .sub { font-size: 12px; color: var(--tortora); margin-top: 4px; }
-        .stat-card.verde { border-left-color: var(--verde); }
-        .stat-card.arancione { border-left-color: var(--arancione); }
-        .stat-card.rosso { border-left-color: var(--rosso); }
-        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-flow: column; grid-template-rows: auto auto auto; gap: 20px; }
-        .module-card { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); cursor: pointer; transition: all 0.2s; position: relative; border: 1px solid #e0e0e0; min-height: 140px; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .module-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
-        .module-card .badge { position: absolute; top: 12px; right: 12px; background: var(--tortora); color: var(--bianco); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
-        .module-card .card-icon { width: 40px; height: 40px; margin-bottom: 12px; fill: var(--tortora); }
-        .module-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-        .module-card p { font-size: 13px; color: var(--tortora-scuro); line-height: 1.4; flex: 1; }
-        .module-card .status-badge { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border: 1px solid var(--tortora-chiaro); align-self: flex-start; }
-        .module-card .status-badge.active { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
-        .module-card .status-badge.warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
+        
+        .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .section-title { font-size: 22px; color: var(--nero); font-weight: 700; }
+        .section-subtitle { font-size: 13px; color: var(--tortora-scuro); margin-top: 4px; }
+        
+        .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-mini { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 18px; text-align: center; box-shadow: var(--ombra); }
+        .stat-mini.verde { border-left: 5px solid var(--verde); }
+        .stat-mini.arancione { border-left: 5px solid var(--arancione); }
+        .stat-mini.rosso { border-left: 5px solid var(--rosso); }
+        .stat-mini .number { font-size: 28px; font-weight: 700; color: var(--nero); }
+        .stat-mini .label { font-size: 11px; color: var(--tortora); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
+        
+        .search-box { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 12px 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; box-shadow: var(--ombra); }
+        .search-box input { flex: 1; border: none; outline: none; font-size: 14px; font-family: inherit; }
+        .filter-select { padding: 8px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; background: var(--bianco); cursor: pointer; }
+        
+        .table-container { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); box-shadow: var(--ombra); overflow-x: auto; }
+        
+        .clienti-table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        .clienti-table thead { background: var(--tortora); color: var(--bianco); }
+        .clienti-table thead th { padding: 14px 16px; text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .clienti-table tbody tr { border-bottom: 1px solid var(--tortora-chiaro); transition: background 0.2s; }
+        .clienti-table tbody tr:hover { background: var(--tortora-chiarissimo); }
+        .clienti-table tbody tr:last-child { border-bottom: none; }
+        .clienti-table tbody td { padding: 14px 16px; font-size: 13px; color: var(--tortora-scuro); vertical-align: middle; }
+        .clienti-table .nome-cell { font-weight: 700; color: var(--nero); font-size: 14px; }
+        .clienti-table .id-cell { font-family: monospace; background: var(--tortora-chiarissimo); padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .clienti-table .password-cell { font-family: monospace; background: var(--tortora-chiarissimo); padding: 4px 8px; border-radius: 4px; font-size: 12px; letter-spacing: 0.5px; }
+        
+        .status-badge { display: inline-block; padding: 5px 14px; border-radius: 15px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .status-regolare { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
+        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
+        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
+        
+        .btn-invia { padding: 8px 14px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+        .btn-invia:hover { background: #128C7E; transform: translateY(-2px); box-shadow: var(--ombra-forte); }
+        .btn-invia:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); }
+        .empty-state .icon { font-size: 48px; margin-bottom: 15px; opacity: 0.5; }
+        
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
-        @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(3, 1fr); grid-auto-flow: row; grid-template-rows: auto; } }
-        @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); grid-auto-flow: row; grid-template-rows: auto; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: auto; } .stats-grid { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
+        
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .clienti-table { min-width: 800px; }
+        }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">Caricamento dati...</div>
+    <div class="loading-overlay hidden" id="loadingOverlay">Caricamento dati...</div>
 
-    <div class="top-header">
-        <h1>AppCenterStudioGYM</h1>
-        <div class="header-right">
-            <div class="sync-status"><span class="sync-dot"></span><span>Cloud Sync: OK</span></div>
-            <a href="index.html" class="btn-logout" onclick="localStorage.removeItem('currentUser')">Logout</a>
+    <div class="main-header">
+        <div class="header-title">
+            <h1>AppCenterStudioGYM</h1>
+            <p>Mensilità Clienti</p>
+        </div>
+        <div class="header-nav">
+            <a href="dashboard-palestra.html" class="nav-btn">Dashboard</a>
+            <a href="atleti.html" class="nav-btn">Gestione Atleti</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
-
+    
     <div class="container">
-        <div class="welcome-card">
-            <h2>Benvenuto, <span id="palestraNome">Palestra</span></h2>
-            <p>Gestisci tutte le funzionalità della tua palestra. Dati sincronizzati in tempo reale sul cloud. <br>
-            <strong>ID Palestra:</strong> <span class="id-badge" id="palestraId">-</span></p>
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Gestione Mensilità Clienti</h2>
+                <div class="section-subtitle">Monitora lo stato degli abbonamenti e invia link di pagamento ai clienti</div>
+            </div>
         </div>
 
-        <div class="alert-banner hidden" id="alertBanner"><span id="alertText"></span></div>
-
-        <div class="stats-grid">
-            <div class="stat-card verde"><div class="label">Atleti Attivi</div><div class="value" id="statAttivi">0</div><div class="sub">in corso</div></div>
-            <div class="stat-card arancione"><div class="label">In Scadenza</div><div class="value" id="statScadenza">0</div><div class="sub">entro 30 giorni</div></div>
-            <div class="stat-card rosso"><div class="label">Scaduti</div><div class="value" id="statScaduti">0</div><div class="sub">da rinnovare</div></div>
-            <div class="stat-card"><div class="label">Totale Atleti</div><div class="value" id="statTotale">0</div><div class="sub">registrati</div></div>
+        <div class="stats-bar">
+            <div class="stat-mini verde">
+                <div class="number" id="statRegolari">0</div>
+                <div class="label">Regolari</div>
+            </div>
+            <div class="stat-mini arancione">
+                <div class="number" id="statInScadenza">0</div>
+                <div class="label">In Scadenza</div>
+            </div>
+            <div class="stat-mini rosso">
+                <div class="number" id="statScaduti">0</div>
+                <div class="label">Scaduti</div>
+            </div>
+            <div class="stat-mini">
+                <div class="number" id="statTotale">0</div>
+                <div class="label">Totale</div>
+            </div>
         </div>
 
-        <div class="cards-grid">
-            <!-- COLONNA 1 -->
-            <a href="impostazioni-palestra.html" class="module-card">
-                <div class="badge">IM</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                <h3>Impostazioni Palestra</h3>
-                <p>Modifica dati palestra, logo, orari, servizi offerti e preferenze.</p>
-                <div class="status-badge active">ATTIVO</div>
-            </a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cerca per nome, cognome o ID..." oninput="filtraTabella()">
+            <select class="filter-select" id="filterStato" onchange="filtraTabella()">
+                <option value="tutti">Tutti gli stati</option>
+                <option value="regolare">Solo Regolari</option>
+                <option value="scadenza">Solo In Scadenza</option>
+                <option value="scaduto">Solo Scaduti</option>
+            </select>
+        </div>
 
-            <a href="atleti.html" class="module-card">
-                <div class="badge">AT</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <h3>Gestione Atleti</h3>
-                <p>Registra nuovi atleti, gestisci anagrafiche, abbonamenti e certificati medici.</p>
-                <div class="status-badge active" id="badgeAtleti">0 ATLETI</div>
-            </a>
-
-            <a href="mensilita-clienti.html" class="module-card">
-                <div class="badge">MC</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm-8 4H7v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-                <h3>Mensilità Clienti</h3>
-                <p>Gestisci abbonamenti, scadenze e pagamenti mensili di tutti i clienti.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <!-- COLONNA 2 -->
-            <a href="schede-allenamenti.html" class="module-card">
-                <div class="badge">SC</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
-                <h3>Schede Allenamento</h3>
-                <p>Programma workout personalizzati con esercizi, serie, recuperi e progressioni.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="gestione-dieta.html" class="module-card">
-                <div class="badge">DI</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.65 1.44 1.98 1.13 5.26-.91 7.19-1.28 1.21-3.21 1.65-4.92 1.23l-.71 2.23c2.68.84 5.66.29 7.79-1.72 2.67-2.52 3.14-6.86.78-9.72-1.47-1.78-3.62-2.88-5.91-3.2L17.31 4h4.33l-1.44 16.17c-.02.18-.17.32-.35.32h-1.79l.3 2.5z"/></svg>
-                <h3>Piani Nutrizionali</h3>
-                <p>Crea e assegna diete personalizzate agli atleti con calcolo macro automatico.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="assistenza-supporto.html" class="module-card">
-                <div class="badge">AS</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg>
-                <h3>Assistenza & Supporto</h3>
-                <p>Contatta il supporto tecnico via WhatsApp, AnyDesk o email. Attivo 24/7.</p>
-                <div class="status-badge active">ATTIVO 24/7</div>
-            </a>
-
-            <!-- COLONNA 3 -->
-            <a href="agenda.html" class="module-card">
-                <div class="badge">AG</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-                <h3>Agenda Appuntamenti</h3>
-                <p>Calendario visite, valutazioni fisiche e appuntamenti con gli atleti.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <a href="messaggi-whatsapp.html" class="module-card">
-                <div class="badge">WA</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-                <h3>Messaggi WhatsApp</h3>
-                <p>Invia comunicazioni di massa, promemoria e offerte agli atleti via WhatsApp.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
-
-            <!-- COLONNA 4 -->
-            <a href="contabilita.html" class="module-card">
-                <div class="badge">CO</div>
-                <svg class="card-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-                <h3>Contabilità</h3>
-                <p>Registra incassi, pagamenti, abbonamenti e genera report finanziari.</p>
-                <div class="status-badge active">DISPONIBILE</div>
-            </a>
+        <div class="table-container">
+            <table class="clienti-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome e Cognome</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Telefono</th>
+                        <th>Scadenza</th>
+                        <th>Stato</th>
+                        <th>Azione</th>
+                    </tr>
+                </thead>
+                <tbody id="clientiTableBody">
+                    <tr><td colspan="8" class="empty-state">Caricamento clienti...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <div class="toast" id="toast"></div>
 
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    let currentUser = null, palestraData = null, atleti = [];
+    const PAYMENT_LINK = 'https://www.paypal.biz/volleymanagerpro';
+    
+    let atleti = [];
+    let palestraData = null;
+    let currentUser = null;
 
     function init() {
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
         currentUser = JSON.parse(userStr);
-        document.getElementById('palestraId').textContent = currentUser.id_univoco || currentUser.username;
-        loadData();
+        caricaDati();
     }
 
-    async function loadData() {
+    async function caricaDati() {
         document.getElementById('loadingOverlay').classList.remove('hidden');
         try {
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            
             if (palestraData) {
-                document.getElementById('palestraNome').textContent = palestraData.nome;
-                checkScadenza(palestraData);
                 const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
                 atleti = await atletiRes.json();
+                
+                // Ordina per stato: scaduti prima, poi in scadenza, poi regolari
+                atleti.sort((a, b) => {
+                    const giorniA = calcolaGiorniScadenza(a.data_scadenza);
+                    const giorniB = calcolaGiorniScadenza(b.data_scadenza);
+                    return giorniA - giorniB;
+                });
+                
+                renderTabella();
                 aggiornaStats();
+            } else {
+                showToast('Palestra non trovata');
             }
-        } catch (error) { console.error('Errore:', error); }
-        finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
+        } catch (error) {
+            console.error('Errore:', error);
+            document.getElementById('clientiTableBody').innerHTML = '<tr><td colspan="8" class="empty-state">Errore di caricamento dati.</td></tr>';
+        } finally {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
     }
 
-    function checkScadenza(palestra) {
-        if (!palestra.data_scadenza) return;
-        const scadenza = new Date(palestra.data_scadenza);
+    function calcolaGiorniScadenza(dataScadenza) {
+        if (!dataScadenza) return -999;
         const oggi = new Date();
-        const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-        const banner = document.getElementById('alertBanner');
-        const alertText = document.getElementById('alertText');
-        if (giorni < 0) { banner.classList.remove('hidden'); banner.classList.add('danger'); alertText.textContent = `Il tuo abbonamento è SCADUTO da ${Math.abs(giorni)} giorni.`; }
-        else if (giorni <= 10) { banner.classList.remove('hidden'); alertText.textContent = `La prova scade tra ${giorni} giorni.`; }
+        const scadenza = new Date(dataScadenza);
+        return Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
     }
 
     function aggiornaStats() {
-        const oggi = new Date();
-        let attivi = 0, inScadenza = 0, scaduti = 0;
+        let regolari = 0, inScadenza = 0, scaduti = 0;
         atleti.forEach(a => {
-            if (!a.data_scadenza) return;
-            const scadenza = new Date(a.data_scadenza);
-            const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            if (giorni < 0) scaduti++; else if (giorni <= 30) inScadenza++; else attivi++;
+            const giorni = calcolaGiorniScadenza(a.data_scadenza);
+            if (giorni < 0) scaduti++;
+            else if (giorni <= 30) inScadenza++;
+            else regolari++;
         });
-        document.getElementById('statAttivi').textContent = attivi;
-        document.getElementById('statScadenza').textContent = inScadenza;
+        document.getElementById('statRegolari').textContent = regolari;
+        document.getElementById('statInScadenza').textContent = inScadenza;
         document.getElementById('statScaduti').textContent = scaduti;
         document.getElementById('statTotale').textContent = atleti.length;
-        document.getElementById('badgeAtleti').textContent = `${atleti.length} ATLETI`;
+    }
+
+    function renderTabella(lista = atleti) {
+        const tbody = document.getElementById('clientiTableBody');
+        if (lista.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nessun cliente trovato.</td></tr>';
+            return;
+        }
+        
+        let html = '';
+        lista.forEach(a => {
+            const giorniScadenza = calcolaGiorniScadenza(a.data_scadenza);
+            let statusClass = 'status-regolare', statusText = 'Regolare';
+            let giorniText = '';
+            
+            if (giorniScadenza < 0) {
+                statusClass = 'status-scaduto';
+                statusText = `Scaduto da ${Math.abs(giorniScadenza)}gg`;
+            } else if (giorniScadenza <= 30) {
+                statusClass = 'status-scadenza';
+                statusText = `Scade tra ${giorniScadenza}gg`;
+            } else {
+                giorniText = `(${giorniScadenza}gg rimanenti)`;
+            }
+
+            let numeroWhatsapp = (a.telefono || '').replace(/\D/g, '');
+            if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) numeroWhatsapp = '39' + numeroWhatsapp;
+            
+            // Costruisci messaggio WhatsApp personalizzato
+            let messaggioWa = '';
+            if (giorniScadenza < 0) {
+                messaggioWa = `Ciao ${a.nome}! Il tuo abbonamento presso ${palestraData.nome} è SCADUTO da ${Math.abs(giorniScadenza)} giorni. Ti invitiamo a regolarizzare il pagamento per continuare ad allenarti con noi.\n\nLink per il pagamento: ${PAYMENT_LINK}\n\nGrazie,\n${palestraData.nome}`;
+            } else if (giorniScadenza <= 30) {
+                messaggioWa = `Ciao ${a.nome}! Ti ricordiamo che il tuo abbonamento presso ${palestraData.nome} scadrà tra ${giorniScadenza} giorni. Per evitare interruzioni, puoi rinnovare comodamente online.\n\nLink per il rinnovo: ${PAYMENT_LINK}\n\nGrazie,\n${palestraData.nome}`;
+            } else {
+                messaggioWa = `Ciao ${a.nome}! Questo è un messaggio informativo dalla palestra ${palestraData.nome}. Il tuo abbonamento è attivo e scadrà tra ${giorniScadenza} giorni.\n\nPer qualsiasi necessità, siamo a tua disposizione!\n\n${palestraData.nome}`;
+            }
+            
+            const linkWa = numeroWhatsapp ? `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(messaggioWa)}` : '#';
+
+            html += `
+                <tr data-stato="${statusClass === 'status-regolare' ? 'regolare' : statusClass === 'status-scadenza' ? 'scadenza' : 'scaduto'}">
+                    <td><span class="id-cell">${a.username || 'N/D'}</span></td>
+                    <td class="nome-cell">${a.nome} ${a.cognome || ''}</td>
+                    <td><span class="id-cell">${a.username || 'N/D'}</span></td>
+                    <td><span class="password-cell">${a.password || 'N/D'}</span></td>
+                    <td><a href="tel:${a.telefono}" style="color: var(--blu); text-decoration: none;">${a.telefono || 'N/D'}</a></td>
+                    <td>${a.data_scadenza ? new Date(a.data_scadenza).toLocaleDateString('it-IT') : 'N/D'} <span style="color: var(--tortora); font-size: 11px;">${giorniText}</span></td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <a href="${linkWa}" target="_blank" class="btn-invia" ${!numeroWhatsapp ? 'disabled' : ''}>
+                            Invia Link
+                        </a>
+                    </td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function filtraTabella() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const stato = document.getElementById('filterStato').value;
+        
+        const filtrati = atleti.filter(a => {
+            // Filtro ricerca testo
+            const matchTesto = !query || 
+                (a.nome && a.nome.toLowerCase().includes(query)) || 
+                (a.cognome && a.cognome.toLowerCase().includes(query)) ||
+                (a.username && a.username.toLowerCase().includes(query));
+            
+            // Filtro stato
+            let matchStato = true;
+            if (stato !== 'tutti') {
+                const giorni = calcolaGiorniScadenza(a.data_scadenza);
+                if (stato === 'regolare') matchStato = giorni > 30;
+                else if (stato === 'scadenza') matchStato = giorni >= 0 && giorni <= 30;
+                else if (stato === 'scaduto') matchStato = giorni < 0;
+            }
+            
+            return matchTesto && matchStato;
+        });
+        
+        renderTabella(filtrati);
+    }
+
+    function showToast(msg) { 
+        const t = document.getElementById('toast'); 
+        t.textContent = msg; 
+        t.classList.add('show'); 
+        setTimeout(() => t.classList.remove('show'), 3000); 
+    }
+    
+    function esci() { 
+        if (confirm('Uscire dalla gestione mensilità?')) 
+            window.location.href = 'dashboard-palestra.html'; 
     }
 
     init();

@@ -5,48 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --rosso: #E74C3C; }
+        :root {
+            --nero: #1A1A1A;
+            --tortora: #9C928A;
+            --tortora-scuro: #7A716A;
+            --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF;
+            --bianco: #FFFFFF;
+            --rosso: #E74C3C;
+            --ombra: 0 4px 20px rgba(156, 146, 138, 0.25);
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-container { background: var(--bianco); border: 2px solid var(--tortora); border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(156, 146, 138, 0.25); }
-        .login-header { text-align: center; margin-bottom: 30px; }
-        .login-header h1 { font-size: 24px; color: var(--nero); margin-bottom: 5px; }
-        .login-header p { font-size: 11px; color: var(--tortora); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 11px; font-weight: 700; color: #7A716A; margin-bottom: 6px; text-transform: uppercase; }
-        .form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: 8px; font-size: 14px; }
-        .form-group input:focus { outline: none; border-color: var(--tortora); }
-        .btn-login { width: 100%; padding: 14px; background: var(--tortora); color: var(--bianco); border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-login:hover { background: var(--nero); }
-        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
-        .error-message { background: var(--rosso); color: var(--bianco); padding: 12px; border-radius: 8px; font-size: 13px; text-align: center; margin-bottom: 20px; display: none; }
-        .error-message.show { display: block; }
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: none; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
-        .loading-overlay.show { display: flex; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: var(--bianco);
+            border: 2px solid var(--tortora);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--ombra);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .login-header h1 {
+            font-size: 24px;
+            color: var(--nero);
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .login-header p {
+            font-size: 11px;
+            color: var(--tortora);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid var(--tortora-chiaro);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--tortora);
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--tortora-scuro);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 8px;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover {
+            color: var(--tortora);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--tortora);
+            color: var(--bianco);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-login:hover {
+            background: var(--nero);
+        }
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .error-message {
+            background: var(--rosso);
+            color: var(--bianco);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error-message.show {
+            display: block;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--tortora);
+        }
+        .loading-overlay.show {
+            display: flex;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 11px;
+            color: var(--tortora);
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">Accesso in corso...</div>
+    
     <div class="login-container">
         <div class="login-header">
             <h1>AppCenterStudioGYM</h1>
             <p>Accesso Riservato</p>
         </div>
+        
         <div class="error-message" id="errorMessage"></div>
+        
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="username" required placeholder="Inserisci username">
+                <input type="text" id="username" required placeholder="Inserisci il tuo username" autocomplete="username">
             </div>
+            
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="password" required placeholder="Inserisci password">
+                <div class="password-wrapper">
+                    <input type="password" id="password" required placeholder="Inserisci la tua password" autocomplete="current-password">
+                    <button type="button" class="toggle-password" onclick="togglePassword()">Mostra</button>
+                </div>
             </div>
+            
             <button type="submit" class="btn-login" id="btnLogin">Accedi</button>
         </form>
+        
+        <div class="footer-text">Sistema di gestione professionale per palestre</div>
     </div>
+
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
+
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.querySelector('.toggle-password');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.textContent = 'Nascondi';
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = 'Mostra';
+        }
+    }
+
     async function handleLogin(e) {
         e.preventDefault();
         const username = document.getElementById('username').value.trim();
@@ -57,7 +220,7 @@
         
         errorEl.classList.remove('show');
         btn.disabled = true;
-        btn.textContent = 'Accesso in corso...';
+        btn.textContent = 'Verifica credenziali...';
         loadingEl.classList.add('show');
         
         try {
@@ -70,17 +233,26 @@
             
             if (data.success) {
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
-                // REINDIRIZZAMENTO INFALLIBILE PER IL FORNITORE
-                window.location.href = 'dashboard-fornitore.html';
+                
+                // Reindirizzamento in base al ruolo
+                if (data.user.ruolo === 'fornitore') {
+                    window.location.href = 'dashboard-fornitore.html';
+                } else if (data.user.ruolo === 'palestra') {
+                    window.location.href = 'dashboard-palestra.html';
+                } else if (data.user.ruolo === 'atleta') {
+                    window.location.href = 'dashboard-atleta.html';
+                } else {
+                    window.location.href = 'dashboard-fornitore.html';
+                }
             } else {
-                errorEl.textContent = data.message || 'Credenziali non valide';
+                errorEl.textContent = data.message || 'Credenziali non valide. Verifica username e password.';
                 errorEl.classList.add('show');
                 btn.disabled = false;
                 btn.textContent = 'Accedi';
                 loadingEl.classList.remove('show');
             }
         } catch (error) {
-            errorEl.textContent = 'Errore di connessione al server';
+            errorEl.textContent = 'Errore di connessione al server. Riprova piÃ¹ tardi.';
             errorEl.classList.add('show');
             btn.disabled = false;
             btn.textContent = 'Accedi';

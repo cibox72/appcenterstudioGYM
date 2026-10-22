@@ -9,7 +9,7 @@
             --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
             --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3;
             --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8;
-            --blu: #3498DB; --viola: #8E44AD;
+            --blu: #3498DB; --viola: #8E44AD; --whatsapp: #25D366;
             --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
             --radius: 12px; --radius-sm: 8px;
         }
@@ -47,13 +47,16 @@
         
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .section-title { font-size: 18px; color: var(--nero); display: flex; align-items: center; gap: 10px; }
-        .btn-primary { padding: 10px 18px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-primary { padding: 10px 18px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
         .btn-primary:hover { background: var(--nero); }
         .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+        .btn-info:hover { background: #2980B9; }
         .btn-view { padding: 8px 14px; background: var(--viola); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-view:hover { background: #6C3483; }
+        .btn-whatsapp-offerta { background: var(--whatsapp); color: var(--bianco); padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-whatsapp-offerta:hover { background: #128C7E; }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
@@ -134,7 +137,7 @@
         </div>
         <div class="header-nav">
             <a href="index.html" class="nav-btn">Home</a>
-            <a href="offerte.html" class="nav-btn">Offerte</a>
+            <button class="nav-btn" onclick="window.history.back()">Indietro</button>
             <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
@@ -189,6 +192,7 @@
         </div>
     </div>
 
+    <!-- MODAL NUOVA PALESTRA -->
     <div class="modal-overlay" id="modalNuovaPalestra">
         <div class="modal">
             <div class="modal-header">
@@ -221,6 +225,22 @@
         </div>
     </div>
 
+    <!-- MODAL INVIA OFFERTA E CREDENZIALI -->
+    <div class="modal-overlay" id="modalOfferta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Invia Offerta e Credenziali</h3>
+                <button class="modal-close" onclick="chiudiModal('modalOfferta')">&times;</button>
+            </div>
+            <div id="offertaContent"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalOfferta')">Chiudi</button>
+                <a id="btnWhatsappOfferta" href="#" target="_blank" class="btn-whatsapp-offerta">Invia via WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ESERCIZIO -->
     <div class="modal-overlay" id="modalEsercizio">
         <div class="modal">
             <div class="modal-header">
@@ -266,6 +286,7 @@
         </div>
     </div>
 
+    <!-- MODAL VIDEO -->
     <div class="modal-overlay" id="modalVideo">
         <div class="modal">
             <div class="modal-header">
@@ -295,6 +316,7 @@
         </div>
     </div>
 
+    <!-- MODAL VISUALIZZA IMMAGINE -->
     <div class="modal-overlay" id="modalViewImg" onclick="if(event.target===this)chiudiModal('modalViewImg')">
         <div class="modal modal-view-img">
             <div class="view-content">
@@ -372,13 +394,46 @@
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
                 <div class="palestra-actions">
-                    <a href="offerte.html?id=${p.id}" class="btn-info">Offerte</a>
+                    <button class="btn-info" onclick="apriModalOfferta(${p.id})">Invia Offerta</button>
                     <button class="btn-secondary" onclick="togglePalestra(${p.id})">${p.stato === 'attiva' ? 'Disattiva' : 'Attiva'}</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
             </div>`;
         });
         container.innerHTML = html;
+    }
+
+    function apriModalOfferta(id) {
+        const p = palestre.find(x => x.id === id);
+        if (!p) return;
+        
+        const appLink = "https://appcenterstudiogym.pages.dev/";
+        const messaggio = `Ciao ${p.nome}!\n\nEcco le credenziali di accesso per la tua palestra su AppCenterStudioGYM:\n\nID Univoco (Username): ${p.username}\nPassword: ${p.password}\n\nPuoi accedere e gestire la tua palestra da qui:\n${appLink}\n\nPer qualsiasi assistenza, siamo a disposizione!`;
+        
+        let phone = (p.telefono || '').replace(/\D/g, '');
+        if (!phone.startsWith('39') && phone.length === 10) {
+            phone = '39' + phone;
+        }
+        
+        document.getElementById('offertaContent').innerHTML = `
+            <div class="credential-box" style="margin-bottom: 20px;">
+                <h4>Dati di Accesso per: ${p.nome}</h4>
+                <div class="cred-row"><span class="cred-label">ID Univoco:</span><span class="cred-value">${p.username}</span></div>
+                <div class="cred-row"><span class="cred-label">Password:</span><span class="cred-value">${p.password}</span></div>
+            </div>
+            <div class="form-group">
+                <label>Messaggio WhatsApp (puoi modificarlo prima di inviare)</label>
+                <textarea id="testoOfferta" rows="8" style="width:100%; font-family: monospace; font-size: 13px;">${messaggio}</textarea>
+            </div>
+        `;
+        
+        const btn = document.getElementById('btnWhatsappOfferta');
+        btn.onclick = function() {
+            const customMsg = document.getElementById('testoOfferta').value;
+            btn.href = `https://wa.me/${phone}?text=${encodeURIComponent(customMsg)}`;
+        };
+        
+        document.getElementById('modalOfferta').classList.add('active');
     }
 
     function apriModalNuovaPalestra() {

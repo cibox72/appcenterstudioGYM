@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Palestra - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --whatsapp: #25D366; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
         .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
@@ -38,9 +38,68 @@
         .module-card .card-icon { width: 40px; height: 40px; margin-bottom: 12px; fill: var(--tortora); }
         .module-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
         .module-card p { font-size: 13px; color: var(--tortora-scuro); line-height: 1.4; flex: 1; }
-        .module-card .status-badge { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border: 1px solid var(--tortora-chiaro); align-self: flex-start; }
+        .module-card .status-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border: 1px solid var(--tortora-chiaro); align-self: flex-start; }
         .module-card .status-badge.active { background: var(--verde-chiaro); color: #1E8449; border-color: var(--verde); }
         .module-card .status-badge.warning { background: var(--arancione-chiaro); color: #9C640C; border-color: var(--arancione); }
+        
+        /* CARD ATLETI E IMPOSTAZIONI - INGRANDITE ED EVIDENZIATE */
+        .module-card.card-principale {
+            background: linear-gradient(135deg, var(--tortora-chiarissimo) 0%, var(--bianco) 100%);
+            border: 3px solid var(--tortora);
+            padding: 30px;
+            min-height: 180px;
+            box-shadow: 0 4px 20px rgba(156, 146, 138, 0.3);
+        }
+        .module-card.card-principale:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(156, 146, 138, 0.4);
+            border-color: var(--tortora-scuro);
+        }
+        .module-card.card-principale .badge {
+            width: 35px;
+            height: 35px;
+            font-size: 12px;
+            background: var(--tortora);
+            top: 15px;
+            right: 15px;
+        }
+        .module-card.card-principale .card-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            fill: var(--tortora);
+        }
+        .module-card.card-principale h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .module-card.card-principale p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* PULSANTE WHATSAPP */
+        .btn-whatsapp-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: var(--whatsapp);
+            color: var(--bianco);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            align-self: flex-start;
+        }
+        .btn-whatsapp-card:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
         @media (max-width: 1200px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -76,12 +135,17 @@
         </div>
 
         <div class="cards-grid">
-            <a href="atleti.html" class="module-card">
+            <!-- CARD ATLETI - INGRANDITA CON WHATSAPP -->
+            <a href="atleti.html" class="module-card card-principale">
                 <div class="badge">AT</div>
                 <svg class="card-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <h3>Gestione Atleti</h3>
                 <p>Registra nuovi atleti, gestisci anagrafiche, abbonamenti e certificati medici.</p>
                 <div class="status-badge active" id="badgeAtleti">0 ATLETI</div>
+                <a href="https://wa.me/393447507656?text=Ciao!%20Ho%20bisogno%20di%20assistenza%20per%20la%20gestione%20atleti" target="_blank" class="btn-whatsapp-card" onclick="event.stopPropagation()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Contatta via WhatsApp
+                </a>
             </a>
 
             <a href="gestione-dieta.html" class="module-card">
@@ -124,7 +188,8 @@
                 <div class="status-badge active">DISPONIBILE</div>
             </a>
 
-            <a href="atleti.html#impostazioni" class="module-card">
+            <!-- CARD IMPOSTAZIONI - INGRANDITA -->
+            <a href="atleti.html#impostazioni" class="module-card card-principale">
                 <div class="badge">IM</div>
                 <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                 <h3>Impostazioni Palestra</h3>

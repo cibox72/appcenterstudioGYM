@@ -5,66 +5,385 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impostazioni Palestra - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --rosso: #E74C3C; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
         .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
         .top-header h1 { font-size: 20px; font-weight: 700; }
         .header-right { display: flex; align-items: center; gap: 15px; }
         .btn-back { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
-        .container { max-width: 800px; margin: 0 auto; padding: 30px 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
         .settings-card { background: var(--bianco); border-radius: var(--radius); padding: 30px; box-shadow: var(--ombra); margin-bottom: 25px; }
         .settings-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .settings-card h3 { font-size: 16px; font-weight: 700; margin: 20px 0 15px; color: var(--tortora-scuro); }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--tortora); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .btn-save { background: var(--verde); color: var(--bianco); border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; transition: background 0.2s; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        
+        /* LOGO UPLOAD */
+        .logo-upload-area { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); border: 2px dashed var(--tortora-chiaro); }
+        .logo-preview { width: 120px; height: 120px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .logo-preview-placeholder { color: var(--tortora); font-size: 12px; text-align: center; }
+        .logo-actions { flex: 1; }
+        .logo-actions p { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 10px; line-height: 1.5; }
+        .btn-upload { display: inline-block; padding: 8px 16px; background: var(--tortora); color: var(--bianco); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-upload:hover { background: var(--nero); }
+        .btn-rimuovi-logo { display: inline-block; padding: 8px 16px; background: var(--bianco); color: var(--rosso); border: 1.5px solid var(--rosso); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+        .btn-rimuovi-logo:hover { background: var(--rosso); color: var(--bianco); }
+        
+        /* METODI PAGAMENTO */
+        .payment-method { background: var(--tortora-chiarissimo); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 15px; transition: all 0.2s; }
+        .payment-method.active { border-color: var(--verde); background: var(--verde-chiaro); }
+        .payment-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; cursor: pointer; }
+        .payment-header-left { display: flex; align-items: center; gap: 12px; }
+        .payment-icon { width: 40px; height: 40px; background: var(--bianco); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--tortora-chiaro); }
+        .payment-name { font-weight: 700; font-size: 15px; color: var(--nero); }
+        .payment-desc { font-size: 11px; color: var(--tortora-scuro); margin-top: 2px; }
+        .payment-toggle { position: relative; width: 50px; height: 26px; }
+        .payment-toggle input { opacity: 0; width: 0; height: 0; }
+        .payment-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--tortora-chiaro); border-radius: 26px; transition: 0.3s; }
+        .payment-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: var(--bianco); border-radius: 50%; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .payment-toggle input:checked + .payment-slider { background: var(--verde); }
+        .payment-toggle input:checked + .payment-slider:before { transform: translateX(24px); }
+        .payment-fields { display: none; padding-top: 15px; border-top: 1px solid var(--tortora-chiaro); }
+        .payment-method.active .payment-fields { display: block; }
+        
+        .info-box { background: var(--arancione-chiaro); border-left: 4px solid var(--arancione); padding: 15px 20px; border-radius: var(--radius-sm); margin-bottom: 25px; font-size: 13px; color: #9C640C; line-height: 1.5; }
+        .info-box strong { display: block; margin-bottom: 5px; font-size: 14px; }
+        
+        .btn-save { background: var(--verde); color: var(--bianco); border: none; padding: 14px 24px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; transition: background 0.2s; letter-spacing: 0.5px; }
         .btn-save:hover { background: #1E8449; }
         .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+        
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
         .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
         .toast.show { opacity: 1; transform: translateY(0); }
-        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
+        
+        @media (max-width: 768px) { 
+            .form-row, .form-row-3 { grid-template-columns: 1fr; } 
+            .top-header { flex-direction: column; gap: 10px; }
+            .logo-upload-area { flex-direction: column; text-align: center; }
+            .logo-actions { text-align: center; }
+        }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">Caricamento impostazioni...</div>
+    
     <div class="top-header">
         <h1>Impostazioni Palestra</h1>
         <div class="header-right">
             <a href="dashboard-palestra.html" class="btn-back">← Torna alla Dashboard</a>
         </div>
     </div>
+    
     <div class="container">
-        <div class="settings-card">
-            <h2>Dati Generali</h2>
-            <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
-                <input type="hidden" id="palestraId">
+        <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
+            <input type="hidden" id="palestraId">
+            
+            <!-- SEZIONE 1: DATI GENERALI -->
+            <div class="settings-card">
+                <h2>Dati Generali Palestra</h2>
+                
                 <div class="form-group">
                     <label>Nome Palestra *</label>
                     <input type="text" id="nome" required placeholder="Es. Fitness Center Roma">
                 </div>
-                <div class="form-row">
+                
+                <div class="form-group">
+                    <label>Indirizzo Completo</label>
+                    <input type="text" id="indirizzo" placeholder="Es. Via Roma 10">
+                </div>
+                
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label>CAP</label>
+                        <input type="text" id="cap" placeholder="Es. 00100">
+                    </div>
                     <div class="form-group">
                         <label>Città</label>
                         <input type="text" id="citta" placeholder="Es. Roma">
                     </div>
                     <div class="form-group">
+                        <label>Provincia</label>
+                        <input type="text" id="provincia" placeholder="Es. RM" maxlength="2">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
                         <label>Telefono</label>
                         <input type="text" id="telefono" placeholder="Es. 06 1234567">
                     </div>
+                    <div class="form-group">
+                        <label>Cellulare</label>
+                        <input type="text" id="cellulare" placeholder="Es. 333 1234567">
+                    </div>
                 </div>
+                
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" id="email" placeholder="Es. info@palestra.it">
                 </div>
-                <button type="submit" class="btn-save" id="btnSave">Salva Modifiche</button>
-            </form>
-        </div>
+                
+                <div class="form-group">
+                    <label>Sito Web / Pagina Social</label>
+                    <input type="text" id="sito_web" placeholder="Es. www.palestra.it o link Facebook/Instagram">
+                </div>
+            </div>
+            
+            <!-- SEZIONE 2: DATI FISCALI -->
+            <div class="settings-card">
+                <h2>Dati Fiscali</h2>
+                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Questi dati compariranno nelle ricevute e nei documenti emessi dalla palestra.</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ragione Sociale / Intestazione</label>
+                        <input type="text" id="ragione_sociale" placeholder="Es. FITNESS CENTER SRL">
+                    </div>
+                    <div class="form-group">
+                        <label>Partita IVA</label>
+                        <input type="text" id="partita_iva" placeholder="Es. IT12345678901" maxlength="16">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Codice Fiscale</label>
+                        <input type="text" id="codice_fiscale" placeholder="Es. RSSMRA80A01H501Z" maxlength="16">
+                    </div>
+                    <div class="form-group">
+                        <label>Codice SDI (fatturazione elettronica)</label>
+                        <input type="text" id="codice_sdi" placeholder="Es. 0000000" maxlength="7">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>PEC</label>
+                    <input type="email" id="pec" placeholder="Es. palestra@pec.it">
+                </div>
+            </div>
+            
+            <!-- SEZIONE 3: LOGO -->
+            <div class="settings-card">
+                <h2>Logo Palestra</h2>
+                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Il logo comparirà nelle ricevute, nelle schede di allenamento e nei documenti ufficiali.</p>
+                
+                <div class="logo-upload-area">
+                    <div class="logo-preview" id="logoPreview">
+                        <span class="logo-preview-placeholder">Nessun logo caricato</span>
+                    </div>
+                    <div class="logo-actions">
+                        <p>Carica un'immagine in formato JPG o PNG. Dimensioni consigliate: 400x400 pixel. Dimensione massima: 2MB.</p>
+                        <label for="logoFile" class="btn-upload">Scegli File</label>
+                        <input type="file" id="logoFile" accept="image/jpeg,image/png" style="display: none;" onchange="handleLogoUpload(event)">
+                        <button type="button" class="btn-rimuovi-logo" onclick="rimuoviLogo()">Rimuovi Logo</button>
+                    </div>
+                </div>
+                <input type="hidden" id="logoBase64">
+            </div>
+            
+            <!-- SEZIONE 4: METODI DI PAGAMENTO -->
+            <div class="settings-card">
+                <h2>Metodi di Pagamento Accettati</h2>
+                
+                <div class="info-box">
+                    <strong>IMPORTANTE</strong>
+                    Attiva i metodi di pagamento che la tua palestra accetta. Questi verranno mostrati ai clienti nei messaggi WhatsApp e nelle comunicazioni di rinnovo abbonamento. Puoi attivare più metodi contemporaneamente.
+                </div>
+                
+                <!-- PAYPAL -->
+                <div class="payment-method" id="method-paypal">
+                    <div class="payment-header" onclick="togglePayment('paypal')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">💳</div>
+                            <div>
+                                <div class="payment-name">PayPal</div>
+                                <div class="payment-desc">Pagamento online veloce e sicuro</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-paypal" onchange="togglePaymentFields('paypal')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Link PayPal.me o PayPal.biz</label>
+                            <input type="url" id="paypal_link" placeholder="Es. https://www.paypal.me/tuapalestra">
+                        </div>
+                        <div class="form-group">
+                            <label>Email PayPal</label>
+                            <input type="email" id="paypal_email" placeholder="Es. pagamenti@palestra.it">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STRIPE -->
+                <div class="payment-method" id="method-stripe">
+                    <div class="payment-header" onclick="togglePayment('stripe')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">💰</div>
+                            <div>
+                                <div class="payment-name">Stripe</div>
+                                <div class="payment-desc">Pagamento con carta di credito/debito</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-stripe" onchange="togglePaymentFields('stripe')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Link di Pagamento Stripe</label>
+                            <input type="url" id="stripe_link" placeholder="Es. https://buy.stripe.com/...">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BONIFICO -->
+                <div class="payment-method" id="method-bonifico">
+                    <div class="payment-header" onclick="togglePayment('bonifico')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">🏦</div>
+                            <div>
+                                <div class="payment-name">Bonifico Bancario</div>
+                                <div class="payment-desc">Pagamento tramite bonifico SEPA</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-bonifico" onchange="togglePaymentFields('bonifico')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Intestatario Conto</label>
+                            <input type="text" id="bonifico_intestatario" placeholder="Es. Fitness Center SRL">
+                        </div>
+                        <div class="form-group">
+                            <label>IBAN</label>
+                            <input type="text" id="bonifico_iban" placeholder="Es. IT60 X054 2811 1010 0000 0123 456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Banca</label>
+                                <input type="text" id="bonifico_banca" placeholder="Es. Intesa Sanpaolo">
+                            </div>
+                            <div class="form-group">
+                                <label>BIC/SWIFT (opzionale)</label>
+                                <input type="text" id="bonifico_swift" placeholder="Es. BCITITMM">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Causale Standard</label>
+                            <input type="text" id="bonifico_causale" placeholder="Es. Quota mensile - [Nome Cliente]">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SATISPAY -->
+                <div class="payment-method" id="method-satispay">
+                    <div class="payment-header" onclick="togglePayment('satispay')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">📱</div>
+                            <div>
+                                <div class="payment-name">Satispay</div>
+                                <div class="payment-desc">Pagamento rapido con app</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-satispay" onchange="togglePaymentFields('satispay')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Nome Negozio Satispay</label>
+                            <input type="text" id="satispay_nome" placeholder="Es. Fitness Center Roma">
+                        </div>
+                        <div class="form-group">
+                            <label>Link Satispay (opzionale)</label>
+                            <input type="url" id="satispay_link" placeholder="Es. https://tag.satispay.com/...">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONTANTI -->
+                <div class="payment-method" id="method-contanti">
+                    <div class="payment-header" onclick="togglePayment('contanti')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">💵</div>
+                            <div>
+                                <div class="payment-name">Contanti</div>
+                                <div class="payment-desc">Pagamento di persona in sede</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-contanti" onchange="togglePaymentFields('contanti')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Note aggiuntive (opzionale)</label>
+                            <textarea id="contanti_note" rows="3" placeholder="Es. Pagamento accettato solo in reception negli orari di apertura"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- POS -->
+                <div class="payment-method" id="method-pos">
+                    <div class="payment-header" onclick="togglePayment('pos')">
+                        <div class="payment-header-left">
+                            <div class="payment-icon">🏧</div>
+                            <div>
+                                <div class="payment-name">POS (Carta in sede)</div>
+                                <div class="payment-desc">Pagamento con carta in palestra</div>
+                            </div>
+                        </div>
+                        <label class="payment-toggle" onclick="event.stopPropagation()">
+                            <input type="checkbox" id="toggle-pos" onchange="togglePaymentFields('pos')">
+                            <span class="payment-slider"></span>
+                        </label>
+                    </div>
+                    <div class="payment-fields">
+                        <div class="form-group">
+                            <label>Note aggiuntive (opzionale)</label>
+                            <textarea id="pos_note" rows="3" placeholder="Es. Si accettano Visa, Mastercard, American Express"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEZIONE 5: QUOTA MENSILE -->
+            <div class="settings-card">
+                <h2>Quota Mensile Standard</h2>
+                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Imposta la quota mensile standard che verrà proposta nei messaggi di rinnovo.</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Importo Mensile (EUR)</label>
+                        <input type="number" id="quota_mensile" step="0.01" min="0" placeholder="Es. 50.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Giorni Preavviso Scadenza</label>
+                        <input type="number" id="giorni_preavviso" min="1" max="60" placeholder="Es. 7" value="7">
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-save" id="btnSave">💾 Salva Impostazioni</button>
+        </form>
     </div>
+    
     <div class="toast" id="toast"></div>
 
     <script>
@@ -82,18 +401,116 @@
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
             
             if (palestraData) {
+                // DATI GENERALI
                 document.getElementById('palestraId').value = palestraData.id;
                 document.getElementById('nome').value = palestraData.nome || '';
+                document.getElementById('indirizzo').value = palestraData.indirizzo || '';
+                document.getElementById('cap').value = palestraData.cap || '';
                 document.getElementById('citta').value = palestraData.citta || '';
+                document.getElementById('provincia').value = palestraData.provincia || '';
                 document.getElementById('telefono').value = palestraData.telefono || '';
+                document.getElementById('cellulare').value = palestraData.cellulare || '';
                 document.getElementById('email').value = palestraData.email || '';
+                document.getElementById('sito_web').value = palestraData.sito_web || '';
+                
+                // DATI FISCALI
+                document.getElementById('ragione_sociale').value = palestraData.ragione_sociale || '';
+                document.getElementById('partita_iva').value = palestraData.partita_iva || '';
+                document.getElementById('codice_fiscale').value = palestraData.codice_fiscale || '';
+                document.getElementById('codice_sdi').value = palestraData.codice_sdi || '';
+                document.getElementById('pec').value = palestraData.pec || '';
+                
+                // LOGO
+                if (palestraData.logo_url || palestraData.logo_base64) {
+                    const logoSrc = palestraData.logo_base64 || palestraData.logo_url;
+                    document.getElementById('logoPreview').innerHTML = `<img src="${logoSrc}" alt="Logo">`;
+                    document.getElementById('logoBase64').value = palestraData.logo_base64 || '';
+                }
+                
+                // METODI DI PAGAMENTO
+                const pagamenti = palestraData.metodi_pagamento || {};
+                ['paypal', 'stripe', 'bonifico', 'satispay', 'contanti', 'pos'].forEach(metodo => {
+                    if (pagamenti[metodo] && pagamenti[metodo].attivo) {
+                        document.getElementById(`toggle-${metodo}`).checked = true;
+                        document.getElementById(`method-${metodo}`).classList.add('active');
+                        
+                        // Popola i campi specifici
+                        const data = pagamenti[metodo];
+                        if (metodo === 'paypal') {
+                            document.getElementById('paypal_link').value = data.link || '';
+                            document.getElementById('paypal_email').value = data.email || '';
+                        } else if (metodo === 'stripe') {
+                            document.getElementById('stripe_link').value = data.link || '';
+                        } else if (metodo === 'bonifico') {
+                            document.getElementById('bonifico_intestatario').value = data.intestatario || '';
+                            document.getElementById('bonifico_iban').value = data.iban || '';
+                            document.getElementById('bonifico_banca').value = data.banca || '';
+                            document.getElementById('bonifico_swift').value = data.swift || '';
+                            document.getElementById('bonifico_causale').value = data.causale || '';
+                        } else if (metodo === 'satispay') {
+                            document.getElementById('satispay_nome').value = data.nome || '';
+                            document.getElementById('satispay_link').value = data.link || '';
+                        } else if (metodo === 'contanti') {
+                            document.getElementById('contanti_note').value = data.note || '';
+                        } else if (metodo === 'pos') {
+                            document.getElementById('pos_note').value = data.note || '';
+                        }
+                    }
+                });
+                
+                // QUOTA MENSILE
+                document.getElementById('quota_mensile').value = palestraData.quota_mensile || '';
+                document.getElementById('giorni_preavviso').value = palestraData.giorni_preavviso || 7;
             }
         } catch (error) {
             console.error('Errore:', error);
-            showToast('Errore di caricamento dati');
+            showToast('❌ Errore di caricamento dati');
         } finally {
             document.getElementById('loadingOverlay').classList.add('hidden');
         }
+    }
+
+    function togglePayment(metodo) {
+        const checkbox = document.getElementById(`toggle-${metodo}`);
+        checkbox.checked = !checkbox.checked;
+        togglePaymentFields(metodo);
+    }
+
+    function togglePaymentFields(metodo) {
+        const checkbox = document.getElementById(`toggle-${metodo}`);
+        const container = document.getElementById(`method-${metodo}`);
+        if (checkbox.checked) {
+            container.classList.add('active');
+        } else {
+            container.classList.remove('active');
+        }
+    }
+
+    function handleLogoUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        if (file.size > 2 * 1024 * 1024) {
+            showToast('❌ Il file supera i 2MB');
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64 = e.target.result;
+            document.getElementById('logoPreview').innerHTML = `<img src="${base64}" alt="Logo">`;
+            document.getElementById('logoBase64').value = base64;
+            showToast('✅ Logo caricato');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function rimuoviLogo() {
+        if (!confirm('Rimuovere il logo?')) return;
+        document.getElementById('logoPreview').innerHTML = '<span class="logo-preview-placeholder">Nessun logo caricato</span>';
+        document.getElementById('logoBase64').value = '';
+        document.getElementById('logoFile').value = '';
+        showToast('Logo rimosso');
     }
 
     async function salvaImpostazioni(e) {
@@ -102,13 +519,69 @@
         btn.disabled = true;
         btn.textContent = 'Salvataggio in corso...';
 
+        // Costruisci oggetto metodi pagamento
+        const metodi_pagamento = {};
+        ['paypal', 'stripe', 'bonifico', 'satispay', 'contanti', 'pos'].forEach(metodo => {
+            const attivo = document.getElementById(`toggle-${metodo}`).checked;
+            if (attivo) {
+                metodi_pagamento[metodo] = { attivo: true };
+                if (metodo === 'paypal') {
+                    metodi_pagamento[metodo].link = document.getElementById('paypal_link').value.trim();
+                    metodi_pagamento[metodo].email = document.getElementById('paypal_email').value.trim();
+                } else if (metodo === 'stripe') {
+                    metodi_pagamento[metodo].link = document.getElementById('stripe_link').value.trim();
+                } else if (metodo === 'bonifico') {
+                    metodi_pagamento[metodo].intestatario = document.getElementById('bonifico_intestatario').value.trim();
+                    metodi_pagamento[metodo].iban = document.getElementById('bonifico_iban').value.trim();
+                    metodi_pagamento[metodo].banca = document.getElementById('bonifico_banca').value.trim();
+                    metodi_pagamento[metodo].swift = document.getElementById('bonifico_swift').value.trim();
+                    metodi_pagamento[metodo].causale = document.getElementById('bonifico_causale').value.trim();
+                } else if (metodo === 'satispay') {
+                    metodi_pagamento[metodo].nome = document.getElementById('satispay_nome').value.trim();
+                    metodi_pagamento[metodo].link = document.getElementById('satispay_link').value.trim();
+                } else if (metodo === 'contanti') {
+                    metodi_pagamento[metodo].note = document.getElementById('contanti_note').value.trim();
+                } else if (metodo === 'pos') {
+                    metodi_pagamento[metodo].note = document.getElementById('pos_note').value.trim();
+                }
+            }
+        });
+
         const data = {
+            // DATI GENERALI
             nome: document.getElementById('nome').value.trim(),
+            indirizzo: document.getElementById('indirizzo').value.trim(),
+            cap: document.getElementById('cap').value.trim(),
             citta: document.getElementById('citta').value.trim(),
+            provincia: document.getElementById('provincia').value.trim(),
             telefono: document.getElementById('telefono').value.trim(),
+            cellulare: document.getElementById('cellulare').value.trim(),
             email: document.getElementById('email').value.trim(),
+            sito_web: document.getElementById('sito_web').value.trim(),
+            
+            // DATI FISCALI
+            ragione_sociale: document.getElementById('ragione_sociale').value.trim(),
+            partita_iva: document.getElementById('partita_iva').value.trim(),
+            codice_fiscale: document.getElementById('codice_fiscale').value.trim(),
+            codice_sdi: document.getElementById('codice_sdi').value.trim(),
+            pec: document.getElementById('pec').value.trim(),
+            
+            // LOGO
+            logo_base64: document.getElementById('logoBase64').value,
+            
+            // METODI PAGAMENTO
+            metodi_pagamento: metodi_pagamento,
+            
+            // QUOTA MENSILE
+            quota_mensile: parseFloat(document.getElementById('quota_mensile').value) || 0,
+            giorni_preavviso: parseInt(document.getElementById('giorni_preavviso').value) || 7,
+            
+            // Mantieni i dati originali
             stato: palestraData.stato,
-            data_scadenza: palestraData.data_scadenza
+            data_scadenza: palestraData.data_scadenza,
+            username: palestraData.username,
+            password: palestraData.password,
+            id_univoco: palestraData.id_univoco
         };
 
         try {
@@ -118,18 +591,20 @@
                 body: JSON.stringify(data)
             });
             
-            if (res.ok) {
+            const result = await res.json();
+            
+            if (res.ok && result.success !== false) {
                 showToast('✅ Impostazioni salvate con successo!');
                 palestraData = { ...palestraData, ...data };
             } else {
-                showToast('❌ Errore durante il salvataggio');
+                showToast('❌ Errore durante il salvataggio: ' + (result.error || 'sconosciuto'));
             }
         } catch (error) {
             console.error('Errore:', error);
             showToast('❌ Errore di connessione');
         } finally {
             btn.disabled = false;
-            btn.textContent = 'Salva Modifiche';
+            btn.textContent = '💾 Salva Impostazioni';
         }
     }
 

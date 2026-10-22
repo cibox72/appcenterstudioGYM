@@ -84,6 +84,58 @@
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
         .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        /* Toggle Switch Professionale */
+        .switch-pro {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            vertical-align: middle;
+        }
+        .switch-pro input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-pro .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 999px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .switch-pro .slider::before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .switch-pro input:checked + .slider {
+            background: var(--verde);
+        }
+        .switch-pro input:checked + .slider::before {
+            transform: translateX(22px);
+        }
+        .switch-pro input:disabled + .slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .toggle-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--tortora-scuro);
+            margin-right: 6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
         
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
@@ -391,6 +443,23 @@
         </div>
     </div>
 
+    <!-- NUOVO MODALE: Selettore Offerta per WhatsApp -->
+    <div class="modal-overlay" id="modalSelettoreOffertaWhatsApp">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Seleziona Offerta da Inviare</h3>
+                <button class="modal-close" onclick="chiudiModal('modalSelettoreOffertaWhatsApp')">&times;</button>
+            </div>
+            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 15px;">Scegli un'offerta dall'archivio da inviare a questa palestra.</p>
+            <div id="listaOfferteSelettore" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+                <!-- Le offerte verranno inserite qui -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalSelettoreOffertaWhatsApp')">Annulla</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="modalViewImg" onclick="if(event.target===this)chiudiModal('modalViewImg')">
         <div class="modal modal-view-img">
             <div class="view-content">
@@ -411,6 +480,10 @@
     let offerte = [];
     let currentImageBase64 = null, currentImageName = null;
     let editingExId = null, editingVidId = null, editingOffertaId = null, currentInvioOffertaId = null;
+    
+    // Variabili per la gestione dell'invio WhatsApp mirato
+    let currentPalestraWhatsAppId = null;
+    let currentWhatsAppNumber = WHATSAPP_NUMBER;
 
     const offerteDefault = [
         {
@@ -496,6 +569,11 @@
             if (p.stato === 'scaduta') { statusClass = 'status-rosso'; dotClass = 'dot-rosso'; statusText = 'Scaduta'; }
             else if (p.stato === 'prova' && p.giorniRimanenti <= 30) { statusClass = 'status-arancione'; dotClass = 'dot-arancione'; statusText = 'In Scadenza'; }
             else if (p.stato === 'prova') { statusText = 'In Prova'; }
+            
+            const isChecked = p.stato === 'attiva' ? 'checked' : '';
+            const toggleLabel = p.stato === 'attiva' ? 'APP ATTIVA' : 'APP SPENTA';
+            const toggleColor = p.stato === 'attiva' ? 'var(--verde)' : 'var(--tortora-scuro)';
+
             html += `<div class="palestra-item">
                 <div class="palestra-info" style="flex: 1;">
                     <div class="name">${p.nome}</div>
@@ -504,9 +582,16 @@
                     <div class="credentials">ID: <strong>${p.username || '-'}</strong> | Password: <strong>${p.password || '-'}</strong></div>
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
-                <div class="palestra-actions">
+                <div class="palestra-actions" style="align-items: center;">
                     <a href="offerte.html?id=${p.id}" class="btn-info">Offerte</a>
-                    <button class="btn-secondary" onclick="togglePalestra(${p.id})">${p.stato === 'attiva' ? 'Disattiva' : 'Attiva'}</button>
+                    <div style="display: flex; align-items: center; gap: 6px; background: var(--tortora-chiarissimo); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--tortora-chiaro);">
+                        <span class="toggle-label" style="color: ${toggleColor}">${toggleLabel}</span>
+                        <label class="switch-pro">
+                            <input type="checkbox" ${isChecked} onchange="togglePalestra(${p.id})">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <button class="btn-whatsapp" onclick="apriSelettoreOffertaWhatsApp(${p.id})">💬 WhatsApp</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
             </div>`;
@@ -965,13 +1050,71 @@
 
     function confermaInvioWhatsApp() {
         const testo = document.getElementById('testoInvioWhatsApp').value;
-        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testo)}`;
+        const link = `https://wa.me/${currentWhatsAppNumber}?text=${encodeURIComponent(testo)}`;
         window.open(link, '_blank');
         chiudiModal('modalInviaOfferta');
         showToast('WhatsApp aperto con il messaggio precompilato');
+        // Reset al numero default dopo l'invio
+        currentWhatsAppNumber = WHATSAPP_NUMBER;
     }
 
-    function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }
+    // NUOVE FUNZIONI: Gestione selettore offerta per palestra specifica
+    function apriSelettoreOffertaWhatsApp(palestraId) {
+        currentPalestraWhatsAppId = palestraId;
+        const container = document.getElementById('listaOfferteSelettore');
+        
+        if (offerte.length === 0) {
+            container.innerHTML = '<div class="empty-state" style="padding: 20px;">Nessuna offerta disponibile. Creane una nella sezione "Invio Offerte".</div>';
+        } else {
+            let html = '';
+            offerte.forEach(off => {
+                html += `
+                    <div class="offerta-card" style="padding: 15px; cursor: pointer; border: 2px solid var(--tortora-chiaro); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--verde)'" onmouseout="this.style.borderColor='var(--tortora-chiaro)'" onclick="selezionaOffertaPerWhatsApp(${off.id})">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="margin: 0; font-size: 15px;">${off.titolo}</h4>
+                            <span style="font-size: 14px; font-weight: 700; color: var(--verde);">${off.prezzo}</span>
+                        </div>
+                        <p style="font-size: 12px; color: var(--tortora); margin-top: 5px; margin-bottom: 0;">Clicca per selezionare e inviare</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+        
+        document.getElementById('modalSelettoreOffertaWhatsApp').classList.add('active');
+    }
+
+    function selezionaOffertaPerWhatsApp(offertaId) {
+        const off = offerte.find(o => o.id === offertaId);
+        const p = palestre.find(x => x.id === currentPalestraWhatsAppId);
+        if (!off || !p) return;
+
+        chiudiModal('modalSelettoreOffertaWhatsApp');
+
+        // Pulizia e formattazione numero di telefono
+        let telefono = p.telefono ? p.telefono.replace(/\s+/g, '').replace(/\+/g, '') : '';
+        if (telefono && !telefono.startsWith('39')) {
+            telefono = '39' + telefono;
+        } else if (!telefono) {
+            showToast('Numero di telefono della palestra non valido o mancante!');
+            return;
+        }
+
+        currentWhatsAppNumber = telefono;
+
+        const testoCompleto = `${off.messaggio}\n\n${off.titolo}\nPrezzo: ${off.prezzo}\n${off.descrizione}\n\nDettagli:\n${off.info.map(i => '- ' + i).join('\n')}`;
+        document.getElementById('testoInvioWhatsApp').value = testoCompleto;
+        document.getElementById('modalInviaOfferta').classList.add('active');
+    }
+
+    function chiudiModal(id) { 
+        document.getElementById(id).classList.remove('active'); 
+        // Reset del numero WhatsApp se si chiude il modale di invio
+        if (id === 'modalInviaOfferta') {
+            currentWhatsAppNumber = WHATSAPP_NUMBER;
+        }
+    }
+    
     function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
     function esci() { if (confirm('Uscire dalla dashboard?')) window.location.href = 'index.html'; }
 

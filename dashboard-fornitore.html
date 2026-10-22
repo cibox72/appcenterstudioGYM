@@ -85,7 +85,6 @@
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
         .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-        /* Toggle Switch Professionale */
         .switch-pro {
             position: relative;
             display: inline-block;
@@ -443,7 +442,6 @@
         </div>
     </div>
 
-    <!-- NUOVO MODALE: Selettore Offerta per WhatsApp -->
     <div class="modal-overlay" id="modalSelettoreOffertaWhatsApp">
         <div class="modal">
             <div class="modal-header">
@@ -451,9 +449,7 @@
                 <button class="modal-close" onclick="chiudiModal('modalSelettoreOffertaWhatsApp')">&times;</button>
             </div>
             <p style="color: var(--tortora); font-size: 13px; margin-bottom: 15px;">Scegli un'offerta dall'archivio da inviare a questa palestra.</p>
-            <div id="listaOfferteSelettore" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
-                <!-- Le offerte verranno inserite qui -->
-            </div>
+            <div id="listaOfferteSelettore" style="max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="chiudiModal('modalSelettoreOffertaWhatsApp')">Annulla</button>
             </div>
@@ -480,8 +476,6 @@
     let offerte = [];
     let currentImageBase64 = null, currentImageName = null;
     let editingExId = null, editingVidId = null, editingOffertaId = null, currentInvioOffertaId = null;
-    
-    // Variabili per la gestione dell'invio WhatsApp mirato
     let currentPalestraWhatsAppId = null;
     let currentWhatsAppNumber = WHATSAPP_NUMBER;
 
@@ -583,7 +577,7 @@
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
                 <div class="palestra-actions" style="align-items: center;">
-                    <a href="offerte.html?id=${p.id}" class="btn-info">Offerte</a>
+                    <a href="scheda-palestra.html?id=${p.id}" class="btn-info">Scheda</a>
                     <div style="display: flex; align-items: center; gap: 6px; background: var(--tortora-chiarissimo); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--tortora-chiaro);">
                         <span class="toggle-label" style="color: ${toggleColor}">${toggleLabel}</span>
                         <label class="switch-pro">
@@ -591,7 +585,7 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <button class="btn-whatsapp" onclick="apriSelettoreOffertaWhatsApp(${p.id})">💬 WhatsApp</button>
+                    <button class="btn-whatsapp" onclick="apriSelettoreOffertaWhatsApp(${p.id})">WhatsApp</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
             </div>`;
@@ -1054,11 +1048,9 @@
         window.open(link, '_blank');
         chiudiModal('modalInviaOfferta');
         showToast('WhatsApp aperto con il messaggio precompilato');
-        // Reset al numero default dopo l'invio
         currentWhatsAppNumber = WHATSAPP_NUMBER;
     }
 
-    // NUOVE FUNZIONI: Gestione selettore offerta per palestra specifica
     function apriSelettoreOffertaWhatsApp(palestraId) {
         currentPalestraWhatsAppId = palestraId;
         const container = document.getElementById('listaOfferteSelettore');
@@ -1091,7 +1083,6 @@
 
         chiudiModal('modalSelettoreOffertaWhatsApp');
 
-        // Pulizia e formattazione numero di telefono
         let telefono = p.telefono ? p.telefono.replace(/\s+/g, '').replace(/\+/g, '') : '';
         if (telefono && !telefono.startsWith('39')) {
             telefono = '39' + telefono;
@@ -1109,7 +1100,6 @@
 
     function chiudiModal(id) { 
         document.getElementById(id).classList.remove('active'); 
-        // Reset del numero WhatsApp se si chiude il modale di invio
         if (id === 'modalInviaOfferta') {
             currentWhatsAppNumber = WHATSAPP_NUMBER;
         }

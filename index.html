@@ -5,77 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi - AppCenterStudioGYM</title>
     <style>
-        :root {
-            --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
-            --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --rosso: #E74C3C;
-            --blu: #3498DB; --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
-            --radius: 12px; --radius-sm: 8px;
-        }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --rosso: #E74C3C; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .login-container {
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius);
-            padding: 40px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: var(--ombra-forte);
-        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { background: var(--bianco); border: 2px solid var(--tortora); border-radius: 12px; padding: 40px; width: 100%; max-width: 400px; box-shadow: 0 4px 20px rgba(156, 146, 138, 0.25); }
         .login-header { text-align: center; margin-bottom: 30px; }
         .login-header h1 { font-size: 24px; color: var(--nero); margin-bottom: 5px; }
         .login-header p { font-size: 11px; color: var(--tortora); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 11px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; transition: border-color 0.2s; }
+        .form-group label { display: block; font-size: 11px; font-weight: 700; color: #7A716A; margin-bottom: 6px; text-transform: uppercase; }
+        .form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: 8px; font-size: 14px; }
         .form-group input:focus { outline: none; border-color: var(--tortora); }
-        .btn-login { width: 100%; padding: 14px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-family: inherit; }
+        .btn-login { width: 100%; padding: 14px; background: var(--tortora); color: var(--bianco); border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
         .btn-login:hover { background: var(--nero); }
         .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
-        .error-message { background: var(--rosso); color: var(--bianco); padding: 12px; border-radius: var(--radius-sm); font-size: 13px; text-align: center; margin-bottom: 20px; display: none; }
+        .error-message { background: var(--rosso); color: var(--bianco); padding: 12px; border-radius: 8px; font-size: 13px; text-align: center; margin-bottom: 20px; display: none; }
         .error-message.show { display: block; }
-        .footer-text { text-align: center; margin-top: 20px; font-size: 12px; color: var(--tortora); }
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: none; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.show { display: flex; }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loadingOverlay">Accesso in corso...</div>
-    
     <div class="login-container">
         <div class="login-header">
             <h1>AppCenterStudioGYM</h1>
             <p>Accesso Riservato</p>
         </div>
-        
         <div class="error-message" id="errorMessage"></div>
-        
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="username" required placeholder="Inserisci il tuo username">
+                <input type="text" id="username" required placeholder="Inserisci username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="password" required placeholder="Inserisci la tua password">
+                <input type="password" id="password" required placeholder="Inserisci password">
             </div>
             <button type="submit" class="btn-login" id="btnLogin">Accedi</button>
         </form>
-        
-        <div class="footer-text">Sistema di gestione professionale per palestre</div>
     </div>
-
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-
     async function handleLogin(e) {
         e.preventDefault();
         const username = document.getElementById('username').value.trim();
@@ -99,18 +70,8 @@
             
             if (data.success) {
                 localStorage.setItem('currentUser', JSON.stringify(data.user));
-                
-                // Reindirizzamento in base al ruolo
-                if (data.user.ruolo === 'fornitore') {
-                    window.location.href = 'dashboard-fornitore.html';
-                } else if (data.user.ruolo === 'palestra') {
-                    window.location.href = 'dashboard-palestra.html';
-                } else if (data.user.ruolo === 'atleta') {
-                    window.location.href = 'dashboard-atleta.html';
-                } else {
-                    // Default: dashboard fornitore
-                    window.location.href = 'dashboard-fornitore.html';
-                }
+                // REINDIRIZZAMENTO INFALLIBILE PER IL FORNITORE
+                window.location.href = 'dashboard-fornitore.html';
             } else {
                 errorEl.textContent = data.message || 'Credenziali non valide';
                 errorEl.classList.add('show');

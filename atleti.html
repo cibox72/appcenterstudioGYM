@@ -5,87 +5,288 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Atleti - AppCenterStudioGYM</title>
     <style>
-        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --whatsapp: #25D366; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
+        :root {
+            --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE;
+            --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3;
+            --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8;
+            --blu: #3498DB; --viola: #8E44AD; --whatsapp: #25D366;
+            --ombra: 0 2px 12px rgba(156, 146, 138, 0.15); --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
+            --radius: 12px; --radius-sm: 8px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
-        .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
-        .top-header h1 { font-size: 20px; font-weight: 700; }
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .btn-back { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-        .section-header h2 { font-size: 24px; font-weight: 700; }
-        .btn-primary { background: var(--tortora); color: var(--bianco); border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-primary:hover { background: var(--tortora-scuro); }
-        .search-box { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 25px; display: flex; align-items: center; }
-        .search-box input { flex: 1; border: none; outline: none; font-size: 14px; font-family: inherit; }
-        .atleti-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .atleta-card { background: var(--bianco); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); border-left: 4px solid var(--tortora-chiaro); transition: transform 0.2s; }
-        .atleta-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
-        .atleta-card.scaduto { border-left-color: var(--rosso); }
-        .atleta-card.scadenza { border-left-color: var(--arancione); }
-        .atleta-card.attivo { border-left-color: var(--verde); }
-        .atleta-nome { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .atleta-id { font-size: 11px; background: var(--tortora-chiarissimo); padding: 4px 8px; border-radius: 4px; font-family: monospace; color: var(--tortora-scuro); }
-        .atleta-info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 15px; }
-        .atleta-info div { margin-bottom: 6px; display: flex; gap: 8px; }
-        .atleta-info strong { min-width: 70px; color: var(--nero); }
-        .atleta-info a { color: var(--blu); text-decoration: none; }
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
-        .status-attivo { background: var(--verde-chiaro); color: #1E8449; }
-        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; }
-        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; }
-        .card-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 15px; border-top: 1px solid var(--tortora-chiaro); }
-        .btn { padding: 8px 14px; border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; }
-        .btn-whatsapp { background: var(--whatsapp); color: var(--bianco); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
+        
+        .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); }
+        .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .section-title { font-size: 22px; color: var(--nero); font-weight: 700; }
+        .btn-primary { padding: 10px 18px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+        .btn-primary:hover { background: var(--nero); }
+        .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-danger:hover { background: #C0392B; }
+        .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-secondary:hover { background: var(--nero); color: var(--bianco); }
+        .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+        .btn-info:hover { background: #2980B9; }
+        .btn-view { padding: 8px 14px; background: var(--viola); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-view:hover { background: #6C3483; }
+        .btn-whatsapp { padding: 8px 14px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
         .btn-whatsapp:hover { background: #128C7E; }
-        .btn-scheda { background: var(--blu); color: var(--bianco); }
-        .btn-scheda:hover { background: #2980B9; }
-        .btn-elimina { background: var(--bianco); color: var(--rosso); border: 1px solid var(--rosso); }
-        .btn-elimina:hover { background: var(--rosso); color: var(--bianco); }
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); grid-column: 1/-1; }
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
+        .btn-success { padding: 8px 14px; background: var(--verde); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-success:hover { background: #1E8449; }
+        
+        .search-box { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 12px 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; box-shadow: var(--ombra); }
+        .search-box input { flex: 1; border: none; outline: none; font-size: 14px; font-family: inherit; }
+        
+        .atleti-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .atleta-card { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; position: relative; }
+        .atleta-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
+        .atleta-card .atleta-id { position: absolute; top: 12px; right: 12px; background: var(--tortora); color: var(--bianco); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; font-family: monospace; }
+        .atleta-card h4 { font-size: 18px; font-weight: 700; color: var(--nero); margin-bottom: 12px; padding-right: 60px; }
+        .atleta-card .info-row { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 6px; display: flex; gap: 8px; }
+        .atleta-card .info-row strong { color: var(--nero); min-width: 70px; }
+        .atleta-card .info-row a { color: var(--blu); text-decoration: none; }
+        .atleta-card .info-row a:hover { text-decoration: underline; }
+        .atleta-card .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin: 10px 0; }
+        .status-regolare { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
+        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
+        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
+        .atleta-card .card-actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
+        .modal-header h3 { font-size: 18px; }
+        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--tortora); line-height: 1; }
+        .modal-close:hover { color: var(--nero); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        
+        .credential-box { background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); padding: 15px; margin-top: 15px; }
+        .credential-box h4 { color: #1E8449; margin-bottom: 10px; font-size: 14px; }
+        .credential-box .cred-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+        .credential-box .cred-label { font-weight: 600; color: var(--tortora-scuro); }
+        .credential-box .cred-value { font-family: monospace; background: var(--bianco); padding: 2px 8px; border-radius: 4px; }
+        
+        .ricevuta-item { background: var(--tortora-chiarissimo); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .ricevuta-item .mese { font-weight: 700; color: var(--nero); }
+        .ricevuta-item .data { font-size: 12px; color: var(--tortora); }
+        .ricevuta-item .importo { font-weight: 700; color: var(--verde); }
+        
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--tortora); }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
-        @media (max-width: 600px) { .atleti-grid { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .atleti-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">Caricamento atleti...</div>
-    <div class="top-header">
-        <h1>Gestione Atleti</h1>
-        <div class="header-right">
-            <a href="dashboard-palestra.html" class="btn-back">← Torna alla Dashboard</a>
+    <div class="loading-overlay hidden" id="loadingOverlay">Caricamento dati...</div>
+
+    <div class="main-header">
+        <div class="header-title">
+            <h1>AppCenterStudioGYM</h1>
+            <p>Gestione Atleti</p>
+        </div>
+        <div class="header-nav">
+            <a href="dashboard-palestra.html" class="nav-btn">Dashboard</a>
+            <a href="schede-allenamenti.html" class="nav-btn">Schede</a>
+            <a href="gestione-dieta.html" class="nav-btn">Diete</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
+    
     <div class="container">
         <div class="section-header">
-            <h2>I Tuoi Atleti</h2>
-            <a href="#" class="btn-primary" onclick="alert('Funzionalità di aggiunta atleta da implementare con modal dedicato')">+ Nuovo Atleta</a>
+            <h2 class="section-title">I Tuoi Atleti</h2>
+            <button class="btn-primary" onclick="apriModalNuovoAtleta()">+ Nuovo Atleta</button>
         </div>
+
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Cerca per nome, ID o telefono..." oninput="filtraAtleti()">
+            <input type="text" id="searchInput" placeholder="Cerca atleta per nome, cognome o ID..." oninput="filtraAtleti()">
         </div>
+
         <div class="atleti-grid" id="atletiGrid">
-            <div class="empty-state">Caricamento in corso...</div>
+            <div class="empty-state">Caricamento atleti...</div>
         </div>
     </div>
+
+    <!-- MODAL NUOVO/MODIFICA ATLETA -->
+    <div class="modal-overlay" id="modalAtleta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalAtletaTitle">Nuovo Atleta</h3>
+                <button class="modal-close" onclick="chiudiModal('modalAtleta')">&times;</button>
+            </div>
+            <form id="formAtleta" onsubmit="salvaAtleta(event)">
+                <input type="hidden" id="atletaId">
+                <div class="form-group">
+                    <label>Nome *</label>
+                    <input type="text" id="atletaNome" required placeholder="Es. Mario">
+                </div>
+                <div class="form-group">
+                    <label>Cognome *</label>
+                    <input type="text" id="atletaCognome" required placeholder="Es. Rossi">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data di Nascita</label>
+                        <input type="date" id="atletaNascita">
+                    </div>
+                    <div class="form-group">
+                        <label>Sesso</label>
+                        <select id="atletaSesso">
+                            <option value="M">Maschio</option>
+                            <option value="F">Femmina</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Indirizzo</label>
+                    <input type="text" id="atletaIndirizzo" placeholder="Es. Via Roma 10">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Citta</label>
+                        <input type="text" id="atletaCitta" placeholder="Es. Roma">
+                    </div>
+                    <div class="form-group">
+                        <label>CAP</label>
+                        <input type="text" id="atletaCap" placeholder="Es. 00100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Telefono *</label>
+                        <input type="tel" id="atletaTelefono" required placeholder="Es. 3331234567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="atletaEmail" placeholder="Es. mario@email.it">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Peso (kg)</label>
+                        <input type="number" id="atletaPeso" placeholder="Es. 75">
+                    </div>
+                    <div class="form-group">
+                        <label>Altezza (cm)</label>
+                        <input type="number" id="atletaAltezza" placeholder="Es. 180">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Obiettivo</label>
+                    <select id="atletaObiettivo">
+                        <option value="Mantenimento">Mantenimento</option>
+                        <option value="Dimagrimento">Dimagrimento</option>
+                        <option value="Massa">Massa</option>
+                        <option value="Definizione">Definizione</option>
+                        <option value="Performance">Performance</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data Inizio Abbonamento</label>
+                        <input type="date" id="atletaDataInizio">
+                    </div>
+                    <div class="form-group">
+                        <label>Data Scadenza Abbonamento</label>
+                        <input type="date" id="atletaDataScadenza">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="chiudiModal('modalAtleta')">Annulla</button>
+                    <button type="submit" class="btn-primary">Salva Atleta</button>
+                </div>
+            </form>
+            <div id="credentialBox" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL VISUALIZZA ATLETA -->
+    <div class="modal-overlay" id="modalVisualizzaAtleta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="visualizzaAtletaTitle">Scheda Atleta</h3>
+                <button class="modal-close" onclick="chiudiModal('modalVisualizzaAtleta')">&times;</button>
+            </div>
+            <div id="visualizzaAtletaContent"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalVisualizzaAtleta')">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RICEVUTE -->
+    <div class="modal-overlay" id="modalRicevute">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="ricevuteTitle">Ricevute</h3>
+                <button class="modal-close" onclick="chiudiModal('modalRicevute')">&times;</button>
+            </div>
+            <div id="ricevuteContent"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalRicevute')">Chiudi</button>
+                <button class="btn-success" onclick="stampaRicevuta()">Stampa PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AREA STAMPA PDF (nascosta) -->
+    <div id="printArea" style="display: none;"></div>
+
+    <div class="toast" id="toast"></div>
+
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
     let atleti = [];
-    let palestraId = null;
+    let palestraData = null;
+    let currentUser = null;
+    let editingAtletaId = null;
+    let currentRicevutaAtletaId = null;
 
-    async function init() {
+    function init() {
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
-        const currentUser = JSON.parse(userStr);
-        
+        currentUser = JSON.parse(userStr);
+        caricaDati();
+    }
+
+    async function caricaDati() {
+        document.getElementById('loadingOverlay').classList.remove('hidden');
         try {
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
-            const palestra = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
-            if (palestra) {
-                palestraId = palestra.id;
-                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraId}`);
+            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            
+            if (palestraData) {
+                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
                 atleti = await atletiRes.json();
                 renderAtleti();
             }
@@ -100,39 +301,38 @@
     function renderAtleti(lista = atleti) {
         const grid = document.getElementById('atletiGrid');
         if (lista.length === 0) {
-            grid.innerHTML = '<div class="empty-state">Nessun atleta trovato. Aggiungine uno nuovo!</div>';
+            grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">Nessun atleta trovato. Clicca "+ Nuovo Atleta" per iniziare.</div>';
             return;
         }
         let html = '';
         lista.forEach(a => {
-            const oggi = new Date();
-            const scadenza = a.data_scadenza ? new Date(a.data_scadenza) : null;
-            let giorni = scadenza ? Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24)) : 999;
-            let statusClass = 'attivo', statusText = 'Attivo';
-            
-            if (giorni < 0) { statusClass = 'scaduto'; statusText = `Scaduto`; }
-            else if (giorni <= 30) { statusClass = 'scadenza'; statusText = `Scade tra ${giorni}gg`; }
+            const giorniScadenza = calcolaGiorniScadenza(a.data_scadenza);
+            let statusClass = 'status-regolare', statusText = 'Regolare';
+            if (giorniScadenza < 0) { statusClass = 'status-scaduto'; statusText = 'Scaduto'; }
+            else if (giorniScadenza <= 30) { statusClass = 'status-scadenza'; statusText = `In scadenza (${giorniScadenza}gg)`; }
 
             let numeroWhatsapp = (a.telefono || '').replace(/\D/g, '');
             if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) numeroWhatsapp = '39' + numeroWhatsapp;
-            const linkWa = numeroWhatsapp ? `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(`Ciao ${a.nome ? a.nome.split(' ')[0] : ''}!`)}` : '#';
+            const linkWa = numeroWhatsapp ? `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(`Ciao ${a.nome}! Ti contattiamo dalla palestra.`)}` : '#';
 
             html += `
-                <div class="atleta-card ${statusClass}">
-                    <div class="atleta-nome">
-                        ${a.nome || 'Senza Nome'}
-                        <span class="atleta-id">${a.username || 'N/D'}</span>
-                    </div>
-                    <span class="status-badge status-${statusClass}">${statusText}</span>
-                    <div class="atleta-info">
-                        <div><strong>Tel:</strong> <a href="tel:${a.telefono}">${a.telefono || 'N/D'}</a></div>
-                        <div><strong>Email:</strong> <a href="mailto:${a.email}">${a.email || 'N/D'}</a></div>
-                        <div><strong>Scadenza:</strong> ${a.data_scadenza ? new Date(a.data_scadenza).toLocaleDateString('it-IT') : 'N/D'}</div>
-                    </div>
+                <div class="atleta-card">
+                    <div class="atleta-id">${a.username || 'N/D'}</div>
+                    <h4>${a.nome} ${a.cognome || ''}</h4>
+                    <div class="info-row"><strong>Tel:</strong> <a href="tel:${a.telefono}">${a.telefono || 'N/D'}</a></div>
+                    <div class="info-row"><strong>Email:</strong> <a href="mailto:${a.email}">${a.email || 'N/D'}</a></div>
+                    <div class="info-row"><strong>Citta:</strong> ${a.citta || 'N/D'}</div>
+                    <div class="info-row"><strong>Obiettivo:</strong> ${a.obiettivo || 'N/D'}</div>
+                    <div class="info-row"><strong>Scadenza:</strong> ${a.data_scadenza ? new Date(a.data_scadenza).toLocaleDateString('it-IT') : 'N/D'}</div>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
                     <div class="card-actions">
-                        ${numeroWhatsapp ? `<a href="${linkWa}" target="_blank" class="btn btn-whatsapp">WhatsApp</a>` : ''}
-                        <a href="schede-allenamenti.html?atleta_id=${a.id}" class="btn btn-scheda">Scheda</a>
-                        <button class="btn btn-elimina" onclick="eliminaAtleta(${a.id})">Elimina</button>
+                        <a href="${linkWa}" target="_blank" class="btn-whatsapp">WhatsApp</a>
+                        <a href="schede-allenamenti.html?atleta_id=${a.id}" class="btn-info">Allenamento</a>
+                        <a href="gestione-dieta.html?atleta_id=${a.id}" class="btn-info">Dieta</a>
+                        <button class="btn-view" onclick="visualizzaAtleta(${a.id})">Visualizza</button>
+                        <button class="btn-success" onclick="apriRicevute(${a.id})">Ricevute</button>
+                        <button class="btn-secondary" onclick="modificaAtleta(${a.id})">Modifica</button>
+                        <button class="btn-danger" onclick="eliminaAtleta(${a.id})">Elimina</button>
                     </div>
                 </div>
             `;
@@ -140,24 +340,218 @@
         grid.innerHTML = html;
     }
 
+    function calcolaGiorniScadenza(dataScadenza) {
+        if (!dataScadenza) return -999;
+        const oggi = new Date();
+        const scadenza = new Date(dataScadenza);
+        return Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
+    }
+
     function filtraAtleti() {
         const q = document.getElementById('searchInput').value.toLowerCase();
         const filtrati = atleti.filter(a => 
             (a.nome && a.nome.toLowerCase().includes(q)) || 
-            (a.username && a.username.toLowerCase().includes(q)) ||
-            (a.telefono && a.telefono.includes(q))
+            (a.cognome && a.cognome.toLowerCase().includes(q)) ||
+            (a.username && a.username.toLowerCase().includes(q))
         );
         renderAtleti(filtrati);
     }
 
+    function apriModalNuovoAtleta() {
+        editingAtletaId = null;
+        document.getElementById('modalAtletaTitle').textContent = 'Nuovo Atleta';
+        document.getElementById('formAtleta').reset();
+        document.getElementById('atletaId').value = '';
+        document.getElementById('credentialBox').style.display = 'none';
+        document.getElementById('modalAtleta').classList.add('active');
+    }
+
+    function modificaAtleta(id) {
+        const a = atleti.find(x => x.id === id);
+        if (!a) return;
+        editingAtletaId = id;
+        document.getElementById('modalAtletaTitle').textContent = 'Modifica Atleta';
+        document.getElementById('atletaId').value = a.id;
+        document.getElementById('atletaNome').value = a.nome || '';
+        document.getElementById('atletaCognome').value = a.cognome || '';
+        document.getElementById('atletaNascita').value = a.data_nascita || '';
+        document.getElementById('atletaSesso').value = a.sesso || 'M';
+        document.getElementById('atletaIndirizzo').value = a.indirizzo || '';
+        document.getElementById('atletaCitta').value = a.citta || '';
+        document.getElementById('atletaCap').value = a.cap || '';
+        document.getElementById('atletaTelefono').value = a.telefono || '';
+        document.getElementById('atletaEmail').value = a.email || '';
+        document.getElementById('atletaPeso').value = a.peso || '';
+        document.getElementById('atletaAltezza').value = a.altezza || '';
+        document.getElementById('atletaObiettivo').value = a.obiettivo || 'Mantenimento';
+        document.getElementById('atletaDataInizio').value = a.data_inizio || '';
+        document.getElementById('atletaDataScadenza').value = a.data_scadenza || '';
+        document.getElementById('modalAtleta').classList.add('active');
+    }
+
+    async function salvaAtleta(e) {
+        e.preventDefault();
+        const data = {
+            palestra_id: palestraData.id,
+            nome: document.getElementById('atletaNome').value.trim(),
+            cognome: document.getElementById('atletaCognome').value.trim(),
+            data_nascita: document.getElementById('atletaNascita').value,
+            sesso: document.getElementById('atletaSesso').value,
+            indirizzo: document.getElementById('atletaIndirizzo').value.trim(),
+            citta: document.getElementById('atletaCitta').value.trim(),
+            cap: document.getElementById('atletaCap').value.trim(),
+            telefono: document.getElementById('atletaTelefono').value.trim(),
+            email: document.getElementById('atletaEmail').value.trim(),
+            peso: document.getElementById('atletaPeso').value,
+            altezza: document.getElementById('atletaAltezza').value,
+            obiettivo: document.getElementById('atletaObiettivo').value,
+            data_inizio: document.getElementById('atletaDataInizio').value,
+            data_scadenza: document.getElementById('atletaDataScadenza').value
+        };
+
+        try {
+            const url = editingAtletaId ? `${API_URL}/api/atleti/${editingAtletaId}` : `${API_URL}/api/atleti`;
+            const method = editingAtletaId ? 'PUT' : 'POST';
+            const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            const result = await res.json();
+            
+            if (result.success) {
+                if (!editingAtletaId && result.id_univoco) {
+                    const credBox = document.getElementById('credentialBox');
+                    credBox.style.display = 'block';
+                    credBox.innerHTML = `
+                        <div class="credential-box">
+                            <h4>Atleta creato con successo</h4>
+                            <div class="cred-row"><span class="cred-label">ID Univoco:</span><span class="cred-value">${result.id_univoco}</span></div>
+                            <div class="cred-row"><span class="cred-label">Password:</span><span class="cred-value">${result.password}</span></div>
+                            <p style="font-size: 12px; color: #1E8449; margin-top: 10px;">Comunica queste credenziali all'atleta.</p>
+                        </div>
+                    `;
+                }
+                showToast(editingAtletaId ? 'Atleta aggiornato' : 'Atleta creato');
+                await caricaDati();
+                if (!editingAtletaId) document.getElementById('modalAtleta').classList.remove('active');
+            } else {
+                showToast('Errore: ' + (result.message || 'sconosciuto'));
+            }
+        } catch (error) {
+            showToast('Errore di connessione');
+        }
+    }
+
     async function eliminaAtleta(id) {
-        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
+        if (!confirm('Eliminare questo atleta? L\'operazione e irreversibile.')) return;
         try {
             await fetch(`${API_URL}/api/atleti/${id}`, { method: 'DELETE' });
-            atleti = atleti.filter(a => a.id !== id);
-            renderAtleti();
-        } catch (e) { alert('Errore durante l\'eliminazione'); }
+            await caricaDati();
+            showToast('Atleta eliminato');
+        } catch (error) {
+            showToast('Errore di connessione');
+        }
     }
+
+    function visualizzaAtleta(id) {
+        const a = atleti.find(x => x.id === id);
+        if (!a) return;
+        document.getElementById('visualizzaAtletaTitle').textContent = `Scheda: ${a.nome} ${a.cognome || ''}`;
+        document.getElementById('visualizzaAtletaContent').innerHTML = `
+            <div style="padding: 10px 0;">
+                <div class="info-row" style="margin-bottom: 10px;"><strong>ID:</strong> ${a.username || 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Nome:</strong> ${a.nome} ${a.cognome || ''}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Data Nascita:</strong> ${a.data_nascita ? new Date(a.data_nascita).toLocaleDateString('it-IT') : 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Sesso:</strong> ${a.sesso || 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Indirizzo:</strong> ${a.indirizzo || 'N/D'}, ${a.cap || ''} ${a.citta || ''}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Telefono:</strong> ${a.telefono || 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Email:</strong> ${a.email || 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Peso:</strong> ${a.peso || 'N/D'} kg</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Altezza:</strong> ${a.altezza || 'N/D'} cm</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Obiettivo:</strong> ${a.obiettivo || 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Inizio:</strong> ${a.data_inizio ? new Date(a.data_inizio).toLocaleDateString('it-IT') : 'N/D'}</div>
+                <div class="info-row" style="margin-bottom: 10px;"><strong>Scadenza:</strong> ${a.data_scadenza ? new Date(a.data_scadenza).toLocaleDateString('it-IT') : 'N/D'}</div>
+            </div>
+        `;
+        document.getElementById('modalVisualizzaAtleta').classList.add('active');
+    }
+
+    function apriRicevute(id) {
+        const a = atleti.find(x => x.id === id);
+        if (!a) return;
+        currentRicevutaAtletaId = id;
+        document.getElementById('ricevuteTitle').textContent = `Ricevute: ${a.nome} ${a.cognome || ''}`;
+        
+        const ricevute = a.ricevute || [];
+        let html = '';
+        if (ricevute.length === 0) {
+            html = '<div class="empty-state">Nessuna ricevuta registrata.</div>';
+        } else {
+            ricevute.sort((x, y) => new Date(y.data) - new Date(x.data)).forEach(r => {
+                html += `
+                    <div class="ricevuta-item">
+                        <div>
+                            <div class="mese">${r.mese}</div>
+                            <div class="data">${new Date(r.data).toLocaleDateString('it-IT')}</div>
+                        </div>
+                        <div class="importo">${r.importo || '15,00'} EUR</div>
+                    </div>
+                `;
+            });
+        }
+        document.getElementById('ricevuteContent').innerHTML = html;
+        document.getElementById('modalRicevute').classList.add('active');
+    }
+
+    function stampaRicevuta() {
+        const a = atleti.find(x => x.id === currentRicevutaAtletaId);
+        if (!a) return;
+        const ricevute = a.ricevute || [];
+        
+        const printContent = `
+            <div style="padding: 40px; font-family: Arial, sans-serif;">
+                <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #9C928A; padding-bottom: 20px;">
+                    <h1 style="color: #1A1A1A; margin-bottom: 10px;">${palestraData.nome || 'Palestra'}</h1>
+                    <p style="color: #7A716A; margin: 5px 0;">${palestraData.indirizzo || ''} ${palestraData.cap || ''} ${palestraData.citta || ''}</p>
+                    <p style="color: #7A716A; margin: 5px 0;">Tel: ${palestraData.telefono || 'N/D'} - Email: ${palestraData.email || 'N/D'}</p>
+                </div>
+                <h2 style="color: #9C928A; margin-bottom: 20px;">Ricevuta Pagamenti - ${a.nome} ${a.cognome || ''}</h2>
+                <div style="margin-bottom: 20px;">
+                    <p><strong>ID Atleta:</strong> ${a.username || 'N/D'}</p>
+                    <p><strong>Indirizzo:</strong> ${a.indirizzo || 'N/D'}, ${a.cap || ''} ${a.citta || ''}</p>
+                    <p><strong>Telefono:</strong> ${a.telefono || 'N/D'}</p>
+                    <p><strong>Email:</strong> ${a.email || 'N/D'}</p>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr style="background: #9C928A; color: white;">
+                            <th style="padding: 10px; text-align: left;">Mese</th>
+                            <th style="padding: 10px; text-align: left;">Data Pagamento</th>
+                            <th style="padding: 10px; text-align: right;">Importo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${ricevute.sort((x, y) => new Date(y.data) - new Date(x.data)).map(r => `
+                            <tr style="border-bottom: 1px solid #E8E3DE;">
+                                <td style="padding: 10px;">${r.mese}</td>
+                                <td style="padding: 10px;">${new Date(r.data).toLocaleDateString('it-IT')}</td>
+                                <td style="padding: 10px; text-align: right;">${r.importo || '15,00'} EUR</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <div style="margin-top: 40px; text-align: center; color: #7A716A; font-size: 12px;">
+                    <p>Documento generato il ${new Date().toLocaleDateString('it-IT')}</p>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('printArea').innerHTML = printContent;
+        document.getElementById('printArea').style.display = 'block';
+        window.print();
+        setTimeout(() => { document.getElementById('printArea').style.display = 'none'; }, 1000);
+    }
+
+    function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }
+    function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    function esci() { if (confirm('Uscire dalla gestione atleti?')) window.location.href = 'dashboard-palestra.html'; }
 
     init();
     </script>

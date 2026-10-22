@@ -5,1189 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Atleti - AppCenterStudioGYM</title>
     <style>
-        :root {
-            --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A;
-            --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF;
-            --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12;
-            --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8;
-            --blu: #3498DB; --ombra: 0 2px 12px rgba(0,0,0,0.08);
-            --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px;
-        }
+        :root { --nero: #1A1A1A; --tortora: #9C928A; --tortora-scuro: #7A716A; --tortora-chiaro: #E8E3DE; --tortora-chiarissimo: #F5F2EF; --bianco: #FFFFFF; --verde: #27AE60; --verde-chiaro: #D5F5E3; --arancione: #F39C12; --arancione-chiaro: #FDEBD0; --rosso: #E74C3C; --rosso-chiaro: #FADBD8; --blu: #3498DB; --whatsapp: #25D366; --ombra: 0 2px 12px rgba(0,0,0,0.08); --ombra-forte: 0 8px 30px rgba(0,0,0,0.12); --radius: 12px; --radius-sm: 8px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; }
         .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
         .top-header h1 { font-size: 20px; font-weight: 700; }
         .header-right { display: flex; align-items: center; gap: 15px; }
-        .sync-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
-        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--verde); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(39,174,96,0.7); } 70% { box-shadow: 0 0 0 6px rgba(39,174,96,0); } 100% { box-shadow: 0 0 0 0 rgba(39,174,96,0); } }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-        .btn-logout:hover { background: rgba(255,255,255,0.3); }
+        .btn-back { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
         .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
-        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
-        .page-header h2 { font-size: 22px; }
-        .page-header .subtitle { font-size: 13px; color: var(--tortora); margin-top: 4px; }
-        .btn { padding: 10px 18px; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-family: inherit; }
-        .btn-primary { background: var(--tortora); color: var(--bianco); }
-        .btn-primary:hover { background: var(--nero); }
-        .btn-success { background: var(--verde); color: var(--bianco); }
-        .btn-success:hover { opacity: 0.9; }
-        .btn-danger { background: var(--rosso); color: var(--bianco); }
-        .btn-danger:hover { opacity: 0.9; }
-        .btn-secondary { background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); }
-        .btn-secondary:hover { background: var(--tortora-chiarissimo); }
-        .btn-info { background: var(--blu); color: var(--bianco); }
-        .btn-info:hover { opacity: 0.9; }
-        .btn-sm { padding: 7px 12px; font-size: 12px; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--tortora-chiaro); }
-        .tab { padding: 12px 20px; cursor: pointer; font-weight: 600; color: var(--tortora); border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 14px; }
-        .tab:hover { color: var(--nero); }
-        .tab.active { color: var(--nero); border-bottom-color: var(--tortora); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* BARRA DI RICERCA */
-        .search-bar-container {
-            position: relative;
-            margin-bottom: 25px;
-            max-width: 600px;
-        }
-        .search-bar {
-            width: 100%;
-            padding: 14px 20px 14px 50px;
-            border: 2px solid var(--tortora-chiaro);
-            border-radius: var(--radius);
-            font-size: 15px;
-            font-family: inherit;
-            background: var(--bianco);
-            color: var(--nero);
-            transition: all 0.2s;
-            box-shadow: var(--ombra);
-        }
-        .search-bar:focus {
-            outline: none;
-            border-color: var(--tortora);
-            box-shadow: var(--ombra-forte);
-        }
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--tortora);
-            font-size: 18px;
-            pointer-events: none;
-        }
-        .search-clear {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--tortora-chiaro);
-            border: none;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--tortora-scuro);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-        .search-clear:hover { background: var(--tortora); color: var(--bianco); }
-        .search-clear.visible { display: flex; }
-        .search-suggestions {
-            position: absolute;
-            top: calc(100% + 5px);
-            left: 0;
-            right: 0;
-            background: var(--bianco);
-            border: 2px solid var(--tortora);
-            border-radius: var(--radius-sm);
-            box-shadow: var(--ombra-forte);
-            max-height: 350px;
-            overflow-y: auto;
-            z-index: 200;
-            display: none;
-        }
-        .search-suggestions.visible { display: block; }
-        .suggestion-item {
-            padding: 12px 18px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--tortora-chiaro);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            transition: background 0.15s;
-        }
-        .suggestion-item:last-child { border-bottom: none; }
-        .suggestion-item:hover { background: var(--tortora-chiarissimo); }
-        .suggestion-item.highlighted { background: var(--tortora-chiaro); }
-        .suggestion-info { flex: 1; min-width: 0; }
-        .suggestion-name { font-weight: 700; font-size: 14px; color: var(--nero); margin-bottom: 3px; }
-        .suggestion-name .match { color: var(--blu); font-weight: 800; }
-        .suggestion-details { font-size: 12px; color: var(--tortora); display: flex; gap: 12px; flex-wrap: wrap; }
-        .suggestion-id {
-            background: var(--tortora);
-            color: var(--bianco);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-        .search-no-results {
-            padding: 20px;
-            text-align: center;
-            color: var(--tortora);
-            font-size: 14px;
-        }
-        .results-counter {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            background: var(--tortora-chiarissimo);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            color: var(--tortora-scuro);
-        }
-        .results-counter .count { font-weight: 700; color: var(--nero); }
-        .btn-show-all {
-            background: var(--tortora);
-            color: var(--bianco);
-            border: none;
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-show-all:hover { background: var(--nero); }
-
-        .atleti-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-        .atleta-card { background: var(--bianco); border-radius: var(--radius); padding: 22px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; transition: all 0.2s; position: relative; }
-        .atleta-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
-        .atleta-card.highlighted { border: 2px solid var(--blu); box-shadow: 0 0 0 3px rgba(52,152,219,0.2); }
-        .atleta-id-badge { position: absolute; top: 12px; right: 12px; background: var(--tortora); color: var(--bianco); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 0.5px; }
-        .atleta-nome { font-size: 18px; font-weight: 700; margin-bottom: 6px; padding-right: 70px; }
-        .atleta-info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 4px; }
-        .atleta-info strong { color: var(--nero); }
-        .status-row { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); flex-wrap: wrap; gap: 8px; }
-        .status-badge { padding: 5px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .status-attivo { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
-        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
-        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
-        .atleta-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--ombra-forte); }
-        .modal-large { max-width: 900px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
-        .modal-title { font-size: 20px; font-weight: 700; }
-        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); padding: 0 5px; }
-        .modal-close:hover { color: var(--nero); }
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group.full { grid-column: 1 / -1; }
-        .form-group label { font-size: 12px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.8px; }
-        .form-group input, .form-group select, .form-group textarea { padding: 10px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--bianco); color: var(--nero); transition: border-color 0.2s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--tortora); }
-        .form-hint { font-size: 11px; color: var(--tortora); font-style: italic; }
-        .credentials-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .cred-field { display: flex; flex-direction: column; gap: 4px; }
-        .cred-field label { font-size: 11px; font-weight: 700; color: var(--tortora-scuro); text-transform: uppercase; letter-spacing: 0.5px; }
-        .cred-field input { padding: 10px 12px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; background: var(--tortora-chiarissimo); color: var(--nero); }
-        .cred-field input.generated { background: var(--verde-chiaro); border-color: var(--verde); color: #1E8449; font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 1px; }
-        .password-wrapper { position: relative; }
-        .password-wrapper input { padding-right: 45px; width: 100%; }
-        .toggle-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px; color: var(--tortora); }
-        .toggle-password:hover { color: var(--nero); }
-        .toggle-password svg { width: 20px; height: 20px; fill: currentColor; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        .pagamenti-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .pagamenti-table th, .pagamenti-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--tortora-chiaro); font-size: 13px; }
-        .pagamenti-table th { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
-        .pagamenti-table tr:hover { background: var(--tortora-chiarissimo); }
-        .totale-box { background: var(--tortora-chiarissimo); padding: 15px; border-radius: var(--radius-sm); margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; }
-        .totale-box .amount { color: var(--verde); font-size: 22px; }
-        .ricevuta-print { padding: 30px; background: var(--bianco); border: 2px solid var(--nero); border-radius: var(--radius); }
-        .ricevuta-header { text-align: center; border-bottom: 2px solid var(--tortora); padding-bottom: 15px; margin-bottom: 20px; }
-        .ricevuta-header h2 { font-size: 22px; color: var(--nero); margin-top: 10px; }
-        .ricevuta-header p { color: var(--tortora); font-size: 13px; }
-        .ricevuta-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .ricevuta-section h4 { font-size: 12px; text-transform: uppercase; color: var(--tortora); letter-spacing: 1px; margin-bottom: 8px; }
-        .ricevuta-section p { font-size: 14px; margin-bottom: 4px; }
-        .ricevuta-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .ricevuta-table th, .ricevuta-table td { border: 1px solid var(--tortora-chiaro); padding: 10px; text-align: left; }
-        .ricevuta-table th { background: var(--tortora-chiarissimo); }
-        .ricevuta-total { text-align: right; font-size: 20px; font-weight: 700; margin-top: 15px; padding-top: 15px; border-top: 2px solid var(--nero); }
-        .ricevuta-footer { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid var(--tortora-chiaro); font-size: 11px; color: var(--tortora); }
-        .logo-upload-area { border: 2px dashed var(--tortora-chiaro); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--tortora-chiarissimo); }
-        .logo-upload-area:hover { border-color: var(--tortora); background: var(--bianco); }
-        .logo-upload-area.has-logo { padding: 15px; }
-        .logo-upload-area img { max-width: 200px; max-height: 150px; border-radius: var(--radius-sm); }
-        .logo-upload-area .upload-text { color: var(--tortora); font-size: 14px; margin-top: 10px; }
-        .logo-upload-area .upload-hint { color: var(--tortora); font-size: 11px; margin-top: 5px; }
-        .logo-preview-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .btn-remove-logo { background: var(--rosso); color: var(--bianco); border: none; padding: 6px 12px; border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; font-weight: 600; }
-        .btn-remove-logo:hover { opacity: 0.9; }
-        .settings-card { background: var(--bianco); border-radius: var(--radius); padding: 25px; box-shadow: var(--ombra); border: 1px solid #e0e0e0; margin-bottom: 20px; }
-        .settings-card h3 { font-size: 16px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--tortora-chiaro); color: var(--nero); }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 14px 22px; border-radius: var(--radius-sm); box-shadow: var(--ombra-forte); font-size: 14px; font-weight: 500; z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
-        .toast.show { opacity: 1; transform: translateY(0); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .section-header h2 { font-size: 24px; font-weight: 700; }
+        .btn-primary { background: var(--tortora); color: var(--bianco); border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary:hover { background: var(--tortora-scuro); }
+        .search-box { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 25px; display: flex; align-items: center; }
+        .search-box input { flex: 1; border: none; outline: none; font-size: 14px; font-family: inherit; }
+        .atleti-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .atleta-card { background: var(--bianco); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); border-left: 4px solid var(--tortora-chiaro); transition: transform 0.2s; }
+        .atleta-card:hover { transform: translateY(-2px); box-shadow: var(--ombra-forte); }
+        .atleta-card.scaduto { border-left-color: var(--rosso); }
+        .atleta-card.scadenza { border-left-color: var(--arancione); }
+        .atleta-card.attivo { border-left-color: var(--verde); }
+        .atleta-nome { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .atleta-id { font-size: 11px; background: var(--tortora-chiarissimo); padding: 4px 8px; border-radius: 4px; font-family: monospace; color: var(--tortora-scuro); }
+        .atleta-info { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 15px; }
+        .atleta-info div { margin-bottom: 6px; display: flex; gap: 8px; }
+        .atleta-info strong { min-width: 70px; color: var(--nero); }
+        .atleta-info a { color: var(--blu); text-decoration: none; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+        .status-attivo { background: var(--verde-chiaro); color: #1E8449; }
+        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; }
+        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; }
+        .card-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 15px; border-top: 1px solid var(--tortora-chiaro); }
+        .btn { padding: 8px 14px; border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; }
+        .btn-whatsapp { background: var(--whatsapp); color: var(--bianco); }
+        .btn-whatsapp:hover { background: #128C7E; }
+        .btn-scheda { background: var(--blu); color: var(--bianco); }
+        .btn-scheda:hover { background: #2980B9; }
+        .btn-elimina { background: var(--bianco); color: var(--rosso); border: 1px solid var(--rosso); }
+        .btn-elimina:hover { background: var(--rosso); color: var(--bianco); }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--tortora); background: var(--bianco); border-radius: var(--radius); border: 2px dashed var(--tortora-chiaro); grid-column: 1/-1; }
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
-        @media print {
-            body * { visibility: hidden; }
-            #ricevutaPrintArea, #ricevutaPrintArea * { visibility: visible; }
-            #ricevutaPrintArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
-            .no-print { display: none !important; }
-        }
-        @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .atleti-grid { grid-template-columns: 1fr; }
-            .credentials-row { grid-template-columns: 1fr; }
-            .ricevuta-body { grid-template-columns: 1fr; }
-            .top-header { flex-direction: column; gap: 10px; }
-        }
+        @media (max-width: 600px) { .atleti-grid { grid-template-columns: 1fr; } .top-header { flex-direction: column; gap: 10px; } }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay">Caricamento...</div>
-
+    <div class="loading-overlay" id="loadingOverlay">Caricamento atleti...</div>
     <div class="top-header">
-        <h1>AppCenterStudioGYM - Gestione Palestra</h1>
+        <h1>Gestione Atleti</h1>
         <div class="header-right">
-            <div class="sync-status"><span class="sync-dot"></span><span>Cloud Sync: OK</span></div>
-            <a href="dashboard-palestra.html" class="btn-logout">← Dashboard</a>
+            <a href="dashboard-palestra.html" class="btn-back">← Torna alla Dashboard</a>
         </div>
     </div>
-
     <div class="container">
-        <!-- TABS -->
-        <div class="tabs no-print">
-            <div class="tab active" onclick="cambiaTab('atleti', this)">👥 Atleti</div>
-            <div class="tab" onclick="cambiaTab('impostazioni', this)">⚙️ Impostazioni Palestra</div>
+        <div class="section-header">
+            <h2>I Tuoi Atleti</h2>
+            <a href="#" class="btn-primary" onclick="alert('Funzionalità di aggiunta atleta da implementare con modal dedicato')">+ Nuovo Atleta</a>
         </div>
-
-        <!-- TAB ATLETI -->
-        <div class="tab-content active" id="tab-atleti">
-            <div class="page-header">
-                <div>
-                    <h2>I Tuoi Atleti</h2>
-                    <div class="subtitle">Gestisci anagrafiche, abbonamenti, pagamenti e credenziali</div>
-                </div>
-                <button class="btn btn-primary" onclick="apriModalNuovo()">+ Nuovo Atleta</button>
-            </div>
-
-            <!-- BARRA DI RICERCA -->
-            <div class="search-bar-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-bar" id="searchBar" placeholder="Cerca atleta per nome, cognome o ID..." autocomplete="off">
-                <button class="search-clear" id="searchClear" onclick="resetRicerca()">✕</button>
-                <div class="search-suggestions" id="searchSuggestions"></div>
-            </div>
-
-            <!-- CONTATORE RISULTATI -->
-            <div class="results-counter" id="resultsCounter" style="display:none;">
-                <span><span class="count" id="resultsCount">0</span> atleti trovati</span>
-                <button class="btn-show-all" onclick="resetRicerca()">Mostra tutti</button>
-            </div>
-
-            <div id="atletiContainer"></div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cerca per nome, ID o telefono..." oninput="filtraAtleti()">
         </div>
-
-        <!-- TAB IMPOSTAZIONI -->
-        <div class="tab-content" id="tab-impostazioni">
-            <div class="page-header">
-                <div>
-                    <h2>Impostazioni Palestra</h2>
-                    <div class="subtitle">Modifica i dati della tua palestra e carica il logo</div>
-                </div>
-            </div>
-            <div class="settings-card">
-                <h3>🖼️ Logo della Palestra</h3>
-                <p style="font-size:13px; color:var(--tortora); margin-bottom:15px;">Carica il logo della tua palestra. Verrà stampato su tutte le ricevute. Formati accettati: JPG, PNG, GIF (max 2MB).</p>
-                <div class="logo-upload-area" id="logoUploadArea" onclick="document.getElementById('logoFileInput').click()">
-                    <div id="logoPreviewContainer">
-                        <div style="font-size:48px; opacity:0.3;">🖼️</div>
-                        <div class="upload-text">Clicca qui per caricare il logo</div>
-                        <div class="upload-hint">JPG, PNG o GIF - Max 2MB</div>
-                    </div>
-                </div>
-                <input type="file" id="logoFileInput" accept="image/jpeg,image/png,image/gif" style="display:none;" onchange="gestisciUploadLogo(event)">
-                <div style="margin-top:15px; text-align:right;">
-                    <button class="btn btn-success" id="btnSalvaLogo" onclick="salvaLogo()" style="display:none;">💾 Salva Logo</button>
-                </div>
-            </div>
-
-            <div class="settings-card">
-                <h3>📋 Dati della Palestra</h3>
-                <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
-                    <div class="form-grid">
-                        <div class="form-group full">
-                            <label>Nome Palestra *</label>
-                            <input type="text" id="impNome" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Ragione Sociale</label>
-                            <input type="text" id="impRagioneSociale">
-                        </div>
-                        <div class="form-group">
-                            <label>Partita IVA</label>
-                            <input type="text" id="impPiva">
-                        </div>
-                        <div class="form-group full">
-                            <label>Indirizzo</label>
-                            <input type="text" id="impIndirizzo">
-                        </div>
-                        <div class="form-group">
-                            <label>Città</label>
-                            <input type="text" id="impCitta">
-                        </div>
-                        <div class="form-group">
-                            <label>CAP</label>
-                            <input type="text" id="impCap">
-                        </div>
-                        <div class="form-group">
-                            <label>Telefono</label>
-                            <input type="tel" id="impTelefono">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="impEmail">
-                        </div>
-                        <div class="form-group">
-                            <label>Sito Web</label>
-                            <input type="url" id="impSito">
-                        </div>
-                        <div class="form-group">
-                            <label>Instagram</label>
-                            <input type="text" id="impInstagram">
-                        </div>
-                        <div class="form-group">
-                            <label>Facebook</label>
-                            <input type="text" id="impFacebook">
-                        </div>
-                        <div class="form-group">
-                            <label>IBAN</label>
-                            <input type="text" id="impIban">
-                        </div>
-                        <div class="form-group">
-                            <label>Intestatario Conto</label>
-                            <input type="text" id="impIntestatario">
-                        </div>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="submit" class="btn btn-success">💾 Salva Impostazioni</button>
-                    </div>
-                </form>
-            </div>
+        <div class="atleti-grid" id="atletiGrid">
+            <div class="empty-state">Caricamento in corso...</div>
         </div>
     </div>
-
-    <!-- MODAL NUOVO/MODIFICA ATLETA -->
-    <div class="modal-overlay" id="modalAtleta">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Nuovo Atleta</div>
-                <button class="modal-close" onclick="chiudiModal('modalAtleta')">×</button>
-            </div>
-            <form id="formAtleta" onsubmit="salvaAtleta(event)">
-                <input type="hidden" id="atletaId">
-                <div class="form-grid">
-                    <div class="form-group full">
-                        <label>Nome e Cognome *</label>
-                        <input type="text" id="atletaNome" required placeholder="Es. Mario Rossi" oninput="aggiornaAnteprimaId()">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="atletaEmail" placeholder="mario@email.it">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono *</label>
-                        <input type="tel" id="atletaTelefono" required placeholder="Es. 3331234567">
-                    </div>
-                    <div class="form-group">
-                        <label>Data di Nascita</label>
-                        <input type="date" id="atletaNascita">
-                    </div>
-                    <div class="form-group">
-                        <label>Peso (kg)</label>
-                        <input type="number" id="atletaPeso" step="0.1" placeholder="Es. 75.5">
-                    </div>
-                    <div class="form-group">
-                        <label>Altezza (cm)</label>
-                        <input type="number" id="atletaAltezza" placeholder="Es. 180">
-                    </div>
-                    <div class="form-group">
-                        <label>Obiettivo</label>
-                        <select id="atletaObiettivo">
-                            <option value="">-- Seleziona --</option>
-                            <option value="Dimagrimento">Dimagrimento</option>
-                            <option value="Massa muscolare">Massa muscolare</option>
-                            <option value="Mantenimento">Mantenimento</option>
-                            <option value="Performance">Performance</option>
-                            <option value="Benessere">Benessere generale</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Data Inizio Abbonamento *</label>
-                        <input type="date" id="atletaInizio" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Durata (giorni) *</label>
-                        <input type="number" id="atletaDurata" value="30" required min="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Stato</label>
-                        <select id="atletaStato">
-                            <option value="attivo">Attivo</option>
-                            <option value="sospeso">Sospeso</option>
-                        </select>
-                    </div>
-                    <div class="form-group full">
-                        <label>Credenziali di Accesso</label>
-                        <div class="credentials-row">
-                            <div class="cred-field">
-                                <label>Username (ID Atleta)</label>
-                                <input type="text" id="atletaUsername" class="generated" readonly placeholder="Generato al salvataggio">
-                            </div>
-                            <div class="cred-field">
-                                <label>Password *</label>
-                                <div class="password-wrapper">
-                                    <input type="password" id="atletaPassword" required placeholder="Minimo 4 caratteri">
-                                    <button type="button" class="toggle-password" onclick="togglePwd('atletaPassword', this)">
-                                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="form-hint">L'atleta userà Username + Password per accedere alla sua area personale</span>
-                    </div>
-                    <div class="form-group full">
-                        <label>Note</label>
-                        <textarea id="atletaNote" rows="3" placeholder="Note aggiuntive..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalAtleta')">Annulla</button>
-                    <button type="submit" class="btn btn-success" id="btnSalva">Salva Atleta</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL RICEVUTE -->
-    <div class="modal-overlay" id="modalRicevute">
-        <div class="modal modal-large">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="ricevuteTitle">Pagamenti</div>
-                    <div style="font-size:13px; color:var(--tortora); margin-top:4px;" id="ricevuteSubtitle"></div>
-                </div>
-                <button class="modal-close" onclick="chiudiModal('modalRicevute')">×</button>
-            </div>
-            <div id="ricevuteContent"></div>
-            <div class="modal-actions no-print">
-                <button class="btn btn-secondary" onclick="chiudiModal('modalRicevute')">Chiudi</button>
-                <button class="btn btn-info" onclick="apriModalNuovoPagamento()">+ Nuova Ricevuta</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PAGAMENTO -->
-    <div class="modal-overlay" id="modalPagamento">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitlePagamento">Nuova Ricevuta di Pagamento</div>
-                <button class="modal-close" onclick="chiudiModal('modalPagamento')">×</button>
-            </div>
-            <form id="formPagamento" onsubmit="salvaPagamento(event)">
-                <input type="hidden" id="pagAtletaId">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Data Pagamento *</label>
-                        <input type="date" id="pagData" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Importo (€) *</label>
-                        <input type="number" id="pagImporto" step="0.01" required placeholder="Es. 50.00">
-                    </div>
-                    <div class="form-group">
-                        <label>Metodo di Pagamento</label>
-                        <select id="pagMetodo">
-                            <option value="Contanti">Contanti</option>
-                            <option value="Carta">Carta di credito/debito</option>
-                            <option value="Bonifico">Bonifico bancario</option>
-                            <option value="PayPal">PayPal</option>
-                            <option value="Altro">Altro</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>N° Ricevuta</label>
-                        <input type="text" id="pagNumero" placeholder="Es. 2026-001">
-                    </div>
-                    <div class="form-group">
-                        <label>Periodo Da</label>
-                        <input type="date" id="pagPeriodoDa">
-                    </div>
-                    <div class="form-group">
-                        <label>Periodo A</label>
-                        <input type="date" id="pagPeriodoA">
-                    </div>
-                    <div class="form-group full">
-                        <label>Note</label>
-                        <textarea id="pagNote" rows="2" placeholder="Note sulla ricevuta..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="chiudiModal('modalPagamento')">Annulla</button>
-                    <button type="submit" class="btn btn-success" id="btnSalvaPagamento">Salva Ricevuta</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="ricevutaPrintArea" style="display:none;"></div>
-    <div class="toast" id="toast"></div>
-
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
-    let currentUser = null, palestraData = null, atleti = [], pagamentiAtleta = [], atletaCorrente = null, editingId = null;
-    let logoBase64 = null, logoFileName = null;
-    let atletiFiltrati = [];
-    let highlightedAtletaId = null;
+    let atleti = [];
+    let palestraId = null;
 
-    function init() {
+    async function init() {
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
-        currentUser = JSON.parse(userStr);
-        loadData();
-        setupRicerca();
-    }
-
-    async function loadData() {
-        document.getElementById('loadingOverlay').classList.remove('hidden');
+        const currentUser = JSON.parse(userStr);
+        
         try {
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
-            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
-            if (palestraData) {
-                document.getElementById('impNome').value = palestraData.nome || '';
-                document.getElementById('impRagioneSociale').value = palestraData.ragione_sociale || '';
-                document.getElementById('impPiva').value = palestraData.piva || '';
-                document.getElementById('impIndirizzo').value = palestraData.indirizzo || '';
-                document.getElementById('impCitta').value = palestraData.citta || '';
-                document.getElementById('impCap').value = palestraData.cap || '';
-                document.getElementById('impTelefono').value = palestraData.telefono || '';
-                document.getElementById('impEmail').value = palestraData.email || '';
-                document.getElementById('impSito').value = palestraData.sito || '';
-                document.getElementById('impInstagram').value = palestraData.instagram || '';
-                document.getElementById('impFacebook').value = palestraData.facebook || '';
-                document.getElementById('impIban').value = palestraData.iban || '';
-                document.getElementById('impIntestatario').value = palestraData.intestatario || '';
-                if (palestraData.logo_url) mostraLogoPreview(palestraData.logo_url);
-                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
+            const palestra = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            if (palestra) {
+                palestraId = palestra.id;
+                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraId}`);
                 atleti = await atletiRes.json();
-                atletiFiltrati = [...atleti];
                 renderAtleti();
-            } else {
-                document.getElementById('atletiContainer').innerHTML = '<div class="empty-state">Palestra non trovata</div>';
             }
         } catch (error) {
             console.error('Errore:', error);
-            showToast('Errore di connessione');
+            document.getElementById('atletiGrid').innerHTML = '<div class="empty-state">Errore di caricamento dati.</div>';
         } finally {
             document.getElementById('loadingOverlay').classList.add('hidden');
         }
     }
 
-    // ============ RICERCA ============
-    function setupRicerca() {
-        const searchBar = document.getElementById('searchBar');
-        const suggestions = document.getElementById('searchSuggestions');
-        const clearBtn = document.getElementById('searchClear');
-
-        searchBar.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            if (query.length > 0) {
-                clearBtn.classList.add('visible');
-                const risultati = cercaAtleti(query);
-                mostraSuggerimenti(risultati, query);
-                filtraGriglia(risultati);
-            } else {
-                clearBtn.classList.remove('visible');
-                suggestions.classList.remove('visible');
-                resetRicerca();
-            }
-        });
-
-        searchBar.addEventListener('focus', function() {
-            if (this.value.trim().length > 0) {
-                const risultati = cercaAtleti(this.value.trim().toLowerCase());
-                mostraSuggerimenti(risultati, this.value.trim().toLowerCase());
-            }
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-bar-container')) {
-                suggestions.classList.remove('visible');
-            }
-        });
-
-        // Navigazione tastiera
-        searchBar.addEventListener('keydown', function(e) {
-            const items = suggestions.querySelectorAll('.suggestion-item');
-            if (items.length === 0) return;
-            const highlighted = suggestions.querySelector('.suggestion-item.highlighted');
-            let idx = highlighted ? Array.from(items).indexOf(highlighted) : -1;
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                idx = (idx + 1) % items.length;
-                items.forEach(i => i.classList.remove('highlighted'));
-                items[idx].classList.add('highlighted');
-                items[idx].scrollIntoView({ block: 'nearest' });
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                idx = idx <= 0 ? items.length - 1 : idx - 1;
-                items.forEach(i => i.classList.remove('highlighted'));
-                items[idx].classList.add('highlighted');
-                items[idx].scrollIntoView({ block: 'nearest' });
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                if (highlighted) highlighted.click();
-            } else if (e.key === 'Escape') {
-                suggestions.classList.remove('visible');
-            }
-        });
-    }
-
-    function cercaAtleti(query) {
-        if (!query) return [];
-        return atleti.filter(a => {
-            const nome = (a.nome || '').toLowerCase();
-            const username = (a.username || '').toLowerCase();
-            const telefono = (a.telefono || '').toLowerCase();
-            return nome.includes(query) || username.includes(query) || telefono.includes(query);
-        });
-    }
-
-    function evidenziaTesto(testo, query) {
-        if (!query || !testo) return testo;
-        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        return testo.replace(regex, '<span class="match">$1</span>');
-    }
-
-    function mostraSuggerimenti(risultati, query) {
-        const container = document.getElementById('searchSuggestions');
-        if (risultati.length === 0) {
-            container.innerHTML = '<div class="search-no-results">Nessun atleta trovato</div>';
-            container.classList.add('visible');
+    function renderAtleti(lista = atleti) {
+        const grid = document.getElementById('atletiGrid');
+        if (lista.length === 0) {
+            grid.innerHTML = '<div class="empty-state">Nessun atleta trovato. Aggiungine uno nuovo!</div>';
             return;
         }
         let html = '';
-        risultati.forEach(a => {
-            html += `<div class="suggestion-item" onclick="selezionaAtleta(${a.id})">
-                <div class="suggestion-info">
-                    <div class="suggestion-name">${evidenziaTesto(a.nome, query)}</div>
-                    <div class="suggestion-details">
-                        <span>📞 ${a.telefono || '-'}</span>
-                        <span>📧 ${a.email || '-'}</span>
-                    </div>
-                </div>
-                <div class="suggestion-id">${a.username || '-'}</div>
-            </div>`;
-        });
-        container.innerHTML = html;
-        container.classList.add('visible');
-    }
-
-    function selezionaAtleta(id) {
-        const atleta = atleti.find(a => a.id === id);
-        if (!atleta) return;
-        document.getElementById('searchBar').value = atleta.nome;
-        document.getElementById('searchSuggestions').classList.remove('visible');
-        highlightedAtletaId = id;
-        atletiFiltrati = [atleta];
-        renderAtleti();
-        mostraContatore(1);
-        // Scroll alla card
-        setTimeout(() => {
-            const card = document.querySelector(`[data-atleta-id="${id}"]`);
-            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-    }
-
-    function filtraGriglia(risultati) {
-        atletiFiltrati = risultati;
-        highlightedAtletaId = null;
-        renderAtleti();
-        mostraContatore(risultati.length);
-    }
-
-    function mostraContatore(n) {
-        const counter = document.getElementById('resultsCounter');
-        document.getElementById('resultsCount').textContent = n;
-        counter.style.display = n < atleti.length ? 'flex' : 'none';
-    }
-
-    function resetRicerca() {
-        document.getElementById('searchBar').value = '';
-        document.getElementById('searchClear').classList.remove('visible');
-        document.getElementById('searchSuggestions').classList.remove('visible');
-        document.getElementById('resultsCounter').style.display = 'none';
-        atletiFiltrati = [...atleti];
-        highlightedAtletaId = null;
-        renderAtleti();
-    }
-
-    function cambiaTab(tab, el) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById('tab-' + tab).classList.add('active');
-    }
-
-    // UPLOAD LOGO
-    function gestisciUploadLogo(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        if (file.size > 2 * 1024 * 1024) { showToast('❌ File troppo grande! Max 2MB'); return; }
-        const tipiAccettati = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!tipiAccettati.includes(file.type)) { showToast('❌ Formato non supportato. Usa JPG, PNG o GIF'); return; }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            logoBase64 = e.target.result;
-            logoFileName = file.name;
-            mostraLogoPreview(logoBase64);
-            document.getElementById('btnSalvaLogo').style.display = 'inline-flex';
-            showToast('✅ Logo caricato. Clicca "Salva Logo" per confermare.');
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function mostraLogoPreview(src) {
-        const container = document.getElementById('logoPreviewContainer');
-        const area = document.getElementById('logoUploadArea');
-        area.classList.add('has-logo');
-        container.innerHTML = `
-            <div class="logo-preview-container">
-                <img src="${src}" alt="Logo Palestra">
-                <div style="font-size:12px; color:var(--tortora);">${logoFileName || 'Logo attuale'}</div>
-                <button type="button" class="btn-remove-logo" onclick="rimuoviLogo(event)">🗑️ Rimuovi Logo</button>
-            </div>`;
-    }
-
-    function rimuoviLogo(event) {
-        event.stopPropagation();
-        logoBase64 = null;
-        logoFileName = null;
-        document.getElementById('logoFileInput').value = '';
-        document.getElementById('logoUploadArea').classList.remove('has-logo');
-        document.getElementById('logoPreviewContainer').innerHTML = `
-            <div style="font-size:48px; opacity:0.3;">🖼️</div>
-            <div class="upload-text">Clicca qui per caricare il logo</div>
-            <div class="upload-hint">JPG, PNG o GIF - Max 2MB</div>`;
-        document.getElementById('btnSalvaLogo').style.display = 'none';
-    }
-
-    async function salvaLogo() {
-        if (!logoBase64 || !palestraData) return;
-        const btn = document.getElementById('btnSalvaLogo');
-        btn.disabled = true; btn.textContent = 'Salvataggio...';
-        try {
-            const res = await fetch(`${API_URL}/api/palestre/${palestraData.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...palestraData, logo_url: logoBase64 })
-            });
-            const result = await res.json();
-            if (result.success) {
-                palestraData.logo_url = logoBase64;
-                showToast('✅ Logo salvato con successo!');
-                document.getElementById('btnSalvaLogo').style.display = 'none';
-            } else showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
-        } catch (err) { showToast('❌ Errore di connessione'); }
-        finally { btn.disabled = false; btn.textContent = '💾 Salva Logo'; }
-    }
-
-    async function salvaImpostazioni(e) {
-        e.preventDefault();
-        if (!palestraData) return;
-        const data = {
-            nome: document.getElementById('impNome').value.trim(),
-            ragione_sociale: document.getElementById('impRagioneSociale').value.trim(),
-            piva: document.getElementById('impPiva').value.trim(),
-            indirizzo: document.getElementById('impIndirizzo').value.trim(),
-            citta: document.getElementById('impCitta').value.trim(),
-            cap: document.getElementById('impCap').value.trim(),
-            telefono: document.getElementById('impTelefono').value.trim(),
-            email: document.getElementById('impEmail').value.trim(),
-            sito: document.getElementById('impSito').value.trim(),
-            instagram: document.getElementById('impInstagram').value.trim(),
-            facebook: document.getElementById('impFacebook').value.trim(),
-            iban: document.getElementById('impIban').value.trim(),
-            intestatario: document.getElementById('impIntestatario').value.trim(),
-            logo_url: palestraData.logo_url || null,
-            stato: palestraData.stato,
-            data_scadenza: palestraData.data_scadenza
-        };
-        try {
-            const res = await fetch(`${API_URL}/api/palestre/${palestraData.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            if (result.success) {
-                Object.assign(palestraData, data);
-                showToast('✅ Impostazioni salvate!');
-            } else showToast('❌ Errore: ' + (result.error || 'sconosciuto'));
-        } catch (err) { showToast('❌ Errore di connessione'); }
-    }
-
-    function aggiornaAnteprimaId() {
-        const nome = document.getElementById('atletaNome').value.trim();
-        const usernameField = document.getElementById('atletaUsername');
-        if (nome && !editingId) {
-            const parti = nome.split(' ');
-            const iniziali = (parti[0]?.[0] || '') + (parti[1]?.[0] || '');
-            usernameField.value = iniziali.toUpperCase() + '___';
-        } else if (!editingId) {
-            usernameField.value = '';
-        }
-    }
-
-    function renderAtleti() {
-        const container = document.getElementById('atletiContainer');
-        const lista = atletiFiltrati.length > 0 ? atletiFiltrati : atleti;
-        if (lista.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div style="font-size:48px; margin-bottom:15px; opacity:0.5;">👥</div><div style="font-size:15px; margin-bottom:20px;">Nessun atleta registrato</div><button class="btn btn-primary" onclick="apriModalNuovo()">+ Aggiungi il primo atleta</button></div>';
-            return;
-        }
-        const oggi = new Date();
-        let html = '<div class="atleti-grid">';
         lista.forEach(a => {
-            const scadenza = new Date(a.data_scadenza);
-            const giorni = Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
-            let statusClass = 'status-attivo', statusText = 'Attivo';
-            if (giorni < 0) { statusClass = 'status-scaduto'; statusText = `Scaduto (${Math.abs(giorni)}gg)`; }
-            else if (giorni <= 30) { statusClass = 'status-scadenza'; statusText = `Scade tra ${giorni}gg`; }
-            const highlighted = a.id === highlightedAtletaId ? 'highlighted' : '';
-            html += `<div class="atleta-card ${highlighted}" data-atleta-id="${a.id}">
-                <div class="atleta-id-badge">${a.username || '-'}</div>
-                <div class="atleta-nome">${a.nome}</div>
-                <div class="atleta-info"><strong>Tel:</strong> ${a.telefono || '-'}</div>
-                <div class="atleta-info"><strong>Email:</strong> ${a.email || '-'}</div>
-                <div class="atleta-info"><strong>Obiettivo:</strong> ${a.obiettivo || '-'}</div>
-                <div class="atleta-info"><strong>Scadenza abbonamento:</strong> ${scadenza.toLocaleDateString('it-IT')}</div>
-                <div class="status-row">
-                    <span class="status-badge ${statusClass}">${statusText}</span>
-                    <div class="atleta-actions">
-                        <button class="btn btn-sm btn-info" onclick="apriRicevute(${a.id}, '${a.nome.replace(/'/g, "\\'")}')"> Ricevute</button>
-                        <button class="btn btn-sm btn-secondary" onclick="modificaAtleta(${a.id})">Modifica</button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminaAtleta(${a.id}, '${a.nome.replace(/'/g, "\\'")}')">Elimina</button>
+            const oggi = new Date();
+            const scadenza = a.data_scadenza ? new Date(a.data_scadenza) : null;
+            let giorni = scadenza ? Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24)) : 999;
+            let statusClass = 'attivo', statusText = 'Attivo';
+            
+            if (giorni < 0) { statusClass = 'scaduto'; statusText = `Scaduto`; }
+            else if (giorni <= 30) { statusClass = 'scadenza'; statusText = `Scade tra ${giorni}gg`; }
+
+            let numeroWhatsapp = (a.telefono || '').replace(/\D/g, '');
+            if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) numeroWhatsapp = '39' + numeroWhatsapp;
+            const linkWa = numeroWhatsapp ? `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(`Ciao ${a.nome ? a.nome.split(' ')[0] : ''}!`)}` : '#';
+
+            html += `
+                <div class="atleta-card ${statusClass}">
+                    <div class="atleta-nome">
+                        ${a.nome || 'Senza Nome'}
+                        <span class="atleta-id">${a.username || 'N/D'}</span>
+                    </div>
+                    <span class="status-badge status-${statusClass}">${statusText}</span>
+                    <div class="atleta-info">
+                        <div><strong>Tel:</strong> <a href="tel:${a.telefono}">${a.telefono || 'N/D'}</a></div>
+                        <div><strong>Email:</strong> <a href="mailto:${a.email}">${a.email || 'N/D'}</a></div>
+                        <div><strong>Scadenza:</strong> ${a.data_scadenza ? new Date(a.data_scadenza).toLocaleDateString('it-IT') : 'N/D'}</div>
+                    </div>
+                    <div class="card-actions">
+                        ${numeroWhatsapp ? `<a href="${linkWa}" target="_blank" class="btn btn-whatsapp">WhatsApp</a>` : ''}
+                        <a href="schede-allenamenti.html?atleta_id=${a.id}" class="btn btn-scheda">Scheda</a>
+                        <button class="btn btn-elimina" onclick="eliminaAtleta(${a.id})">Elimina</button>
                     </div>
                 </div>
-            </div>`;
+            `;
         });
-        html += '</div>';
-        container.innerHTML = html;
+        grid.innerHTML = html;
     }
 
-    function apriModalNuovo() {
-        editingId = null;
-        document.getElementById('modalTitle').textContent = 'Nuovo Atleta';
-        document.getElementById('formAtleta').reset();
-        document.getElementById('atletaId').value = '';
-        document.getElementById('atletaDurata').value = '30';
-        document.getElementById('atletaInizio').value = new Date().toISOString().split('T')[0];
-        document.getElementById('atletaUsername').value = '';
-        document.getElementById('atletaPassword').required = true;
-        document.getElementById('modalAtleta').classList.add('active');
+    function filtraAtleti() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        const filtrati = atleti.filter(a => 
+            (a.nome && a.nome.toLowerCase().includes(q)) || 
+            (a.username && a.username.toLowerCase().includes(q)) ||
+            (a.telefono && a.telefono.includes(q))
+        );
+        renderAtleti(filtrati);
     }
 
-    function modificaAtleta(id) {
-        const a = atleti.find(x => x.id === id);
-        if (!a) return;
-        editingId = id;
-        document.getElementById('modalTitle').textContent = 'Modifica Atleta: ' + a.nome;
-        document.getElementById('atletaId').value = a.id;
-        document.getElementById('atletaNome').value = a.nome || '';
-        document.getElementById('atletaEmail').value = a.email || '';
-        document.getElementById('atletaTelefono').value = a.telefono || '';
-        document.getElementById('atletaNascita').value = a.data_nascita || '';
-        document.getElementById('atletaPeso').value = a.peso || '';
-        document.getElementById('atletaAltezza').value = a.altezza || '';
-        document.getElementById('atletaObiettivo').value = a.obiettivo || '';
-        document.getElementById('atletaInizio').value = a.data_inizio || '';
-        document.getElementById('atletaDurata').value = a.durata || 30;
-        document.getElementById('atletaStato').value = a.stato || 'attivo';
-        document.getElementById('atletaNote').value = a.note || '';
-        document.getElementById('atletaUsername').value = a.username || '';
-        document.getElementById('atletaPassword').value = '';
-        document.getElementById('atletaPassword').required = false;
-        document.getElementById('modalAtleta').classList.add('active');
-    }
-
-    async function salvaAtleta(e) {
-        e.preventDefault();
-        const btn = document.getElementById('btnSalva');
-        btn.disabled = true; btn.textContent = 'Salvataggio...';
-        const data = {
-            palestra_id: palestraData.id,
-            nome: document.getElementById('atletaNome').value.trim(),
-            email: document.getElementById('atletaEmail').value.trim(),
-            telefono: document.getElementById('atletaTelefono').value.trim(),
-            data_nascita: document.getElementById('atletaNascita').value,
-            peso: parseFloat(document.getElementById('atletaPeso').value) || null,
-            altezza: parseFloat(document.getElementById('atletaAltezza').value) || null,
-            obiettivo: document.getElementById('atletaObiettivo').value,
-            data_inizio: document.getElementById('atletaInizio').value,
-            durata: parseInt(document.getElementById('atletaDurata').value),
-            stato: document.getElementById('atletaStato').value,
-            note: document.getElementById('atletaNote').value.trim(),
-            password: document.getElementById('atletaPassword').value
-        };
-        const inizio = new Date(data.data_inizio);
-        const scadenza = new Date(inizio); scadenza.setDate(scadenza.getDate() + data.durata);
-        data.data_scadenza = scadenza.toISOString();
+    async function eliminaAtleta(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
         try {
-            if (editingId) {
-                const res = await fetch(`${API_URL}/api/atleti/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const result = await res.json();
-                if (result.success) { showToast('Atleta aggiornato!'); chiudiModal('modalAtleta'); loadData(); }
-                else showToast('Errore: ' + (result.error || 'sconosciuto'));
-            } else {
-                const res = await fetch(`${API_URL}/api/atleti`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById('atletaUsername').value = result.id_univoco;
-                    showToast(`Atleta creato! Username: ${result.id_univoco}`);
-                    document.getElementById('btnSalva').textContent = 'Chiudi';
-                    document.getElementById('btnSalva').onclick = function() { chiudiModal('modalAtleta'); loadData(); };
-                } else showToast('Errore: ' + (result.error || 'sconosciuto'));
-            }
-        } catch (err) { showToast('Errore di connessione'); }
-        finally { btn.disabled = false; btn.textContent = 'Salva Atleta'; }
+            await fetch(`${API_URL}/api/atleti/${id}`, { method: 'DELETE' });
+            atleti = atleti.filter(a => a.id !== id);
+            renderAtleti();
+        } catch (e) { alert('Errore durante l\'eliminazione'); }
     }
-
-    async function eliminaAtleta(id, nome) {
-        if (!confirm(`Eliminare l'atleta "${nome}"?`)) return;
-        try {
-            const res = await fetch(`${API_URL}/api/atleti/${id}`, { method: 'DELETE' });
-            const result = await res.json();
-            if (result.success) { showToast('Atleta eliminato'); loadData(); }
-        } catch (err) { showToast('Errore'); }
-    }
-
-    async function apriRicevute(atletaId, atletaNome) {
-        atletaCorrente = atleti.find(a => a.id === atletaId);
-        document.getElementById('ricevuteTitle').textContent = 'Pagamenti: ' + atletaNome;
-        document.getElementById('ricevuteSubtitle').textContent = 'ID Atleta: ' + (atletaCorrente?.username || '-');
-        document.getElementById('pagAtletaId').value = atletaId;
-        document.getElementById('modalRicevute').classList.add('active');
-        await caricaPagamenti(atletaId);
-    }
-
-    async function caricaPagamenti(atletaId) {
-        try {
-            const res = await fetch(`${API_URL}/api/pagamenti?atleta_id=${atletaId}`);
-            pagamentiAtleta = await res.json();
-            renderPagamenti();
-        } catch (err) { showToast('Errore caricamento pagamenti'); }
-    }
-
-    function renderPagamenti() {
-        const container = document.getElementById('ricevuteContent');
-        if (pagamentiAtleta.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--tortora);"><div style="font-size:48px; margin-bottom:10px;"></div><div>Nessun pagamento registrato</div><div style="font-size:13px; margin-top:10px;">Clicca "+ Nuova Ricevuta" per registrare il primo pagamento</div></div>';
-            return;
-        }
-        let totale = 0;
-        let html = '<table class="pagamenti-table"><thead><tr><th>N° Ricevuta</th><th>Data</th><th>Periodo</th><th>Metodo</th><th>Importo</th><th class="no-print">Azioni</th></tr></thead><tbody>';
-        pagamentiAtleta.forEach(p => {
-            totale += parseFloat(p.importo) || 0;
-            const periodo = (p.periodo_da && p.periodo_a) ? `${new Date(p.periodo_da).toLocaleDateString('it-IT')} - ${new Date(p.periodo_a).toLocaleDateString('it-IT')}` : '-';
-            html += `<tr>
-                <td><strong>${p.numero_ricevuta || '-'}</strong></td>
-                <td>${new Date(p.data_pagamento).toLocaleDateString('it-IT')}</td>
-                <td>${periodo}</td>
-                <td>${p.metodo || '-'}</td>
-                <td style="font-weight:700; color:var(--verde);">€ ${parseFloat(p.importo).toFixed(2)}</td>
-                <td class="no-print">
-                    <button class="btn btn-sm btn-info" onclick="stampaRicevuta(${p.id})">️ Stampa</button>
-                    <button class="btn btn-sm btn-secondary" onclick="modificaPagamento(${p.id})">Modifica</button>
-                    <button class="btn btn-sm btn-danger" onclick="eliminaPagamento(${p.id})">Elimina</button>
-                </td>
-            </tr>`;
-        });
-        html += '</tbody></table>';
-        html += `<div class="totale-box"><span>Totale Pagamenti:</span><span class="amount">€ ${totale.toFixed(2)}</span></div>`;
-        container.innerHTML = html;
-    }
-
-    function apriModalNuovoPagamento() {
-        document.getElementById('formPagamento').reset();
-        document.getElementById('pagData').value = new Date().toISOString().split('T')[0];
-        if (atletaCorrente) {
-            const oggi = new Date();
-            const fine = new Date(oggi); fine.setDate(fine.getDate() + 30);
-            document.getElementById('pagPeriodoDa').value = oggi.toISOString().split('T')[0];
-            document.getElementById('pagPeriodoA').value = fine.toISOString().split('T')[0];
-            const anno = oggi.getFullYear();
-            const num = String(pagamentiAtleta.length + 1).padStart(3, '0');
-            document.getElementById('pagNumero').value = `${anno}-${num}`;
-        }
-        document.getElementById('modalTitlePagamento').textContent = 'Nuova Ricevuta di Pagamento';
-        document.getElementById('btnSalvaPagamento').textContent = 'Salva Ricevuta';
-        delete document.getElementById('btnSalvaPagamento').dataset.editId;
-        document.getElementById('modalPagamento').classList.add('active');
-    }
-
-    function modificaPagamento(id) {
-        const p = pagamentiAtleta.find(x => x.id === id);
-        if (!p) return;
-        document.getElementById('pagAtletaId').value = p.atleta_id;
-        document.getElementById('pagData').value = p.data_pagamento;
-        document.getElementById('pagImporto').value = p.importo;
-        document.getElementById('pagMetodo').value = p.metodo || 'Contanti';
-        document.getElementById('pagNumero').value = p.numero_ricevuta || '';
-        document.getElementById('pagPeriodoDa').value = p.periodo_da || '';
-        document.getElementById('pagPeriodoA').value = p.periodo_a || '';
-        document.getElementById('pagNote').value = p.note || '';
-        document.getElementById('modalTitlePagamento').textContent = 'Modifica Ricevuta N° ' + (p.numero_ricevuta || id);
-        document.getElementById('btnSalvaPagamento').textContent = 'Aggiorna Ricevuta';
-        document.getElementById('btnSalvaPagamento').dataset.editId = id;
-        document.getElementById('modalPagamento').classList.add('active');
-    }
-
-    async function salvaPagamento(e) {
-        e.preventDefault();
-        const editId = document.getElementById('btnSalvaPagamento').dataset.editId;
-        const data = {
-            atleta_id: parseInt(document.getElementById('pagAtletaId').value),
-            data_pagamento: document.getElementById('pagData').value,
-            importo: parseFloat(document.getElementById('pagImporto').value),
-            metodo: document.getElementById('pagMetodo').value,
-            numero_ricevuta: document.getElementById('pagNumero').value.trim(),
-            periodo_da: document.getElementById('pagPeriodoDa').value,
-            periodo_a: document.getElementById('pagPeriodoA').value,
-            note: document.getElementById('pagNote').value.trim()
-        };
-        try {
-            let url = `${API_URL}/api/pagamenti`;
-            let method = 'POST';
-            if (editId) { url = `${API_URL}/api/pagamenti/${editId}`; method = 'PUT'; }
-            const res = await fetch(url, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            const result = await res.json();
-            if (result.success) {
-                showToast(editId ? 'Ricevuta aggiornata!' : 'Ricevuta salvata!');
-                chiudiModal('modalPagamento');
-                await caricaPagamenti(data.atleta_id);
-            } else showToast('Errore: ' + (result.error || 'sconosciuto'));
-        } catch (err) { showToast('Errore di connessione'); }
-        finally {
-            delete document.getElementById('btnSalvaPagamento').dataset.editId;
-            document.getElementById('btnSalvaPagamento').textContent = 'Salva Ricevuta';
-            document.getElementById('modalTitlePagamento').textContent = 'Nuova Ricevuta di Pagamento';
-        }
-    }
-
-    async function eliminaPagamento(id) {
-        if (!confirm('Eliminare questa ricevuta?')) return;
-        try {
-            const res = await fetch(`${API_URL}/api/pagamenti/${id}`, { method: 'DELETE' });
-            const result = await res.json();
-            if (result.success) { showToast('Ricevuta eliminata'); await caricaPagamenti(parseInt(document.getElementById('pagAtletaId').value)); }
-        } catch (err) { showToast('Errore'); }
-    }
-
-    function stampaRicevuta(id) {
-        const p = pagamentiAtleta.find(x => x.id === id);
-        if (!p || !atletaCorrente) return;
-        const palestra = palestraData || {};
-        const logoHtml = palestra.logo_url ? `<img src="${palestra.logo_url}" alt="Logo Palestra" style="max-height: 90px; max-width: 200px; margin-bottom: 10px;"><br>` : '';
-        const html = `
-        <div class="ricevuta-print">
-            <div class="ricevuta-header">
-                ${logoHtml}
-                <h2>${palestra.nome || 'AppCenterStudioGYM'}</h2>
-                <p>${palestra.indirizzo || ''} ${palestra.citta || ''} - Tel: ${palestra.telefono || ''}</p>
-                <p>Email: ${palestra.email || ''} - P.IVA: ${palestra.piva || ''}</p>
-                <h3 style="margin-top:20px; color:var(--tortora);">RICEVUTA DI PAGAMENTO N° ${p.numero_ricevuta || id}</h3>
-            </div>
-            <div class="ricevuta-body">
-                <div class="ricevuta-section">
-                    <h4>Ricevuto da</h4>
-                    <p><strong>${atletaCorrente.nome}</strong></p>
-                    <p>ID Atleta: ${atletaCorrente.username || '-'}</p>
-                    <p>Tel: ${atletaCorrente.telefono || '-'}</p>
-                    <p>Email: ${atletaCorrente.email || '-'}</p>
-                </div>
-                <div class="ricevuta-section">
-                    <h4>Dettagli Pagamento</h4>
-                    <p><strong>Data:</strong> ${new Date(p.data_pagamento).toLocaleDateString('it-IT')}</p>
-                    <p><strong>Metodo:</strong> ${p.metodo || '-'}</p>
-                    <p><strong>Periodo:</strong> ${p.periodo_da ? new Date(p.periodo_da).toLocaleDateString('it-IT') : '-'} - ${p.periodo_a ? new Date(p.periodo_a).toLocaleDateString('it-IT') : '-'}</p>
-                </div>
-            </div>
-            <table class="ricevuta-table">
-                <thead><tr><th>Descrizione</th><th style="text-align:right;">Importo</th></tr></thead>
-                <tbody>
-                    <tr><td>Abbonamento palestra - Periodo ${p.periodo_da ? new Date(p.periodo_da).toLocaleDateString('it-IT') : ''} ${p.periodo_a ? 'al ' + new Date(p.periodo_a).toLocaleDateString('it-IT') : ''}</td><td style="text-align:right; font-weight:700;">€ ${parseFloat(p.importo).toFixed(2)}</td></tr>
-                </tbody>
-            </table>
-            <div class="ricevuta-total">TOTALE: € ${parseFloat(p.importo).toFixed(2)}</div>
-            ${p.note ? `<div style="margin-top:20px; padding:10px; background:var(--tortora-chiarissimo); border-radius:8px; font-size:13px;"><strong>Note:</strong> ${p.note}</div>` : ''}
-            <div class="ricevuta-footer">
-                <p>Documento generato il ${new Date().toLocaleString('it-IT')} - AppCenterStudioGYM</p>
-                <p style="margin-top:30px; display:flex; justify-content:space-between;">
-                    <span>Firma del Gestore: ___________________</span>
-                    <span>Firma del Cliente: ___________________</span>
-                </p>
-            </div>
-        </div>`;
-        document.getElementById('ricevutaPrintArea').innerHTML = html;
-        document.getElementById('ricevutaPrintArea').style.display = 'block';
-        window.print();
-        setTimeout(() => { document.getElementById('ricevutaPrintArea').style.display = 'none'; }, 1000);
-    }
-
-    function chiudiModal(id) {
-        document.getElementById(id).classList.remove('active');
-        if (id === 'modalAtleta') document.getElementById('btnSalva').onclick = null;
-    }
-
-    function togglePwd(inputId, btn) {
-        const input = document.getElementById(inputId);
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        btn.innerHTML = isPassword 
-            ? '<svg viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'
-            : '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
-    }
-
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) { if (e.target === this) { this.classList.remove('active'); } });
-    });
 
     init();
     </script>

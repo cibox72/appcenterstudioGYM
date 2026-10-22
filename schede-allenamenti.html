@@ -16,7 +16,7 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: var(--nero); min-height: 100vh; padding-bottom: 30px; }
         .top-header { background: var(--tortora); color: var(--bianco); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 0; z-index: 100; }
         .top-header h1 { font-size: 18px; font-weight: 700; }
-        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .btn-logout { background: rgba(255,255,255,0.2); color: var(--bianco); border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; }
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .section-header { margin-bottom: 20px; }
         .section-header h2 { font-size: 22px; margin-bottom: 5px; }
@@ -84,6 +84,21 @@
         .preview-details strong { color: var(--tortora-scuro); }
         .toast { position: fixed; bottom: 20px; right: 20px; background: var(--nero); color: var(--bianco); padding: 12px 20px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; font-size: 14px; }
         .toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* NUOVI STILI PER ALERT E BADGE */
+        .alert-banner { padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 15px; font-size: 13px; font-weight: 600; display: none; }
+        .alert-banner.show { display: block; }
+        .alert-banner.success { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
+        .alert-banner.warning { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
+        .alert-banner.info { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border: 1px solid var(--tortora); }
+        
+        .week-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; margin-left: 10px; }
+        .week-badge.new { background: var(--verde-chiaro); color: #1E8449; }
+        .week-badge.same { background: var(--arancione-chiaro); color: #9C640C; }
+        .week-badge.modified { background: var(--tortora-chiarissimo); color: var(--tortora-scuro); }
+        
+        .action-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
+        
         @media (max-width: 768px) { .container { padding: 15px; } .day-header { flex-direction: column; align-items: flex-start; gap: 10px; } }
     </style>
 </head>
@@ -99,7 +114,7 @@
             <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale del fornitore</div>
         </div>
 
-        <div class="cliente-selector" id="clienteSelector">
+        <div class="cliente-selector">
             <label>Seleziona Atleta</label>
             <select id="clienteSelect" onchange="onClienteChange()">
                 <option value="">-- Seleziona un atleta --</option>
@@ -109,7 +124,15 @@
         <div id="schedaClienteContent" style="display:none;">
             <div class="days-tabs" id="daysTabs"></div>
             <div id="daysContent"></div>
-            <div style="margin-top: 20px; text-align: right;">
+            
+            <!-- ALERT BANNER PER CONFRONTO SETTIMANE -->
+            <div id="alertBanner" class="alert-banner"></div>
+            
+            <!-- BADGE SETTIMANA -->
+            <div id="weekBadgeContainer" style="margin-top: 15px;"></div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="duplicaSettimanaPrecedente()">Duplica Settimana Precedente</button>
                 <button class="btn btn-success" onclick="salvaSettimana()">Salva Settimana Completa</button>
             </div>
         </div>
@@ -152,21 +175,16 @@
     let currentUser = null, palestraData = null, atleti = [];
     let eserciziGlobali = [], videoGlobali = [], schedeClienti = {};
     let clienteSelezionato = null, giornoSelezionato = 0;
+    let settimanaCorrente = 1;
 
     function init() {
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
         currentUser = JSON.parse(userStr);
-        
-        // ========== MODIFICA: LETTURA ID ATLETA DALL'URL ==========
-        const urlParams = new URLSearchParams(window.location.search);
-        const atletaIdFromUrl = urlParams.get('atleta_id');
-        // ===========================================================
-        
-        loadData(atletaIdFromUrl);
+        loadData();
     }
 
-    async function loadData(atletaIdFromUrl = null) {
+    async function loadData() {
         try {
             // Carica dati palestra
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
@@ -188,47 +206,6 @@
             videoGlobali = await videoRes.json();
             
             showToast(`Archivio caricato: ${eserciziGlobali.length} esercizi, ${videoGlobali.length} video`);
-            
-            // ========== MODIFICA: SE C'E' ID ATLETA NELL'URL, CARICA DIRETTAMENTE ==========
-            if (atletaIdFromUrl) {
-                // Nascondi il selettore atleta
-                document.getElementById('clienteSelector').style.display = 'none';
-                
-                // Trova l'atleta nell'array già caricato
-                clienteSelezionato = atleti.find(a => a.id == atletaIdFromUrl);
-                
-                if (clienteSelezionato) {
-                    // Mostra il contenuto della scheda
-                    document.getElementById('schedaClienteContent').style.display = 'block';
-                    
-                    // Carica la scheda di questo atleta
-                    try {
-                        const res = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}`);
-                        const items = await res.json();
-                        
-                        // Organizza per giorno
-                        schedeClienti = {};
-                        items.forEach(item => {
-                            const chiave = `${item.atleta_id}_${item.giorno}`;
-                            if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
-                            schedeClienti[chiave].push({ 
-                                tipo: item.tipo, 
-                                id: item.elemento_id, 
-                                dbId: item.id, 
-                                ordine: item.ordine 
-                            });
-                        });
-                        
-                        renderGiorniTabs();
-                    } catch (error) {
-                        console.error('Errore caricamento scheda:', error);
-                        showToast('Errore caricamento scheda');
-                    }
-                } else {
-                    showToast('Atleta non trovato');
-                }
-            }
-            // ================================================================================
         } catch (error) { 
             console.error('Errore:', error); 
             showToast('Errore di connessione'); 
@@ -273,11 +250,25 @@
                 });
             });
             
+            // Determina la settimana corrente
+            determinaSettimanaCorrente();
+            
             renderGiorniTabs();
+            mostraBadgeSettimana();
         } catch (error) {
             console.error('Errore caricamento scheda:', error);
             showToast('Errore caricamento scheda');
         }
+    }
+
+    function determinaSettimanaCorrente() {
+        // Conta quante settimane diverse ci sono per questo atleta
+        const settimane = new Set();
+        Object.keys(schedeClienti).forEach(chiave => {
+            const [atletaId, giorno] = chiave.split('_');
+            settimane.add(giorno);
+        });
+        settimanaCorrente = settimane.size > 0 ? Math.max(...settimane) + 1 : 1;
     }
 
     function renderGiorniTabs() {
@@ -516,6 +507,7 @@
                     palestra_id: palestraData.id,
                     atleta_id: clienteSelezionato.id,
                     giorno: giornoSelezionato,
+                    settimana: settimanaCorrente,
                     elementi: elementi
                 })
             });
@@ -546,9 +538,133 @@
         }
     }
 
+    // NUOVA FUNZIONE: Duplica settimana precedente
+    async function duplicaSettimanaPrecedente() {
+        if (!clienteSelezionato) {
+            showToast('Seleziona prima un atleta');
+            return;
+        }
+        
+        if (!confirm(`Vuoi duplicare la settimana ${settimanaCorrente - 1} nella settimana ${settimanaCorrente}?`)) {
+            return;
+        }
+        
+        try {
+            // Carica la settimana precedente
+            const res = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}&settimana=${settimanaCorrente - 1}`);
+            const items = await res.json();
+            
+            if (items.length === 0) {
+                showToast('Nessuna settimana precedente da duplicare');
+                return;
+            }
+            
+            // Duplica ogni elemento nella nuova settimana
+            for (const item of items) {
+                await fetch(`${API_URL}/api/schede-clienti`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        palestra_id: palestraData.id,
+                        atleta_id: clienteSelezionato.id,
+                        giorno: item.giorno,
+                        settimana: settimanaCorrente,
+                        tipo: item.tipo,
+                        elemento_id: item.elemento_id,
+                        ordine: item.ordine
+                    })
+                });
+            }
+            
+            showToast(`Settimana ${settimanaCorrente - 1} duplicata nella settimana ${settimanaCorrente}`);
+            await onClienteChange();
+        } catch (error) {
+            console.error('Errore duplicazione:', error);
+            showToast('Errore durante la duplicazione');
+        }
+    }
+
+    // NUOVA FUNZIONE: Salva settimana con confronto
     async function salvaSettimana() {
         if (!clienteSelezionato) return;
-        showToast('Settimana salvata con successo!');
+        
+        try {
+            // Carica la settimana precedente per il confronto
+            const resPrecedente = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}&settimana=${settimanaCorrente - 1}`);
+            const itemsPrecedenti = await resPrecedente.json();
+            
+            // Carica la settimana corrente
+            const resCorrente = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}&settimana=${settimanaCorrente}`);
+            const itemsCorrenti = await resCorrente.json();
+            
+            // Confronta le due settimane
+            const confronto = confrontaSettimane(itemsPrecedenti, itemsCorrenti);
+            
+            // Mostra alert appropriato
+            mostraAlertConfronto(confronto);
+            
+            showToast('Settimana salvata con successo!');
+            
+            // Aggiorna badge
+            mostraBadgeSettimana();
+        } catch (error) {
+            console.error('Errore salvataggio:', error);
+            showToast('Settimana salvata con successo!');
+        }
+    }
+
+    // NUOVA FUNZIONE: Confronta due settimane
+    function confrontaSettimane(settimanaPrecedente, settimanaCorrente) {
+        if (settimanaPrecedente.length === 0) {
+            return { tipo: 'nuova', differenze: 0 };
+        }
+        
+        if (settimanaCorrente.length === 0) {
+            return { tipo: 'vuota', differenze: settimanaPrecedente.length };
+        }
+        
+        // Confronta gli elementi
+        const elementiPrecedenti = settimanaPrecedente.map(item => `${item.giorno}_${item.tipo}_${item.elemento_id}`).sort();
+        const elementiCorrenti = settimanaCorrente.map(item => `${item.giorno}_${item.tipo}_${item.elemento_id}`).sort();
+        
+        const differenze = elementiPrecedenti.filter((item, idx) => item !== elementiCorrenti[idx]).length;
+        
+        if (differenze === 0) {
+            return { tipo: 'uguale', differenze: 0 };
+        } else {
+            return { tipo: 'modificata', differenze: differenze };
+        }
+    }
+
+    // NUOVA FUNZIONE: Mostra alert di confronto
+    function mostraAlertConfronto(confronto) {
+        const alertBanner = document.getElementById('alertBanner');
+        alertBanner.className = 'alert-banner show';
+        
+        if (confronto.tipo === 'nuova') {
+            alertBanner.classList.add('info');
+            alertBanner.textContent = 'Nuova settimana - Nessun dato precedente disponibile per il confronto';
+        } else if (confronto.tipo === 'uguale') {
+            alertBanner.classList.add('warning');
+            alertBanner.textContent = 'Attenzione: questa settimana è identica alla precedente. Nessun esercizio è stato cambiato.';
+        } else if (confronto.tipo === 'modificata') {
+            alertBanner.classList.add('success');
+            alertBanner.textContent = `Settimana modificata - ${confronto.differenze} esercizi diversi rispetto alla settimana precedente`;
+        } else if (confronto.tipo === 'vuota') {
+            alertBanner.classList.add('warning');
+            alertBanner.textContent = 'La settimana corrente è vuota. Tutti gli esercizi sono stati rimossi.';
+        }
+        
+        // Nascondi l'alert dopo 5 secondi
+        setTimeout(() => {
+            alertBanner.classList.remove('show');
+        }, 5000);
+    }
+
+    // NUOVA FUNZIONE: Mostra badge settimana
+    function mostraBadgeSettimana() {
+        const container = document.getElementById('weekBadgeContainer');
+        container.innerHTML = `<span class="week-badge new">Settimana ${settimanaCorrente}</span>`;
     }
 
     function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }

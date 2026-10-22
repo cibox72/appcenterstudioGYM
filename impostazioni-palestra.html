@@ -23,24 +23,24 @@
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
         
-        /* LOGO UPLOAD */
         .logo-upload-area { display: flex; gap: 20px; align-items: center; padding: 20px; background: var(--tortora-chiarissimo); border-radius: var(--radius-sm); border: 2px dashed var(--tortora-chiaro); }
-        .logo-preview { width: 120px; height: 120px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .logo-preview { width: 180px; height: 180px; background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
         .logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .logo-preview-placeholder { color: var(--tortora); font-size: 12px; text-align: center; }
+        .logo-preview-placeholder { color: var(--tortora); font-size: 12px; text-align: center; padding: 10px; }
         .logo-actions { flex: 1; }
         .logo-actions p { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 10px; line-height: 1.5; }
+        .logo-info { font-size: 11px; color: var(--verde); margin-top: 8px; padding: 6px 10px; background: var(--verde-chiaro); border-radius: 4px; display: none; }
+        .logo-info.show { display: block; }
         .btn-upload { display: inline-block; padding: 8px 16px; background: var(--tortora); color: var(--bianco); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
         .btn-upload:hover { background: var(--nero); }
         .btn-rimuovi-logo { display: inline-block; padding: 8px 16px; background: var(--bianco); color: var(--rosso); border: 1.5px solid var(--rosso); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px; }
         .btn-rimuovi-logo:hover { background: var(--rosso); color: var(--bianco); }
         
-        /* METODI PAGAMENTO */
         .payment-method { background: var(--tortora-chiarissimo); border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 15px; transition: all 0.2s; }
         .payment-method.active { border-color: var(--verde); background: var(--verde-chiaro); }
         .payment-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; cursor: pointer; }
         .payment-header-left { display: flex; align-items: center; gap: 12px; }
-        .payment-icon { width: 40px; height: 40px; background: var(--bianco); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--tortora-chiaro); }
+        .payment-icon { width: 40px; height: 40px; background: var(--bianco); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--tortora-chiaro); font-weight: 700; color: var(--tortora-scuro); }
         .payment-name { font-weight: 700; font-size: 15px; color: var(--nero); }
         .payment-desc { font-size: 11px; color: var(--tortora-scuro); margin-top: 2px; }
         .payment-toggle { position: relative; width: 50px; height: 26px; }
@@ -78,7 +78,7 @@
     <div class="top-header">
         <h1>Impostazioni Palestra</h1>
         <div class="header-right">
-            <a href="dashboard-palestra.html" class="btn-back">← Torna alla Dashboard</a>
+            <a href="dashboard-palestra.html" class="btn-back">Torna alla Dashboard</a>
         </div>
     </div>
     
@@ -86,7 +86,6 @@
         <form id="formImpostazioni" onsubmit="salvaImpostazioni(event)">
             <input type="hidden" id="palestraId">
             
-            <!-- SEZIONE 1: DATI GENERALI -->
             <div class="settings-card">
                 <h2>Dati Generali Palestra</h2>
                 
@@ -106,7 +105,7 @@
                         <input type="text" id="cap" placeholder="Es. 00100">
                     </div>
                     <div class="form-group">
-                        <label>Città</label>
+                        <label>Citta</label>
                         <input type="text" id="citta" placeholder="Es. Roma">
                     </div>
                     <div class="form-group">
@@ -133,11 +132,10 @@
                 
                 <div class="form-group">
                     <label>Sito Web / Pagina Social</label>
-                    <input type="text" id="sito_web" placeholder="Es. www.palestra.it o link Facebook/Instagram">
+                    <input type="text" id="sito" placeholder="Es. www.palestra.it o link Facebook/Instagram">
                 </div>
             </div>
             
-            <!-- SEZIONE 2: DATI FISCALI -->
             <div class="settings-card">
                 <h2>Dati Fiscali</h2>
                 <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Questi dati compariranno nelle ricevute e nei documenti emessi dalla palestra.</p>
@@ -149,7 +147,7 @@
                     </div>
                     <div class="form-group">
                         <label>Partita IVA</label>
-                        <input type="text" id="partita_iva" placeholder="Es. IT12345678901" maxlength="16">
+                        <input type="text" id="piva" placeholder="Es. IT12345678901" maxlength="16">
                     </div>
                 </div>
                 
@@ -170,39 +168,37 @@
                 </div>
             </div>
             
-            <!-- SEZIONE 3: LOGO -->
             <div class="settings-card">
                 <h2>Logo Palestra</h2>
-                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Il logo comparirà nelle ricevute, nelle schede di allenamento e nei documenti ufficiali.</p>
+                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Il logo verra automaticamente ridimensionato e compresso per ottimizzare lo spazio. Le proporzioni originali verranno mantenute.</p>
                 
                 <div class="logo-upload-area">
                     <div class="logo-preview" id="logoPreview">
                         <span class="logo-preview-placeholder">Nessun logo caricato</span>
                     </div>
                     <div class="logo-actions">
-                        <p>Carica un'immagine in formato JPG o PNG. Dimensioni consigliate: 400x400 pixel. Dimensione massima: 2MB.</p>
+                        <p>Carica un'immagine in formato JPG o PNG. Il logo verra automaticamente ridimensionato a max 400x400 pixel mantenendo le proporzioni e compresso per ottimizzare lo spazio.</p>
                         <label for="logoFile" class="btn-upload">Scegli File</label>
                         <input type="file" id="logoFile" accept="image/jpeg,image/png" style="display: none;" onchange="handleLogoUpload(event)">
                         <button type="button" class="btn-rimuovi-logo" onclick="rimuoviLogo()">Rimuovi Logo</button>
+                        <div class="logo-info" id="logoInfo"></div>
                     </div>
                 </div>
                 <input type="hidden" id="logoBase64">
             </div>
             
-            <!-- SEZIONE 4: METODI DI PAGAMENTO -->
             <div class="settings-card">
                 <h2>Metodi di Pagamento Accettati</h2>
                 
                 <div class="info-box">
                     <strong>IMPORTANTE</strong>
-                    Attiva i metodi di pagamento che la tua palestra accetta. Questi verranno mostrati ai clienti nei messaggi WhatsApp e nelle comunicazioni di rinnovo abbonamento. Puoi attivare più metodi contemporaneamente.
+                    Attiva i metodi di pagamento che la tua palestra accetta. Questi verranno mostrati ai clienti nei messaggi WhatsApp e nelle comunicazioni di rinnovo abbonamento. Puoi attivare piu metodi contemporaneamente.
                 </div>
                 
-                <!-- PAYPAL -->
                 <div class="payment-method" id="method-paypal">
                     <div class="payment-header" onclick="togglePayment('paypal')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">💳</div>
+                            <div class="payment-icon">P</div>
                             <div>
                                 <div class="payment-name">PayPal</div>
                                 <div class="payment-desc">Pagamento online veloce e sicuro</div>
@@ -225,11 +221,10 @@
                     </div>
                 </div>
                 
-                <!-- STRIPE -->
                 <div class="payment-method" id="method-stripe">
                     <div class="payment-header" onclick="togglePayment('stripe')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">💰</div>
+                            <div class="payment-icon">S</div>
                             <div>
                                 <div class="payment-name">Stripe</div>
                                 <div class="payment-desc">Pagamento con carta di credito/debito</div>
@@ -248,11 +243,10 @@
                     </div>
                 </div>
                 
-                <!-- BONIFICO -->
                 <div class="payment-method" id="method-bonifico">
                     <div class="payment-header" onclick="togglePayment('bonifico')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">🏦</div>
+                            <div class="payment-icon">B</div>
                             <div>
                                 <div class="payment-name">Bonifico Bancario</div>
                                 <div class="payment-desc">Pagamento tramite bonifico SEPA</div>
@@ -289,11 +283,10 @@
                     </div>
                 </div>
                 
-                <!-- SATISPAY -->
                 <div class="payment-method" id="method-satispay">
                     <div class="payment-header" onclick="togglePayment('satispay')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">📱</div>
+                            <div class="payment-icon">SA</div>
                             <div>
                                 <div class="payment-name">Satispay</div>
                                 <div class="payment-desc">Pagamento rapido con app</div>
@@ -316,11 +309,10 @@
                     </div>
                 </div>
                 
-                <!-- CONTANTI -->
                 <div class="payment-method" id="method-contanti">
                     <div class="payment-header" onclick="togglePayment('contanti')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">💵</div>
+                            <div class="payment-icon">C</div>
                             <div>
                                 <div class="payment-name">Contanti</div>
                                 <div class="payment-desc">Pagamento di persona in sede</div>
@@ -339,11 +331,10 @@
                     </div>
                 </div>
                 
-                <!-- POS -->
                 <div class="payment-method" id="method-pos">
                     <div class="payment-header" onclick="togglePayment('pos')">
                         <div class="payment-header-left">
-                            <div class="payment-icon">🏧</div>
+                            <div class="payment-icon">PO</div>
                             <div>
                                 <div class="payment-name">POS (Carta in sede)</div>
                                 <div class="payment-desc">Pagamento con carta in palestra</div>
@@ -363,10 +354,9 @@
                 </div>
             </div>
             
-            <!-- SEZIONE 5: QUOTA MENSILE -->
             <div class="settings-card">
                 <h2>Quota Mensile Standard</h2>
-                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Imposta la quota mensile standard che verrà proposta nei messaggi di rinnovo.</p>
+                <p style="color: var(--tortora-scuro); font-size: 13px; margin-bottom: 20px;">Imposta la quota mensile standard che verra proposta nei messaggi di rinnovo.</p>
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -380,7 +370,7 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn-save" id="btnSave">💾 Salva Impostazioni</button>
+            <button type="submit" class="btn-save" id="btnSave">Salva Impostazioni</button>
         </form>
     </div>
     
@@ -401,7 +391,6 @@
             palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
             
             if (palestraData) {
-                // DATI GENERALI
                 document.getElementById('palestraId').value = palestraData.id;
                 document.getElementById('nome').value = palestraData.nome || '';
                 document.getElementById('indirizzo').value = palestraData.indirizzo || '';
@@ -411,31 +400,32 @@
                 document.getElementById('telefono').value = palestraData.telefono || '';
                 document.getElementById('cellulare').value = palestraData.cellulare || '';
                 document.getElementById('email').value = palestraData.email || '';
-                document.getElementById('sito_web').value = palestraData.sito_web || '';
+                document.getElementById('sito').value = palestraData.sito || palestraData.sito_web || '';
                 
-                // DATI FISCALI
                 document.getElementById('ragione_sociale').value = palestraData.ragione_sociale || '';
-                document.getElementById('partita_iva').value = palestraData.partita_iva || '';
+                document.getElementById('piva').value = palestraData.piva || palestraData.partita_iva || '';
                 document.getElementById('codice_fiscale').value = palestraData.codice_fiscale || '';
                 document.getElementById('codice_sdi').value = palestraData.codice_sdi || '';
                 document.getElementById('pec').value = palestraData.pec || '';
                 
-                // LOGO
-                if (palestraData.logo_url || palestraData.logo_base64) {
-                    const logoSrc = palestraData.logo_base64 || palestraData.logo_url;
+                const logoSrc = palestraData.logo_base64 || palestraData.logo_url;
+                if (logoSrc) {
                     document.getElementById('logoPreview').innerHTML = `<img src="${logoSrc}" alt="Logo">`;
-                    document.getElementById('logoBase64').value = palestraData.logo_base64 || '';
+                    document.getElementById('logoBase64').value = logoSrc;
                 }
                 
-                // METODI DI PAGAMENTO
                 const pagamenti = palestraData.metodi_pagamento || {};
+                let pagamentiObj = pagamenti;
+                if (typeof pagamenti === 'string') {
+                    try { pagamentiObj = JSON.parse(pagamenti); } catch(e) { pagamentiObj = {}; }
+                }
+                
                 ['paypal', 'stripe', 'bonifico', 'satispay', 'contanti', 'pos'].forEach(metodo => {
-                    if (pagamenti[metodo] && pagamenti[metodo].attivo) {
+                    if (pagamentiObj[metodo] && pagamentiObj[metodo].attivo) {
                         document.getElementById(`toggle-${metodo}`).checked = true;
                         document.getElementById(`method-${metodo}`).classList.add('active');
                         
-                        // Popola i campi specifici
-                        const data = pagamenti[metodo];
+                        const data = pagamentiObj[metodo];
                         if (metodo === 'paypal') {
                             document.getElementById('paypal_link').value = data.link || '';
                             document.getElementById('paypal_email').value = data.email || '';
@@ -458,13 +448,12 @@
                     }
                 });
                 
-                // QUOTA MENSILE
                 document.getElementById('quota_mensile').value = palestraData.quota_mensile || '';
                 document.getElementById('giorni_preavviso').value = palestraData.giorni_preavviso || 7;
             }
         } catch (error) {
             console.error('Errore:', error);
-            showToast('❌ Errore di caricamento dati');
+            showToast('Errore di caricamento dati');
         } finally {
             document.getElementById('loadingOverlay').classList.add('hidden');
         }
@@ -486,23 +475,76 @@
         }
     }
 
-    function handleLogoUpload(event) {
+    function comprimiLogo(file, maxWidth = 400, maxHeight = 400, quality = 0.7) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Calcola le nuove dimensioni mantenendo le proporzioni
+                    if (width > maxWidth || height > maxHeight) {
+                        const ratio = Math.min(maxWidth / width, maxHeight / height);
+                        width = width * ratio;
+                        height = height * ratio;
+                    }
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Sfondo bianco trasparente per PNG con trasparenze
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve({
+                        base64: dataUrl,
+                        width: Math.round(width),
+                        height: Math.round(height),
+                        sizeKB: Math.round((dataUrl.length * 0.75) / 1024)
+                    });
+                };
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function handleLogoUpload(event) {
         const file = event.target.files[0];
         if (!file) return;
         
-        if (file.size > 2 * 1024 * 1024) {
-            showToast('❌ Il file supera i 2MB');
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Il file supera i 5MB');
             return;
         }
         
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64 = e.target.result;
-            document.getElementById('logoPreview').innerHTML = `<img src="${base64}" alt="Logo">`;
-            document.getElementById('logoBase64').value = base64;
-            showToast('✅ Logo caricato');
-        };
-        reader.readAsDataURL(file);
+        const previewDiv = document.getElementById('logoPreview');
+        previewDiv.innerHTML = '<span class="logo-preview-placeholder">Compressione in corso...</span>';
+        
+        try {
+            const result = await comprimiLogo(file, 400, 400, 0.7);
+            
+            document.getElementById('logoPreview').innerHTML = `<img src="${result.base64}" alt="Logo">`;
+            document.getElementById('logoBase64').value = result.base64;
+            
+            const infoDiv = document.getElementById('logoInfo');
+            infoDiv.textContent = `Logo compresso: ${result.width}x${result.height}px - ~${result.sizeKB} KB (originale: ${Math.round(file.size / 1024)} KB)`;
+            infoDiv.classList.add('show');
+            
+            showToast('Logo caricato e compresso');
+        } catch (error) {
+            console.error('Errore compressione:', error);
+            showToast('Errore nella compressione del logo');
+            document.getElementById('logoPreview').innerHTML = '<span class="logo-preview-placeholder">Errore caricamento</span>';
+        }
     }
 
     function rimuoviLogo() {
@@ -510,6 +552,7 @@
         document.getElementById('logoPreview').innerHTML = '<span class="logo-preview-placeholder">Nessun logo caricato</span>';
         document.getElementById('logoBase64').value = '';
         document.getElementById('logoFile').value = '';
+        document.getElementById('logoInfo').classList.remove('show');
         showToast('Logo rimosso');
     }
 
@@ -519,7 +562,6 @@
         btn.disabled = true;
         btn.textContent = 'Salvataggio in corso...';
 
-        // Costruisci oggetto metodi pagamento
         const metodi_pagamento = {};
         ['paypal', 'stripe', 'bonifico', 'satispay', 'contanti', 'pos'].forEach(metodo => {
             const attivo = document.getElementById(`toggle-${metodo}`).checked;
@@ -548,7 +590,6 @@
         });
 
         const data = {
-            // DATI GENERALI
             nome: document.getElementById('nome').value.trim(),
             indirizzo: document.getElementById('indirizzo').value.trim(),
             cap: document.getElementById('cap').value.trim(),
@@ -557,26 +598,21 @@
             telefono: document.getElementById('telefono').value.trim(),
             cellulare: document.getElementById('cellulare').value.trim(),
             email: document.getElementById('email').value.trim(),
-            sito_web: document.getElementById('sito_web').value.trim(),
+            sito: document.getElementById('sito').value.trim(),
             
-            // DATI FISCALI
             ragione_sociale: document.getElementById('ragione_sociale').value.trim(),
-            partita_iva: document.getElementById('partita_iva').value.trim(),
+            piva: document.getElementById('piva').value.trim(),
             codice_fiscale: document.getElementById('codice_fiscale').value.trim(),
             codice_sdi: document.getElementById('codice_sdi').value.trim(),
             pec: document.getElementById('pec').value.trim(),
             
-            // LOGO
             logo_base64: document.getElementById('logoBase64').value,
             
-            // METODI PAGAMENTO
-            metodi_pagamento: metodi_pagamento,
+            metodi_pagamento: JSON.stringify(metodi_pagamento),
             
-            // QUOTA MENSILE
             quota_mensile: parseFloat(document.getElementById('quota_mensile').value) || 0,
             giorni_preavviso: parseInt(document.getElementById('giorni_preavviso').value) || 7,
             
-            // Mantieni i dati originali
             stato: palestraData.stato,
             data_scadenza: palestraData.data_scadenza,
             username: palestraData.username,
@@ -594,17 +630,17 @@
             const result = await res.json();
             
             if (res.ok && result.success !== false) {
-                showToast('✅ Impostazioni salvate con successo!');
+                showToast('Impostazioni salvate con successo!');
                 palestraData = { ...palestraData, ...data };
             } else {
-                showToast('❌ Errore durante il salvataggio: ' + (result.error || 'sconosciuto'));
+                showToast('Errore durante il salvataggio: ' + (result.error || 'sconosciuto'));
             }
         } catch (error) {
             console.error('Errore:', error);
-            showToast('❌ Errore di connessione');
+            showToast('Errore di connessione');
         } finally {
             btn.disabled = false;
-            btn.textContent = '💾 Salva Impostazioni';
+            btn.textContent = 'Salva Impostazioni';
         }
     }
 

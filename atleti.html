@@ -557,6 +557,37 @@
         document.getElementById('modalVisualizzaAtleta').classList.add('active');
     }
 
+    // ============================================
+    // AGGIUNTO: FUNZIONE CENTRALE PER INTESTAZIONE PDF
+    // Legge logo, nome, indirizzo, telefono, P.IVA dalla palestra
+    // ============================================
+    function costruisciIntestazionePDF() {
+        const p = palestraData;
+        if (!p) return '<div style="text-align:center; margin-bottom:20px;"><h1>Palestra</h1></div>';
+        
+        const logoSrc = p.logo_base64 || p.logo_url || '';
+        const logoHTML = logoSrc ? `<img src="${logoSrc}" style="max-height: 60px; max-width: 120px; object-fit: contain; margin-bottom: 10px;"><br>` : '';
+        
+        const indirizzoCompleto = [p.indirizzo, p.cap, p.citta, p.provincia ? `(${p.provincia})` : ''].filter(x => x).join(' ');
+        const pIVA = p.partita_iva ? `<p style="color: #7A716A; margin: 5px 0; font-size: 12px;">P.IVA: ${p.partita_iva}</p>` : '';
+        const codFisc = p.codice_fiscale ? `<p style="color: #7A716A; margin: 5px 0; font-size: 12px;">C.F.: ${p.codice_fiscale}</p>` : '';
+        const ragSoc = p.ragione_sociale && p.ragione_sociale !== p.nome ? `<p style="color: #7A716A; margin: 5px 0; font-size: 13px;">${p.ragione_sociale}</p>` : '';
+        const sitoWeb = p.sito_web ? `<p style="color: #7A716A; margin: 5px 0; font-size: 12px;">${p.sito_web}</p>` : '';
+        
+        return `
+            <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #9C928A; padding-bottom: 20px;">
+                ${logoHTML}
+                <h1 style="color: #1A1A1A; margin-bottom: 10px; font-size: 26px;">${p.nome || 'Palestra'}</h1>
+                ${ragSoc}
+                <p style="color: #7A716A; margin: 5px 0; font-size: 13px;">${indirizzoCompleto || 'Indirizzo non disponibile'}</p>
+                <p style="color: #7A716A; margin: 5px 0; font-size: 13px;">Tel: ${p.telefono || p.cellulare || 'N/D'}${p.email ? ` - Email: ${p.email}` : ''}</p>
+                ${pIVA}
+                ${codFisc}
+                ${sitoWeb}
+            </div>
+        `;
+    }
+
     function apriRicevute(id) {
         const a = atleti.find(x => x.id === id);
         if (!a) return;
@@ -582,12 +613,15 @@
         const numeroRicevuta = (a.ricevute?.length || 0) + 1;
         document.getElementById('ricevutaNumero').textContent = `N. ${String(numeroRicevuta).padStart(4, '0')}/${oggi.getFullYear()}`;
         
+        // MODIFICA: usa quota_mensile dalla palestra come default
+        const quotaDefault = palestraData.quota_mensile || '15.00';
+        
         // Reset form
         document.getElementById('formRicevuta').reset();
         document.getElementById('ricevutaData').value = oggi.toISOString().split('T')[0];
         document.getElementById('ricevutaMese').value = oggi.toISOString().substring(0, 7);
-        document.getElementById('ricevutaImporto').value = '15.00';
-        document.getElementById('ricevutaTotale').textContent = '15,00 EUR';
+        document.getElementById('ricevutaImporto').value = quotaDefault;
+        document.getElementById('ricevutaTotale').textContent = parseFloat(quotaDefault).toFixed(2).replace('.', ',') + ' EUR';
         
         // Mostra cronologia
         const ricevute = a.ricevute || [];
@@ -629,6 +663,7 @@
         if (!a) return;
         
         const nuovaRicevuta = {
+            numero: (a.ricevute?.length || 0) + 1,
             mese: document.getElementById('ricevutaMese').value,
             data: document.getElementById('ricevutaData').value,
             importo: parseFloat(document.getElementById('ricevutaImporto').value).toFixed(2),
@@ -673,6 +708,7 @@
         if (!a) return;
         
         const ricevutaTemp = {
+            numero: (a.ricevute?.length || 0) + 1,
             mese: document.getElementById('ricevutaMese').value,
             data: document.getElementById('ricevutaData').value,
             importo: parseFloat(document.getElementById('ricevutaImporto').value).toFixed(2),
@@ -683,26 +719,26 @@
         generaPDFRicevuta(a, ricevutaTemp);
     }
 
+    // MODIFICA: usa costruisciIntestazionePDF() per logo + dati completi palestra
     function generaPDFRicevuta(atleta, ricevuta) {
+        const intestazione = costruisciIntestazionePDF();
+        const indirizzoCliente = [atleta.indirizzo, atleta.cap, atleta.citta].filter(x => x).join(' ');
+        
         const printContent = `
             <div style="padding: 40px; font-family: 'Courier New', monospace; max-width: 600px; margin: 0 auto;">
-                <div style="text-align: center; margin-bottom: 30px; border: 2px dashed #9C928A; padding: 20px;">
-                    <h1 style="color: #1A1A1A; margin-bottom: 10px; font-size: 24px;">${palestraData.nome || 'PALESTRA'}</h1>
-                    <p style="color: #7A716A; margin: 5px 0; font-size: 12px;">${palestraData.indirizzo || ''} ${palestraData.cap || ''} ${palestraData.citta || ''}</p>
-                    <p style="color: #7A716A; margin: 5px 0; font-size: 12px;">Tel: ${palestraData.telefono || 'N/D'} - Email: ${palestraData.email || 'N/D'}</p>
-                    <p style="color: #7A716A; margin: 5px 0; font-size: 12px;">P.IVA: ${palestraData.p_iva || 'N/D'}</p>
-                </div>
+                ${intestazione}
                 
                 <div style="text-align: right; margin-bottom: 20px;">
-                    <p style="font-size: 14px;"><strong>RICEVUTA N.</strong> ${String((atleta.ricevute?.length || 0) + 1).padStart(4, '0')}/${new Date().getFullYear()}</p>
+                    <p style="font-size: 14px;"><strong>RICEVUTA N.</strong> ${String(ricevuta.numero || 1).padStart(4, '0')}/${new Date().getFullYear()}</p>
                     <p style="font-size: 12px;">Data: ${new Date(ricevuta.data).toLocaleDateString('it-IT')}</p>
                 </div>
                 
                 <div style="border: 1px solid #9C928A; padding: 15px; margin-bottom: 20px;">
                     <h3 style="margin-bottom: 10px; border-bottom: 1px solid #9C928A; padding-bottom: 5px;">DATI CLIENTE</h3>
                     <p><strong>Nome:</strong> ${atleta.nome} ${atleta.cognome || ''}</p>
-                    <p><strong>Indirizzo:</strong> ${atleta.indirizzo || 'N/D'}, ${atleta.cap || ''} ${atleta.citta || ''}</p>
+                    <p><strong>Indirizzo:</strong> ${indirizzoCliente || 'N/D'}</p>
                     <p><strong>ID Cliente:</strong> ${atleta.username || 'N/D'}</p>
+                    <p><strong>Telefono:</strong> ${atleta.telefono || 'N/D'}</p>
                 </div>
                 
                 <div style="border: 1px solid #9C928A; padding: 15px; margin-bottom: 20px;">
@@ -737,27 +773,28 @@
         setTimeout(() => { document.getElementById('printArea').style.display = 'none'; }, 1000);
     }
 
+    // MODIFICA: usa costruisciIntestazionePDF() per logo + dati completi palestra
     function stampaCronologiaCompleta() {
         const a = atleti.find(x => x.id === currentRicevutaAtletaId);
         if (!a) return;
         const ricevute = a.ricevute || [];
+        const intestazione = costruisciIntestazionePDF();
+        const indirizzoCliente = [a.indirizzo, a.cap, a.citta].filter(x => x).join(' ');
         
         const printContent = `
             <div style="padding: 40px; font-family: Arial, sans-serif;">
-                <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #9C928A; padding-bottom: 20px;">
-                    <h1 style="color: #1A1A1A; margin-bottom: 10px;">${palestraData.nome || 'Palestra'}</h1>
-                    <p style="color: #7A716A; margin: 5px 0;">${palestraData.indirizzo || ''} ${palestraData.cap || ''} ${palestraData.citta || ''}</p>
-                    <p style="color: #7A716A; margin: 5px 0;">Tel: ${palestraData.telefono || 'N/D'} - Email: ${palestraData.email || 'N/D'}</p>
-                </div>
+                ${intestazione}
                 <h2 style="color: #9C928A; margin-bottom: 20px;">Cronologia Completa Pagamenti</h2>
-                <div style="margin-bottom: 20px;">
+                <div style="margin-bottom: 20px; background: #F5F2EF; padding: 15px; border-radius: 8px;">
                     <p><strong>Cliente:</strong> ${a.nome} ${a.cognome || ''}</p>
                     <p><strong>ID Atleta:</strong> ${a.username || 'N/D'}</p>
-                    <p><strong>Indirizzo:</strong> ${a.indirizzo || 'N/D'}, ${a.cap || ''} ${a.citta || ''}</p>
+                    <p><strong>Indirizzo:</strong> ${indirizzoCliente || 'N/D'}</p>
+                    <p><strong>Telefono:</strong> ${a.telefono || 'N/D'}</p>
                 </div>
                 <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                     <thead>
                         <tr style="background: #9C928A; color: white;">
+                            <th style="padding: 10px; text-align: left;">N.</th>
                             <th style="padding: 10px; text-align: left;">Mese</th>
                             <th style="padding: 10px; text-align: left;">Data</th>
                             <th style="padding: 10px; text-align: left;">Metodo</th>
@@ -767,6 +804,7 @@
                     <tbody>
                         ${ricevute.sort((x, y) => new Date(y.data) - new Date(x.data)).map(r => `
                             <tr style="border-bottom: 1px solid #E8E3DE;">
+                                <td style="padding: 10px;">${String(r.numero || 0).padStart(4, '0')}</td>
                                 <td style="padding: 10px;">${r.mese}</td>
                                 <td style="padding: 10px;">${new Date(r.data).toLocaleDateString('it-IT')}</td>
                                 <td style="padding: 10px;">${r.metodo || 'N/D'}</td>
@@ -774,7 +812,7 @@
                             </tr>
                         `).join('')}
                         <tr style="background: #F5F2EF; font-weight: bold;">
-                            <td colspan="3" style="padding: 10px; text-align: right;">TOTALE:</td>
+                            <td colspan="4" style="padding: 10px; text-align: right;">TOTALE:</td>
                             <td style="padding: 10px; text-align: right;">${ricevute.reduce((sum, r) => sum + parseFloat(r.importo || 15), 0).toFixed(2).replace('.', ',')} EUR</td>
                         </tr>
                     </tbody>

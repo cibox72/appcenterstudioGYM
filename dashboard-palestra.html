@@ -20,6 +20,7 @@
             --rosso-chiaro: #FADBD8;
             --blu: #3498DB;
             --whatsapp: #25D366;
+            --viola: #8E44AD;
             --ombra: 0 2px 12px rgba(156, 146, 138, 0.15);
             --ombra-forte: 0 4px 20px rgba(156, 146, 138, 0.25);
             --radius: 12px;
@@ -39,12 +40,38 @@
             color: var(--bianco);
             padding: 20px 30px;
             box-shadow: var(--ombra-forte);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .main-header h1 {
             font-size: 24px;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
+        .header-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav-btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: 1.5px solid transparent;
+            background: rgba(255,255,255,0.2);
+            color: var(--bianco);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.3); }
+        .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
+        .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
         
         /* TAB PRINCIPALI - GRANDI E VISIBILI */
         .main-tabs-container {
@@ -90,12 +117,8 @@
             border-color: var(--tortora-scuro);
             box-shadow: var(--ombra-forte);
         }
-        .main-tab .tab-icon {
-            font-size: 24px;
-        }
-        .main-tab .tab-text {
-            font-size: 18px;
-        }
+        .main-tab .tab-icon { font-size: 24px; }
+        .main-tab .tab-text { font-size: 18px; }
         
         /* CONTENUTO */
         .container {
@@ -109,6 +132,11 @@
         /* SEZIONE ATLETI */
         .section-header {
             margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .section-header h2 {
             font-size: 28px;
@@ -142,7 +170,6 @@
             color: var(--nero);
         }
         .search-box input::placeholder { color: var(--tortora); }
-        .search-icon { font-size: 20px; color: var(--tortora); }
         
         /* CARD ATLETI */
         .atleti-grid {
@@ -184,9 +211,7 @@
             margin-bottom: 15px;
             padding-right: 80px;
         }
-        .atleta-info {
-            margin-bottom: 20px;
-        }
+        .atleta-info { margin-bottom: 20px; }
         .atleta-info .info-row {
             display: flex;
             align-items: center;
@@ -199,13 +224,8 @@
             color: var(--nero);
             min-width: 100px;
         }
-        .atleta-info .info-value {
-            color: var(--tortora-scuro);
-        }
-        .atleta-info .info-value a {
-            color: var(--blu);
-            text-decoration: none;
-        }
+        .atleta-info .info-value { color: var(--tortora-scuro); }
+        .atleta-info .info-value a { color: var(--blu); text-decoration: none; }
         .atleta-info .info-value a:hover { text-decoration: underline; }
         
         /* STATUS BADGE */
@@ -219,21 +239,9 @@
             letter-spacing: 0.5px;
             margin-bottom: 15px;
         }
-        .status-scaduto {
-            background: var(--rosso-chiaro);
-            color: #922B21;
-            border: 2px solid var(--rosso);
-        }
-        .status-attivo {
-            background: var(--verde-chiaro);
-            color: #1E8449;
-            border: 2px solid var(--verde);
-        }
-        .status-scadenza {
-            background: var(--arancione-chiaro);
-            color: #9C640C;
-            border: 2px solid var(--arancione);
-        }
+        .status-scaduto { background: var(--rosso-chiaro); color: #922B21; border: 2px solid var(--rosso); }
+        .status-attivo { background: var(--verde-chiaro); color: #1E8449; border: 2px solid var(--verde); }
+        .status-scadenza { background: var(--arancione-chiaro); color: #9C640C; border: 2px solid var(--arancione); }
         
         /* AZIONI CARD */
         .card-actions {
@@ -257,32 +265,18 @@
             transition: all 0.2s;
             font-family: inherit;
         }
-        .btn-whatsapp {
-            background: var(--whatsapp);
-            color: var(--bianco);
-        }
+        .btn-whatsapp { background: var(--whatsapp); color: var(--bianco); }
         .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
-        .btn-ricevute {
-            background: var(--blu);
-            color: var(--bianco);
-        }
+        .btn-ricevute { background: var(--blu); color: var(--bianco); }
         .btn-ricevute:hover { background: #2980B9; }
-        .btn-modifica {
-            background: var(--bianco);
-            color: var(--nero);
-            border: 2px solid var(--nero);
-        }
+        .btn-modifica { background: var(--bianco); color: var(--nero); border: 2px solid var(--nero); }
         .btn-modifica:hover { background: var(--nero); color: var(--bianco); }
-        .btn-elimina {
-            background: var(--rosso);
-            color: var(--bianco);
-        }
+        .btn-elimina { background: var(--rosso); color: var(--bianco); }
         .btn-elimina:hover { background: #C0392B; }
-        .btn-scheda {
-            background: var(--viola, #8E44AD);
-            color: var(--bianco);
-        }
+        .btn-scheda { background: var(--viola); color: var(--bianco); }
         .btn-scheda:hover { background: #6C3483; }
+        .btn-primary { background: var(--tortora); color: var(--bianco); }
+        .btn-primary:hover { background: var(--nero); }
         
         /* EMPTY STATE */
         .empty-state {
@@ -296,6 +290,48 @@
         .empty-state .icon { font-size: 64px; margin-bottom: 15px; }
         .empty-state .title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--nero); }
         .empty-state .text { font-size: 14px; }
+        
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bianco);
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tortora-chiaro);
+        }
+        .modal-header h3 { font-size: 18px; }
+        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--tortora); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 5px; text-transform: uppercase; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
+        .credential-box { background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); padding: 15px; margin-top: 15px; }
+        .credential-box h4 { color: #1E8449; margin-bottom: 10px; font-size: 14px; }
+        .credential-box .cred-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+        .credential-box .cred-label { font-weight: 600; color: var(--tortora-scuro); }
+        .credential-box .cred-value { font-family: monospace; background: var(--bianco); padding: 2px 8px; border-radius: 4px; }
         
         /* TOAST */
         .toast {
@@ -322,6 +358,7 @@
             .atleti-grid { grid-template-columns: 1fr; }
             .container { padding: 0 15px; }
             .main-tabs-container { padding: 0 15px; }
+            .form-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -330,6 +367,10 @@
     <!-- HEADER -->
     <div class="main-header">
         <h1>AppCenterStudioGYM - Gestione Palestra</h1>
+        <div class="header-nav">
+            <a href="schede-allenamenti.html" class="nav-btn">Schede</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
+        </div>
     </div>
 
     <!-- TAB PRINCIPALI GRANDI E VISIBILI -->
@@ -350,17 +391,22 @@
         <!-- TAB ATLETI -->
         <div class="tab-content active" id="tab-atleti">
             <div class="section-header">
-                <h2>I Tuoi Atleti</h2>
-                <p>Gestisci anagrafiche, abbonamenti, pagamenti e credenziali</p>
+                <div>
+                    <h2>I Tuoi Atleti</h2>
+                    <p>Gestisci anagrafiche, abbonamenti, pagamenti e credenziali</p>
+                </div>
+                <button class="btn btn-primary" onclick="apriModalNuovoAtleta()">+ Nuovo Atleta</button>
             </div>
 
             <div class="search-box">
-                <span class="search-icon">🔍</span>
                 <input type="text" id="searchInput" placeholder="Cerca atleta per nome, cognome o ID..." oninput="filtraAtleti()">
             </div>
 
             <div class="atleti-grid" id="atletiGrid">
-                <!-- Caricati dinamicamente -->
+                <div class="empty-state" style="grid-column: 1/-1;">
+                    <div class="icon"></div>
+                    <div class="title">Caricamento atleti...</div>
+                </div>
             </div>
         </div>
 
@@ -378,41 +424,105 @@
         </div>
     </div>
 
+    <!-- MODAL NUOVO ATLETA -->
+    <div class="modal-overlay" id="modalNuovoAtleta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Nuovo Atleta</h3>
+                <button class="modal-close" onclick="chiudiModal('modalNuovoAtleta')">&times;</button>
+            </div>
+            <form id="formNuovoAtleta" onsubmit="creaAtleta(event)">
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <input type="text" id="atletaNome" required placeholder="Es. Mario Rossi">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="atletaEmail" placeholder="Es. mario@email.it">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="text" id="atletaTelefono" placeholder="Es. 3331234567">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data di Nascita</label>
+                        <input type="date" id="atletaNascita">
+                    </div>
+                    <div class="form-group">
+                        <label>Obiettivo</label>
+                        <select id="atletaObiettivo">
+                            <option value="Mantenimento">Mantenimento</option>
+                            <option value="Dimagrimento">Dimagrimento</option>
+                            <option value="Massa">Massa</option>
+                            <option value="Definizione">Definizione</option>
+                            <option value="Performance">Performance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Peso (kg)</label>
+                        <input type="number" id="atletaPeso" placeholder="Es. 75">
+                    </div>
+                    <div class="form-group">
+                        <label>Altezza (cm)</label>
+                        <input type="number" id="atletaAltezza" placeholder="Es. 180">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-modifica" onclick="chiudiModal('modalNuovoAtleta')">Annulla</button>
+                    <button type="submit" class="btn btn-primary">Crea Atleta</button>
+                </div>
+            </form>
+            <div id="credentialBox" style="display: none;"></div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
     let atleti = [];
     let palestraData = null;
-
-    // Dati demo (in produzione arrivano dal database)
-    const atletiDemo = [
-        {
-            id: 1,
-            nome: 'Marco Bianchi',
-            telefono: '3244445567',
-            email: 'marco@test',
-            obiettivo: 'Mantenimento',
-            dataScadenza: '1970-01-01',
-            username: '4M275',
-            stato: 'scaduto'
-        },
-        {
-            id: 2,
-            nome: 'Marco Bianchi',
-            telefono: '3244445567',
-            email: 'marco@test',
-            obiettivo: 'Mantenimento',
-            dataScadenza: '1970-01-01',
-            username: '4M346',
-            stato: 'scaduto'
-        }
-    ];
+    let currentUser = null;
 
     function init() {
-        // In produzione: carica da API
-        atleti = atletiDemo;
-        renderAtleti();
+        const userStr = localStorage.getItem('currentUser');
+        if (!userStr) { window.location.href = 'index.html'; return; }
+        currentUser = JSON.parse(userStr);
+        caricaDati();
+    }
+
+    async function caricaDati() {
+        try {
+            // Carica palestre per trovare i dati della palestra corrente
+            const resPalestre = await fetch(`${API_URL}/api/palestre`);
+            const palestre = await resPalestre.json();
+            palestraData = palestre.find(p => p.username === currentUser.id_univoco || p.id === currentUser.riferimento_id);
+            
+            if (!palestraData) {
+                showToast('Palestra non trovata');
+                return;
+            }
+            
+            // Carica atleti della palestra
+            const resAtleti = await fetch(`${API_URL}/api/atleti?palestra_id=${palestraData.id}`);
+            atleti = await resAtleti.json();
+            
+            renderAtleti();
+        } catch (error) {
+            console.error('Errore caricamento:', error);
+            document.getElementById('atletiGrid').innerHTML = `
+                <div class="empty-state" style="grid-column: 1/-1;">
+                    <div class="icon">⚠️</div>
+                    <div class="title">Errore di caricamento</div>
+                    <div class="text">Impossibile connettersi al server. Riprova più tardi.</div>
+                </div>
+            `;
+        }
     }
 
     function showMainTab(tabName) {
@@ -428,9 +538,9 @@
         if (lista.length === 0) {
             grid.innerHTML = `
                 <div class="empty-state" style="grid-column: 1/-1;">
-                    <div class="icon"></div>
+                    <div class="icon">👥</div>
                     <div class="title">Nessun atleta trovato</div>
-                    <div class="text">Aggiungi il tuo primo atleta per iniziare</div>
+                    <div class="text">Clicca "+ Nuovo Atleta" per aggiungere il primo cliente</div>
                 </div>
             `;
             return;
@@ -438,7 +548,7 @@
 
         let html = '';
         lista.forEach(atleta => {
-            const giorniScadenza = calcolaGiorniScadenza(atleta.dataScadenza);
+            const giorniScadenza = calcolaGiorniScadenza(atleta.data_scadenza || atleta.dataScadenza);
             let statusClass = 'status-attivo';
             let statusText = 'Attivo';
             
@@ -450,53 +560,46 @@
                 statusText = `Scade tra ${giorniScadenza}GG`;
             }
 
-            // Formatta numero per WhatsApp (aggiungi prefisso Italia se manca)
-            let numeroWhatsapp = atleta.telefono.replace(/\D/g, '');
+            // Formatta numero per WhatsApp
+            let numeroWhatsapp = (atleta.telefono || '').replace(/\D/g, '');
             if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) {
                 numeroWhatsapp = '39' + numeroWhatsapp;
             }
             const linkWhatsapp = `https://wa.me/${numeroWhatsapp}`;
-            const messaggio = encodeURIComponent(`Ciao ${atleta.nome.split(' ')[0]}! Ti contattiamo dalla palestra.`);
+            const messaggio = encodeURIComponent(`Ciao ${atleta.nome ? atleta.nome.split(' ')[0] : ''}! Ti contattiamo dalla palestra.`);
 
             html += `
                 <div class="atleta-card">
-                    <div class="atleta-id">${atleta.username}</div>
-                    <div class="atleta-nome">${atleta.nome}</div>
+                    <div class="atleta-id">${atleta.username || '-'}</div>
+                    <div class="atleta-nome">${atleta.nome || 'Senza nome'}</div>
                     
                     <div class="atleta-info">
                         <div class="info-row">
                             <span class="info-label">Tel:</span>
-                            <span class="info-value"><a href="tel:${atleta.telefono}">${atleta.telefono}</a></span>
+                            <span class="info-value">${atleta.telefono ? `<a href="tel:${atleta.telefono}">${atleta.telefono}</a>` : 'N/D'}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Email:</span>
-                            <span class="info-value"><a href="mailto:${atleta.email}">${atleta.email}</a></span>
+                            <span class="info-value">${atleta.email ? `<a href="mailto:${atleta.email}">${atleta.email}</a>` : 'N/D'}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Obiettivo:</span>
-                            <span class="info-value">${atleta.obiettivo}</span>
+                            <span class="info-value">${atleta.obiettivo || 'N/D'}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Scadenza:</span>
-                            <span class="info-value">${formatData(atleta.dataScadenza)}</span>
+                            <span class="info-value">${atleta.data_scadenza || atleta.dataScadenza ? formatData(atleta.data_scadenza || atleta.dataScadenza) : 'N/D'}</span>
                         </div>
                     </div>
 
                     <span class="status-badge ${statusClass}">${statusText}</span>
 
                     <div class="card-actions">
-                        <a href="${linkWhatsapp}?text=${messaggio}" target="_blank" class="btn btn-whatsapp">
-                             WhatsApp
-                        </a>
-                        <button class="btn btn-ricevute" onclick="apriRicevute(${atleta.id})">
-                            Ricevute
-                        </button>
-                        <button class="btn btn-modifica" onclick="modificaAtleta(${atleta.id})">
-                            Modifica
-                        </button>
-                        <button class="btn btn-elimina" onclick="eliminaAtleta(${atleta.id})">
-                            Elimina
-                        </button>
+                        ${numeroWhatsapp ? `<a href="${linkWhatsapp}?text=${messaggio}" target="_blank" class="btn btn-whatsapp">WhatsApp</a>` : ''}
+                        <a href="schede-allenamenti.html?atleta_id=${atleta.id}" class="btn btn-scheda">Scheda</a>
+                        <button class="btn btn-ricevute" onclick="apriRicevute(${atleta.id})">Ricevute</button>
+                        <button class="btn btn-modifica" onclick="modificaAtleta(${atleta.id})">Modifica</button>
+                        <button class="btn btn-elimina" onclick="eliminaAtleta(${atleta.id})">Elimina</button>
                     </div>
                 </div>
             `;
@@ -506,6 +609,7 @@
     }
 
     function calcolaGiorniScadenza(dataScadenza) {
+        if (!dataScadenza) return -999;
         const oggi = new Date();
         const scadenza = new Date(dataScadenza);
         return Math.ceil((scadenza - oggi) / (1000 * 60 * 60 * 24));
@@ -524,33 +628,94 @@
             return;
         }
         const filtrati = atleti.filter(a => 
-            a.nome.toLowerCase().includes(query) || 
-            a.username.toLowerCase().includes(query) ||
-            a.email.toLowerCase().includes(query)
+            (a.nome && a.nome.toLowerCase().includes(query)) || 
+            (a.username && a.username.toLowerCase().includes(query)) ||
+            (a.email && a.email.toLowerCase().includes(query))
         );
         renderAtleti(filtrati);
     }
 
+    function apriModalNuovoAtleta() {
+        document.getElementById('formNuovoAtleta').reset();
+        document.getElementById('credentialBox').style.display = 'none';
+        document.getElementById('modalNuovoAtleta').classList.add('active');
+    }
+
+    async function creaAtleta(e) {
+        e.preventDefault();
+        const data = {
+            palestra_id: palestraData.id,
+            nome: document.getElementById('atletaNome').value.trim(),
+            email: document.getElementById('atletaEmail').value.trim(),
+            telefono: document.getElementById('atletaTelefono').value.trim(),
+            data_nascita: document.getElementById('atletaNascita').value,
+            obiettivo: document.getElementById('atletaObiettivo').value,
+            peso: document.getElementById('atletaPeso').value,
+            altezza: document.getElementById('atletaAltezza').value
+        };
+        
+        try {
+            const res = await fetch(`${API_URL}/api/atleti`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            
+            if (result.success) {
+                const credBox = document.getElementById('credentialBox');
+                credBox.style.display = 'block';
+                credBox.innerHTML = `
+                    <div class="credential-box">
+                        <h4>Atleta creato con successo</h4>
+                        <div class="cred-row"><span class="cred-label">ID Univoco:</span><span class="cred-value">${result.id_univoco}</span></div>
+                        <div class="cred-row"><span class="cred-label">Password:</span><span class="cred-value">${result.password}</span></div>
+                        <p style="font-size: 12px; color: #1E8449; margin-top: 10px;">Comunica queste credenziali all'atleta per l'accesso.</p>
+                    </div>
+                `;
+                showToast('Atleta creato');
+                await caricaDati();
+            } else {
+                showToast('Errore: ' + (result.message || 'sconosciuto'));
+            }
+        } catch (error) {
+            showToast('Errore di connessione');
+        }
+    }
+
     function apriRicevute(id) {
-        showToast('📄 Sezione ricevute in sviluppo');
+        showToast('Sezione ricevute in sviluppo');
     }
 
     function modificaAtleta(id) {
-        showToast('✏️ Modifica atleta in sviluppo');
+        showToast('Modifica atleta in sviluppo');
     }
 
-    function eliminaAtleta(id) {
-        if (!confirm('Sei sicuro di voler eliminare questo atleta?')) return;
-        atleti = atleti.filter(a => a.id !== id);
-        renderAtleti();
-        showToast('Atleta eliminato');
+    async function eliminaAtleta(id) {
+        if (!confirm('Sei sicuro di voler eliminare questo atleta? L\'operazione è irreversibile.')) return;
+        try {
+            await fetch(`${API_URL}/api/atleti/${id}`, { method: 'DELETE' });
+            await caricaDati();
+            showToast('Atleta eliminato');
+        } catch (error) {
+            showToast('Errore di connessione');
+        }
     }
 
+    function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }
+    
     function showToast(msg) {
         const toast = document.getElementById('toast');
         toast.textContent = msg;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    function esci() {
+        if (confirm('Uscire dalla dashboard?')) {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
     }
 
     init();

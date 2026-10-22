@@ -84,57 +84,6 @@
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
         .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-        .switch-pro {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 26px;
-            vertical-align: middle;
-        }
-        .switch-pro input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .switch-pro .slider {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background: #cbd5e1;
-            border-radius: 999px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .switch-pro .slider::before {
-            content: "";
-            position: absolute;
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            top: 3px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .switch-pro input:checked + .slider {
-            background: var(--verde);
-        }
-        .switch-pro input:checked + .slider::before {
-            transform: translateX(22px);
-        }
-        .switch-pro input:disabled + .slider {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .toggle-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--tortora-scuro);
-            margin-right: 6px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
         
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
@@ -298,6 +247,33 @@
                 </div>
             </form>
             <div id="credentialBox" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- NUOVO MODALE PER MODIFICA SCADENZA -->
+    <div class="modal-overlay" id="modalModificaScadenza">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Modifica Scadenza Abbonamento</h3>
+                <button class="modal-close" onclick="chiudiModal('modalModificaScadenza')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Palestra</label>
+                <input type="text" id="scadenzaPalestraNome" readonly style="background: var(--tortora-chiarissimo);">
+            </div>
+            <div class="form-group">
+                <label>Scadenza Attuale</label>
+                <input type="text" id="scadenzaAttuale" readonly style="background: var(--tortora-chiarissimo);">
+            </div>
+            <div class="form-group">
+                <label>Nuova Data di Scadenza *</label>
+                <input type="date" id="nuovaDataScadenza" required>
+                <small style="color: var(--tortora); font-size: 11px; margin-top: 4px; display: block;">Imposta una data nel futuro per riattivare l'app, o nel passato per bloccarla.</small>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="chiudiModal('modalModificaScadenza')">Annulla</button>
+                <button type="button" class="btn-primary" onclick="confermaModificaScadenza()">Salva Nuova Scadenza</button>
+            </div>
         </div>
     </div>
 
@@ -478,6 +454,7 @@
     let editingExId = null, editingVidId = null, editingOffertaId = null, currentInvioOffertaId = null;
     let currentPalestraWhatsAppId = null;
     let currentWhatsAppNumber = WHATSAPP_NUMBER;
+    let palestraScadenzaId = null;
 
     const offerteDefault = [
         {
@@ -563,10 +540,6 @@
             if (p.stato === 'scaduta') { statusClass = 'status-rosso'; dotClass = 'dot-rosso'; statusText = 'Scaduta'; }
             else if (p.stato === 'prova' && p.giorniRimanenti <= 30) { statusClass = 'status-arancione'; dotClass = 'dot-arancione'; statusText = 'In Scadenza'; }
             else if (p.stato === 'prova') { statusText = 'In Prova'; }
-            
-            const isChecked = p.stato === 'attiva' ? 'checked' : '';
-            const toggleLabel = p.stato === 'attiva' ? 'APP ATTIVA' : 'APP SPENTA';
-            const toggleColor = p.stato === 'attiva' ? 'var(--verde)' : 'var(--tortora-scuro)';
 
             html += `<div class="palestra-item">
                 <div class="palestra-info" style="flex: 1;">
@@ -578,13 +551,7 @@
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
                 <div class="palestra-actions" style="align-items: center;">
                     <a href="scheda-palestra.html?id=${p.id}" class="btn-info">Scheda</a>
-                    <div style="display: flex; align-items: center; gap: 6px; background: var(--tortora-chiarissimo); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--tortora-chiaro);">
-                        <span class="toggle-label" style="color: ${toggleColor}">${toggleLabel}</span>
-                        <label class="switch-pro">
-                            <input type="checkbox" ${isChecked} onchange="togglePalestra(${p.id})">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+                    <button class="btn-secondary" onclick="apriModalModificaScadenza(${p.id})">Modifica Scadenza</button>
                     <button class="btn-whatsapp" onclick="apriSelettoreOffertaWhatsApp(${p.id})">WhatsApp</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
@@ -629,13 +596,63 @@
         } catch (error) { showToast('Errore di connessione'); }
     }
 
-    async function togglePalestra(id) {
+    function apriModalModificaScadenza(id) {
+        palestraScadenzaId = id;
         const p = palestre.find(x => x.id === id);
-        const nuovoStato = p.stato === 'attiva' ? 'prova' : 'attiva';
-        const nuovaScadenza = nuovoStato === 'attiva' ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() : p.data_scadenza;
-        await fetch(`${API_URL}/api/palestre/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...p, stato: nuovoStato, data_scadenza: nuovaScadenza }) });
-        loadData();
-        showToast('Stato aggiornato');
+        if (!p) return;
+        
+        document.getElementById('scadenzaPalestraNome').value = p.nome;
+        document.getElementById('scadenzaAttuale').value = p.data_scadenza ? new Date(p.data_scadenza).toLocaleDateString('it-IT') : 'Non impostata';
+        
+        if (p.data_scadenza) {
+            const d = new Date(p.data_scadenza);
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            document.getElementById('nuovaDataScadenza').value = `${yyyy}-${mm}-${dd}`;
+        } else {
+            document.getElementById('nuovaDataScadenza').value = '';
+        }
+        
+        document.getElementById('modalModificaScadenza').classList.add('active');
+    }
+
+    async function confermaModificaScadenza() {
+        const nuovaData = document.getElementById('nuovaDataScadenza').value;
+        if (!nuovaData) {
+            showToast('Seleziona una data valida');
+            return;
+        }
+        
+        const p = palestre.find(x => x.id === palestraScadenzaId);
+        if (!p) return;
+
+        const oggi = new Date();
+        const scadenza = new Date(nuovaData);
+        scadenza.setHours(23, 59, 59, 999);
+        const nuovoStato = scadenza >= oggi ? 'attiva' : 'scaduta';
+
+        try {
+            const res = await fetch(`${API_URL}/api/palestre/${palestraScadenzaId}`, { 
+                method: 'PUT', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ 
+                    ...p, 
+                    data_scadenza: scadenza.toISOString(),
+                    stato: nuovoStato
+                }) 
+            });
+            const result = await res.json();
+            if (result.success !== false) {
+                showToast('Scadenza aggiornata con successo');
+                chiudiModal('modalModificaScadenza');
+                loadData();
+            } else {
+                showToast('Errore: ' + (result.message || 'sconosciuto'));
+            }
+        } catch (error) {
+            showToast('Errore di connessione');
+        }
     }
 
     async function eliminaPalestra(id) {

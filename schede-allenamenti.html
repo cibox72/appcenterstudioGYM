@@ -177,11 +177,22 @@
     let clienteSelezionato = null, giornoSelezionato = 0;
     let settimanaCorrente = 1;
 
-    function init() {
+    async function init() {
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
         currentUser = JSON.parse(userStr);
-        loadData();
+        await loadData();
+        
+        // MODIFICA: Se è stato passato un atleta_id nell'URL (es. cliccando "Allenamento" dalla card dell'atleta), selezionalo automaticamente
+        const urlParams = new URLSearchParams(window.location.search);
+        const atletaId = urlParams.get('atleta_id');
+        if (atletaId) {
+            const select = document.getElementById('clienteSelect');
+            if (select.querySelector(`option[value="${atletaId}"]`)) {
+                select.value = atletaId;
+                onClienteChange();
+            }
+        }
     }
 
     async function loadData() {

@@ -50,12 +50,15 @@
         .btn-primary { padding: 10px 18px; background: var(--tortora); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .btn-primary:hover { background: var(--nero); }
         .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-danger:hover { background: #C0392B; }
         .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-secondary:hover { background: var(--nero); color: var(--bianco); }
         .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+        .btn-info:hover { background: #2980B9; }
         .btn-view { padding: 8px 14px; background: var(--viola); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-view:hover { background: #6C3483; }
-        .btn-whatsapp { padding: 10px 18px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
+        .btn-whatsapp { padding: 8px 14px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-whatsapp:hover { background: #128C7E; }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
@@ -113,12 +116,14 @@
         .credential-box .cred-label { font-weight: 600; color: var(--tortora-scuro); }
         .credential-box .cred-value { font-family: monospace; background: var(--bianco); padding: 2px 8px; border-radius: 4px; }
         
-        .offerta-card { background: linear-gradient(135deg, var(--tortora-chiarissimo) 0%, var(--bianco) 100%); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
-        .offerta-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
-        .offerta-card h4 { color: var(--nero); margin-bottom: 12px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
-        .offerta-card .offerta-desc { font-size: 14px; color: var(--tortora-scuro); margin-bottom: 15px; line-height: 1.6; background: var(--bianco); padding: 15px; border-radius: var(--radius-sm); border-left: 4px solid var(--tortora); }
-        .offerta-card .offerta-messaggio { font-size: 13px; color: var(--blu); font-style: italic; margin-bottom: 15px; padding: 10px; background: rgba(52, 152, 219, 0.1); border-radius: var(--radius-sm); }
-        .offerta-card .offerta-link { font-size: 12px; color: var(--verde); font-weight: 600; word-break: break-all; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+        .offerta-card { background: var(--bianco); border: 2px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
+        .offerta-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); border-color: var(--tortora); }
+        .offerta-card .offerta-header { border-bottom: 2px solid var(--tortora-chiaro); padding-bottom: 12px; margin-bottom: 15px; }
+        .offerta-card .offerta-header h4 { font-size: 16px; font-weight: 700; color: var(--nero); margin-bottom: 6px; }
+        .offerta-card .offerta-prezzo { font-size: 22px; font-weight: 700; color: var(--verde); }
+        .offerta-card .offerta-desc { font-size: 13px; color: var(--tortora-scuro); line-height: 1.6; margin-bottom: 15px; }
+        .offerta-card .offerta-info-list { list-style: none; padding: 0; margin-bottom: 15px; }
+        .offerta-card .offerta-info-list li { font-size: 12px; color: var(--tortora-scuro); padding: 6px 0 6px 15px; border-left: 3px solid var(--tortora-chiaro); margin-bottom: 6px; }
         
         .empty-state { text-align: center; padding: 40px 20px; color: var(--tortora); }
         .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
@@ -200,10 +205,11 @@
 
         <div id="tab-offerte" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">Invio Offerte Predefinite</h3>
+                <h3 class="section-title">Invio Offerte</h3>
+                <button class="btn-primary" onclick="apriModalOfferta()">+ Nuova Offerta</button>
             </div>
-            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Seleziona un'offerta pronta. Il messaggio di cortesia e il link per il pagamento sono già inclusi. Clicca su "Invia WhatsApp" per aprire la chat con il testo precompilato.</p>
-            <div id="offertePredefiniteList"></div>
+            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Crea, modifica ed elimina le offerte. Inviale direttamente via WhatsApp alle palestre.</p>
+            <div id="offerteList" class="grid-cards"></div>
         </div>
     </div>
 
@@ -226,7 +232,7 @@
                 <div class="form-group">
                     <label>Password Personalizzata</label>
                     <input type="text" id="palestraPassword" placeholder="Lascia vuoto per generarla automaticamente, o inserisci la tua">
-                    <small style="color: var(--tortora); font-size: 11px; margin-top: 4px; display: block;">L'ID Univoco verrà generato automaticamente dal sistema.</small>
+                    <small style="color: var(--tortora); font-size: 11px; margin-top: 4px; display: block;">L'ID Univoco verra generato automaticamente dal sistema.</small>
                 </div>
                 <div class="form-group">
                     <label>Stato Iniziale</label>
@@ -318,6 +324,73 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="modalOfferta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalOffertaTitle">Nuova Offerta</h3>
+                <button class="modal-close" onclick="chiudiModal('modalOfferta')">&times;</button>
+            </div>
+            <form id="formOfferta" onsubmit="salvaOfferta(event)">
+                <input type="hidden" id="offertaId">
+                <div class="form-group">
+                    <label>Titolo Offerta *</label>
+                    <input type="text" id="offertaTitolo" required placeholder="Es. Abbonamento Mensile">
+                </div>
+                <div class="form-group">
+                    <label>Prezzo *</label>
+                    <input type="text" id="offertaPrezzo" required placeholder="Es. 15 euro al mese">
+                </div>
+                <div class="form-group">
+                    <label>Descrizione *</label>
+                    <textarea id="offertaDescrizione" required placeholder="Descrivi l'offerta..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Informazioni aggiuntive (una per riga)</label>
+                    <textarea id="offertaInfo" placeholder="Nessuna carta di credito richiesta&#10;15 giorni di prova gratuiti&#10;Link pagamento una settimana prima della scadenza"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Messaggio WhatsApp *</label>
+                    <textarea id="offertaMessaggio" required placeholder="Messaggio da inviare alla palestra..." rows="5"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="chiudiModal('modalOfferta')">Annulla</button>
+                    <button type="submit" class="btn-primary">Salva Offerta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalVisualizzaOfferta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="visualizzaOffertaTitolo">Dettaglio Offerta</h3>
+                <button class="modal-close" onclick="chiudiModal('modalVisualizzaOfferta')">&times;</button>
+            </div>
+            <div id="visualizzaOffertaContent"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalVisualizzaOfferta')">Chiudi</button>
+                <button class="btn-whatsapp" id="btnInviaVisualizza">Invia WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalInviaOfferta">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Invia Offerta via WhatsApp</h3>
+                <button class="modal-close" onclick="chiudiModal('modalInviaOfferta')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Messaggio da inviare (modificabile)</label>
+                <textarea id="testoInvioWhatsApp" rows="10"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="chiudiModal('modalInviaOfferta')">Annulla</button>
+                <button class="btn-whatsapp" onclick="confermaInvioWhatsApp()">Invia WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="modalViewImg" onclick="if(event.target===this)chiudiModal('modalViewImg')">
         <div class="modal modal-view-img">
             <div class="view-content">
@@ -333,40 +406,46 @@
     <script>
     const API_URL = 'https://ancient-fire-7347.mairaluigi-b2f.workers.dev';
     const WHATSAPP_NUMBER = '393347507656';
-    const PAYMENT_LINK = 'https://www.paypal.biz/volleymanagerpro';
     
     let palestre = [], eserciziGlobali = [], videoGlobali = [];
+    let offerte = [];
     let currentImageBase64 = null, currentImageName = null;
-    let editingExId = null, editingVidId = null;
+    let editingExId = null, editingVidId = null, editingOffertaId = null, currentInvioOffertaId = null;
 
-    const offertePredefinite = [
+    const offerteDefault = [
         {
             id: 1,
-            titolo: " Abbonamento Annuale AppCenterStudioGYM - 50€",
-            descrizione: "Abbonamento annuale completo alla piattaforma AppCenterStudioGYM. Include gestione atleti, schede di allenamento, piani nutrizionali, archivio esercizi e video, contabilità e molto altro. Aggiornamenti e supporto tecnico inclusi per 12 mesi.",
-            messaggio: "Buongiorno! 👋 Le invio la proposta per l'abbonamento annuale alla piattaforma AppCenterStudioGYM. Con soli 50€ avrà accesso completo a tutte le funzionalità per 12 mesi, con aggiornamenti e supporto tecnico inclusi. Resto a disposizione per qualsiasi chiarimento!"
-        },
-        {
-            id: 2,
-            titolo: " Rinnovo Anticipato - 35€ (risparmi 15€)",
-            descrizione: "Rinnovo anticipato dell'abbonamento annuale se effettuato almeno 1 mese prima della scadenza. Stesso servizio completo dell'abbonamento annuale, ma con uno sconto del 30%. Ideale per chi vuole continuare senza interruzioni risparmiando.",
-            messaggio: "Buongiorno!  Volevo ricordarle che il suo abbonamento ad AppCenterStudioGYM è in scadenza. Rinnovando con almeno 1 mese di anticipo, può approfittare dell'offerta speciale a soli 35€ invece di 50€, risparmiando 15€. Resto a disposizione per qualsiasi chiarimento!"
-        },
-        {
-            id: 3,
-            titolo: "🎯 Abbonamento Semestrale - 30€",
-            descrizione: "Abbonamento semestrale (6 mesi) alla piattaforma AppCenterStudioGYM. Perfetto per chi vuole provare il servizio per un periodo più breve. Include tutte le funzionalità: gestione atleti, schede, piani nutrizionali, archivio esercizi e video, contabilità e supporto tecnico.",
-            messaggio: "Buongiorno! 👋 Le propongo l'abbonamento semestrale ad AppCenterStudioGYM a soli 30€. È la soluzione ideale per provare la piattaforma con un impegno di 6 mesi, avendo comunque accesso a tutte le funzionalità e al supporto tecnico. Resto a disposizione!"
-        },
-        {
-            id: 4,
-            titolo: "🚀 Pacchetto Start-Up - 20€ (primo mese)",
-            descrizione: "Primo mese di prova della piattaforma AppCenterStudioGYM a prezzo agevolato. Include tutte le funzionalità complete per 30 giorni. Ideale per valutare il servizio prima di scegliere l'abbonamento annuale o semestrale. Supporto tecnico dedicato incluso.",
-            messaggio: "Buongiorno! 👋 Le propongo di provare AppCenterStudioGYM con il nostro pacchetto Start-Up a soli 20€ per il primo mese. Avrà accesso completo a tutte le funzionalità per 30 giorni, così potrà valutare concretamente i vantaggi per la sua palestra. Resto a disposizione per qualsiasi domanda!"
+            titolo: "Abbonamento Mensile AppCenterStudioGYM",
+            prezzo: "15 euro al mese",
+            descrizione: "Accesso completo alla piattaforma AppCenterStudioGYM. Gestione atleti, schede di allenamento, piani nutrizionali, archivio esercizi e video, contabilità e supporto tecnico incluso.",
+            info: [
+                "Nessuna carta di credito richiesta",
+                "15 giorni di prova gratuiti per testare l'applicazione",
+                "Link per il pagamento inviato una settimana prima della scadenza",
+                "Disdici quando vuoi, senza vincoli"
+            ],
+            messaggio: "Buongiorno, le invio i dettagli per l'abbonamento ad AppCenterStudioGYM. Il costo e di 15 euro al mese, senza alcuna carta di credito. Avra 15 giorni di prova gratuiti per testare l'applicazione. Il link per il pagamento le verra inviato una settimana prima della scadenza. Resto a disposizione per qualsiasi domanda."
         }
     ];
 
-    function init() { loadData(); }
+    function init() { 
+        loadData();
+        caricaOfferte();
+    }
+
+    function caricaOfferte() {
+        const salvate = localStorage.getItem('offerteFornitore');
+        if (salvate) {
+            offerte = JSON.parse(salvate);
+        } else {
+            offerte = offerteDefault;
+            salvaOfferteStorage();
+        }
+    }
+
+    function salvaOfferteStorage() {
+        localStorage.setItem('offerteFornitore', JSON.stringify(offerte));
+    }
 
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -375,7 +454,7 @@
         event.target.classList.add('active');
         if (tabName === 'esercizi') loadEserciziGlobali();
         if (tabName === 'video') loadVideoGlobali();
-        if (tabName === 'offerte') renderOffertePredefinite();
+        if (tabName === 'offerte') renderOfferte();
     }
 
     async function loadData() {
@@ -762,18 +841,29 @@
         showToast('Video eliminato');
     }
 
-    function renderOffertePredefinite() {
-        const container = document.getElementById('offertePredefiniteList');
+    function renderOfferte() {
+        const container = document.getElementById('offerteList');
+        if (offerte.length === 0) {
+            container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">Nessuna offerta creata. Clicca "+ Nuova Offerta" per iniziare.</div>';
+            return;
+        }
         let html = '';
-        offertePredefinite.forEach(off => {
+        offerte.forEach(off => {
             html += `
                 <div class="offerta-card">
-                    <h4>${off.titolo}</h4>
+                    <div class="offerta-header">
+                        <h4>${off.titolo}</h4>
+                        <div class="offerta-prezzo">${off.prezzo}</div>
+                    </div>
                     <div class="offerta-desc">${off.descrizione}</div>
-                    <div class="offerta-messaggio">💬 <strong>Messaggio di cortesia:</strong> "${off.messaggio}"</div>
-                    <div class="offerta-link">🔗 Link pagamento: ${PAYMENT_LINK}</div>
+                    <ul class="offerta-info-list">
+                        ${off.info.map(i => `<li>${i}</li>`).join('')}
+                    </ul>
                     <div class="card-actions">
-                        <button class="btn-whatsapp" onclick="inviaOffertaWhatsApp(${off.id})">📱 Invia WhatsApp</button>
+                        <button class="btn-view" onclick="visualizzaOfferta(${off.id})">Visualizza</button>
+                        <button class="btn-secondary" onclick="modificaOfferta(${off.id})">Modifica</button>
+                        <button class="btn-whatsapp" onclick="preparaInvioOfferta(${off.id})">Invia WhatsApp</button>
+                        <button class="btn-danger" onclick="eliminaOfferta(${off.id})">Elimina</button>
                     </div>
                 </div>
             `;
@@ -781,14 +871,104 @@
         container.innerHTML = html;
     }
 
-    function inviaOffertaWhatsApp(id) {
-        const off = offertePredefinite.find(o => o.id === id);
+    function apriModalOfferta() {
+        editingOffertaId = null;
+        document.getElementById('modalOffertaTitle').textContent = 'Nuova Offerta';
+        document.getElementById('formOfferta').reset();
+        document.getElementById('offertaId').value = '';
+        document.getElementById('modalOfferta').classList.add('active');
+    }
+
+    function modificaOfferta(id) {
+        const off = offerte.find(o => o.id === id);
         if (!off) return;
+        editingOffertaId = id;
+        document.getElementById('modalOffertaTitle').textContent = 'Modifica Offerta';
+        document.getElementById('offertaId').value = off.id;
+        document.getElementById('offertaTitolo').value = off.titolo;
+        document.getElementById('offertaPrezzo').value = off.prezzo;
+        document.getElementById('offertaDescrizione').value = off.descrizione;
+        document.getElementById('offertaInfo').value = off.info.join('\n');
+        document.getElementById('offertaMessaggio').value = off.messaggio;
+        document.getElementById('modalOfferta').classList.add('active');
+    }
+
+    function salvaOfferta(e) {
+        e.preventDefault();
+        const infoTesto = document.getElementById('offertaInfo').value.trim();
+        const infoLista = infoTesto ? infoTesto.split('\n').map(i => i.trim()).filter(i => i) : [];
         
-        const testoCompleto = `${off.messaggio}\n\n🏋️ *${off.titolo}*\n${off.descrizione}\n\n💳 *Link per il pagamento:* ${PAYMENT_LINK}\n\nResto a sua completa disposizione!`;
-        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testoCompleto)}`;
+        const offerta = {
+            id: editingOffertaId || Date.now(),
+            titolo: document.getElementById('offertaTitolo').value.trim(),
+            prezzo: document.getElementById('offertaPrezzo').value.trim(),
+            descrizione: document.getElementById('offertaDescrizione').value.trim(),
+            info: infoLista,
+            messaggio: document.getElementById('offertaMessaggio').value.trim()
+        };
+        
+        if (editingOffertaId) {
+            const index = offerte.findIndex(o => o.id === editingOffertaId);
+            if (index !== -1) offerte[index] = offerta;
+            showToast('Offerta aggiornata');
+        } else {
+            offerte.push(offerta);
+            showToast('Offerta creata');
+        }
+        
+        salvaOfferteStorage();
+        chiudiModal('modalOfferta');
+        renderOfferte();
+    }
+
+    function eliminaOfferta(id) {
+        if (!confirm('Eliminare questa offerta?')) return;
+        offerte = offerte.filter(o => o.id !== id);
+        salvaOfferteStorage();
+        renderOfferte();
+        showToast('Offerta eliminata');
+    }
+
+    function visualizzaOfferta(id) {
+        const off = offerte.find(o => o.id === id);
+        if (!off) return;
+        document.getElementById('visualizzaOffertaTitolo').textContent = off.titolo;
+        document.getElementById('visualizzaOffertaContent').innerHTML = `
+            <div class="offerta-card" style="border: none; box-shadow: none; padding: 0;">
+                <div class="offerta-prezzo" style="margin-bottom: 20px;">${off.prezzo}</div>
+                <div class="offerta-desc">${off.descrizione}</div>
+                <ul class="offerta-info-list">
+                    ${off.info.map(i => `<li>${i}</li>`).join('')}
+                </ul>
+                <div class="offerta-messaggio" style="font-size: 12px; color: var(--tortora); font-style: italic; background: var(--tortora-chiarissimo); padding: 12px; border-radius: var(--radius-sm); line-height: 1.5;">
+                    <strong style="color: var(--tortora-scuro); font-style: normal; display: block; margin-bottom: 5px;">Messaggio WhatsApp:</strong>
+                    ${off.messaggio}
+                </div>
+            </div>
+        `;
+        document.getElementById('btnInviaVisualizza').onclick = function() {
+            preparaInvioOfferta(id);
+            chiudiModal('modalVisualizzaOfferta');
+        };
+        document.getElementById('modalVisualizzaOfferta').classList.add('active');
+    }
+
+    function preparaInvioOfferta(id) {
+        const off = offerte.find(o => o.id === id);
+        if (!off) return;
+        currentInvioOffertaId = id;
+        
+        const testoCompleto = `${off.messaggio}\n\n${off.titolo}\nPrezzo: ${off.prezzo}\n${off.descrizione}\n\nDettagli:\n${off.info.map(i => '- ' + i).join('\n')}`;
+        document.getElementById('testoInvioWhatsApp').value = testoCompleto;
+        document.getElementById('modalInviaOfferta').classList.add('active');
+    }
+
+    function confermaInvioWhatsApp() {
+        const testo = document.getElementById('testoInvioWhatsApp').value;
+        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testo)}`;
         window.open(link, '_blank');
-        showToast('WhatsApp aperto con il messaggio precompilato!');
+        chiudiModal('modalInviaOfferta');
+        showToast('WhatsApp aperto con il messaggio precompilato');
     }
 
     function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }

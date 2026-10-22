@@ -16,16 +16,18 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background: radial-gradient(circle at center, #FFFFFF 0%, #F5F2EF 40%, #E8E3DE 100%); color: var(--nero); min-height: 100vh; padding: 20px; }
         
         .main-header { max-width: 1400px; margin: 0 auto 25px; background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--ombra); position: sticky; top: 10px; z-index: 100; flex-wrap: wrap; gap: 12px; }
-        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); }
+        .header-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+        .header-title h1 { font-size: 20px; font-weight: 700; color: var(--nero); letter-spacing: 0.5px; }
         .header-title p { font-size: 10px; color: var(--tortora); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-top: 2px; }
         .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
+        .nav-btn { padding: 8px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s; font-family: inherit; border: 1.5px solid transparent; white-space: nowrap; background: var(--tortora-chiarissimo); color: var(--tortora-scuro); border-color: var(--tortora-chiaro); }
         .nav-btn:hover { background: var(--tortora); color: var(--bianco); border-color: var(--tortora); }
         .nav-btn-logout { background: var(--bianco); color: var(--rosso); border-color: var(--rosso); }
         .nav-btn-logout:hover { background: var(--rosso); color: var(--bianco); }
         
         .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         
+        /* TABS */
         .main-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--tortora-chiaro); padding-bottom: 10px; flex-wrap: wrap; }
         .tab-btn { padding: 10px 20px; border: none; background: transparent; color: var(--tortora-scuro); font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s; }
         .tab-btn.active { background: var(--tortora); color: var(--bianco); }
@@ -50,82 +52,62 @@
         .btn-primary:hover { background: var(--nero); }
         .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
-        .btn-success { padding: 8px 14px; background: var(--verde); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
-        .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
-        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 15px; background: var(--tortora-chiarissimo); display: flex; align-items: center; justify-content: center; color: var(--tortora); font-size: 40px; overflow: hidden; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 15px; background: var(--tortora-chiarissimo); display: flex; align-items: center; justify-content: center; color: var(--tortora); font-size: 40px; }
         .card h4 { font-size: 16px; margin-bottom: 8px; color: var(--nero); }
         .card p { font-size: 13px; color: var(--tortora); margin-bottom: 4px; }
-        .card-actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+        .card-actions { margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--tortora-chiaro); display: flex; gap: 8px; justify-content: flex-end; }
         
         .palestre-list { background: var(--bianco); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); }
         .palestra-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 15px; border-bottom: 1px solid var(--tortora-chiaro); flex-wrap: wrap; gap: 12px; }
         .palestra-item:last-child { border-bottom: none; }
-        .palestra-item:hover { background: var(--tortora-chiarissimo); }
         .palestra-info .name { font-size: 16px; color: var(--nero); font-weight: 600; margin-bottom: 4px; }
         .palestra-info .details { font-size: 13px; color: var(--tortora); }
-        .palestra-info .credentials { font-size: 11px; color: var(--blu); margin-top: 4px; font-family: monospace; background: var(--tortora-chiarissimo); padding: 4px 8px; border-radius: 4px; display: inline-block; }
         .status-indicator { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
         .status-verde { background: var(--verde-chiaro); color: #1E8449; border: 1px solid var(--verde); }
         .status-arancione { background: var(--arancione-chiaro); color: #9C640C; border: 1px solid var(--arancione); }
         .status-rosso { background: var(--rosso-chiaro); color: #922B21; border: 1px solid var(--rosso); }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
         .dot-verde { background: var(--verde); } .dot-arancione { background: var(--arancione); } .dot-rosso { background: var(--rosso); }
-        .palestra-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         
         /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
         .modal { background: var(--bianco); border-radius: var(--radius); padding: 30px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
-        .modal-large { max-width: 800px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--tortora-chiaro); }
-        .modal-header h3 { font-size: 18px; }
         .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--tortora); }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--tortora-scuro); margin-bottom: 5px; text-transform: uppercase; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1.5px solid var(--tortora-chiaro); border-radius: var(--radius-sm); font-family: inherit; }
         .form-group textarea { min-height: 80px; resize: vertical; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .file-upload { border: 2px dashed var(--tortora-chiaro); padding: 20px; text-align: center; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; background: var(--tortora-chiarissimo); }
         .file-upload:hover { border-color: var(--tortora); background: var(--bianco); }
         .file-upload img { max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: var(--radius-sm); display: none; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; flex-wrap: wrap; }
-        
-        .credential-box { background: var(--verde-chiaro); border: 1px solid var(--verde); border-radius: var(--radius-sm); padding: 15px; margin-top: 15px; }
-        .credential-box h4 { color: #1E8449; margin-bottom: 10px; font-size: 14px; }
-        .credential-box .cred-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
-        .credential-box .cred-label { font-weight: 600; color: var(--tortora-scuro); }
-        .credential-box .cred-value { font-family: monospace; background: var(--bianco); padding: 2px 8px; border-radius: 4px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
         
         .empty-state { text-align: center; padding: 40px 20px; color: var(--tortora); }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 1000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
         .toast.show { opacity: 1; transform: translateY(0); }
         .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--tortora); }
         .loading-overlay.hidden { display: none; }
-        
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
-            .palestra-item { flex-direction: column; align-items: flex-start; }
-            .palestra-actions { width: 100%; justify-content: flex-end; }
-        }
     </style>
 </head>
 <body>
     <div class="loading-overlay hidden" id="loadingOverlay">Caricamento dati dal cloud...</div>
 
     <div class="main-header">
-        <div class="header-title">
-            <h1>AppCenterStudioGYM</h1>
-            <p>Dashboard Fornitore</p>
+        <div class="header-left">
+            <div class="header-title">
+                <h1>AppCenterStudioGYM</h1>
+                <p>Dashboard Fornitore</p>
+            </div>
         </div>
         <div class="header-nav">
-            <a href="index.html" class="nav-btn">🏠 Home</a>
-            <a href="offerte.html" class="nav-btn">💰 Offerte</a>
-            <button class="nav-btn nav-btn-logout" onclick="esci()">🚪 Esci</button>
+            <a href="index.html" class="nav-btn">Home</a>
+            <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
     
@@ -133,26 +115,23 @@
         <div class="main-tabs">
             <button class="tab-btn active" onclick="showTab('palestre')">🏢 Gestione Palestre</button>
             <button class="tab-btn" onclick="showTab('esercizi')">📚 Archivio Esercizi (Globale)</button>
-            <button class="tab-btn" onclick="showTab('video')"> Archivio Video (Globale)</button>
+            <button class="tab-btn" onclick="showTab('video')">🎬 Archivio Video (Globale)</button>
         </div>
 
         <!-- TAB PALESTRE -->
         <div id="tab-palestre" class="tab-content active">
             <div class="welcome-card">
                 <h2>Benvenuto, AppCenterStudioGYM</h2>
-                <p>Dashboard di gestione fornitori - Crea e gestisci le palestre</p>
+                <p>Dashboard di gestione fornitori - Gestione Palestre</p>
             </div>
-            
             <div class="stats-grid">
                 <div class="stat-card verde"><div class="number" id="statAttive">0</div><div class="label">Palestre Attive</div></div>
                 <div class="stat-card arancione"><div class="number" id="statInScadenza">0</div><div class="label">In Scadenza (30gg)</div></div>
                 <div class="stat-card rosso"><div class="number" id="statScadute">0</div><div class="label">Scadute</div></div>
                 <div class="stat-card"><div class="number" id="statTotale">0</div><div class="label">Totale Palestre</div></div>
             </div>
-            
             <div class="section-header">
-                <h3 class="section-title">️ Stato Palestre</h3>
-                <button class="btn-primary" onclick="apriModalNuovaPalestra()">+ Nuova Palestra</button>
+                <h3 class="section-title">Stato Palestre</h3>
             </div>
             <div class="palestre-list" id="palestreList">
                 <div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">🏋️</div><div>Nessuna palestra registrata</div></div>
@@ -162,10 +141,9 @@
         <!-- TAB ESERCIZI GLOBALI -->
         <div id="tab-esercizi" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">📚 Archivio Esercizi Globale</h3>
+                <h3 class="section-title">Archivio Esercizi Globale</h3>
                 <button class="btn-primary" onclick="apriModalEsercizio()">+ Nuovo Esercizio</button>
             </div>
-            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Questi esercizi saranno disponibili per TUTTE le palestre. Carica le immagini per ogni esercizio.</p>
             <div class="grid-cards" id="eserciziGrid">
                 <div class="empty-state">Caricamento esercizi...</div>
             </div>
@@ -174,55 +152,12 @@
         <!-- TAB VIDEO GLOBALI -->
         <div id="tab-video" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">🎬 Archivio Video Globale</h3>
+                <h3 class="section-title">Archivio Video Globale</h3>
                 <button class="btn-primary" onclick="apriModalVideo()">+ Nuovo Video</button>
             </div>
-            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Questi video saranno disponibili per TUTTE le palestre.</p>
             <div class="grid-cards" id="videoGrid">
                 <div class="empty-state">Caricamento video...</div>
             </div>
-        </div>
-    </div>
-
-    <!-- MODAL NUOVA PALESTRA -->
-    <div class="modal-overlay" id="modalNuovaPalestra">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>➕ Nuova Palestra</h3>
-                <button class="modal-close" onclick="chiudiModal('modalNuovaPalestra')">×</button>
-            </div>
-            <form id="formNuovaPalestra" onsubmit="creaPalestra(event)">
-                <div class="form-group">
-                    <label>Nome Palestra *</label>
-                    <input type="text" id="palestraNome" required placeholder="Es. Fitness Center Roma">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Città</label>
-                        <input type="text" id="palestraCitta" placeholder="Es. Roma">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefono</label>
-                        <input type="text" id="palestraTelefono" placeholder="Es. 06 1234567">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="palestraEmail" placeholder="Es. info@palestra.it">
-                </div>
-                <div class="form-group">
-                    <label>Stato Iniziale</label>
-                    <select id="palestraStato">
-                        <option value="prova">Prova (30 giorni)</option>
-                        <option value="attiva">Attiva (30 giorni)</option>
-                    </select>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-secondary" onclick="chiudiModal('modalNuovaPalestra')">Annulla</button>
-                    <button type="submit" class="btn-primary">Crea Palestra</button>
-                </div>
-            </form>
-            <div id="credentialBox" style="display: none;"></div>
         </div>
     </div>
 
@@ -246,14 +181,13 @@
                         <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
                         <option value="Bicipiti">Bicipiti</option><option value="Tricipiti">Tricipiti</option>
                         <option value="Addome">Addome</option><option value="Cardio">Cardio</option>
-                        <option value="Full Body">Full Body</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Descrizione</label>
                     <textarea id="exDesc" placeholder="Descrizione dell'esecuzione..."></textarea>
                 </div>
-                <div class="form-row">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div class="form-group">
                         <label>Serie x Ripetizioni</label>
                         <input type="text" id="exSerie" placeholder="Es. 4x10">
@@ -264,9 +198,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Immagine Esercizio (opzionale)</label>
+                    <label>Immagine Esercizio</label>
                     <div class="file-upload" onclick="document.getElementById('exFile').click()">
-                        <div id="fileUploadText">📷 Clicca per caricare un'immagine (JPG, PNG - max 2MB)</div>
+                        <div id="fileUploadText">📷 Clicca per caricare un'immagine (JPG, PNG)</div>
                         <img id="previewImg" alt="Preview">
                         <input type="file" id="exFile" accept="image/jpeg,image/png" style="display: none;" onchange="handleImageUpload(event)">
                     </div>
@@ -299,7 +233,6 @@
                         <option value="Gambe">Gambe</option><option value="Spalle">Spalle</option>
                         <option value="Bicipiti">Bicipiti</option><option value="Tricipiti">Tricipiti</option>
                         <option value="Addome">Addome</option><option value="Cardio">Cardio</option>
-                        <option value="Full Body">Full Body</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -360,7 +293,7 @@
         }
     }
 
-    // --- PALESTRE ---
+    // --- GESTIONE PALESTRE ---
     function aggiornaStati() {
         const oggi = new Date();
         palestre.forEach(p => {
@@ -381,7 +314,7 @@
     function renderPalestre() {
         const container = document.getElementById('palestreList');
         if (palestre.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">🏋️</div><div>Nessuna palestra registrata. Clicca "+ Nuova Palestra" per iniziare.</div></div>`;
+            container.innerHTML = `<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">🏋️</div><div>Nessuna palestra registrata</div></div>`;
             return;
         }
         let html = '';
@@ -389,70 +322,20 @@
             let statusClass = 'status-verde', dotClass = 'dot-verde', statusText = 'Attiva';
             if (p.stato === 'scaduta') { statusClass = 'status-rosso'; dotClass = 'dot-rosso'; statusText = 'Scaduta'; }
             else if (p.stato === 'prova' && p.giorniRimanenti <= 30) { statusClass = 'status-arancione'; dotClass = 'dot-arancione'; statusText = 'In Scadenza'; }
-            else if (p.stato === 'prova') { statusText = 'In Prova'; }
             
             html += `<div class="palestra-item">
-                <div class="palestra-info" style="flex: 1;">
+                <div class="palestra-info">
                     <div class="name">${p.nome}</div>
-                    <div class="details">${p.citta || 'Città N/D'} • ${p.email || 'Email N/D'} • Tel: ${p.telefono || 'N/D'}</div>
-                    <div class="details">Scadenza: ${new Date(p.data_scadenza).toLocaleDateString('it-IT')} (${p.giorniRimanenti} giorni)</div>
-                    <div class="credentials">🔑 ID: <strong>${p.username || '-'}</strong> | 🔒 Password: <strong>${p.password || '-'}</strong></div>
+                    <div class="details">${p.citta || 'Città N/D'} • Scadenza: ${new Date(p.data_scadenza).toLocaleDateString('it-IT')}</div>
                 </div>
                 <div class="status-indicator ${statusClass}"><span class="status-dot ${dotClass}"></span>${statusText}</div>
-                <div class="palestra-actions">
-                    <a href="offerte.html?id=${p.id}" class="btn-info">💰 Offerte</a>
+                <div style="display: flex; gap: 8px;">
                     <button class="btn-secondary" onclick="togglePalestra(${p.id})">${p.stato === 'attiva' ? 'Disattiva' : 'Attiva'}</button>
                     <button class="btn-danger" onclick="eliminaPalestra(${p.id})">Elimina</button>
                 </div>
             </div>`;
         });
         container.innerHTML = html;
-    }
-
-    function apriModalNuovaPalestra() {
-        document.getElementById('formNuovaPalestra').reset();
-        document.getElementById('credentialBox').style.display = 'none';
-        document.getElementById('modalNuovaPalestra').classList.add('active');
-    }
-
-    async function creaPalestra(e) {
-        e.preventDefault();
-        const data = {
-            nome: document.getElementById('palestraNome').value.trim(),
-            citta: document.getElementById('palestraCitta').value.trim(),
-            telefono: document.getElementById('palestraTelefono').value.trim(),
-            email: document.getElementById('palestraEmail').value.trim(),
-            stato: document.getElementById('palestraStato').value
-        };
-        
-        try {
-            const res = await fetch(`${API_URL}/api/palestre`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            
-            if (result.success) {
-                // Mostra credenziali
-                const credBox = document.getElementById('credentialBox');
-                credBox.style.display = 'block';
-                credBox.innerHTML = `
-                    <div class="credential-box">
-                        <h4>✅ Palestra creata con successo!</h4>
-                        <div class="cred-row"><span class="cred-label">ID Univoco:</span><span class="cred-value">${result.id_univoco}</span></div>
-                        <div class="cred-row"><span class="cred-label">Password:</span><span class="cred-value">${result.password}</span></div>
-                        <p style="font-size: 12px; color: #1E8449; margin-top: 10px;">⚠️ Salva queste credenziali! Comunicalle al gestore della palestra.</p>
-                    </div>
-                `;
-                showToast('Palestra creata!');
-                loadData();
-            } else {
-                showToast('Errore: ' + (result.message || 'sconosciuto'));
-            }
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
     }
 
     async function togglePalestra(id) {
@@ -465,13 +348,13 @@
     }
 
     async function eliminaPalestra(id) {
-        if (!confirm('Eliminare questa palestra? L\'operazione è irreversibile.')) return;
+        if (!confirm('Eliminare questa palestra?')) return;
         await fetch(`${API_URL}/api/palestre/${id}`, { method: 'DELETE' });
         loadData();
         showToast('Palestra eliminata');
     }
 
-    // --- ESERCIZI GLOBALI ---
+    // --- GESTIONE ESERCIZI GLOBALI ---
     async function loadEserciziGlobali() {
         const grid = document.getElementById('eserciziGrid');
         grid.innerHTML = '<div class="empty-state">Caricamento...</div>';
@@ -480,7 +363,7 @@
             eserciziGlobali = await res.json();
             renderEsercizi();
         } catch (e) {
-            grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>';
+            grid.innerHTML = '<div class="empty-state">Errore di caricamento</div>';
         }
     }
 
@@ -492,16 +375,15 @@
         }
         let html = '';
         eserciziGlobali.forEach(ex => {
-            const imgHtml = ex.file_base64 ? `<div class="card-img"><img src="${ex.file_base64}" alt="${ex.nome}"></div>` : `<div class="card-img"></div>`;
+            const imgHtml = ex.file_base64 ? `<img src="${ex.file_base64}" class="card-img" alt="${ex.nome}">` : `<div class="card-img">📷</div>`;
             html += `<div class="card">
                 ${imgHtml}
                 <h4>${ex.nome}</h4>
                 <p><strong>Gruppo:</strong> ${ex.gruppo || '-'}</p>
                 <p><strong>Serie:</strong> ${ex.serie || '-'} • <strong>Recupero:</strong> ${ex.recupero || '-'}</p>
-                <p style="font-size: 12px; margin-top: 8px;">${(ex.descrizione || '').substring(0, 80)}${(ex.descrizione || '').length > 80 ? '...' : ''}</p>
                 <div class="card-actions">
-                    <button class="btn-secondary" onclick="modificaEsercizio(${ex.id})">✏️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">️ Elimina</button>
+                    <button class="btn-secondary" onclick="modificaEsercizio(${ex.id})">Modifica</button>
+                    <button class="btn-danger" onclick="eliminaEsercizio(${ex.id})">Elimina</button>
                 </div>
             </div>`;
         });
@@ -576,14 +458,10 @@
         const url = editingExId ? `${API_URL}/api/esercizi-globali/${editingExId}` : `${API_URL}/api/esercizi-globali`;
         const method = editingExId ? 'PUT' : 'POST';
         
-        try {
-            await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            chiudiModal('modalEsercizio');
-            loadEserciziGlobali();
-            showToast(editingExId ? 'Esercizio aggiornato!' : 'Esercizio creato!');
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
+        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        chiudiModal('modalEsercizio');
+        loadEserciziGlobali();
+        showToast(editingExId ? 'Esercizio aggiornato!' : 'Esercizio creato!');
     }
 
     async function eliminaEsercizio(id) {
@@ -593,7 +471,7 @@
         showToast('Esercizio eliminato');
     }
 
-    // --- VIDEO GLOBALI ---
+    // --- GESTIONE VIDEO GLOBALI ---
     async function loadVideoGlobali() {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = '<div class="empty-state">Caricamento...</div>';
@@ -602,7 +480,7 @@
             videoGlobali = await res.json();
             renderVideo();
         } catch (e) {
-            grid.innerHTML = '<div class="empty-state">Errore di caricamento. Verifica che il Worker sia aggiornato.</div>';
+            grid.innerHTML = '<div class="empty-state">Errore di caricamento</div>';
         }
     }
 
@@ -618,12 +496,11 @@
                 <div class="card-img" style="background: #fce4ec; color: #e91e63;">▶️</div>
                 <h4>${vid.titolo}</h4>
                 <p><strong>Gruppo:</strong> ${vid.gruppo || '-'}</p>
-                <p style="font-size: 11px; color: var(--blu); word-break: break-all;"> ${vid.link}</p>
-                <p style="font-size: 12px; margin-top: 8px;">${(vid.descrizione || '').substring(0, 80)}${(vid.descrizione || '').length > 80 ? '...' : ''}</p>
+                <p style="font-size: 11px; color: var(--blu); word-break: break-all;">🔗 ${vid.link}</p>
                 <div class="card-actions">
-                    <a href="${vid.link}" target="_blank" class="btn-info">▶️ Guarda</a>
-                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaVideo(${vid.id})">🗑️ Elimina</button>
+                    <a href="${vid.link}" target="_blank" class="btn-secondary">Guarda</a>
+                    <button class="btn-secondary" onclick="modificaVideo(${vid.id})">Modifica</button>
+                    <button class="btn-danger" onclick="eliminaVideo(${vid.id})">Elimina</button>
                 </div>
             </div>`;
         });
@@ -662,14 +539,10 @@
         const url = editingVidId ? `${API_URL}/api/video-globali/${editingVidId}` : `${API_URL}/api/video-globali`;
         const method = editingVidId ? 'PUT' : 'POST';
         
-        try {
-            await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            chiudiModal('modalVideo');
-            loadVideoGlobali();
-            showToast(editingVidId ? 'Video aggiornato!' : 'Video creato!');
-        } catch (error) {
-            showToast('Errore di connessione');
-        }
+        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        chiudiModal('modalVideo');
+        loadVideoGlobali();
+        showToast(editingVidId ? 'Video aggiornato!' : 'Video creato!');
     }
 
     async function eliminaVideo(id) {

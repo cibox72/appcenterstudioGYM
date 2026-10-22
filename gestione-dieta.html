@@ -706,18 +706,39 @@
     
     async function caricaDatiAtleta() {
         try {
-            // Trova l'atleta loggato
-            const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${currentUser.riferimento_id}`);
-            const atleti = await atletiRes.json();
-            atletaData = atleti.find(a => a.username === currentUser.id_univoco || a.id === currentUser.riferimento_id);
+            // ========== MODIFICA: LETTURA ID ATLETA DALL'URL ==========
+            const urlParams = new URLSearchParams(window.location.search);
+            const atletaIdFromUrl = urlParams.get('atleta_id');
+            // ===========================================================
             
-            // Trova la palestra
+            // Trova la palestra (rimane invariato)
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
             const palestre = await palestreRes.json();
-            palestraData = palestre.find(p => p.id === currentUser.riferimento_id);
+            
+            // Se l'utente loggato è un atleta, usa il suo riferimento_id
+            // Se l'utente loggato è una palestra, usa il suo id diretto
+            const palestraId = currentUser.ruolo === 'atleta' ? currentUser.riferimento_id : (currentUser.riferimento_id || currentUser.id);
+            palestraData = palestre.find(p => p.id === palestraId || p.id === currentUser.riferimento_id);
+            
+            // ========== MODIFICA: CARICAMENTO ATLETA ==========
+            // Se c'è un atleta_id nell'URL, carica direttamente quell'atleta (senza ricerca)
+            if (atletaIdFromUrl) {
+                const atletaRes = await fetch(`${API_URL}/api/atleti/${atletaIdFromUrl}`);
+                if (atletaRes.ok) {
+                    atletaData = await atletaRes.json();
+                } else {
+                    console.warn('Atleta non trovato con ID:', atletaIdFromUrl);
+                }
+            } else {
+                // Comportamento originale: cerca l'atleta loggato
+                const atletiRes = await fetch(`${API_URL}/api/atleti?palestra_id=${currentUser.riferimento_id}`);
+                const atleti = await atletiRes.json();
+                atletaData = atleti.find(a => a.username === currentUser.id_univoco || a.id === currentUser.riferimento_id);
+            }
+            // ============================================================
             
             if (atletaData) {
-                document.getElementById('atletaNomeBadge').textContent = atletaData.nome;
+                document.getElementById('atletaNomeBadge').textContent = atletaData.nome + ' ' + (atletaData.cognome || '');
                 const dettagli = [];
                 if (atletaData.obiettivo) dettagli.push(`Obiettivo: ${atletaData.obiettivo}`);
                 if (atletaData.peso) dettagli.push(`${atletaData.peso} kg`);
@@ -952,12 +973,14 @@
     function salvaPiano() { saveState(); showToast('✅ Piano salvato con successo!'); aggiornaSyncStatus('online', 'Sync OK'); hasUnsavedChanges = false; }
     function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
     function inviaWhatsApp() {
-        const telefono = "393331234567";
+        const telefono = atletaData?.telefono || "393331234567";
+        let numeroWhatsapp = telefono.replace(/\D/g, '');
+        if (!numeroWhatsapp.startsWith('39') && numeroWhatsapp.length === 10) numeroWhatsapp = '39' + numeroWhatsapp;
         const totals = calculateDayTotals(0);
         const weekKcal = Array.from({length: 7}, (_, i) => calculateDayTotals(i).kcal).reduce((a, b) => a + b, 0);
         const nomeAtleta = atletaData?.nome || 'Atleta';
         const messaggio = encodeURIComponent(`Ciao ${nomeAtleta}! 🏋️‍♂️\n\nLa tua nuova dieta settimanale è pronta.\n\n Riepilogo:\n• Calorie medie giornaliere: ${(weekKcal/7).toFixed(0)} kcal\n• Proteine: ${totals.protein.toFixed(0)}g\n• Carboidrati: ${totals.carbs.toFixed(0)}g\n• Grassi: ${totals.fat.toFixed(0)}g\n\nPuoi visualizzare e stampare il piano completo qui:\nhttps://appcenterstudiogym.pages.dev/gestione-dieta.html\n\nBuon allenamento! 💪\n\n- ${palestraData?.nome || 'AppCenterStudioGYM'}`);
-        window.open(`https://wa.me/${telefono}?text=${messaggio}`, '_blank');
+        window.open(`https://wa.me/${numeroWhatsapp}?text=${messaggio}`, '_blank');
         showToast('💬 WhatsApp aperto!');
     }
     

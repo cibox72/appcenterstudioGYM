@@ -51,12 +51,11 @@
         .btn-primary:hover { background: var(--nero); }
         .btn-danger { padding: 8px 14px; background: var(--rosso); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-secondary { padding: 8px 14px; background: var(--bianco); color: var(--nero); border: 1.5px solid var(--nero); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
-        .btn-success { padding: 8px 14px; background: var(--verde); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-info { padding: 8px 14px; background: var(--blu); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
-        .btn-whatsapp { padding: 8px 14px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
-        .btn-whatsapp:hover { background: #128C7E; }
         .btn-view { padding: 8px 14px; background: var(--viola); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-view:hover { background: #6C3483; }
+        .btn-whatsapp { padding: 10px 18px; background: var(--whatsapp); color: var(--bianco); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
         
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: var(--bianco); border: 1px solid var(--tortora-chiaro); border-radius: var(--radius); padding: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
@@ -114,10 +113,12 @@
         .credential-box .cred-label { font-weight: 600; color: var(--tortora-scuro); }
         .credential-box .cred-value { font-family: monospace; background: var(--bianco); padding: 2px 8px; border-radius: 4px; }
         
-        .offerta-card { background: linear-gradient(135deg, var(--tortora-chiarissimo) 0%, var(--bianco) 100%); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 20px; margin-bottom: 15px; }
-        .offerta-card h4 { color: var(--nero); margin-bottom: 10px; font-size: 16px; }
-        .offerta-card .offerta-desc { font-size: 13px; color: var(--tortora-scuro); margin-bottom: 10px; line-height: 1.5; }
-        .offerta-card .offerta-link { font-size: 12px; color: var(--blu); word-break: break-all; margin-bottom: 12px; }
+        .offerta-card { background: linear-gradient(135deg, var(--tortora-chiarissimo) 0%, var(--bianco) 100%); border: 2px solid var(--tortora); border-radius: var(--radius); padding: 25px; margin-bottom: 20px; box-shadow: var(--ombra); transition: transform 0.2s; }
+        .offerta-card:hover { transform: translateY(-3px); box-shadow: var(--ombra-forte); }
+        .offerta-card h4 { color: var(--nero); margin-bottom: 12px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .offerta-card .offerta-desc { font-size: 14px; color: var(--tortora-scuro); margin-bottom: 15px; line-height: 1.6; background: var(--bianco); padding: 15px; border-radius: var(--radius-sm); border-left: 4px solid var(--tortora); }
+        .offerta-card .offerta-messaggio { font-size: 13px; color: var(--blu); font-style: italic; margin-bottom: 15px; padding: 10px; background: rgba(52, 152, 219, 0.1); border-radius: var(--radius-sm); }
+        .offerta-card .offerta-link { font-size: 12px; color: var(--verde); font-weight: 600; word-break: break-all; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
         
         .empty-state { text-align: center; padding: 40px 20px; color: var(--tortora); }
         .toast { position: fixed; bottom: 30px; right: 30px; background: var(--nero); color: var(--bianco); padding: 16px 24px; border-radius: var(--radius-sm); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
@@ -142,6 +143,7 @@
         </div>
         <div class="header-nav">
             <a href="index.html" class="nav-btn">Home</a>
+            <a href="offerte.html" class="nav-btn">Offerte</a>
             <button class="nav-btn nav-btn-logout" onclick="esci()">Esci</button>
         </div>
     </div>
@@ -151,7 +153,7 @@
             <button class="tab-btn active" onclick="showTab('palestre')">Gestione Palestre</button>
             <button class="tab-btn" onclick="showTab('esercizi')">Archivio Esercizi (Globale)</button>
             <button class="tab-btn" onclick="showTab('video')">Archivio Video (Globale)</button>
-            <button class="tab-btn" onclick="showTab('offerte')">Offerte</button>
+            <button class="tab-btn" onclick="showTab('offerte')">Invio Offerte</button>
         </div>
 
         <div id="tab-palestre" class="tab-content active">
@@ -198,11 +200,10 @@
 
         <div id="tab-offerte" class="tab-content">
             <div class="section-header">
-                <h3 class="section-title">Gestione Offerte</h3>
-                <button class="btn-primary" onclick="apriModalNuovaOfferta()">+ Nuova Offerta</button>
+                <h3 class="section-title">Invio Offerte Predefinite</h3>
             </div>
-            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Crea offerte personalizzate e inviale alle palestre via WhatsApp con il link per il pagamento.</p>
-            <div id="offerteList"></div>
+            <p style="color: var(--tortora); font-size: 13px; margin-bottom: 20px;">Seleziona un'offerta pronta. Il messaggio di cortesia e il link per il pagamento sono già inclusi. Clicca su "Invia WhatsApp" per aprire la chat con il testo precompilato.</p>
+            <div id="offertePredefiniteList"></div>
         </div>
     </div>
 
@@ -223,9 +224,9 @@
                 </div>
                 <div class="form-group"><label>Email</label><input type="email" id="palestraEmail" placeholder="Es. info@palestra.it"></div>
                 <div class="form-group">
-                    <label>Password Personalizzata *</label>
-                    <input type="text" id="palestraPassword" required placeholder="Inserisci password per la palestra" style="font-family: monospace;">
-                    <small style="color: var(--tortora); font-size: 11px; margin-top: 4px; display: block;">L'ID verrà generato automaticamente</small>
+                    <label>Password Personalizzata</label>
+                    <input type="text" id="palestraPassword" placeholder="Lascia vuoto per generarla automaticamente, o inserisci la tua">
+                    <small style="color: var(--tortora); font-size: 11px; margin-top: 4px; display: block;">L'ID Univoco verrà generato automaticamente dal sistema.</small>
                 </div>
                 <div class="form-group">
                     <label>Stato Iniziale</label>
@@ -317,51 +318,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="modalNuovaOfferta">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Nuova Offerta</h3>
-                <button class="modal-close" onclick="chiudiModal('modalNuovaOfferta')">&times;</button>
-            </div>
-            <form id="formNuovaOfferta" onsubmit="salvaOfferta(event)">
-                <div class="form-group">
-                    <label>Titolo Offerta *</label>
-                    <input type="text" id="offertaTitolo" required placeholder="Es. Abbonamento Premium">
-                </div>
-                <div class="form-group">
-                    <label>Descrizione Offerta *</label>
-                    <textarea id="offertaDescrizione" required placeholder="Descrivi l'offerta..." rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Messaggio di Cortesia</label>
-                    <textarea id="offertaMessaggio" placeholder="Messaggio personale da inviare insieme all'offerta..." rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Link Pagamento (PayPal)</label>
-                    <input type="url" id="offertaLinkPagamento" placeholder="https://www.paypal.biz/volleymanagerpro" value="https://www.paypal.biz/volleymanagerpro">
-                </div>
-                <div class="modal-actions">
-                    <button type="button" class="btn-secondary" onclick="chiudiModal('modalNuovaOfferta')">Annulla</button>
-                    <button type="submit" class="btn-primary">Salva Offerta</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modalInviaOfferta">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Invia Offerta via WhatsApp</h3>
-                <button class="modal-close" onclick="chiudiModal('modalInviaOfferta')">&times;</button>
-            </div>
-            <div id="invioOffertaContent"></div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="chiudiModal('modalInviaOfferta')">Chiudi</button>
-                <button class="btn-whatsapp" onclick="inviaOffertaWhatsApp()">📱 Invia WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="modalViewImg" onclick="if(event.target===this)chiudiModal('modalViewImg')">
         <div class="modal modal-view-img">
             <div class="view-content">
@@ -380,14 +336,37 @@
     const PAYMENT_LINK = 'https://www.paypal.biz/volleymanagerpro';
     
     let palestre = [], eserciziGlobali = [], videoGlobali = [];
-    let offerte = [];
     let currentImageBase64 = null, currentImageName = null;
-    let editingExId = null, editingVidId = null, currentOffertaId = null;
+    let editingExId = null, editingVidId = null;
 
-    function init() { 
-        loadData();
-        loadOfferte();
-    }
+    const offertePredefinite = [
+        {
+            id: 1,
+            titolo: "🏋️ Abbonamento Palestra Base",
+            descrizione: "Accesso illimitato alla sala pesi e alle aree comuni. Perfetto per iniziare il tuo percorso di fitness con il supporto dei nostri istruttori.",
+            messaggio: "Ciao! 👋 Spero tu stia bene. Ti invio i dettagli per il tuo rinnovo/nuovo abbonamento Base. Resto a disposizione per qualsiasi domanda!"
+        },
+        {
+            id: 2,
+            titolo: "💪 Pacchetto Personal Trainer (10 Sessioni)",
+            descrizione: "10 sessioni one-to-one con un nostro trainer certificato. Piano di allenamento personalizzato e monitoraggio costante dei tuoi progressi.",
+            messaggio: "Ciao! 👋 Ecco i dettagli per il pacchetto Personal Trainer. È l'occasione perfetta per raggiungere i tuoi obiettivi in totale sicurezza e con un piano su misura per te. Fammi sapere cosa ne pensi!"
+        },
+        {
+            id: 3,
+            titolo: "🌟 Abbonamento Premium Full Experience",
+            descrizione: "Accesso totale: sala pesi, corsi di gruppo illimitati, sauna e 1 valutazione fisica iniziale con bioimpedenziometria inclusa.",
+            messaggio: "Ciao! 👋 Ti mando i dettagli della nostra offerta Premium. Include tutto ciò di cui hai bisogno per un percorso completo e senza pensieri. Fammi sapere se vuoi bloccare il prezzo promozionale!"
+        },
+        {
+            id: 4,
+            titolo: "🎯 Pacchetto Trimestrale Risparmio",
+            descrizione: "Abbonamento di 3 mesi con uno sconto del 15% rispetto al mensile. Ideale per chi vuole impegnarsi con costanza e risparmiare.",
+            messaggio: "Ciao! 👋 Volevo segnalarti questa offerta speciale trimestrale. È il modo migliore per allenarti con costanza risparmiando il 15%. Il link per attivare l'offerta è qui sotto, resto a disposizione!"
+        }
+    ];
+
+    function init() { loadData(); }
 
     function showTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -396,7 +375,7 @@
         event.target.classList.add('active');
         if (tabName === 'esercizi') loadEserciziGlobali();
         if (tabName === 'video') loadVideoGlobali();
-        if (tabName === 'offerte') loadOfferte();
+        if (tabName === 'offerte') renderOffertePredefinite();
     }
 
     async function loadData() {
@@ -783,114 +762,33 @@
         showToast('Video eliminato');
     }
 
-    // --- GESTIONE OFFERTE ---
-    function loadOfferte() {
-        const saved = localStorage.getItem('offerte');
-        offerte = saved ? JSON.parse(saved) : [];
-        renderOfferte();
-    }
-
-    function renderOfferte() {
-        const container = document.getElementById('offerteList');
-        if (offerte.length === 0) {
-            container.innerHTML = '<div class="empty-state"><div style="font-size: 48px; margin-bottom: 15px;">📋</div><div>Nessuna offerta salvata. Clicca "+ Nuova Offerta" per crearne una.</div></div>';
-            return;
-        }
+    function renderOffertePredefinite() {
+        const container = document.getElementById('offertePredefiniteList');
         let html = '';
-        offerte.forEach((off, index) => {
-            html += `<div class="offerta-card">
-                <h4>${off.titolo}</h4>
-                <div class="offerta-desc">${off.descrizione}</div>
-                ${off.linkPagamento ? `<div class="offerta-link">🔗 ${off.linkPagamento}</div>` : ''}
-                <div class="card-actions">
-                    <button class="btn-view" onclick="anteprimaOfferta(${index})">👁️ Anteprima</button>
-                    <button class="btn-whatsapp" onclick="preparaInvioOfferta(${index})">📱 Invia WhatsApp</button>
-                    <button class="btn-secondary" onclick="modificaOfferta(${index})">✏️ Modifica</button>
-                    <button class="btn-danger" onclick="eliminaOfferta(${index})">️ Elimina</button>
+        offertePredefinite.forEach(off => {
+            html += `
+                <div class="offerta-card">
+                    <h4>${off.titolo}</h4>
+                    <div class="offerta-desc">${off.descrizione}</div>
+                    <div class="offerta-messaggio">💬 <strong>Messaggio di cortesia:</strong> "${off.messaggio}"</div>
+                    <div class="offerta-link">🔗 Link pagamento: ${PAYMENT_LINK}</div>
+                    <div class="card-actions">
+                        <button class="btn-whatsapp" onclick="inviaOffertaWhatsApp(${off.id})">📱 Invia WhatsApp</button>
+                    </div>
                 </div>
-            </div>`;
+            `;
         });
         container.innerHTML = html;
     }
 
-    function apriModalNuovaOfferta() {
-        currentOffertaId = null;
-        document.getElementById('formNuovaOfferta').reset();
-        document.getElementById('modalNuovaOfferta').classList.add('active');
-    }
-
-    function salvaOfferta(e) {
-        e.preventDefault();
-        const offerta = {
-            titolo: document.getElementById('offertaTitolo').value.trim(),
-            descrizione: document.getElementById('offertaDescrizione').value.trim(),
-            messaggio: document.getElementById('offertaMessaggio').value.trim(),
-            linkPagamento: document.getElementById('offertaLinkPagamento').value.trim() || PAYMENT_LINK
-        };
+    function inviaOffertaWhatsApp(id) {
+        const off = offertePredefinite.find(o => o.id === id);
+        if (!off) return;
         
-        if (currentOffertaId !== null) {
-            offerte[currentOffertaId] = offerta;
-            showToast('Offerta aggiornata');
-        } else {
-            offerte.push(offerta);
-            showToast('Offerta salvata');
-        }
-        
-        localStorage.setItem('offerte', JSON.stringify(offerte));
-        chiudiModal('modalNuovaOfferta');
-        renderOfferte();
-    }
-
-    function modificaOfferta(index) {
-        const off = offerte[index];
-        currentOffertaId = index;
-        document.getElementById('offertaTitolo').value = off.titolo;
-        document.getElementById('offertaDescrizione').value = off.descrizione;
-        document.getElementById('offertaMessaggio').value = off.messaggio || '';
-        document.getElementById('offertaLinkPagamento').value = off.linkPagamento || '';
-        document.getElementById('modalNuovaOfferta').classList.add('active');
-    }
-
-    function eliminaOfferta(index) {
-        if (!confirm('Eliminare questa offerta?')) return;
-        offerte.splice(index, 1);
-        localStorage.setItem('offerte', JSON.stringify(offerte));
-        renderOfferte();
-        showToast('Offerta eliminata');
-    }
-
-    function anteprimaOfferta(index) {
-        const off = offerte[index];
-        const testo = `🏋️ *${off.titolo}*\n\n${off.descrizione}\n\n💳 Link pagamento: ${off.linkPagamento}\n\n${off.messaggio ? ' ' + off.messaggio : ''}`;
-        alert(testo);
-    }
-
-    function preparaInvioOfferta(index) {
-        const off = offerte[index];
-        const testoCompleto = `️ *${off.titolo}*\n\n${off.descrizione}\n\n Link pagamento: ${off.linkPagamento}\n\n${off.messaggio ? ' ' + off.messaggio : ''}`;
-        
-        document.getElementById('invioOffertaContent').innerHTML = `
-            <div style="margin-bottom: 20px;">
-                <h4 style="margin-bottom: 10px;">${off.titolo}</h4>
-                <p style="font-size: 14px; color: var(--tortora); margin-bottom: 15px; line-height: 1.5;">${off.descrizione}</p>
-                <p style="font-size: 12px; color: var(--blu); word-break: break-all; margin-bottom: 15px;">🔗 ${off.linkPagamento}</p>
-                ${off.messaggio ? `<p style="font-size: 13px; font-style: italic; color: var(--tortora-scuro); border-left: 3px solid var(--tortora); padding-left: 10px;">${off.messaggio}</p>` : ''}
-            </div>
-            <div class="form-group">
-                <label>Modifica messaggio prima dell'invio:</label>
-                <textarea id="testoOffertaWhatsApp" rows="8" style="font-family: monospace; font-size: 13px;">${testoCompleto}</textarea>
-            </div>
-        `;
-        
-        currentOffertaId = index;
-        document.getElementById('modalInviaOfferta').classList.add('active');
-    }
-
-    function inviaOffertaWhatsApp() {
-        const testo = document.getElementById('testoOffertaWhatsApp').value;
-        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testo)}`;
+        const testoCompleto = `${off.messaggio}\n\n🏋️ *${off.titolo}*\n${off.descrizione}\n\n💳 *Link per il pagamento:* ${PAYMENT_LINK}\n\nResto a tua completa disposizione!`;
+        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(testoCompleto)}`;
         window.open(link, '_blank');
-        showToast('WhatsApp aperto!');
+        showToast('WhatsApp aperto con il messaggio precompilato!');
     }
 
     function chiudiModal(id) { document.getElementById(id).classList.remove('active'); }

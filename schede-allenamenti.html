@@ -99,7 +99,7 @@
             <div class="subtitle">Crea la settimana di allenamento attingendo dall'archivio globale del fornitore</div>
         </div>
 
-        <div class="cliente-selector">
+        <div class="cliente-selector" id="clienteSelector">
             <label>Seleziona Atleta</label>
             <select id="clienteSelect" onchange="onClienteChange()">
                 <option value="">-- Seleziona un atleta --</option>
@@ -157,10 +157,16 @@
         const userStr = localStorage.getItem('currentUser');
         if (!userStr) { window.location.href = 'index.html'; return; }
         currentUser = JSON.parse(userStr);
-        loadData();
+        
+        // ========== MODIFICA: LETTURA ID ATLETA DALL'URL ==========
+        const urlParams = new URLSearchParams(window.location.search);
+        const atletaIdFromUrl = urlParams.get('atleta_id');
+        // ===========================================================
+        
+        loadData(atletaIdFromUrl);
     }
 
-    async function loadData() {
+    async function loadData(atletaIdFromUrl = null) {
         try {
             // Carica dati palestra
             const palestreRes = await fetch(`${API_URL}/api/palestre`);
@@ -182,6 +188,47 @@
             videoGlobali = await videoRes.json();
             
             showToast(`Archivio caricato: ${eserciziGlobali.length} esercizi, ${videoGlobali.length} video`);
+            
+            // ========== MODIFICA: SE C'E' ID ATLETA NELL'URL, CARICA DIRETTAMENTE ==========
+            if (atletaIdFromUrl) {
+                // Nascondi il selettore atleta
+                document.getElementById('clienteSelector').style.display = 'none';
+                
+                // Trova l'atleta nell'array già caricato
+                clienteSelezionato = atleti.find(a => a.id == atletaIdFromUrl);
+                
+                if (clienteSelezionato) {
+                    // Mostra il contenuto della scheda
+                    document.getElementById('schedaClienteContent').style.display = 'block';
+                    
+                    // Carica la scheda di questo atleta
+                    try {
+                        const res = await fetch(`${API_URL}/api/schede-clienti?atleta_id=${clienteSelezionato.id}&palestra_id=${palestraData.id}`);
+                        const items = await res.json();
+                        
+                        // Organizza per giorno
+                        schedeClienti = {};
+                        items.forEach(item => {
+                            const chiave = `${item.atleta_id}_${item.giorno}`;
+                            if (!schedeClienti[chiave]) schedeClienti[chiave] = [];
+                            schedeClienti[chiave].push({ 
+                                tipo: item.tipo, 
+                                id: item.elemento_id, 
+                                dbId: item.id, 
+                                ordine: item.ordine 
+                            });
+                        });
+                        
+                        renderGiorniTabs();
+                    } catch (error) {
+                        console.error('Errore caricamento scheda:', error);
+                        showToast('Errore caricamento scheda');
+                    }
+                } else {
+                    showToast('Atleta non trovato');
+                }
+            }
+            // ================================================================================
         } catch (error) { 
             console.error('Errore:', error); 
             showToast('Errore di connessione'); 
@@ -357,7 +404,7 @@
             if (data.file_base64) {
                 content += `<img src="${data.file_base64}" alt="${data.nome}">`;
             } else {
-                content += `<div style="padding: 40px; background: var(--tortora-chiarissimo); border-radius: 8px; font-size: 48px;">📷</div>`;
+                content += `<div style="padding: 40px; background: var(--tortora-chiarissimo); border-radius: 8px; font-size: 48px;"></div>`;
             }
             content += `
                 <div class="preview-details">
